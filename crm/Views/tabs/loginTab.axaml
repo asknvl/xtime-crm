@@ -1,0 +1,73 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"						 
+			 xmlns:b="using:crm.Views"
+             mc:Ignorable="d"
+			 d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="crm.Views.tabs.loginTab">
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/TabStyles.axaml" />		
+	</UserControl.Styles>
+	<Grid Classes="Grid Tab">		
+		<Image Source="/Assets/logo_transp.png" Width="200" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="-20, -15, 0, 0"/>
+		<StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Width="250">
+			<!--<TextBox		
+				Text="{Binding Login, Mode=TwoWay}"
+				Classes="TextBox CenterBlack"
+				Watermark="mymail@protonmail.com"
+				Margin="5">
+				--><!--<i:Interaction.Behaviors>					
+					<b:LostFocusUpdateBindingBehavior Text="{Binding Login}"/>
+				</i:Interaction.Behaviors>--><!--	
+			</TextBox>-->
+
+			<AutoCompleteBox
+				Text="{Binding Login, Mode=TwoWay}"
+				Classes="TextBox CenterBlack"
+				Watermark="mymail@protonmail.com"
+				Margin="5">
+				<!--<i:Interaction.Behaviors>					
+					<b:LostFocusUpdateBindingBehavior Text="{Binding Login}"/>
+				</i:Interaction.Behaviors>-->
+			</AutoCompleteBox>
+
+			<TextBox Text="{Binding Password}"
+					 Classes="TextBox revealPasswordButton" 
+					 PasswordChar="•" 
+					 Watermark="пароль"
+					 Margin="5"
+					 FontSize="12"/>
+			<Button
+				Command="{Binding enterCmd}"
+				IsEnabled="{Binding IsInputValid}"
+				IsDefault="True"
+				Classes="Button CenterBlack">
+				Вход
+			</Button>
+			<StackPanel
+				Orientation="Horizontal"
+				HorizontalAlignment="Center">
+				<TextBlock
+					Classes="TextBlock CenterBlack"
+					Margin="0, 4, 0, 0">
+					Нет аккаунта?
+				</TextBlock>
+				<Button
+					Command="{Binding createCmd}"
+					Classes="TextBlock Hyper"
+					Margin="4, 4, 0, 0">
+					Создать
+				</Button>				
+			</StackPanel>
+			<Button
+				Command="{Binding forgotCmd}"
+				Classes="TextBlock Hyper"
+				HorizontalAlignment="Center"
+				Margin="0, 4, 0, 0">
+				Забыли пароль?
+			</Button>
+		</StackPanel>
+	</Grid>
+</UserControl>

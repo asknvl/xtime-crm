@@ -1,0 +1,36 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:material="using:Material.Icons.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="crm.Views.tabs.tokenTab">
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/TabStyles.axaml" />
+	</UserControl.Styles>
+	<Grid
+		Classes="Grid Tab">
+		<!--<Image
+			Source="/Assets/logo.png"
+			Width="100"
+			VerticalAlignment="Top"
+			HorizontalAlignment="Left"
+			Margin="20"/>-->
+		<Image Source="/Assets/logo_transp.png" Width="200" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="-20, -15, 0, 0"/>
+		<Button
+			Grid.Column="1"
+			Command="{Binding returnCmd}"
+			Classes="Button FlatIcon"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Center"
+			Width="10"
+			Height="20"
+			Margin="-255, -40, 0, 0">
+			<material:MaterialIconExt Kind="ChevronLeft" Size="24"/>
+		</Button>
+		<StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Width="250">
+			<TextBox Text="{Binding Token}" Classes="TextBox CenterBlack" Watermark="введите токен" Margin="5"/>			
+			<Button Command="{Binding continueCmd}" IsEnabled="{Binding IsInputValid}" Classes="Button CenterBlack" Content="Продолжить"/>			
+		</StackPanel>
+	</Grid>
+</UserControl>

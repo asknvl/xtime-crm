@@ -1,0 +1,273 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:uservm="using:crm.ViewModels.tabs.home.screens.users"
+			 xmlns:conv="using:crm.Views.converters"
+			 xmlns:vm="using:crm.ViewModels.tabs.home.screens"
+			 xmlns:views="using:crm.Views.tabs.home.screens"
+             mc:Ignorable="d" d:DesignWidth="2800" d:DesignHeight="450"
+             x:Class="crm.Views.tabs.home.screens.UserList">
+	<Design.DataContext>
+		<vm:UserList/>
+	</Design.DataContext>
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/ScreenStyle.axaml"/>
+		<StyleInclude Source="/Styles/UserListStyle.axaml"/>
+	</UserControl.Styles>
+	<UserControl.Resources>
+		<conv:StatusToSvgPathConverter x:Key="statusConverter"/>
+		<conv:UserCheckedToListItemBackgroundConverter x:Key="checkedToItemBackground"/>
+		<conv:IdPadLeftConverter x:Key="padLeftConverter"/>
+	</UserControl.Resources>
+	<Grid
+		RowDefinitions="Auto, Auto, Auto, *, Auto"
+		Margin="25, 12, 0, 0">
+		<Grid
+			Grid.Row="0">
+			<StackPanel
+				Orientation="Horizontal">
+				<TextBlock>
+					Сотрудники
+				</TextBlock>
+				<TextBlock Margin="2, 0, 2, 0">
+					/
+				</TextBlock>
+				<TextBlock
+					Text="Список сотрудников"
+					FontWeight="Bold"/>
+			</StackPanel>
+		</Grid>
+		<Grid
+			Grid.Row="1">
+			<StackPanel
+				Orientation="Horizontal">
+				<Button					
+					Command="{Binding addUserCmd}"
+					Classes="Button Top">
+					<Grid>
+						<TextBlock
+							VerticalAlignment="Center">
+							Новый пользователь
+						</TextBlock>
+					</Grid>
+				</Button>
+				<Button
+					IsEnabled="False"
+					Classes="Button Top">
+					<Grid>
+						<TextBlock
+							VerticalAlignment="Center">
+							Фильтры
+						</TextBlock>
+					</Grid>
+				</Button>
+				<Button
+					IsEnabled="False"
+					Classes="Button Top">
+					<Grid>
+						<TextBlock
+							VerticalAlignment="Center">
+							Поля
+						</TextBlock>
+					</Grid>
+				</Button>
+				<!--<Button Classes="Button Top">
+					<Grid ColumnDefinitions="*, 40">
+						<TextBlock
+							Grid.Column="0"
+							VerticalAlignment="Center">
+							Новый пользователь
+						</TextBlock>
+						<Border
+							Grid.Column="1">
+							<Svg
+								Height="15"
+								Width="15"
+								Path="/Assets/svgs/screens/new_user.svg">
+							</Svg>
+						</Border>
+					</Grid>
+				</Button>-->
+			</StackPanel>
+		</Grid>
+		<Grid
+			Grid.Row="2"
+			Background="{DynamicResource SeparatorColor}"
+			Height="1"
+			Margin="-25, 2, 0, 0">
+		</Grid>
+		<Grid
+			Grid.Row="3">
+			<ScrollViewer>
+				<Grid RowDefinitions="Auto, *">
+					<Grid
+						VerticalAlignment="Center"
+						Height="60"
+						Margin="0, 0, 0, 0"
+						Name="PART_Title"
+						Grid.Row="0"
+						RowDefinitions="*, 1"
+						ColumnDefinitions="
+							30, 
+							80,
+							80,
+							80,
+							180,
+							180,
+							100,
+							100,
+							100,
+							180,
+							250,
+							180,
+							180,
+							120,
+							120,
+							150,
+							120,
+							180">
+						<ToggleButton
+							IsChecked="{Binding IsAllChecked}"
+							Grid.Column="0"
+							Classes="ToggleButton CheckButton"
+							Padding="5, 0, 0, 0">
+							<Svg Name="PART_CHB"
+								StretchDirection="DownOnly"
+								Stretch="Fill"
+								Width="15"
+								Height="15"/>
+						</ToggleButton>
+
+						<TextBlock
+							Grid.Column="1">
+							ID
+						</TextBlock>
+						<TextBlock
+							Grid.Column="2">
+							Буква
+						</TextBlock>
+						<TextBlock
+							Grid.Column="3">
+							Статус
+						</TextBlock>
+						<TextBlock
+							Grid.Column="4">
+							Последняя активность
+						</TextBlock>
+						<TextBlock
+							Grid.Column="5">
+							Последний вход
+						</TextBlock>
+						<TextBlock
+							Grid.Column="6">
+							Фамилия
+						</TextBlock>
+						<TextBlock
+							Grid.Column="7">
+							Имя
+						</TextBlock>
+						<TextBlock
+							Grid.Column="8">
+							Отчество
+						</TextBlock>
+						<TextBlock
+							Grid.Column="9">
+							Роли
+						</TextBlock>
+						<TextBlock
+							Grid.Column="10">
+							E-mail
+						</TextBlock>
+						<TextBlock
+							Grid.Column="11">
+							Дата рождения
+						</TextBlock>
+						<TextBlock
+							Grid.Column="12">
+							Номер телефона
+						</TextBlock>
+						<TextBlock
+							Grid.Column="13">
+							Соц. сети
+						</TextBlock>
+						<TextBlock
+							Grid.Column="14">
+							Телеграм
+						</TextBlock>
+						<TextBlock
+							Grid.Column="15">
+							USDT TRC20
+						</TextBlock>
+						<TextBlock
+							Grid.Column="16">
+							Устройства
+						</TextBlock>
+						<TextBlock
+							Grid.Column="17">
+							Фото паспорта
+						</TextBlock>
+						<Grid
+							Background="{DynamicResource SeparatorColor}"
+							Height="1"
+							Grid.Row="1"
+							Grid.ColumnSpan="18">
+						</Grid>
+						<Grid.Styles>
+							<Style Selector="Grid#PART_Title TextBlock">
+								<Setter Property="FontWeight" Value="Bold"/>
+								<Setter Property="VerticalAlignment" Value="Center"/>
+								<Setter Property="HorizontalAlignment" Value="Center"/>
+							</Style>
+						</Grid.Styles>
+					</Grid>
+					<ItemsPresenter Grid.Row="1" Items="{Binding Users}">
+						<ItemsPresenter.DataTemplates>
+							<DataTemplate>
+								<views:userListItem/>
+							</DataTemplate>
+						</ItemsPresenter.DataTemplates>
+					</ItemsPresenter>
+				</Grid>
+				<ScrollViewer.Styles>
+					<Style Selector="ScrollViewer:pointerover">
+						<Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+						<Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
+					</Style>
+					<Style Selector="ScrollViewer">
+						<Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
+						<Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
+					</Style>
+				</ScrollViewer.Styles>
+			</ScrollViewer>
+		</Grid>
+		<Grid
+			Grid.Row="4">
+			<StackPanel
+				Margin="15"
+				HorizontalAlignment="Right"
+				Orientation="Horizontal">
+				<Button
+					Command="{Binding prevPageCmd}"
+					IsEnabled="{Binding IsPrevActive}"
+					Classes="Button PageLeft">
+					<Svg/>
+				</Button>
+				<Border Classes="Border Page">
+					<TextBlock Text="{Binding SelectedPage}"/>
+				</Border>
+				<Button
+					Command="{Binding nextPageCmd}"
+					IsEnabled="{Binding IsNextActive}"
+					Classes="Button PageRight">
+					<Svg/>
+				</Button>
+			</StackPanel>
+			<TextBlock
+				Text="{Binding PageInfo}"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Left">
+			</TextBlock>
+		</Grid>
+	</Grid>
+</UserControl>

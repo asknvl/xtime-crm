@@ -1,0 +1,166 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="2800" d:DesignHeight="450"
+			 xmlns:conv="using:crm.Views.converters"
+			 xmlns:vm="using:crm.ViewModels.tabs.home.screens.users"
+             x:Class="crm.Views.tabs.home.screens.userListItem">
+	<Design.DataContext>
+		<vm:UserItemTest/>
+	</Design.DataContext>
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/ScreenStyle.axaml"/>
+		<StyleInclude Source="/Styles/UserListStyle.axaml"/>
+	</UserControl.Styles>
+	<UserControl.Resources>
+		<conv:StatusToSvgPathConverter x:Key="statusConverter"/>
+		<conv:UserCheckedToListItemBackgroundConverter x:Key="checkedToItemBackground"/>
+		<conv:IdPadLeftConverter x:Key="padLeftConverter"/>
+	</UserControl.Resources>
+	
+	<Grid
+		Name="PART_ItemGrid"
+		VerticalAlignment="Center"
+		Height="60"
+		Margin="0, 0, 0, 0"		
+		Grid.Row="0"
+		RowDefinitions="*, 1"
+		ColumnDefinitions="
+											30, 
+											80,
+											80,
+											80,
+											180,
+											180,
+											100,
+											100,
+											100,
+											180,
+											250,
+											180,
+											180,
+											120,
+											120,
+											150,
+											120,
+											180">
+		<ToggleButton
+			IsChecked="{Binding IsChecked}"
+			Name="PART_ItemChecked"
+			Grid.Column="0"
+			Classes="ToggleButton CheckButton"
+			Padding="5, 0, 0, 0">
+			<Svg Name="PART_CHB"
+				StretchDirection="DownOnly"
+				Stretch="Fill"
+				Width="15"
+				Height="15"/>
+		</ToggleButton>
+		<Button
+			Command="{Binding editUserCmd}"
+			Classes="Button Hyper"
+			Grid.Column="1">
+			<TextBlock Text="{Binding Id, Converter={StaticResource padLeftConverter}}"/>
+		</Button>
+		<Button
+			Command="{Binding editUserCmd}"
+			Classes="Button Hyper"
+			Grid.Column="2">
+			<TextBlock Text="{Binding Litera}"/>
+		</Button>
+		<Svg
+			Path="{Binding Status, Converter={StaticResource statusConverter}}"
+			Width="10"
+			Height="10"
+			Grid.Column="3">
+		</Svg>
+		<TextBlock
+			Text="{Binding LastEventDate}"
+			Grid.Column="4">
+		</TextBlock>
+		<TextBlock
+			Text="{Binding LastLoginDate}"
+			Grid.Column="5">
+		</TextBlock>
+		<TextBlock
+			Text="{Binding LastName}"
+			Grid.Column="6">
+		</TextBlock>
+		<TextBlock
+			Text="{Binding FirstName}"
+			Grid.Column="7">
+		</TextBlock>
+		<TextBlock
+			Text="{Binding MiddleName}"
+			Grid.Column="8">
+		</TextBlock>
+		<Button
+			Name="PART_ShowTags"
+			Command="{Binding showTagsCmd}"
+			Classes="Button List"
+			Height="28"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Center"
+			Grid.Column="9">
+			<TextBlock>
+				Посмотреть
+			</TextBlock>
+		</Button>
+		<TextBlock
+			Text="{Binding Email}"
+			Grid.Column="10">
+		</TextBlock>
+		<TextBlock
+			Text="{Binding BirthDate}"
+			Grid.Column="11">
+		</TextBlock>
+		<TextBlock
+			Text="{Binding PhoneNumber}"
+			Grid.Column="12">			
+		</TextBlock>
+		<TextBlock
+			Text="{Binding SocialNetworks[0].Account}"
+			Grid.Column="13">			
+		</TextBlock>
+		<Button			
+			Command="{Binding openTelegram}"
+			Classes="Button HyperLink"
+			FontWeight="Normal"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Center"
+			Grid.Column="14">						
+			<TextBlock Text="{Binding Telegram}"/>
+		</Button>
+		<!--<TextBlock
+			Text="{Binding Telegram}"
+			Grid.Column="14">
+		</TextBlock>-->
+		<TextBlock
+			Text="{Binding ShortWallet}"
+			Grid.Column="15">
+		</TextBlock>
+		<TextBlock
+			Text="{Binding Devices[0].Name}"
+			Grid.Column="16">
+		</TextBlock>
+		<Button Classes="Button Passport"
+			Grid.Column="17">
+			<Svg
+				Height="17"
+				Width="30"/>
+		</Button>
+		<Grid
+			Background="{DynamicResource SeparatorColor}"
+			Height="1"
+			Grid.Row="1"
+			Grid.ColumnSpan="18">
+		</Grid>
+		<Grid.Styles>
+			<Style Selector="Grid#PART_ItemGrid TextBlock">
+				<Setter Property="VerticalAlignment" Value="Center"/>
+				<Setter Property="HorizontalAlignment" Value="Center"/>
+			</Style>
+		</Grid.Styles>
+	</Grid>
+</UserControl>

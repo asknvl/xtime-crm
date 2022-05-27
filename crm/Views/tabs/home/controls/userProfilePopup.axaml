@@ -1,0 +1,70 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:material="using:Material.Icons.Avalonia"
+             x:Class="crm.Views.tabs.home.controls.userProfilePopup">
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/TabStyles.axaml" />
+	</UserControl.Styles>
+	<Border
+		CornerRadius="3"
+		BorderThickness="1"
+		BorderBrush="{DynamicResource HomeTabPrimaryHeaderBackground}">
+		<StackPanel
+			Width="200"
+			Background="{DynamicResource HomeTabPrimaryHeaderBackground}"
+			Orientation="Vertical">
+			<Button
+				Command="{Binding Path=editUserCmd}"
+				Classes="Button PopUpMenuItem">
+				<Grid ColumnDefinitions="20, *">
+					<!--<material:MaterialIconExt Kind="Person" Size="20"/>-->
+					<Svg
+						Height="20"
+						Width="20"
+						Path="/Assets/svgs/topmenu/profile.svg">						
+					</Svg>
+					<TextBlock
+						Grid.Column="1">
+						Мой профиль
+					</TextBlock>
+				</Grid>
+			</Button>
+			<Button
+				IsEnabled="False"
+				Classes="Button PopUpMenuItem">
+				<Grid ColumnDefinitions="20, *">
+					<!--<material:MaterialIconExt Kind="SettingsVertical" Size="20"/>-->
+					<Svg
+						Height="20"
+						Width="20"
+						Path="/Assets/svgs/topmenu/settings.svg">						
+					</Svg>
+					<TextBlock
+						Grid.Column="1">
+						Настройки
+					</TextBlock>
+				</Grid>
+			</Button>
+			<Grid Height="1" Background="Gray" HorizontalAlignment="Stretch"/>			
+			<Button
+				Command="{Binding Path=quitCmd}"
+				Classes="Button PopUpMenuItem">
+				<Grid ColumnDefinitions="20, *">
+					<!--<material:MaterialIconExt Kind="ExitToApp" Size="20"/>-->
+					<Svg
+						Height="20"
+						Width="20"
+						Path="/Assets/svgs/topmenu/quit.svg">
+					</Svg>
+					<TextBlock
+						Grid.Column="1">
+						Выйти
+					</TextBlock>
+				</Grid>
+			</Button>
+		</StackPanel>
+	</Border>
+</UserControl>

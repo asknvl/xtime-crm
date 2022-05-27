@@ -1,0 +1,260 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="using:crm.ViewModels.tabs.home.screens.users"
+			 xmlns:cust="using:crm.Views.custom"
+             mc:Ignorable="d" d:DesignWidth="1300" d:DesignHeight="600"
+             x:Class="crm.Views.tabs.home.screens.users.editUserInfo">
+	<Design.DataContext>
+		<vm:editUserInfo/>
+	</Design.DataContext>
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/DataValidationErros.axaml"/>
+		<StyleInclude Source="/Styles/ScreenStyle.axaml"/>
+		<StyleInclude Source="/Styles/UserListStyle.axaml"/>
+	</UserControl.Styles>
+	<ScrollViewer
+		VerticalScrollBarVisibility="Hidden"
+		HorizontalScrollBarVisibility="Hidden">
+		<Grid
+			RowDefinitions="Auto, *"
+			ColumnDefinitions="600, 400">
+			<Grid.Styles>
+				<Style Selector="Grid TextBox">
+					<Setter Property="Padding" Value="0"/>
+				</Style>				
+			</Grid.Styles>
+			<TextBlock
+				Text="Основная информация"
+				Grid.Row="0"
+				FontSize="16"
+				VerticalAlignment="Center"
+				FontWeight="Bold"/>			
+			<StackPanel
+				Margin="0, 20, 0, 0"
+				Grid.Row="1"
+				Grid.Column="0"
+				Orientation="Vertical">
+				<Grid
+					ColumnDefinitions="1*, 2*"
+					Classes="Grid Items">
+					<TextBlock
+						Classes="TextBlock Param"
+						Grid.Column="0">
+						ФИО
+					</TextBlock>
+					<TextBox
+						Text="{Binding FullName}"
+						Grid.Column="1">
+					</TextBox>
+				</Grid>
+				<Separator BorderBrush="#FFE5E5E5" BorderThickness="0.5"/>
+				<Grid
+					Classes="Grid Items"
+					ColumnDefinitions="1*, 2*">
+					<TextBlock
+						Classes="TextBlock Param"
+						Grid.Column="0">
+						Телефон
+					</TextBlock>
+					<TextBox
+						Text="{Binding PhoneNumber}"
+						Grid.Column="1"/>
+				</Grid>
+				<Separator BorderBrush="#FFE5E5E5" BorderThickness="0.5"/>
+				<Grid
+					Classes="Grid Items"
+					ColumnDefinitions="1*, 2*">
+					<TextBlock
+						Classes="TextBlock Param"
+						Grid.Column="0">
+						Дата рождения
+					</TextBlock>
+					<TextBox
+						Text="{Binding BirthDate}"
+						Grid.Column="1"/>
+				</Grid>
+				<Separator BorderBrush="#FFE5E5E5" BorderThickness="0.5"/>
+				<Grid
+					Classes="Grid Items"
+					ColumnDefinitions="1*, 2*">
+					<TextBlock
+						Classes="TextBlock Param"
+						Grid.Column="0">
+						E-mail
+					</TextBlock>
+					<TextBox
+						Text="{Binding Email}"
+						Grid.Column="1">
+					</TextBox>
+				</Grid>
+				<Separator BorderBrush="#FFE5E5E5" BorderThickness="0.5"/>
+				<Grid
+					Classes="Grid Items"
+					ColumnDefinitions="1*, 2*">
+					<TextBlock
+						Classes="TextBlock Param"
+						Grid.Column="0">
+						Соц. сети
+					</TextBlock>
+					<TextBox						
+						Text="{Binding SocialNetworks[0].Address}"
+						Grid.Column="1"/>
+				</Grid>
+				<Separator BorderBrush="#FFE5E5E5" BorderThickness="0.5"/>
+				<Grid
+					Classes="Grid Items"
+					ColumnDefinitions="1*, 2*">
+					<TextBlock
+						Classes="TextBlock Param"
+						Grid.Column="0">
+						Телеграм
+					</TextBlock>
+					<Button
+						IsVisible="{Binding !IsEditable}"						
+						Command="{Binding openTelegram}"
+						HorizontalAlignment="Left"						
+						Classes="Button HyperLink"						
+						HorizontalContentAlignment="Left"
+						Grid.Column="1">
+						<TextBox
+							Text="{Binding Telegram}"
+							Padding="0"							
+							IsEnabled="False">							
+						</TextBox>
+					</Button>
+					<TextBox
+						IsVisible="{Binding IsEditable}"						
+						Text="{Binding Telegram}"
+						Grid.Column="1"/>
+				</Grid>
+				<Separator BorderBrush="#FFE5E5E5" BorderThickness="0.5"/>
+				<Grid
+					Classes="Grid Items"
+					ColumnDefinitions="1*, 2*">
+					<TextBlock
+						Classes="TextBlock Param"
+						VerticalAlignment="Center"
+						Grid.Column="0">
+						USDT TRC20
+					</TextBlock>
+					<TextBox
+						Text="{Binding Wallet}"
+						Grid.Column="1"/>
+				</Grid>
+				<Separator BorderBrush="#FFE5E5E5" BorderThickness="0.5"/>
+				<Grid
+					ColumnDefinitions="1*, 2*">
+					<TextBlock
+						Classes="TextBlock Param"
+						VerticalAlignment="Top"
+						Grid.Column="0"						
+						Margin="0, 10, 0, 0">
+						Тэги
+					</TextBlock>
+					<ListBox
+						Items="{Binding Tags}"
+						Selection="{Binding Selection}"		
+						IsEnabled="{Binding IsEditable}"
+						Grid.Column="1"
+						VirtualizationMode="None"
+						HorizontalAlignment="Left"
+						SelectionMode="Multiple, Toggle"
+						Background="#FFFFFFFF"
+						Margin="0, 12, 0, 0">
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<WrapPanel MinWidth="410"
+									HorizontalAlignment="Left"
+									VerticalAlignment="Center"/>
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+						<ItemsControl.DataTemplates>
+							<DataTemplate>
+								<Grid
+									Width="120"
+									ColumnDefinitions="20, *"
+									Margin="4">
+									<Svg
+										VerticalAlignment="Center">
+									</Svg>
+									<TextBlock
+										Text="{Binding Name}"
+										Grid.Column="1"
+										VerticalAlignment="Center"
+										HorizontalAlignment="Center">
+									</TextBlock>
+								</Grid>
+							</DataTemplate>
+						</ItemsControl.DataTemplates>
+						<ListBox.Styles>
+							<Style Selector="ListBox ListBoxItem">
+								<Setter Property="Padding" Value="0"/>
+								<Setter Property="Margin" Value="4"/>
+								<Setter Property="Background" Value="#FFF2F2F2"/>
+								<Setter Property="CornerRadius" Value="3"/>
+							</Style>
+							<Style Selector="ListBox ListBoxItem:selected /template/ ContentPresenter">
+								<Setter Property="Background" Value="#FFF2F2F2"/>
+							</Style>
+							<Style Selector="ListBox ListBoxItem TextBlock">
+								<Setter Property="Foreground" Value="#FFCCCCCC" />
+							</Style>
+							<Style Selector="ListBox ListBoxItem:selected TextBlock">
+								<Setter Property="Foreground" Value="#FF464646" />
+							</Style>
+							<Style Selector="ListBox ListBoxItem Svg">
+								<Setter Property="Path" Value="/Assets/svgs/common/tag_not_selected.svg"/>
+							</Style>
+							<Style Selector="ListBox ListBoxItem:selected Svg">
+								<Setter Property="Path" Value="/Assets/svgs/common/tag_selected.svg"/>
+							</Style>
+						</ListBox.Styles>
+					</ListBox>
+				</Grid>
+			</StackPanel>
+			<Grid
+				Grid.Column="1"
+				Grid.Row="1"
+				VerticalAlignment="Top"
+				HorizontalAlignment="Left"
+				Margin="50, 50, 0, 0">
+				<Image
+					Source="avares://crm/Assets/png/screens/userinfo.png" Width="400" Height="329"/>
+			</Grid>
+		</Grid>
+		<ScrollViewer.Styles>
+			<Style Selector="Grid.Items">
+				<Setter Property="HorizontalAlignment" Value="Stretch"/>
+				<Setter Property="Height" Value="40"/>
+			</Style>
+			<Style Selector="TextBlock.Param">
+				<Setter Property="VerticalAlignment" Value="Center"/>
+				<Setter Property="FontSize" Value="12"/>
+				<Setter Property="FontWeight" Value="Bold"/>
+				<Setter Property="Margin" Value="0, 1, 0, 0"/>
+			</Style>
+			<Style Selector="TextBox">
+				<Setter Property="IsReadOnly" Value="{Binding !IsEditable}"/>
+				<Setter Property="VerticalAlignment" Value="Center"/>
+				<Setter Property="VerticalContentAlignment" Value="Center"/>
+				<Setter Property="FontSize" Value="12"/>
+				<Setter Property="Padding" Value="6"/>
+				<Setter Property="FontWeight" Value="Bold"/>
+			</Style>
+			<Style Selector="TextBox:not(:pointerover) /template/ Border#PART_BorderElement">
+				<Setter Property="BorderThickness" Value="10"/>
+				<Setter Property="BorderBrush" Value="Transparent"/>
+			</Style>
+			<Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+				<Setter Property="BorderThickness" Value="10"/>
+				<Setter Property="BorderBrush" Value="Transparent"/>
+			</Style>
+			<Style Selector="TextBox DataValidationErrors">
+				<Setter Property="Template" Value="{DynamicResource TooltipDataValidationContentTemplate}"/>
+				<Setter Property="ErrorTemplate" Value="{DynamicResource TooltipDataValidationErrorTemplate}" />
+			</Style>
+		</ScrollViewer.Styles>
+	</ScrollViewer>
+</UserControl>

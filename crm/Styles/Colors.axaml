@@ -1,0 +1,69 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<Styles.Resources>
+
+		
+		<Color x:Key="TextControlBorderBrushFocused">#FF5D5AF7</Color>
+		<Color x:Key="SystemControlErrorTextForegroundBrush">#FFFF0000</Color>		
+		<Color x:Key="TextControlBorderBrushPointerOver">Black</Color>
+		<Color x:Key="TextControlBackgroundPointerOver">White</Color>
+		
+
+		<Color x:Key="TextControlForegroundBrush">#FF000000</Color>
+		<Color x:Key="TextControlBorderBrush">#FF000000</Color>
+
+		<Color x:Key="TopPanelActiveColor">#FF212122</Color>
+		<Color x:Key="TopPanelInActiveColor">#FF2C2C2C</Color>
+		
+		<Color x:Key="TopPanelControlForeground">Gray</Color>
+		<Color x:Key="TopPanelControlBackgroundPointerOver">#0FFFFFFF</Color>
+		<Color x:Key="TopPanelControlForegroundPointerOver">#FFFFFFFF</Color>
+		
+		<Color x:Key="TopPanelControlBackgroundSelected">#FF2C2C2C</Color>
+		
+		<Color x:Key="TopPanelControlForegroundSelected">#FFFFFFFF</Color>
+		<Color x:Key="TopPanelControlForegroundDisabled">Gray</Color>
+		
+		<Color x:Key="CloseDotColor">#FFFF5B55</Color>
+		<Color x:Key="HideDotColor">#FFFEBA32</Color>
+		<Color x:Key="MaximizeDotColor">#FF27C840</Color>
+		<Color x:Key="ThreeDotBorderColor">Gray</Color>		
+		
+		<Color x:Key="TopPanelInActiveTextForeground">Gray</Color>
+		<Color x:Key="TopPanelActiveTextForeground">White</Color>		
+		
+		<Color x:Key="WorkAreaBackground">#FFFFFFFF</Color>				
+		<Color x:Key="WorkAreaButtonBackground">#FF000000</Color>
+		<Color x:Key="WorkAreaButtonForeground">White</Color>
+		<Color x:Key="WorkAreaButtonForegroundPointerOver">White</Color>
+		<Color x:Key="WorkAreaButtonBackgroundPointerOver">#BB000000</Color>
+		<Color x:Key="WorkAreaIconButtonBackground">White</Color>
+		<Color x:Key="WorkAreaIconButtonForeground">#FF000000</Color>
+		<Color x:Key="WorkAreaIconButtonForegroundPointerOver">#BB000000</Color>
+		
+		<Color x:Key="WorkAreaTextBoxBorderFocus">#FF5D5AF7</Color>
+		<Color x:Key="WorkAreaTextBlockClickable">#FF5D5AF7</Color>
+		<Color x:Key="WorkAreaTextBoxBackgroundFocus">White</Color>
+
+		
+		<Color x:Key="HomeTabPrimaryHeaderBackground">#FF2C2C2C</Color>
+		<Color x:Key="HomeTabSecondaryTextForeground">Gray</Color>
+		<Color x:Key="HomeTabPrimaryTextForeground">White</Color>
+
+		<Color x:Key="LeftSlideMenuPrimaryTextForeground">#FF464646</Color>
+		<Color x:Key="LeftSlideMenuSelectedItemBackground">#AADAEBF7</Color>
+		<Color x:Key="LeftSlideMenuPointeoverItemBackground">#AADAEBF7</Color>
+
+		<Color x:Key="ScreenPrimatyTextForeground">#FF464646</Color>
+
+		<Color x:Key="DialogPrimaryElementBackground">#FFF2F2F2</Color>
+
+	</Styles.Resources>
+
+	<Design.PreviewWith>
+		<Border Padding="20">
+			<!-- Add Controls for Previewer Here -->
+		</Border>
+	</Design.PreviewWith>
+</Styles>

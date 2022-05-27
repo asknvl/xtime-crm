@@ -1,0 +1,173 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<StyleInclude Source="/Styles/DataValidationErros.axaml" />	
+	<!--Grids-->
+	<Style Selector="Grid.Tab">
+		<Setter Property="Background" Value="{DynamicResource WorkAreaBackground}"/>
+		<Setter Property="VerticalAlignment" Value="Stretch"/>
+		<Setter Property="HorizontalAlignment" Value="Stretch"/>
+	</Style>
+	<Style Selector="Grid.FloatingMenu">
+		
+	</Style>
+	<!--TextBoxes-->
+	<Style Selector="TextBox.CenterBlack, TextBox.revealPasswordButton, AutoCompleteBox">		
+		<Setter Property="Foreground" Value="{DynamicResource TextControlForegroundBrush}"/>
+		<Setter Property="Background" Value="{DynamicResource WorkAreaTextBoxBackgroundFocus}"/>
+		<Setter Property="BorderThickness" Value="2"/>
+		<Setter Property="FontSize" Value="12"/>		
+		<Setter Property="Padding" Value="6"/>		
+	</Style>	
+	<Style Selector="TextBox.CenterBlack /template/ Border#PART_BorderElement">
+		<Setter Property="BorderThickness" Value="2"/>		
+	</Style>
+	<Style Selector="DataValidationErrors">
+		<Setter Property="Template" Value="{DynamicResource TooltipDataValidationContentTemplate}"/>
+		<Setter Property="ErrorTemplate" Value="{DynamicResource TooltipDataValidationErrorTemplate}" />
+	</Style>	
+	<Style Selector="ToggleButton.passwordBoxRevealButton /template/ Path#PART_GlyphElement_Reveal,
+						ToggleButton.passwordBoxRevealButton /template/ Path#PART_GlyphElement_Hide">
+		<Setter Property="Fill" Value="{DynamicResource WorkAreaTextBoxBorderFocus}" />
+	</Style>
+	<Style Selector="ToggleButton.passwordBoxRevealButton:pressed /template/ Border#PART_ButtonLayoutBorder,
+                   ToggleButton.passwordBoxRevealButton:checked /template/ Border#PART_ButtonLayoutBorder,
+                   ToggleButton.passwordBoxRevealButton:indeterminate /template/ Border#PART_ButtonLayoutBorder">
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="BorderBrush" Value="{DynamicResource WorkAreaTextBoxBorderFocus}"/>
+		<Setter Property="Margin" Value="-2"/>
+	</Style>
+	<Style Selector="ToggleButton.passwordBoxRevealButton:pointerover /template/ Path#PART_GlyphElement_Reveal,
+						ToggleButton.passwordBoxRevealButton:pointerover /template/ Path#PART_GlyphElement_Hide">
+		<Setter Property="Fill" Value="{DynamicResource WorkAreaTextBoxBorderFocus}" />
+	</Style>
+	<Style Selector="ToggleButton.passwordBoxRevealButton:pressed /template/ Path#PART_GlyphElement_Reveal,
+                   ToggleButton.passwordBoxRevealButton:checked /template/ Path#PART_GlyphElement_Hide,
+                   ToggleButton.passwordBoxRevealButton:indeterminate /template/ Path#PART_GlyphElement_Reveal">
+		<Setter Property="Fill" Value="{DynamicResource WorkAreaTextBoxBorderFocus}" />
+	</Style>
+	<!--TextBlocks-->
+	<Style Selector="TextBlock.CenterBlack">
+		<Setter Property="Foreground" Value="{DynamicResource WorkAreaTextForeground}"/>						
+		<Setter Property="FontSize" Value="12"/>
+	</Style>
+	<!--Buttons-->
+	<Style Selector="Button.CenterBlack">
+		<Setter Property="Margin" Value="5"/>
+		<Setter Property="VerticalAlignment" Value="Center"/>
+		<Setter Property="HorizontalAlignment" Value="Stretch"/>
+		<Setter Property="VerticalContentAlignment" Value="Center"/>
+		<Setter Property="HorizontalContentAlignment" Value="Center"/>
+		<Setter Property="Background" Value="{DynamicResource WorkAreaButtonBackground}"/>
+		<Setter Property="Foreground" Value="{DynamicResource WorkAreaButtonForeground}"/>
+		<Setter Property="FontSize" Value="12"/>
+		<Setter Property="FontWeight" Value="Bold"/>
+		<Setter Property="Height" Value="32"/>
+	</Style>
+	<Style Selector="Button.CenterBlack:pointerover /template/ ContentPresenter#PART_ContentPresenter">				
+		<Setter Property="Background" Value="{DynamicResource WorkAreaButtonBackgroundPointerOver}"/>
+		<Setter Property="TextBlock.Foreground" Value="{DynamicResource WorkAreaButtonForegroundPointerOver}"/>
+	</Style>
+	
+	<Style Selector="Button.Hyper">		
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Foreground" Value="{DynamicResource WorkAreaTextBlockClickable}"/>		
+		<Setter Property="FontSize" Value="12"/>		
+		<Setter Property="BorderBrush" Value="Transparent" />
+		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="CornerRadius" Value="0" />
+		<Setter Property="Padding" Value="0" />
+		<Setter Property="HorizontalAlignment" Value="Left" />
+		<Setter Property="VerticalAlignment" Value="Center" />
+	</Style>
+	<Style Selector="Button.Hyper:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="TextBlock.Foreground" Value="{DynamicResource WorkAreaTextBlockClickable}"/>
+	</Style>
+	<Style Selector="Button.Hyper /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="Transparent"/>		
+	</Style>
+	<Style Selector="Button.FlatIcon">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Foreground" Value="{DynamicResource  WorkAreaIconButtonForeground}"/>		
+		<Setter Property="FontSize" Value="12"/>
+		<Setter Property="BorderBrush" Value="Transparent" />
+		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="CornerRadius" Value="0" />
+		<Setter Property="Padding" Value="0" />
+		<Setter Property="HorizontalAlignment" Value="Left" />
+		<Setter Property="VerticalAlignment" Value="Center" />
+	</Style>
+	<Style Selector="Button.FlatIcon:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="TextBlock.Foreground" Value="{DynamicResource  WorkAreaIconButtonForegroundPointerOver}"/>
+	</Style>
+	<Style Selector="Button.FlatIcon /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="Transparent"/>				
+	</Style>
+	<Style Selector="Button.ArrowDown">
+		<Setter Property="Foreground" Value="{DynamicResource  HomeTabSecondaryTextForeground}"/>
+		<Setter Property="Background" Value="Transparent"/>		
+		<Setter Property="FontSize" Value="12"/>
+		<Setter Property="BorderBrush" Value="Transparent" />
+		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="CornerRadius" Value="0" />
+		<Setter Property="Padding" Value="0" />
+		<Setter Property="HorizontalAlignment" Value="Left" />
+		<Setter Property="VerticalAlignment" Value="Center" />
+	</Style>
+	<Style Selector="Button.ArrowDown:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="TextBlock.Foreground" Value="{DynamicResource  HomeTabPrimaryTextForeground}"/>
+	</Style>
+	<Style Selector="Button.ArrowDown /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="TextBlock.Foreground" Value="{DynamicResource  HomeTabPrimaryTextForeground}"/>
+	</Style>
+	<Style Selector="Button.ArrowDown">
+		<Setter Property="RenderTransform" Value="none" />
+		<Setter Property="Transitions">
+			<Transitions>
+				<TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+			</Transitions>
+		</Setter>
+	</Style>
+	
+	<Style Selector="Button.ArrowDown:pressed">
+		<Setter Property="RenderTransform" Value="scale(0.9)" />
+	</Style>
+
+
+	<Style Selector="Button.PopUpMenuItem Grid">
+		<Setter Property="HorizontalAlignment" Value="Stretch"/>
+	</Style>
+				  
+	<Style Selector="Button.PopUpMenuItem">
+		<Setter Property="Background" Value="{DynamicResource HomeTabPrimaryHeaderBackground}"/>		
+		<Setter Property="VerticalAlignment" Value="Center"/>
+		<Setter Property="HorizontalAlignment" Value="Stretch"/>
+		<Setter Property="VerticalContentAlignment" Value="Center"/>
+		<Setter Property="HorizontalContentAlignment" Value="Stretch"/>	
+	</Style>
+
+	<Style Selector="Button.PopUpMenuItem /template/ ContentPresenter#PART_ContentPresenter">		
+		<Setter Property="TextBlock.Foreground" Value="White"/>
+	</Style>
+
+	<Style Selector="Button.PopUpMenuItem TextBlock">
+		<Setter Property="Foreground" Value="{DynamicResource HomeTabPrimaryTextForeground}"/>
+		<Setter Property="FontSize" Value="12"/>
+		<Setter Property="VerticalAlignment" Value="Center"/>
+		<Setter Property="HorizontalAlignment" Value="Left"/>
+		<Setter Property="TextAlignment" Value="Left"/>		
+		<Setter Property="Margin" Value="10, 0, 0, 0"/>
+	</Style>
+	
+	<!--ContextMenu-->	
+	<Design.PreviewWith>
+		<Border Padding="20">
+			<!-- Add Controls for Previewer Here -->
+		</Border>
+	</Design.PreviewWith>
+	
+</Styles>

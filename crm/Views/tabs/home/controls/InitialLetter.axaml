@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="using:crm.ViewModels.tabs"
+             mc:Ignorable="d" d:DesignWidth="50" d:DesignHeight="50"
+             x:Class="crm.Views.tabs.home.controls.InitialLetter">
+	
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/TabStyles.axaml" />
+	</UserControl.Styles>
+	<Button
+		Classes="Button ArrowDown"
+		HorizontalAlignment="Center"
+		Width="60">
+		<Grid Classes="Button ArrowDown">
+			<Ellipse
+				Fill="Gray"
+				Width="25"
+				Height="25"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Center"/>
+			<TextBlock
+				VerticalAlignment="Center"
+				HorizontalAlignment="Center"
+				Foreground="White">				
+			</TextBlock>
+		</Grid>
+	</Button>
+</UserControl>

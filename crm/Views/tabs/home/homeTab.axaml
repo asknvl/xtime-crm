@@ -1,0 +1,252 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
+			 xmlns:material="using:Material.Icons.Avalonia"
+			 xmlns:svg="clr-namespace:Avalonia.Svg;assembly=Avalonia.Svg"
+			 xmlns:vm="using:crm.ViewModels.tabs"
+			 xmlns:scrvm="using:crm.ViewModels.tabs.home.screens"
+			 xmlns:scrvw="using:crm.Views.tabs.home.screens"
+			 xmlns:controls="using:crm.Views.tabs.home.controls"
+			 xmlns:conv="using:crm.Views.converters"
+			 xmlns:menu="using:crm.ViewModels.tabs.home.menu"			 
+			 xmlns:behaviors="using:crm.Views.behaviors"
+             x:Class="crm.Views.tabs.homeTab"
+			 RenderOptions.BitmapInterpolationMode="HighQuality">
+	<Design.DataContext>
+		<vm:homeVM/>
+	</Design.DataContext>
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/TabStyles.axaml" />
+		<StyleInclude Source="/Styles/LeftSlideMenuStyles.axaml" />
+	</UserControl.Styles>
+	<UserControl.Resources>
+		<conv:FullNameToShortNameConverter x:Key="fullNameConverter"/>
+	</UserControl.Resources>
+	<Grid>		
+		<SplitView			
+			x:Name="PART_NavigationPane"
+			DisplayMode="CompactInline"
+			OpenPaneLength="230"
+			CompactPaneLength="40"
+			IsPaneOpen="{Binding Menu.IsMenuExpanded, Mode=TwoWay}">
+			<SplitView.Pane>
+				<Border
+					BorderBrush="LightGray"
+					Margin="-1, -1, 0, -1"
+					BorderThickness="1">
+					<Grid
+						RowDefinitions="*, Auto"
+						Background="White">
+						<Grid
+							Grid.Row="0">
+							<ScrollViewer>
+								<ItemsPresenter DataContext="{Binding Menu}" Items="{Binding Items}">
+									<ItemsPresenter.ContextMenu>										
+											<ContextMenu>
+												<MenuItem Command="{Binding showInTabCmd}" Header="Закрыть" VerticalAlignment="Center" FontSize="12"/>
+											</ContextMenu>										
+									</ItemsPresenter.ContextMenu>
+									<ItemsPresenter.DataTemplates>
+										<DataTemplate DataType="{x:Type menu:SimpleMenuItem}">
+											<ToggleButton
+												Name="PART_Simple"
+												IsChecked="{Binding Screens[0].IsChecked}"												
+												Classes="ToggleButton SimpleItem"												
+												HorizontalAlignment="Stretch">
+												<ToggleButton.Styles>													
+													<Style Selector="ToggleButton TextBlock">
+														<Setter Property="Text" Value="{Binding Screens[0].Title}"/>
+													</Style>
+													<Style Selector="ToggleButton Svg">
+														<Setter Property="Path" Value="{Binding IconPath}"/>
+													</Style>													
+												</ToggleButton.Styles>
+												<Grid
+													ColumnDefinitions="Auto, *"
+													HorizontalAlignment="Stretch">
+													<Svg
+														Name="PART_Simple_Icon"
+														Path="{Binding IconPath}"
+														Grid.Column="0"
+														StretchDirection="DownOnly"
+														Stretch="Fill"
+														Width="20"
+														Height="20"/>
+													<TextBlock
+														VerticalAlignment="Center"
+														Grid.Column="1"
+														Margin="16, 0, 0, 0"
+														Text="{Binding Title}"/>
+												</Grid>
+												<!--<Interaction.Behaviors>
+													<behaviors:RightButtonClickBehavior Command="{Binding showInTabCmd}"/>
+												</Interaction.Behaviors>-->
+												
+											</ToggleButton>
+										</DataTemplate>
+										<DataTemplate DataType="{x:Type menu:ComplexMenuItem}">
+											<StackPanel>
+												<ToggleButton
+													x:Name="PART_Expand"
+													Classes="ToggleButton Collapse"
+													Command="{Binding expanderClickCmd}"
+													IsChecked="{Binding IsItemExpanded}"
+													Padding="4"
+													HorizontalAlignment="Stretch">
+													<Grid														
+														ColumnDefinitions="Auto, Auto, *"
+														HorizontalAlignment="Stretch">
+														<Svg
+															x:Name="PART_Vector"
+															IsVisible="{Binding #PART_CollapseButton.IsChecked}"
+															Grid.Column="0"
+															StretchDirection="DownOnly"
+															Stretch="Fill"
+															Width="8"
+															Height="8"
+															Margin="2, 0, 0, 0"/>
+														<Svg															
+															Path="{Binding IconPath}"
+															Grid.Column="1"	
+															StretchDirection="DownOnly"
+															Stretch="Fill"
+															Width="20"
+															Margin="5, 0, 0, 0"
+															Height="20"/>
+														<TextBlock
+															VerticalAlignment="Center"
+															Grid.Column="2"
+															Margin="16, 0, 0, 0"
+															Text="{Binding Title}"/>
+													</Grid>
+													<ToggleButton.Styles>
+														<Style Selector="ToggleButton Svg#PART_Vector">
+															<Setter Property="Path" Value="/Assets/svgs/leftslidemenu/vector_r.svg"/>
+														</Style>
+														<Style Selector="ToggleButton:checked Svg#PART_Vector">
+															<Setter Property="Path" Value="/Assets/svgs/leftslidemenu/vector_d.svg"/>
+														</Style>
+														<Style Selector="ToggleButton.Collapse /template/ ContentPresenter#PART_ContentPresenter">
+															<Setter Property="Background" Value="{Binding ExpanderBackground}"/>
+														</Style>
+													</ToggleButton.Styles>
+												</ToggleButton>
+												<ItemsPresenter
+													Items="{Binding Screens}"
+													IsVisible="{Binding #PART_Expand.IsChecked}">
+													<ItemsPresenter.ItemTemplate>
+														<DataTemplate>
+															<ToggleButton
+																x:Name="PART_ListButton"
+																IsChecked="{Binding IsChecked}"
+																Classes="ToggleButton SimpleItem"
+																HorizontalAlignment="Stretch">
+																<Grid
+																	HorizontalAlignment="Stretch">
+																	<TextBlock
+																		VerticalAlignment="Center"
+																		Margin="47, 0, 0, 0"
+																		Grid.Column="1"
+																		Text="{Binding Title}"/>
+																</Grid>
+															</ToggleButton>
+														</DataTemplate>
+													</ItemsPresenter.ItemTemplate>
+												</ItemsPresenter>
+											</StackPanel>
+										</DataTemplate>
+									</ItemsPresenter.DataTemplates>
+								</ItemsPresenter>
+								<ScrollViewer.Styles>
+									<Style Selector="ScrollViewer:pointerover">
+										<Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+									</Style>
+									<Style Selector="ScrollViewer">
+										<Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
+									</Style>
+								</ScrollViewer.Styles>
+							</ScrollViewer>							
+						</Grid>
+						
+						<ToggleButton
+							Grid.Row="1"
+							x:Name="PART_CollapseButton"
+							IsChecked="{Binding Menu.IsMenuExpanded}"
+							VerticalAlignment="Bottom"
+							HorizontalAlignment="Stretch"
+							Classes="ToggleButton Collapse">
+							<Grid								
+								ColumnDefinitions="Auto, *"
+								HorizontalAlignment="Stretch">								
+									<Svg										
+										Name="PART_Collapse_Icon"
+										Grid.Column="0"
+										StretchDirection="DownOnly"
+										Stretch="Fill"
+										Width="20"
+										Height="20"/>								
+								<TextBlock
+									VerticalAlignment="Center"
+									Grid.Column="1"
+									Margin="15, 0, 0, 0"
+									Text="Скрыть меню"/>
+							</Grid>
+							<ToggleButton.Styles>
+								<Style Selector="ToggleButton Svg">
+									<Setter Property="Path" Value="/Assets/svgs/leftslidemenu/off.svg"/>
+								</Style>
+								<Style Selector="ToggleButton:checked Svg">
+									<Setter Property="Path" Value="/Assets/svgs/leftslidemenu/on.svg"/>
+								</Style>
+							</ToggleButton.Styles>
+						</ToggleButton>
+					</Grid>
+				</Border>
+			</SplitView.Pane>
+			<Grid>
+				<Grid.DataTemplates>
+					<DataTemplate DataType="{x:Type scrvm:UserList}">
+						<scrvw:UserList/>
+					</DataTemplate>
+					<DataTemplate DataType="{x:Type scrvm:UserActions}">
+						<scrvw:TBD/>
+					</DataTemplate>
+				</Grid.DataTemplates>
+				<ContentControl Content="{Binding Menu.Screen}"/>
+			</Grid>
+			<SplitView.Styles>
+				<!--<Style Selector="SplitView ToggleButton#PART_Simple Svg#PART_Simple_Icon">
+					<Setter Property="Margin" Value="5, 0, 0, 0"/>
+				</Style>
+				<Style Selector="SplitView[IsPaneOpen=True] ToggleButton#PART_Simple Svg#PART_Simple_Icon">
+					<Setter Property="Margin" Value="12, 0, 0, 0"/>
+				</Style>
+				<Style Selector="SplitView ToggleButton#PART_CollapseButton Svg#PART_Collapse_Icon">
+					<Setter Property="Margin" Value="5, 0, 0, 0"/>
+				</Style>
+				<Style Selector="SplitView[IsPaneOpen=True] ToggleButton#PART_CollapseButton Svg#PART_Collapse_Icon">
+					<Setter Property="Margin" Value="12, 0, 0, 0"/>
+				</Style>-->
+
+				<Style Selector="SplitView ToggleButton#PART_Simple">
+					<Setter Property="Padding" Value="9, 0, 0, 0"/>
+				</Style>
+				<Style Selector="SplitView[IsPaneOpen=True] ToggleButton#PART_Simple">
+					<Setter Property="Padding" Value="19, 0, 0, 0"/>
+				</Style>
+
+				<Style Selector="SplitView ToggleButton#PART_CollapseButton Svg#PART_Collapse_Icon">
+					<Setter Property="Margin" Value="1, 0, 0, 0"/>
+				</Style>
+				<Style Selector="SplitView[IsPaneOpen=True] ToggleButton#PART_CollapseButton Svg#PART_Collapse_Icon">
+					<Setter Property="Margin" Value="10, 0, 0, 0"/>
+				</Style>
+				
+			</SplitView.Styles>
+		</SplitView>
+
+	</Grid>
+
+</UserControl>

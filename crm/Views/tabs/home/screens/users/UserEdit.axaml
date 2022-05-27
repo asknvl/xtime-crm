@@ -1,0 +1,127 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="using:crm.ViewModels.tabs.home.screens.users"			 
+			 xmlns:vs="using:crm.Views.tabs.home.screens.users"
+             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="450"			 
+             x:Class="crm.Views.tabs.home.screens.users.UserEdit">
+	<Design.DataContext>
+		<vm:UserEdit/>
+	</Design.DataContext>
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/ScreenStyle.axaml"/>
+		<StyleInclude Source="/Styles/UserListStyle.axaml"/>
+	</UserControl.Styles>
+	<Grid
+		RowDefinitions="Auto, Auto, *"
+		Margin="25, 12, 0, 0">
+		<Grid
+			Grid.Row="0">
+			<TextBlock
+				Text="{Binding Title}"
+				FontWeight="Bold"/>
+		</Grid>
+		<Grid
+			Grid.Row="1"			
+			Margin="0, 20, 20, 0"
+			Height="40"
+			ColumnDefinitions="620, 300">			
+			<ListBox				
+				Items="{Binding EditActions}"
+				SelectedItem="{Binding Content}">
+				<ListBox.ItemsPanel>
+					<ItemsPanelTemplate>
+						<StackPanel Orientation="Horizontal"/>
+					</ItemsPanelTemplate>
+				</ListBox.ItemsPanel>
+				<ListBox.DataTemplates>
+					<DataTemplate>
+						<Grid							
+							Width="90"
+							VerticalAlignment="Stretch">
+							<TextBlock
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								Text="{Binding Title}"/>
+						</Grid>
+					</DataTemplate>
+				</ListBox.DataTemplates>				
+				<ListBox.Styles>
+					<Style Selector="ListBox">
+						<Setter Property="CornerRadius" Value="5"/>
+					</Style>
+					<Style Selector="ListBox ListBoxItem">
+						<Setter Property="Padding" Value="20, 2, 20, 0"/>
+						<Setter Property="Margin" Value="10, 0, 10, 0"/>
+					</Style>
+					<Style Selector="ListBox ListBoxItem:not(:selected) /template/ ContentPresenter#PART_ContentPresenter">
+						<Setter Property="BorderThickness" Value="0, 0, 0, 2"/>
+						<Setter Property="BorderBrush" Value="Transparent"/>						
+					</Style>
+					<Style Selector="ListBox ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+						<Setter Property="BorderThickness" Value="0, 0, 0, 2"/>
+						<Setter Property="BorderBrush" Value="#FF464646"/>						
+						<Setter Property="Background" Value="Transparent"/>						
+					</Style>
+					<Style Selector="ListBox ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+						<Setter Property="BorderThickness" Value="0, 0, 0, 2"/>
+						<Setter Property="BorderBrush" Value="#FF464646"/>
+						<Setter Property="Background" Value="Transparent"/>
+					</Style>
+				</ListBox.Styles>
+			</ListBox>
+			<Grid				
+				Grid.Column="1"				
+				ColumnDefinitions="200, 200">
+				<ToggleButton
+					IsChecked="{Binding IsEditChecked}"
+					Classes="ToggleButton EditCancel"
+					Name="PART_ToggleEdit"
+					Grid.Column="0"
+					VerticalAlignment="Stretch"
+					HorizontalAlignment="Stretch"
+					VerticalContentAlignment="Center"
+					HorizontalContentAlignment="Center"
+					Margin="20, 0, 0, 0"
+					CornerRadius="5">
+					<ToggleButton.Styles>
+						<Style Selector="ToggleButton:checked /template/ ContentPresenter#PART_ContentPresenter">
+							<Setter Property="Content" Value="Отмена"/>
+						</Style>
+						<Style Selector="ToggleButton:not(:checked) /template/ ContentPresenter#PART_ContentPresenter">
+							<Setter Property="Content" Value="Редактировать"/>
+						</Style>
+					</ToggleButton.Styles>
+				</ToggleButton>				
+				<Button
+					Command="{Binding confirmCmd}"
+					Classes="Button Confirm"
+					Grid.Column="1"
+					VerticalAlignment="Stretch"
+					HorizontalAlignment="Stretch"
+					VerticalContentAlignment="Center"
+					HorizontalContentAlignment="Center"
+					Margin="20, 0, 0, 0"
+					CornerRadius="5"
+					IsVisible="{Binding #PART_ToggleEdit.IsChecked}"
+					>
+					Подтвердить
+				</Button>
+			</Grid>
+		</Grid>
+		<Grid
+			Grid.Row="2"
+			Margin="0, 30, 0, 0">
+			<Grid.DataTemplates>
+				<DataTemplate DataType="{x:Type vm:editUserInfo}">
+					<vs:editUserInfo/>
+				</DataTemplate>
+				<DataTemplate DataType="{x:Type vm:editUserDevices}">
+					<vs:editUserDevices/>
+				</DataTemplate>
+			</Grid.DataTemplates>
+			<ContentControl Content="{Binding Content}"/>
+		</Grid>
+	</Grid>
+</UserControl>

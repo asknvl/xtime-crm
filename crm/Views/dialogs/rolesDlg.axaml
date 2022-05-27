@@ -1,0 +1,119 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="250"
+		Height="250" Width="500" WindowStartupLocation="CenterOwner"	
+		xmlns:vm="using:crm.ViewModels.dialogs"
+        x:Class="crm.Views.dialogs.rolesDlg"        
+		ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1">
+	<Design.DataContext>
+		<vm:rolesDlgVM/>
+	</Design.DataContext>
+	<Window.Styles>		
+		<StyleInclude Source="/Styles/ScreenStyle.axaml"/>
+		<StyleInclude Source="/Styles/UserListStyle.axaml"/>
+	</Window.Styles>
+	<Grid
+		RowDefinitions="Auto, *, Auto">
+		<Grid
+			Height="50"
+			Background="#FFF2F2F2"
+			Grid.Row="0">
+			<TextBlock
+				VerticalAlignment="Center"
+				FontSize="14"
+				FontWeight="Bold"
+				Foreground="#FF000000"
+				Margin="50, 0, 0, 0">
+				Выберите роли для пользователя
+			</TextBlock>
+		</Grid>
+		<ListBox				
+			Grid.Row="1"
+			Items="{Binding Tags}"			
+			Selection="{Binding Selection}"
+			VirtualizationMode="None"
+			SelectionMode="Multiple, Toggle"
+			Background="#FFFFFFFF"
+			Margin="0, 20, 0, 20"
+			>
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<WrapPanel
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"/>
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+			<ItemsControl.DataTemplates>
+				<DataTemplate>
+					<Grid
+						Width="120"
+						ColumnDefinitions="20, *"
+						Margin="4">
+						<Svg
+							VerticalAlignment="Center">
+						</Svg>
+						<TextBlock
+							Text="{Binding Name}"
+							Grid.Column="1"
+							VerticalAlignment="Center"
+							HorizontalAlignment="Center">
+						</TextBlock>
+					</Grid>
+				</DataTemplate>
+			</ItemsControl.DataTemplates>
+			<ListBox.Styles>
+				<Style Selector="ListBox ListBoxItem">
+					<Setter Property="Padding" Value="0"/>
+					<Setter Property="Margin" Value="4"/>
+					<Setter Property="Background" Value="#FFF2F2F2"/>
+					<Setter Property="CornerRadius" Value="3"/>
+				</Style>
+				<Style Selector="ListBox ListBoxItem:selected /template/ ContentPresenter">
+					<Setter Property="Background" Value="#FFF2F2F2"/>
+				</Style>
+				<Style Selector="ListBox ListBoxItem TextBlock">
+					<Setter Property="Foreground" Value="#FFCCCCCC" />
+				</Style>
+				<Style Selector="ListBox ListBoxItem:selected TextBlock">
+					<Setter Property="Foreground" Value="#FF464646" />
+				</Style>
+				<Style Selector="ListBox ListBoxItem Svg">
+					<Setter Property="Path" Value="/Assets/svgs/common/tag_not_selected.svg"/>
+				</Style>
+				<Style Selector="ListBox ListBoxItem:selected Svg">
+					<Setter Property="Path" Value="/Assets/svgs/common/tag_selected.svg"/>
+				</Style>
+			</ListBox.Styles>
+		</ListBox>
+		<StackPanel				
+			Grid.Row="2"			
+			Margin="0, 0, 0, 20"
+			Orientation="Horizontal"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Center">
+			<Button								
+				Command="{Binding cancelCmd}"
+				IsCancel="True"
+				Grid.Row="2"				
+				Classes="Button Dialog"				
+				Width="150"
+				Margin="0, 0, 10, 0">
+				Отменить
+			</Button>
+			<Button
+				Command="{Binding acceptCmd}"
+				IsEnabled="{Binding IsValidSelection}"
+				IsDefault="True"
+				Grid.Row="2"
+				Classes="Button Dialog"
+				Width="150"
+				Margin="10, 0, 0, 0">				
+				Подтвердить
+			</Button>
+		</StackPanel>
+	</Grid>
+</Window>

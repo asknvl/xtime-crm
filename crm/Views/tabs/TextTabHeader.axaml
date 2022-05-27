@@ -1,0 +1,33 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:material="using:Material.Icons.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="crm.Views.tabs.TextTabHeader">
+	<Grid
+		ColumnDefinitions="*, Auto"
+		VerticalAlignment="Stretch"
+		Background="Transparent">
+		<Grid.ContextMenu>
+			<ContextMenu>
+				<MenuItem Command="{Binding closeCmd}" Header="Закрыть" VerticalAlignment="Center" FontSize="12"/>
+			</ContextMenu>
+		</Grid.ContextMenu>		
+		<TextBlock
+			Grid.Column="0"
+			Text="{Binding Title}"
+			FontSize="12"
+			VerticalAlignment="Center"
+			Margin="0"/>
+		<Button			
+			Command="{Binding closeCmd}"
+			Margin="10, 4, 0, 0"
+			Grid.Column="1"
+			Classes="Button ArrowDown"
+			VerticalAlignment="Center"
+			HorizontalContentAlignment="Center">
+			<material:MaterialIconExt Kind="Close" Size="13"/>
+		</Button>
+	</Grid>
+</UserControl>

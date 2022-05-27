@@ -1,0 +1,107 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:cust="using:crm.Views.custom"
+			 xmlns:beh="using:crm.Views"
+			 xmlns:material="using:Material.Icons.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="crm.Views.tabs.registrationTab">
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/TabStyles.axaml"/>
+	</UserControl.Styles>
+	<Grid
+		Classes="Grid Tab">
+		<!--<Image
+			Source="/Assets/logo.png"
+			Width="100"
+			VerticalAlignment="Top"
+			HorizontalAlignment="Left"
+			Margin="20"/>-->
+		<Image Source="/Assets/logo_transp.png" Width="200" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="-20, -15, 0, 0"/>
+		<StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Width="250">
+			<AutoCompleteBox
+				Text="{Binding Email}"
+				Classes="TextBox CenterBlack"
+				Watermark="mymail@protonmail.com"
+				Margin="5"
+				/>
+			<TextBox
+				Text="{Binding Password1}"
+				Classes="TextBox CenterBlack"
+				Watermark="пароль"
+				Margin="5">
+
+				<!--<Interaction.Behaviors>
+					<beh:LostFocusUpdateBindingBehavior Text="{Binding Password1}"/>
+				</Interaction.Behaviors>-->
+			</TextBox>
+			<TextBox
+				Text="{Binding Password2, Mode=TwoWay}"
+				Classes="TextBox CenterBlack"
+				Watermark="пароль второй раз"
+				Margin="5"
+				/>
+			<TextBox
+				Text="{Binding FullName}"
+				Classes="TextBox CenterBlack"
+				Watermark="Фамилия Имя Очество"
+				Margin="5"
+				/>
+			<cust:DateTextBox
+				Text="{Binding BirthDate}"
+				Classes="TextBox CenterBlack"
+				Watermark="02.02.2022"
+				Margin="5"
+				MaxLength="10"
+				/>
+			<cust:PhoneNumberTextBox
+				Text="{Binding PhoneNumber}"
+				Classes="TextBox CenterBlack"
+				Watermark="+7 (918) 060-67-40"
+				Margin="5"
+				MaxLength="18"
+				/>
+			<TextBox
+				Text="{Binding Telegram}"
+				Classes="TextBox CenterBlack"
+				Watermark="@telegram"
+				Margin="5"
+				/>
+			<TextBox
+				Text="{Binding Wallet, Mode=TwoWay}"
+				Classes="TextBox CenterBlack"
+				Watermark="USDT TRC20"
+				Margin="5">
+				<!--<TextBox.Styles>
+					<Style Selector="TextBox">						
+						<Setter Property="InnerRightContent">
+							<Template>								
+									<Button Command="{Binding pasteCmd}" Classes="Button FlatIcon" Margin="2">
+										<material:MaterialIconExt Kind="ClipboardTextOutline" Size="24"/>
+									</Button>								
+							</Template>
+						</Setter>						
+					</Style>
+					<Style Selector="TextBox:error Panel#PART_InlineErrorTemplatePanel">						
+						<Setter Property="IsVisible" Value="False"/>
+					</Style>
+				</TextBox.Styles>-->
+			</TextBox>
+			<!--<AutoCompleteBox
+				Text="{Binding Device}"
+				Items="{Binding Devices}"
+				Classes="TextBox CenterBlack"
+				Watermark="Выберите устройство"				
+				Margin="5">
+				<AutoCompleteBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding}" FontSize="12"/>
+					</DataTemplate>
+				</AutoCompleteBox.ItemTemplate>				
+			</AutoCompleteBox>-->
+
+			<Button Command="{Binding registerCmd}" IsEnabled="{Binding IsInputValid}" Classes="Button CenterBlack" Content="Зарегистрироваться"/>
+		</StackPanel>
+	</Grid>
+</UserControl>

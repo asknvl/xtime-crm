@@ -1,0 +1,38 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="250"
+        x:Class="crm.Views.dialogs.errMsgDlg"
+		ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1"
+        Title="errMsgDlg"
+		Width="500"
+		Height="250"
+		WindowStartupLocation="CenterOwner">
+	<Window.Styles>
+		<StyleInclude Source="/Styles/TabStyles.axaml" />
+	</Window.Styles>
+	<Grid RowDefinitions="Auto, *, Auto">
+		<TextBlock Grid.Row="0" Text="{Binding Title}" Margin="10" FontWeight="Bold"/>
+		<ScrollViewer
+			Grid.Row="1"
+			Margin="20, 20, 20, 0">
+			<TextBlock
+				Text="{Binding Message}"
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center"
+				TextWrapping="Wrap"/>
+		</ScrollViewer>
+		<Button
+			Grid.Row="2"
+			Command="{Binding okCmd}"
+			Classes="Button CenterBlack"
+			HorizontalAlignment="Center"
+			Margin="20"
+			Width="150">
+			OK
+		</Button>
+	</Grid>
+</Window>
