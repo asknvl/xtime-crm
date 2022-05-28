@@ -16,6 +16,8 @@
         ExtendClientAreaChromeHints="NoChrome"
 		WindowState="{Binding WindowState}"
         ExtendClientAreaTitleBarHeightHint="-1"
+		Title="XTime CRM"
+		Icon="/Assets/icon.ico"
 		Name="mainWindow">
 
     <Design.DataContext>

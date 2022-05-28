@@ -25,7 +25,7 @@
 		<Grid
 			Grid.Row="1"			
 			Margin="0, 20, 20, 0"
-			Height="40"
+			Height="45"
 			ColumnDefinitions="620, 300">			
 			<ListBox				
 				Items="{Binding EditActions}"
@@ -73,7 +73,7 @@
 			</ListBox>
 			<Grid				
 				Grid.Column="1"				
-				ColumnDefinitions="220, 220">
+				ColumnDefinitions="Auto, Auto">
 				<ToggleButton
 					IsChecked="{Binding IsEditChecked}"
 					Classes="ToggleButton EditCancel"
@@ -83,7 +83,8 @@
 					HorizontalAlignment="Stretch"
 					VerticalContentAlignment="Center"
 					HorizontalContentAlignment="Center"
-					Margin="20, 0, 0, 0"
+					Width="180"
+					Margin="35, 0, 0, 0"
 					CornerRadius="5">
 					<ToggleButton.Styles>
 						<Style Selector="ToggleButton:checked /template/ ContentPresenter#PART_ContentPresenter">
@@ -102,7 +103,8 @@
 					HorizontalAlignment="Stretch"
 					VerticalContentAlignment="Center"
 					HorizontalContentAlignment="Center"
-					Margin="20, 0, 0, 0"
+					Width="180"
+					Margin="35, 0, 0, 0"
 					CornerRadius="5"
 					IsVisible="{Binding #PART_ToggleEdit.IsChecked}"
 					>

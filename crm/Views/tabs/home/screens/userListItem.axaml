@@ -22,8 +22,7 @@
 	<Grid
 		Name="PART_ItemGrid"
 		VerticalAlignment="Center"
-		Height="60"
-		Margin="0, 0, 0, 0"		
+		Height="60"		
 		Grid.Row="0"
 		RowDefinitions="*, 1"
 		ColumnDefinitions="

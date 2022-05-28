@@ -22,6 +22,7 @@
 	  <!-- Will be copied from output directory -->
 	  <NSPrincipalClass>NSApplication</NSPrincipalClass>
 	  <NSHighResolutionCapable>true</NSHighResolutionCapable>
+	  <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
 	  
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -82,6 +83,9 @@
     <None Remove="Assets\svgs\window\empty.svg" />
     <None Remove="Assets\svgs\window\expand_max.svg" />
     <None Remove="Assets\vector_r.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <!--This helps with theme dll-s trimming.
