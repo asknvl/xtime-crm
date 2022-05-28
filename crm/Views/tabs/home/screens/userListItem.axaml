@@ -99,7 +99,8 @@
 			Name="PART_ShowTags"
 			Command="{Binding showTagsCmd}"
 			Classes="Button List"
-			Height="28"
+			Height="24"
+			Width="125"
 			VerticalAlignment="Center"
 			HorizontalAlignment="Center"
 			Grid.Column="9">

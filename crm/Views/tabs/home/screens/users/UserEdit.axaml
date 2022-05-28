@@ -73,7 +73,7 @@
 			</ListBox>
 			<Grid				
 				Grid.Column="1"				
-				ColumnDefinitions="200, 200">
+				ColumnDefinitions="220, 220">
 				<ToggleButton
 					IsChecked="{Binding IsEditChecked}"
 					Classes="ToggleButton EditCancel"

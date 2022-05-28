@@ -32,8 +32,7 @@
 					</TextBlock>
 				</Grid>
 			</Button>
-			<Button
-				IsEnabled="False"
+			<Button				
 				Classes="Button PopUpMenuItem">
 				<Grid ColumnDefinitions="20, *">
 					<!--<material:MaterialIconExt Kind="SettingsVertical" Size="20"/>-->

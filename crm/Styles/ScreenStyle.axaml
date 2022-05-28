@@ -23,7 +23,7 @@
 	</Style>
 	<!--Buttons-->	
 	<Style Selector="Button.Top">						
-		<Setter Property="Height" Value="35"/>
+		<Setter Property="Height" Value="40"/>
 		<Setter Property="Width" Value="200"/>
 		<Setter Property="Margin" Value="0, 20, 20, 20"/>
 	</Style>

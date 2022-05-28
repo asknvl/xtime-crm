@@ -329,8 +329,7 @@
 								</Style>
 							</controls:InitialLetter.Styles>
 						</controls:InitialLetter>
-						<Button
-							Background="Yellow"
+						<Button							
 							Grid.Column="2"
 							Command="{Binding profileMenuOpenCmd}"
 							HorizontalAlignment="Right"
