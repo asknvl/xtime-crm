@@ -22,7 +22,7 @@
 			Margin="0"/>
 		<Button			
 			Command="{Binding closeCmd}"
-			Margin="10, 4, 0, 0"
+			Margin="10, 2, 0, 0"
 			Grid.Column="1"
 			Classes="Button ArrowDown"
 			VerticalAlignment="Center"

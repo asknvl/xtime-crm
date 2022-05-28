@@ -36,5 +36,11 @@ namespace crm.ViewModels.tabs
         {
             base.Close();
         }
+
+        public override void Refresh()
+        {
+            ((BaseScreen)Screen).OnActivate();
+            base.Refresh();
+        }
     }
 }

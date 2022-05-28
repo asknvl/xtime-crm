@@ -67,6 +67,8 @@ namespace crm.ViewModels.tabs
 
         #region virtual
         public virtual void Clear() { }
+
+        public virtual void Refresh() { }
         #endregion
 
     }

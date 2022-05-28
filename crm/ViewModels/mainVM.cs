@@ -86,6 +86,8 @@ namespace crm.ViewModels
             #region dependencies
             ApplicationContext AppContext = new ApplicationContext();
 #if DEBUG
+            //AppContext.ServerApi = new ServerApi("http://136.243.74.153:4000");
+            //AppContext.SocketApi = new SocketApi("http://136.243.74.153:4000");
             AppContext.ServerApi = new ServerApi("http://185.46.9.229:4000");
             AppContext.SocketApi = new SocketApi("http://185.46.9.229:4000");
 
@@ -226,6 +228,7 @@ namespace crm.ViewModels
 
         #region tabservice
         public ObservableCollection<Tab> TabsList { get; set; } = new ObservableCollection<Tab>();
+        bool needRefresh { get; set; } = true;        
 
         object? content;
         public object? Content
@@ -235,6 +238,10 @@ namespace crm.ViewModels
             {
                 this.RaiseAndSetIfChanged(ref content, value);
                 TabShownEvent?.Invoke((Tab)content);
+                if (needRefresh)
+                {
+                    ((Tab)content)?.Refresh();
+                }
             }
         }
 
@@ -248,6 +255,7 @@ namespace crm.ViewModels
         public void ShowTab(Tab tab)
         {
             var fTab = TabsList.FirstOrDefault(t => t.Title.Equals(tab.Title));
+            needRefresh = false;
 
             if (fTab == null)
             {
@@ -255,14 +263,16 @@ namespace crm.ViewModels
                 {
 
                     TabsList.Insert(0, tab);
-                }
-                else
+                } else
                     TabsList.Add(tab);
-
-                Content = tab;                
+             
+                Content = tab;
+            } else
+            {
+                Content = fTab;
             }
-            else
-                Content = fTab;            
+
+            needRefresh = true;
 
             //if (tab is homeVM)
             //    TabsList.Insert(0, tab);

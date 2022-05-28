@@ -119,5 +119,14 @@ namespace crm.ViewModels.tabs
 
             base.Close();
         }
+
+        public override void Refresh()
+        {
+            foreach (var item in Menu.Items)
+                foreach (var screen in item.Screens)
+                    screen.OnActivate();
+
+            base.Refresh();
+        }
     }
 }

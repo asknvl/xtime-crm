@@ -209,9 +209,8 @@ namespace crm.ViewModels.tabs.home.screens
         public override async void OnActivate()
         {
             base.OnActivate();
-
-            sckApi.ReceivedConnectedUsersEvent += SckApi_ReceivedConnectedUsersEvent;
-            sckApi.ReceivedUsersDatesEvent += SckApi_ReceivedUsersDatesEvent;
+            sckApi.ReceivedConnectedUsersEvent -= SckApi_ReceivedConnectedUsersEvent;
+            sckApi.ReceivedUsersDatesEvent -= SckApi_ReceivedUsersDatesEvent;            
 
             try
             {
@@ -222,6 +221,9 @@ namespace crm.ViewModels.tabs.home.screens
             {
                 ws.ShowDialog(new errMsgVM(ex.Message));
             }
+
+            sckApi.ReceivedConnectedUsersEvent += SckApi_ReceivedConnectedUsersEvent;
+            sckApi.ReceivedUsersDatesEvent += SckApi_ReceivedUsersDatesEvent;
         }
 
         private void SckApi_ReceivedUsersDatesEvent(usersDatesDTO dates)
