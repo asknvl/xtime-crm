@@ -37,10 +37,10 @@ namespace crm.ViewModels.tabs
             base.Close();
         }
 
-        public override void Refresh()
+        public override void OnActivate()
         {
             ((BaseScreen)Screen).OnActivate();
-            base.Refresh();
+            base.OnActivate();
         }
     }
 }

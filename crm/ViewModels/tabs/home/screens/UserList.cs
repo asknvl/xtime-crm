@@ -35,7 +35,7 @@ namespace crm.ViewModels.tabs.home.screens
         #region properties       
         public override string Title => "Список сотрудников";
 
-        ObservableCollection<UserListItem> users = new();
+        ObservableCollection<UserListItem> users;
         public ObservableCollection<UserListItem> Users
         {
             get => users;
@@ -126,6 +126,9 @@ namespace crm.ViewModels.tabs.home.screens
             srvApi = AppContext.ServerApi;
             token = AppContext.User.Token;
             sckApi = AppContext.SocketApi;
+            sckApi.ReceivedConnectedUsersEvent += SckApi_ReceivedConnectedUsersEvent;
+            sckApi.ReceivedUsersDatesEvent += SckApi_ReceivedUsersDatesEvent;
+
             SelectedPage = 1;
 
             #region commands
@@ -174,33 +177,54 @@ namespace crm.ViewModels.tabs.home.screens
             Users.Add(new UserItemTest(AppContext) { FullName = "Иванов Иван Иванович" });
             Users.Add(new UserItemTest(AppContext) { FullName = "Петров Петр Петрович" });
 #elif ONLINE
-            await Task.Run(async () =>
+
+            List<User> users;
+            int total_users;
+
+            (users, TotalPages, total_users) = await srvApi.GetUsers(page - 1, pagesize, token);
+            PageInfo = getPageInfo(page, users.Count, total_users);
+
+            
+            List<UserListItem> tmpList = new();
+
+            foreach (var user in users)
             {
-                List<User> users;
-                int total_users;
+                var tmp = new UserListItem(AppContext);
+                tmp.Copy(user);               
+                tmpList.Add(tmp);                
+            }
 
-                await Dispatcher.UIThread.InvokeAsync(() =>
-                {
-                    Users.Clear();
-                });
+            Users =new ObservableCollection<UserListItem>(tmpList);
 
-                (users, TotalPages, total_users) = await srvApi.GetUsers(page - 1, pagesize, token);
+            sckApi.RequestConnectedUsers();
 
-                PageInfo = getPageInfo(page, users.Count, total_users);
 
-                foreach (var user in users)
-                {
-                    var tmp = new UserListItem(AppContext);
-                    tmp.Copy(user);
+            //await Task.Run(async () =>
+            //{
+            //    List<User> users;
+            //    int total_users;
 
-                    await Dispatcher.UIThread.InvokeAsync(() =>
-                    {
-                        Users.Add(tmp);
-                    });
-                }
+            //    await Dispatcher.UIThread.InvokeAsync(() =>
+            //    {
+            //        Users.Clear();
+            //    });
 
-                sckApi.RequestConnectedUsers();
-            });
+            //    (users, TotalPages, total_users) = await srvApi.GetUsers(page - 1, pagesize, token);
+
+            //    PageInfo = getPageInfo(page, users.Count, total_users);
+
+            //    foreach (var user in users)
+            //    {
+            //        var tmp = new UserListItem(AppContext);
+            //        tmp.Copy(user);
+
+            //        await Dispatcher.UIThread.InvokeAsync(() =>
+            //        {
+            //            Users.Add(tmp);
+            //        });
+            //    }
+
+            //});
 #endif
         }
         #endregion
@@ -209,8 +233,6 @@ namespace crm.ViewModels.tabs.home.screens
         public override async void OnActivate()
         {
             base.OnActivate();
-            sckApi.ReceivedConnectedUsersEvent -= SckApi_ReceivedConnectedUsersEvent;
-            sckApi.ReceivedUsersDatesEvent -= SckApi_ReceivedUsersDatesEvent;            
 
             try
             {
@@ -222,8 +244,6 @@ namespace crm.ViewModels.tabs.home.screens
                 ws.ShowDialog(new errMsgVM(ex.Message));
             }
 
-            sckApi.ReceivedConnectedUsersEvent += SckApi_ReceivedConnectedUsersEvent;
-            sckApi.ReceivedUsersDatesEvent += SckApi_ReceivedUsersDatesEvent;
         }
 
         private void SckApi_ReceivedUsersDatesEvent(usersDatesDTO dates)
@@ -238,12 +258,13 @@ namespace crm.ViewModels.tabs.home.screens
 
         public override void OnDeactivate()
         {
-            sckApi.ReceivedConnectedUsersEvent -= SckApi_ReceivedConnectedUsersEvent;
-            sckApi.ReceivedUsersDatesEvent -= SckApi_ReceivedUsersDatesEvent;
+            //sckApi.ReceivedConnectedUsersEvent -= SckApi_ReceivedConnectedUsersEvent;
+            //sckApi.ReceivedUsersDatesEvent -= SckApi_ReceivedUsersDatesEvent;
             base.OnDeactivate();
         }
         #endregion
 
+        int cntr = 0;
         #region callbacks
         private void SckApi_ReceivedConnectedUsersEvent(List<usersOnlineDTO> connectedUsers)
         {
@@ -253,6 +274,8 @@ namespace crm.ViewModels.tabs.home.screens
                 if (user != null)
                     user.Status = connected.connected;
             }
+
+            Debug.WriteLine(cntr++);
         }
         #endregion
     }

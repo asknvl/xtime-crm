@@ -100,33 +100,49 @@ namespace crm.ViewModels.tabs
             Menu = new admin_menu(appcontext);
         }
 
-        public override void Show()
+        //public override void Show()
+        //{
+        //    foreach (var item in Menu.Items)
+        //        foreach (var screen in item.Screens)
+        //            screen.OnActivate();
+
+        //    base.Show();
+        //}
+
+        //public override void Close()
+        //{
+
+        //    foreach (var item in Menu.Items)
+        //        foreach (var screen in item.Screens)
+        //            screen.OnDeactivate();
+
+
+        //    base.Close();
+        //}
+
+        //public override void Refresh()
+        //{
+        //    foreach (var item in Menu.Items)
+        //        foreach (var screen in item.Screens)
+        //            screen.OnActivate();
+
+        //    base.Refresh();
+        //}
+        public override void OnActivate()
         {
             foreach (var item in Menu.Items)
                 foreach (var screen in item.Screens)
                     screen.OnActivate();
-
-            base.Show();
+            base.OnActivate();
         }
 
-        public override void Close()
+        public override void OnDeactivate()
         {
-
             foreach (var item in Menu.Items)
                 foreach (var screen in item.Screens)
                     screen.OnDeactivate();
-
-
-            base.Close();
-        }
-
-        public override void Refresh()
-        {
-            foreach (var item in Menu.Items)
-                foreach (var screen in item.Screens)
-                    screen.OnActivate();
-
-            base.Refresh();
+            base.OnDeactivate();
         }
     }
+
 }

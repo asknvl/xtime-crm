@@ -86,10 +86,10 @@ namespace crm.ViewModels
             #region dependencies
             ApplicationContext AppContext = new ApplicationContext();
 #if DEBUG
-            //AppContext.ServerApi = new ServerApi("http://136.243.74.153:4000");
-            //AppContext.SocketApi = new SocketApi("http://136.243.74.153:4000");
-            AppContext.ServerApi = new ServerApi("http://185.46.9.229:4000");
-            AppContext.SocketApi = new SocketApi("http://185.46.9.229:4000");
+            AppContext.ServerApi = new ServerApi("http://136.243.74.153:4000");
+            AppContext.SocketApi = new SocketApi("http://136.243.74.153:4000");
+            //AppContext.ServerApi = new ServerApi("http://185.46.9.229:4000");
+            //AppContext.SocketApi = new SocketApi("http://185.46.9.229:4000");
 
 #elif RELEASE
             AppContext.ServerApi = new ServerApi("http://136.243.74.153:4000");
@@ -236,12 +236,15 @@ namespace crm.ViewModels
             get => content;
             set
             {
+                ((Tab)content)?.OnDeactivate();
                 this.RaiseAndSetIfChanged(ref content, value);
+                ((Tab)content)?.OnActivate();
+
                 TabShownEvent?.Invoke((Tab)content);
-                if (needRefresh)
-                {
-                    ((Tab)content)?.Refresh();
-                }
+                //if (needRefresh)
+                //{
+                //    ((Tab)content)?.Refresh();
+                //}
             }
         }
 

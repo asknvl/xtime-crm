@@ -55,21 +55,23 @@ namespace crm.ViewModels.tabs
 
         #region public                
         public virtual void Show()
-        {            
+        {
+            OnActivate();
             tabService.ShowTab(this);            
         }
 
         public virtual void Close()
-        {   
+        {
+            OnDeactivate();
             tabService.CloseTab(this);            
         }
+        public virtual void OnActivate() { }
+
+        public virtual void OnDeactivate() { }
         #endregion
 
-        #region virtual
         public virtual void Clear() { }
 
-        public virtual void Refresh() { }
-        #endregion
 
     }
 }
