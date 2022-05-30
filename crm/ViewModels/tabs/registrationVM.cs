@@ -85,7 +85,7 @@ namespace crm.ViewModels.tabs
                         if (!isPasswordsEql)
                         {
                             AddError(nameof(Password1), "Пароли должны совпадать");
-                            AddError(nameof(Password2), "Пароли должны совпадать");
+                            //AddError(nameof(Password2), "Пароли должны совпадать");
                         }
                         else
                         {
@@ -120,7 +120,7 @@ namespace crm.ViewModels.tabs
                         isPasswordsEql = value == Password1;
                         if (!isPasswordsEql)
                         {
-                            AddError(nameof(Password1), "Пароли должны совпадать");
+                            //AddError(nameof(Password1), "Пароли должны совпадать");
                             AddError(nameof(Password2), "Пароли должны совпадать");
                         }
                         else
