@@ -78,8 +78,8 @@ namespace crm.ViewModels.tabs
             Title = "Вход";
 
 #if DEBUG
-            Login = "asknvl@protonmail.com";
-            Password = "F123qwe$%^0000";
+            Login = "devfrontend@protonmail.com";
+            Password = "Apistarxoz88";
 #endif
 
             #region dependencies

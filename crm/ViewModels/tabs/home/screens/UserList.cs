@@ -35,7 +35,7 @@ namespace crm.ViewModels.tabs.home.screens
         #region properties       
         public override string Title => "Список сотрудников";
 
-        ObservableCollection<UserListItem> users;
+        ObservableCollection<UserListItem> users = new();
         public ObservableCollection<UserListItem> Users
         {
             get => users;
@@ -180,23 +180,26 @@ namespace crm.ViewModels.tabs.home.screens
 
             List<User> users;
             int total_users;
-
+            //sckApi.ReceivedUsersDatesEvent -= SckApi_ReceivedUsersDatesEvent;
             (users, TotalPages, total_users) = await srvApi.GetUsers(page - 1, pagesize, token);
+            //sckApi.ReceivedUsersDatesEvent += SckApi_ReceivedUsersDatesEvent;
+
             PageInfo = getPageInfo(page, users.Count, total_users);
 
-            
+
             List<UserListItem> tmpList = new();
 
             foreach (var user in users)
             {
                 var tmp = new UserListItem(AppContext);
-                tmp.Copy(user);               
-                tmpList.Add(tmp);                
+                tmp.Copy(user);
+                tmpList.Add(tmp);
             }
 
-            Users =new ObservableCollection<UserListItem>(tmpList);
-
-            sckApi.RequestConnectedUsers();
+            Users = new ObservableCollection<UserListItem>(tmpList);
+            //Debug.WriteLine("1");
+            //sckApi.RequestConnectedUsers();
+            //Debug.WriteLine("2");
 
 
             //await Task.Run(async () =>
@@ -248,7 +251,8 @@ namespace crm.ViewModels.tabs.home.screens
 
         private void SckApi_ReceivedUsersDatesEvent(usersDatesDTO dates)
         {
-            BaseUser user = Users.FirstOrDefault(u => u.Id.Equals(dates.user_id));
+            Debug.WriteLine("3");
+            BaseUser user = Users?.FirstOrDefault(u => u.Id.Equals(dates.user_id));
             if (user != null)
             {
                 user.LastLoginDate = dates.last_login_date;
@@ -258,7 +262,7 @@ namespace crm.ViewModels.tabs.home.screens
 
         public override void OnDeactivate()
         {
-            //sckApi.ReceivedConnectedUsersEvent -= SckApi_ReceivedConnectedUsersEvent;
+            sckApi.ReceivedConnectedUsersEvent -= SckApi_ReceivedConnectedUsersEvent;
             //sckApi.ReceivedUsersDatesEvent -= SckApi_ReceivedUsersDatesEvent;
             base.OnDeactivate();
         }
@@ -268,11 +272,16 @@ namespace crm.ViewModels.tabs.home.screens
         #region callbacks
         private void SckApi_ReceivedConnectedUsersEvent(List<usersOnlineDTO> connectedUsers)
         {
-            foreach (var connected in connectedUsers)
+            try
             {
-                var user = Users.FirstOrDefault(u => u.Id.Equals(connected.user_id));
-                if (user != null)
-                    user.Status = connected.connected;
+                foreach (var connected in connectedUsers)
+                {
+                    var user = Users.FirstOrDefault(u => u.Id.Equals(connected.user_id));
+                    if (user != null)
+                        user.Status = connected.connected;
+                }
+            } catch (Exception ex) {
+                Debug.WriteLine(ex.Message);
             }
 
             Debug.WriteLine(cntr++);
