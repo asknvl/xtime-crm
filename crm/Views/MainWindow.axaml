@@ -237,7 +237,7 @@
 						Foreground="Gray"
 						FontSize="12"
 						Margin="2">
-						XTime CRM v0.5
+						XTime CRM v0.51_0
 					</TextBlock>
 					<TextBlock
 						Grid.Column="1"

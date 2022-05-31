@@ -137,7 +137,7 @@
 			Grid.Column="14">
 		</TextBlock>-->
 		<TextBlock
-			Text="{Binding ShortWallet}"
+			Text="{Binding Wallet}"
 			Grid.Column="15">
 		</TextBlock>
 		<TextBlock

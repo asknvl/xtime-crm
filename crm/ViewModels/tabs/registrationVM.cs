@@ -75,24 +75,27 @@ namespace crm.ViewModels.tabs
             set
             {
                 isPassword1 = pswrd_vl.IsValid(value);
-                if (!isPassword1)
-                    AddError(nameof(Password1), pswrd_vl.Message);
-                else
+                if (isPassword1)
+                {
                     RemoveError(nameof(Password1));
 
-                if (!string.IsNullOrEmpty(Password2))
-                {
-                    isPasswordsEql = value == Password2;
-                    if (!isPasswordsEql)
+                    if (!string.IsNullOrEmpty(Password2))
                     {
-                        AddError(nameof(Password1), "Пароли должны совпадать");
-                        AddError(nameof(Password2), "Пароли должны совпадать");
-                    } else
-                    {
-                        RemoveError(nameof(Password1));
-                        RemoveError(nameof(Password2));
+                        isPasswordsEql = value == Password2;
+                        if (!isPasswordsEql)
+                        {
+                            AddError(nameof(Password1), "Пароли должны совпадать");
+                            //AddError(nameof(Password2), "Пароли должны совпадать");
+                        } else
+                        {
+                            RemoveError(nameof(Password1));
+                            RemoveError(nameof(Password2));
+                        }
                     }
-                }
+
+                } else
+                    AddError(nameof(Password1), pswrd_vl.Message);
+
                 updateValidity();
                 this.RaiseAndSetIfChanged(ref password1, value);
             }
@@ -105,24 +108,26 @@ namespace crm.ViewModels.tabs
             set
             {
                 isPassword2 = pswrd_vl.IsValid(value);
-                if (!isPassword2)
-                    AddError(nameof(Password2), pswrd_vl.Message);
-                else
+                if (isPassword2)
+                {
                     RemoveError(nameof(Password2));
 
-                if (!string.IsNullOrEmpty(Password1))
-                {
-                    isPasswordsEql = value == Password1;
-                    if (!isPasswordsEql)
+                    if (!string.IsNullOrEmpty(Password1))
                     {
-                        AddError(nameof(Password1), "Пароли должны совпадать");
-                        AddError(nameof(Password2), "Пароли должны совпадать");
-                    } else
-                    {
-                        RemoveError(nameof(Password1));
-                        RemoveError(nameof(Password2));
+                        isPasswordsEql = value == Password1;
+                        if (!isPasswordsEql)
+                        {
+                            //AddError(nameof(Password1), "Пароли должны совпадать");
+                            AddError(nameof(Password2), "Пароли должны совпадать");
+                        } else
+                        {
+                            RemoveError(nameof(Password1));
+                            RemoveError(nameof(Password2));
+                        }
                     }
-                }
+                } else
+                    AddError(nameof(Password2), pswrd_vl.Message);
+
                 updateValidity();
                 this.RaiseAndSetIfChanged(ref password2, value);
             }

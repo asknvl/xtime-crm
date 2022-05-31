@@ -13,9 +13,9 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace crm.ViewModels.tabs.home.screens
 {
@@ -35,12 +35,14 @@ namespace crm.ViewModels.tabs.home.screens
         #region properties       
         public override string Title => "Список сотрудников";
 
-        ObservableCollection<UserListItem> users = new();
-        public ObservableCollection<UserListItem> Users
-        {
-            get => users;
-            set => this.RaiseAndSetIfChanged(ref users, value);
-        }
+        //ObservableCollection<UserListItem> users = new();
+        //public ObservableCollection<UserListItem> Users
+        //{
+        //    get => users;
+        //    set => this.RaiseAndSetIfChanged(ref users, value);
+        //}
+
+        public ObservableCollection<UserListItem> Users { get; } = new();
 
         bool isAllChecked;
         public bool IsAllChecked
@@ -106,6 +108,8 @@ namespace crm.ViewModels.tabs.home.screens
             get => pageInfo;
             set => this.RaiseAndSetIfChanged(ref pageInfo, value);
         }
+
+        bool allowUpdate { get; set; } = true;
         #endregion
 
         #region commands        
@@ -129,6 +133,7 @@ namespace crm.ViewModels.tabs.home.screens
             sckApi.ReceivedConnectedUsersEvent += SckApi_ReceivedConnectedUsersEvent;
             sckApi.ReceivedUsersDatesEvent += SckApi_ReceivedUsersDatesEvent;
 
+
             SelectedPage = 1;
 
             #region commands
@@ -138,10 +143,11 @@ namespace crm.ViewModels.tabs.home.screens
             });
 
             prevPageCmd = ReactiveCommand.CreateFromTask(async () =>
-            {
+            {                   
                 SelectedPage--;
                 try
                 {
+                    //Users.Clear();
                     await updatePageInfo(SelectedPage, PageSize);
                 } catch (Exception ex)
                 {
@@ -150,16 +156,28 @@ namespace crm.ViewModels.tabs.home.screens
             });
 
             nextPageCmd = ReactiveCommand.CreateFromTask(async () =>
-            {
+            {                
                 SelectedPage++;
                 try
                 {
+                    //Users.Clear();
                     await updatePageInfo(SelectedPage, PageSize);
                 } catch (Exception ex)
                 {
                     ws.ShowDialog(new errMsgVM(ex.Message));
                 }
             });
+
+            //Task.Run(async () =>
+            //{
+            //    while (true)
+            //    {
+            //        await updatePageInfo(SelectedPage, PageSize);
+            //        Thread.Sleep(10000);
+                
+
+            //    }
+            //});
             #endregion
         }
 
@@ -170,6 +188,9 @@ namespace crm.ViewModels.tabs.home.screens
             return $"{(page - 1) * displayed_lines_num + 1}-{p} из {total_users}";
         }
 
+        bool isRunning { get; set; }
+        int storePage;
+
         async Task updatePageInfo(int page, int pagesize)
         {
 #if OFFLINE
@@ -178,56 +199,43 @@ namespace crm.ViewModels.tabs.home.screens
             Users.Add(new UserItemTest(AppContext) { FullName = "Петров Петр Петрович" });
 #elif ONLINE
 
-            List<User> users;
-            int total_users;
-            //sckApi.ReceivedUsersDatesEvent -= SckApi_ReceivedUsersDatesEvent;
-            (users, TotalPages, total_users) = await srvApi.GetUsers(page - 1, pagesize, token);
-            //sckApi.ReceivedUsersDatesEvent += SckApi_ReceivedUsersDatesEvent;
+            await Task.Run(async () =>
+            {            
+                
+                List<User> users;
+                int total_users;
 
-            PageInfo = getPageInfo(page, users.Count, total_users);
+                (users, TotalPages, total_users) = await srvApi.GetUsers(page - 1, pagesize, token);
 
+                PageInfo = getPageInfo(page, users.Count, total_users);
 
-            List<UserListItem> tmpList = new();
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
 
-            foreach (var user in users)
-            {
-                var tmp = new UserListItem(AppContext);
-                tmp.Copy(user);
-                tmpList.Add(tmp);
-            }
+                    if (storePage != page)
+                        Users.Clear();
 
-            Users = new ObservableCollection<UserListItem>(tmpList);
-            //Debug.WriteLine("1");
-            //sckApi.RequestConnectedUsers();
-            //Debug.WriteLine("2");
+                    storePage = page;
 
+                    foreach (var user in users)
+                    {                 
+                        var found = Users.FirstOrDefault(u => u.Id.Equals(user.Id));
+                        if (found != null)
+                        {
+                            found.Copy(user);
+                        } else
+                        {
+                            var tmp = new UserListItem(AppContext);
+                            tmp.Copy(user);
+                            Users.Add(tmp);
+                        }
+                    }
+                });
 
-            //await Task.Run(async () =>
-            //{
-            //    List<User> users;
-            //    int total_users;
+            });
 
-            //    await Dispatcher.UIThread.InvokeAsync(() =>
-            //    {
-            //        Users.Clear();
-            //    });
+            sckApi.RequestConnectedUsers();
 
-            //    (users, TotalPages, total_users) = await srvApi.GetUsers(page - 1, pagesize, token);
-
-            //    PageInfo = getPageInfo(page, users.Count, total_users);
-
-            //    foreach (var user in users)
-            //    {
-            //        var tmp = new UserListItem(AppContext);
-            //        tmp.Copy(user);
-
-            //        await Dispatcher.UIThread.InvokeAsync(() =>
-            //        {
-            //            Users.Add(tmp);
-            //        });
-            //    }
-
-            //});
 #endif
         }
         #endregion
@@ -247,28 +255,9 @@ namespace crm.ViewModels.tabs.home.screens
                 ws.ShowDialog(new errMsgVM(ex.Message));
             }
 
-        }
-
-        private void SckApi_ReceivedUsersDatesEvent(usersDatesDTO dates)
-        {
-            Debug.WriteLine("3");
-            BaseUser user = Users?.FirstOrDefault(u => u.Id.Equals(dates.user_id));
-            if (user != null)
-            {
-                user.LastLoginDate = dates.last_login_date;
-                user.LastEventDate = dates.last_event_date;
-            }
-        }
-
-        public override void OnDeactivate()
-        {
-            sckApi.ReceivedConnectedUsersEvent -= SckApi_ReceivedConnectedUsersEvent;
-            //sckApi.ReceivedUsersDatesEvent -= SckApi_ReceivedUsersDatesEvent;
-            base.OnDeactivate();
-        }
+        }       
         #endregion
-
-        int cntr = 0;
+        
         #region callbacks
         private void SckApi_ReceivedConnectedUsersEvent(List<usersOnlineDTO> connectedUsers)
         {
@@ -283,8 +272,23 @@ namespace crm.ViewModels.tabs.home.screens
             } catch (Exception ex) {
                 Debug.WriteLine(ex.Message);
             }
+        }
 
-            Debug.WriteLine(cntr++);
+        private void SckApi_ReceivedUsersDatesEvent(usersDatesDTO dates)
+        {
+            BaseUser user = Users?.FirstOrDefault(u => u.Id.Equals(dates.user_id));
+            if (user != null)
+            {
+                user.LastLoginDate = dates.last_login_date;
+                user.LastEventDate = dates.last_event_date;
+            }
+        }
+
+        public override void OnDeactivate()
+        {
+            //sckApi.ReceivedConnectedUsersEvent -= SckApi_ReceivedConnectedUsersEvent;
+            //sckApi.ReceivedUsersDatesEvent -= SckApi_ReceivedUsersDatesEvent;
+            base.OnDeactivate();            
         }
         #endregion
     }

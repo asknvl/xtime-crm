@@ -102,8 +102,8 @@ namespace crm.WS
             wnd.Closed += (s, e) =>
             {
 
-                ((MainWindow)main).overlayGrid.IsVisible = false;
-                //main.IsEnabled = true;
+                //((MainWindow)main).overlayGrid.IsVisible = false;
+                main.IsEnabled = true;
 
             };
             vm.onCloseRequest += () =>
@@ -111,8 +111,8 @@ namespace crm.WS
                 wnd.Close();
                 windowList.Remove(wnd);
             };
-            ((MainWindow)main).overlayGrid.IsVisible = true;
-            //main.IsEnabled = false;
+            //((MainWindow)main).overlayGrid.IsVisible = true;
+            main.IsEnabled = false;
             wnd.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             wnd.Show(main);
         }
