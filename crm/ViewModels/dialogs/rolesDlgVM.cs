@@ -83,7 +83,13 @@ namespace crm.ViewModels.dialogs
                 try
                 {
                     clipboard.SetText(newtoken);
-                } catch { }
+
+                    appcontext.BottomPopup.Show("Токен скопирован");
+
+                } catch { 
+                }
+
+
 
             });
             #endregion

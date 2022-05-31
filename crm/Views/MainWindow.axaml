@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:cust="using:crm.Views.custom"
 		xmlns:tabview="using:crm.Views.tabs"
-		xmlns:tabvms="using:crm.ViewModels.tabs"				
+		xmlns:tabvms="using:crm.ViewModels.tabs"
 		xmlns:material="using:Material.Icons.Avalonia"
 		xmlns:scrnvm="using:crm.ViewModels.tabs.home.screens.users"
 		xmlns:scrnview="using:crm.Views.tabs.home.screens.users"
 		xmlns:controls="using:crm.Views.tabs.home.controls"
+		xmlns:converters="using:crm.Views.converters"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="crm.Views.MainWindow"		
+        x:Class="crm.Views.MainWindow"
 		ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="NoChrome"
 		WindowState="{Binding WindowState}"
@@ -20,11 +21,11 @@
 		Icon="/Assets/icon.ico"
 		Name="mainWindow">
 
-    <Design.DataContext>
-        <vm:mainVM/>
-    </Design.DataContext>
+	<Design.DataContext>
+		<vm:mainVM/>
+	</Design.DataContext>
 
-	<Window.Styles>		
+	<Window.Styles>
 		<Style Selector="TextBlock">
 			<Setter Property="FontFamily" Value="/Assets/fonts/Inter/Inter.ttf#Inter"/>
 		</Style>
@@ -32,33 +33,33 @@
 			<Setter Property="FontFamily" Value="/Assets/fonts/Inter/Inter.ttf#Inter"/>
 		</Style>
 		<Style Selector="TextBox">
-			<Setter Property="FontFamily" Value="/Assets/fonts/Inter/Inter.ttf#Inter"/>			
+			<Setter Property="FontFamily" Value="/Assets/fonts/Inter/Inter.ttf#Inter"/>
 		</Style>
 		<Style Selector="Button /template/ ContentPresenter#PART_ContentPresenter">
-			<Setter Property="TextBlock.FontFamily" Value="/Assets/fonts/Inter/Inter.ttf#Inter"/>			
+			<Setter Property="TextBlock.FontFamily" Value="/Assets/fonts/Inter/Inter.ttf#Inter"/>
 		</Style>
-		
-		
+
+
 		<Style Selector="Button.Semaphore">
-			<Setter Property="CornerRadius" Value="50"/>			
-			<Setter Property="Background" Value="Transparent"/>			
+			<Setter Property="CornerRadius" Value="50"/>
+			<Setter Property="Background" Value="Transparent"/>
 		</Style>
 		<Style Selector="Button.Semaphore /template/ ContentPresenter#PART_ContentPresenter">
 			<Setter Property="HorizontalContentAlignment" Value="Center"/>
 			<Setter Property="VerticalContentAlignment" Value="Center"/>
 			<Setter Property="Padding" Value="0"/>
 			<Setter Property="Margin" Value="0"/>
-		</Style>		
-		<Style Selector="Button.Icon /template/ ContentPresenter#PART_ContentPresenter">			
-			<Setter Property="Background" Value="Transparent"/>			
+		</Style>
+		<Style Selector="Button.Icon /template/ ContentPresenter#PART_ContentPresenter">
+			<Setter Property="Background" Value="Transparent"/>
 			<Setter Property="CornerRadius" Value="0"/>
 			<Setter Property="TextBlock.Foreground" Value="{DynamicResource TopPanelControlForeground}"/>
-		</Style>		
+		</Style>
 		<Style Selector="Button.Icon:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-			<Setter Property="Background" Value="{DynamicResource TopPanelControlBackgroundPointerOver}"/>			
+			<Setter Property="Background" Value="{DynamicResource TopPanelControlBackgroundPointerOver}"/>
 			<Setter Property="TextBlock.Foreground" Value="{DynamicResource TopPanelControlForegroundPointerOver}"/>
-			<Setter Property="BorderBrush" Value="Transparent" />			
-		</Style>	
+			<Setter Property="BorderBrush" Value="Transparent" />
+		</Style>
 		<Style Selector="Button.Icon:disabled /template/ ContentPresenter#PART_ContentPresenter">
 			<Setter Property="Background" Value="Transparent"/>
 		</Style>
@@ -71,17 +72,17 @@
 			<Setter Property="Background" Value="{DynamicResource TopPanelInActiveColor}"/>
 		</Style>
 		<Style Selector="Grid#DOTS:pointerover Button#b1 Svg">
-			<Setter Property="Path" Value="/Assets/svgs/window/close.svg"/>			
+			<Setter Property="Path" Value="/Assets/svgs/window/close.svg"/>
 		</Style>
 		<Style Selector="Grid#DOTS:not(:pointerover) Button#b1 Svg">
-			<Setter Property="Path" Value="/Assets/svgs/window/empty.svg"/>			
+			<Setter Property="Path" Value="/Assets/svgs/window/empty.svg"/>
 		</Style>
 		<Style Selector="Grid#DOTS:pointerover Button#b2 Svg">
 			<Setter Property="Path" Value="/Assets/svgs/window/curtail.svg"/>
 		</Style>
 		<Style Selector="Grid#DOTS:not(:pointerover) Button#b2 Svg">
 			<Setter Property="Path" Value="/Assets/svgs/window/empty.svg"/>
-		</Style>		
+		</Style>
 		<Style Selector="Grid#DOTS:pointerover Button#b3 Svg">
 			<Setter Property="Path" Value="/Assets/svgs/window/expand_max.svg"/>
 		</Style>
@@ -142,7 +143,7 @@
 	</Window.Styles>
 	<Grid>
 		<Grid RowDefinitions="45, Auto, *">
-			<Grid Name="TOP" Grid.Row="0" ColumnDefinitions="Auto, *, Auto">			
+			<Grid Name="TOP" Grid.Row="0" ColumnDefinitions="Auto, *, Auto">
 				<Grid Name="DOTS" Grid.Column="0" ColumnDefinitions="Auto, Auto, Auto, Auto" VerticalAlignment="Stretch" Background="Transparent" Margin="10">
 					<Button
 						Name="b1"
@@ -152,7 +153,7 @@
 						Height="16"
 						Width="16"
 						Margin="5">
-						<Svg>							
+						<Svg>
 						</Svg>
 					</Button>
 					<Button Name="b2"
@@ -162,8 +163,8 @@
 							Height="16"
 							Width="16"
 							Margin="5">
-							<Svg>
-							</Svg>
+						<Svg>
+						</Svg>
 					</Button>
 					<Button
 						Name="b3"
@@ -175,21 +176,21 @@
 						Margin="5">
 						<Svg>
 						</Svg>
-					</Button>				
-				</Grid>				
-				<ListBox Grid.Column="1" 
-						 Items="{Binding TabsList}" 
-						 SelectedItem="{Binding Content}" 
-						 Background="Transparent" 
-						 Foreground="White" 
-						 VerticalAlignment="Stretch">								
+					</Button>
+				</Grid>
+				<ListBox Grid.Column="1"
+						 Items="{Binding TabsList}"
+						 SelectedItem="{Binding Content}"
+						 Background="Transparent"
+						 Foreground="White"
+						 VerticalAlignment="Stretch">
 					<ListBox.ItemsPanel>
 						<ItemsPanelTemplate>
 							<StackPanel Orientation="Horizontal"/>
 						</ItemsPanelTemplate>
 					</ListBox.ItemsPanel>
-					<ListBox.Styles>					
-						<Style Selector="ListBoxItem:selected /template/ ContentPresenter">						
+					<ListBox.Styles>
+						<Style Selector="ListBoxItem:selected /template/ ContentPresenter">
 							<Setter Property="TextBlock.Foreground" Value="{DynamicResource TopPanelControlForegroundSelected}"/>
 							<Setter Property="TextBlock.Background" Value="{DynamicResource TopPanelControlBackgroundSelected}"/>
 						</Style>
@@ -200,8 +201,8 @@
 						<Style Selector="ListBoxItem:disabled /template/ ContentPresenter#PART_ContentPresenter">
 							<Setter Property="TextBlock.Foreground" Value="{DynamicResource TopPanelControlForegroundDisabled}" />
 						</Style>
-						<Style Selector="ListBoxItem">						
-							<Setter Property="TextBlock.Foreground" Value="{DynamicResource TopPanelControlForeground}"/>						
+						<Style Selector="ListBoxItem">
+							<Setter Property="TextBlock.Foreground" Value="{DynamicResource TopPanelControlForeground}"/>
 							<Setter Property="Padding" Value="15, 0, 15, 0"/>
 						</Style>
 					</ListBox.Styles>
@@ -222,15 +223,15 @@
 							<Grid VerticalAlignment="Stretch" Margin="2, 0, 0,-4" IsEnabled="False">
 								<ContentControl>
 									<material:MaterialIconExt Kind="Home" Size="22"/>
-								</ContentControl>								
+								</ContentControl>
 							</Grid>
-						</DataTemplate>						
-					</ListBox.DataTemplates>				
+						</DataTemplate>
+					</ListBox.DataTemplates>
 				</ListBox>
-				<Grid 
+				<Grid
 					Grid.Column="2"
 					ColumnDefinitions="Auto, Auto"
-					Margin="0, 0, 15, 0">					
+					Margin="0, 0, 15, 0">
 					<TextBlock
 						Grid.Column="0"
 						VerticalAlignment="Center"
@@ -255,58 +256,58 @@
 				IsVisible="{Binding IsUserMenuVisible}"
 				Background="{DynamicResource TopPanelActiveColor}"
 				ColumnDefinitions="276, *, Auto">
-					<Grid
-						Grid.Column="0"
-						ColumnDefinitions="5*, 1*"
-						Background="{DynamicResource HomeTabPrimaryHeaderBackground}"
+				<Grid
+					Grid.Column="0"
+					ColumnDefinitions="5*, 1*"
+					Background="{DynamicResource HomeTabPrimaryHeaderBackground}"
 						>
-						<StackPanel
-							Grid.Column="0"
-							Margin="30, 0, 0, 0"
-							VerticalAlignment="Center"
-							HorizontalAlignment="Center">
-							<TextBlock
-								Foreground="{DynamicResource HomeTabPrimaryTextForeground}"
-								FontSize="12">
-								<TextBlock.Text>
-									<MultiBinding StringFormat="{}{0} {1}">
-										<Binding Path="User.FirstName"/>
-										<Binding Path="User.LastName"/>
-									</MultiBinding>
-								</TextBlock.Text>
-							</TextBlock>
-							<TextBlock
-								Text="{Binding User.Email}"
-								Foreground="{DynamicResource HomeTabSecondaryTextForeground}"
-								FontSize="12">
-							</TextBlock>
-						</StackPanel>
-						<Separator
-							IsVisible="{Binding IsStripVisible}"
-							BorderBrush="{DynamicResource TopPanelActiveColor}"
-							BorderThickness="0, 0, 1, 0"/>
-					</Grid>
+					<StackPanel
+						Grid.Column="0"
+						Margin="30, 0, 0, 0"
+						VerticalAlignment="Center"
+						HorizontalAlignment="Center">
+						<TextBlock
+							Foreground="{DynamicResource HomeTabPrimaryTextForeground}"
+							FontSize="12">
+							<TextBlock.Text>
+								<MultiBinding StringFormat="{}{0} {1}">
+									<Binding Path="User.FirstName"/>
+									<Binding Path="User.LastName"/>
+								</MultiBinding>
+							</TextBlock.Text>
+						</TextBlock>
+						<TextBlock
+							Text="{Binding User.Email}"
+							Foreground="{DynamicResource HomeTabSecondaryTextForeground}"
+							FontSize="12">
+						</TextBlock>
+					</StackPanel>
+					<Separator
+						IsVisible="{Binding IsStripVisible}"
+						BorderBrush="{DynamicResource TopPanelActiveColor}"
+						BorderThickness="0, 0, 1, 0"/>
+				</Grid>
 				<Grid
 					Grid.Column="1"
 					Background="{DynamicResource HomeTabPrimaryHeaderBackground}">
 				</Grid>
-				<Grid					
+				<Grid
 					Grid.Column="2"
 					Name="profileGrid"
 					Background="{DynamicResource HomeTabPrimaryHeaderBackground}"
 					Width="200">
 					<Grid
 						HorizontalAlignment="Right">
-						<ToggleButton							
+						<ToggleButton
 							Height="50"
 							Width="50"
 							CornerRadius="0"
-							BorderThickness="0"		
+							BorderThickness="0"
 							Margin="-140, 0, 0, 0">
 							<Svg
 								Height="15"
 								Width="15"
-								Name="PART_Bell">								
+								Name="PART_Bell">
 							</Svg>
 							<ToggleButton.Styles>
 								<Style Selector="ToggleButton[IsChecked=True] Svg#PART_Bell">
@@ -331,13 +332,13 @@
 								</Style>
 							</controls:InitialLetter.Styles>
 						</controls:InitialLetter>
-						<Button							
+						<Button
 							Grid.Column="2"
 							Command="{Binding profileMenuOpenCmd}"
 							HorizontalAlignment="Right"
 							Margin="-80, 0, 0, 0"
-							Classes="Button ArrowDown">							
-							<Grid								
+							Classes="Button ArrowDown">
+							<Grid
 								Grid.Column="2">
 								<material:MaterialIconExt
 									Kind="ChevronDown"
@@ -357,9 +358,9 @@
 				</Grid>
 			</Grid>
 
-			<Grid Grid.Row="2">			
+			<Grid Grid.Row="2">
 				<Grid.DataTemplates>
-					<DataTemplate DataType="{x:Type tabvms:loginVM}">					
+					<DataTemplate DataType="{x:Type tabvms:loginVM}">
 						<tabview:loginTab/>
 					</DataTemplate>
 					<DataTemplate DataType="{x:Type tabvms:tokenVM}">
@@ -383,13 +384,15 @@
 					</DataTemplate>
 				</Grid.DataTemplates>
 				<ContentControl Content="{Binding Content}"/>
-			</Grid>		
+			</Grid>
 		</Grid>
-		<Grid Name="OverlayGrid" Background="Gray" Opacity="0.7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">			
+		<Grid Name="OverlayGrid" Background="Gray" Opacity="0.7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 		</Grid>
 
-		<!--<Grid Name="Popup"			  			  			  
-			  IsVisible="{Binding #popup.IsChecked}"
+		<Grid Name="Popup"
+			  Height="40"
+			  IsVisible="{Binding bottomPopup.IsVisible}"
+			  Opacity="{Binding bottomPopup.Opacity}"			  			  
 			  VerticalAlignment="Bottom"
 			  Margin="0, 0, 0, 50"
 			  HorizontalAlignment="Center">
@@ -398,46 +401,18 @@
 				CornerRadius="5"
 				Padding="10">
 				<TextBlock
-					Text="PopupText"
+					Text="{Binding bottomPopup.Text}"
+					VerticalAlignment="Center"
+					HorizontalAlignment="Center"
 					Foreground="White"
-					FontSize="12">					
+					FontSize="12">
 				</TextBlock>
 			</Border>
-			<Grid.Styles>
-				
-				<Style Selector="Grid[IsVisible=True]">					
-					<Style.Animations>
-						<Animation Duration="0:0:1">
-							<KeyFrame Cue="0%">
-								<Setter Property="Opacity" Value="0.0"/>
-							</KeyFrame>
-							<KeyFrame Cue="100%">
-								<Setter Property="Opacity" Value="1.0"/>
-							</KeyFrame>
-						</Animation>
-					</Style.Animations>
-				</Style>
-				<Style Selector="Grid[IsVisible=False]">
-					<Style.Animations>
-						<Animation Duration="0:0:1">
-							<KeyFrame Cue="0%">
-								<Setter Property="Opacity" Value="1.0"/>
-							</KeyFrame>
-							<KeyFrame Cue="100%">
-								<Setter Property="Opacity" Value="0.0"/>
-							</KeyFrame>
-						</Animation>
-					</Style.Animations>
-				</Style>				
-			</Grid.Styles>
+			<Grid.Transitions>
+				<Transitions>
+					<DoubleTransition Property="Opacity" Duration="0:0:1"/>
+				</Transitions>
+			</Grid.Transitions>			
 		</Grid>
-
-
-
-		<ToggleButton
-			Name="popup">
-			123
-		</ToggleButton>-->
-		
 	</Grid>
 </Window>

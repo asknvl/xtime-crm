@@ -102,7 +102,7 @@ namespace crm.WS
             wnd.Closed += (s, e) =>
             {
 
-                //((MainWindow)main).overlayGrid.IsVisible = false;
+                //((MainWindow)main).overlayGrid.IsVisible = false;            
                 main.IsEnabled = true;
 
             };
@@ -112,7 +112,8 @@ namespace crm.WS
                 windowList.Remove(wnd);
             };
             //((MainWindow)main).overlayGrid.IsVisible = true;
-            main.IsEnabled = false;
+            //main.IsEnabled = false;
+            
             wnd.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             wnd.Show(main);
         }

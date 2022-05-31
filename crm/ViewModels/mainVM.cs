@@ -3,6 +3,7 @@ using crm.Models.api.server;
 using crm.Models.api.socket;
 using crm.Models.appcontext;
 using crm.Models.user;
+using crm.ViewModels.popups;
 using crm.ViewModels.tabs;
 using crm.ViewModels.tabs.home.screens.users;
 using crm.ViewModels.tabs.tabservice;
@@ -79,12 +80,14 @@ namespace crm.ViewModels
         public ReactiveCommand<Unit, Unit> profileMenuOpenCmd { get; }
         public ReactiveCommand<Unit, Unit> editUserCmd { get; }
         public ReactiveCommand<Unit, Unit> quitCmd { get; }
+        public ReactiveCommand<Unit, Unit> testCmd { get; }
         #endregion
         public mainVM()
         {
 
             #region dependencies
             ApplicationContext AppContext = new ApplicationContext();
+            AppContext.BottomPopup = bottomPopup;
 #if DEBUG
             AppContext.ServerApi = new ServerApi("http://136.243.74.153:4000");
             AppContext.SocketApi = new SocketApi("http://136.243.74.153:4000");
@@ -153,6 +156,10 @@ namespace crm.ViewModels
                 loginTab.Show();
                 IsUserMenuVisible = false;
                 IsProfileMenuOpen = false;
+            });
+
+            testCmd = ReactiveCommand.Create(() => {
+                AppContext.BottomPopup.Show("Test popup");                            
             });
 
             TabShownEvent += MainVM_TabShownEvent;
@@ -227,8 +234,7 @@ namespace crm.ViewModels
         #endregion
 
         #region tabservice
-        public ObservableCollection<Tab> TabsList { get; set; } = new ObservableCollection<Tab>();
-        bool needRefresh { get; set; } = true;        
+        public ObservableCollection<Tab> TabsList { get; set; } = new ObservableCollection<Tab>();       
 
         object? content;
         public object? Content
@@ -239,12 +245,7 @@ namespace crm.ViewModels
                 ((Tab)content)?.OnDeactivate();
                 this.RaiseAndSetIfChanged(ref content, value);
                 ((Tab)content)?.OnActivate();
-
-                TabShownEvent?.Invoke((Tab)content);
-                //if (needRefresh)
-                //{
-                //    ((Tab)content)?.Refresh();
-                //}
+                TabShownEvent?.Invoke((Tab)content);                
             }
         }
 
@@ -257,8 +258,7 @@ namespace crm.ViewModels
 
         public void ShowTab(Tab tab)
         {
-            var fTab = TabsList.FirstOrDefault(t => t.Title.Equals(tab.Title));
-            needRefresh = false;
+            var fTab = TabsList.FirstOrDefault(t => t.Title.Equals(tab.Title));            
 
             if (fTab == null)
             {
@@ -274,8 +274,6 @@ namespace crm.ViewModels
             {
                 Content = fTab;
             }
-
-            needRefresh = true;
 
             //if (tab is homeVM)
             //    TabsList.Insert(0, tab);
@@ -309,6 +307,10 @@ namespace crm.ViewModels
         }
 
         public event Action<Tab> TabShownEvent;
+        #endregion
+
+        #region bottom popup service
+        public BottomPopup bottomPopup { get; } = new();
         #endregion
 
     }
