@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="2800" d:DesignHeight="450"
+			 xmlns:behaviors="using:crm.Views.behaviors"
 			 xmlns:conv="using:crm.Views.converters"
 			 xmlns:vm="using:crm.ViewModels.tabs.home.screens.users"
              x:Class="crm.Views.tabs.home.screens.userListItem">
@@ -74,9 +75,12 @@
 			Height="10"
 			Grid.Column="3">
 		</Svg>
-		<TextBlock
+		<TextBlock			
 			Text="{Binding LastEventDate}"
-			Grid.Column="4">
+				Grid.Column="4">
+			<Interaction.Behaviors>
+				<behaviors:TextBlockClickBehavior Command="{Binding copyCmd}" CommandParameter="{Binding LastEventDate}"/>
+			</Interaction.Behaviors>
 		</TextBlock>
 		<TextBlock
 			Text="{Binding LastLoginDate}"

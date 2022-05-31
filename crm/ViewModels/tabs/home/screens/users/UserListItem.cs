@@ -42,6 +42,7 @@ namespace crm.ViewModels.tabs.home.screens.users
         public ReactiveCommand<Unit, Unit> showTagsCmd { get; }
         public ReactiveCommand<Unit, Unit> editUserCmd { get; }
         public ReactiveCommand<Unit, Unit> openTelegram { get; set; }
+        public ReactiveCommand<string, Unit> copyCmd { get; set; }
         #endregion
 
         public UserListItem(ApplicationContext appcontext)
@@ -63,6 +64,12 @@ namespace crm.ViewModels.tabs.home.screens.users
                     FileName = $"tg://resolve?domain={Telegram.Replace("@", "")}",
                     UseShellExecute = true
                 });
+            });
+
+            copyCmd = ReactiveCommand.Create<string>((o) => {
+
+                Debug.WriteLine(o);
+            
             });
             #endregion
         }

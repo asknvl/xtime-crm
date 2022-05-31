@@ -333,6 +333,7 @@
 							</controls:InitialLetter.Styles>
 						</controls:InitialLetter>
 						<Button
+							Background="Yellow"
 							Grid.Column="2"
 							Command="{Binding profileMenuOpenCmd}"
 							HorizontalAlignment="Right"
