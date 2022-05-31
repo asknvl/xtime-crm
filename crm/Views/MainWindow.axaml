@@ -15,7 +15,6 @@
         x:Class="crm.Views.MainWindow"
 		ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="NoChrome"
-		WindowState="{Binding WindowState}"
         ExtendClientAreaTitleBarHeightHint="-1"
 		Title="XTime CRM"
 		Icon="/Assets/icon.ico"
@@ -142,6 +141,7 @@
 		</Style>
 	</Window.Styles>
 	<Grid>
+		
 		<Grid RowDefinitions="45, Auto, *">
 			<Grid Name="TOP" Grid.Row="0" ColumnDefinitions="Auto, *, Auto">
 				<Grid Name="DOTS" Grid.Column="0" ColumnDefinitions="Auto, Auto, Auto, Auto" VerticalAlignment="Stretch" Background="Transparent" Margin="10">
@@ -387,6 +387,7 @@
 				<ContentControl Content="{Binding Content}"/>
 			</Grid>
 		</Grid>
+		
 		<Grid Name="OverlayGrid" Background="Gray" Opacity="0.7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 		</Grid>
 
