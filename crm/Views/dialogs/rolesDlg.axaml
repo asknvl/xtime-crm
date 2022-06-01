@@ -6,9 +6,7 @@
 		Height="250" Width="500" WindowStartupLocation="CenterOwner"	
 		xmlns:vm="using:crm.ViewModels.dialogs"
         x:Class="crm.Views.dialogs.rolesDlg"  
-		ShowInTaskbar="False"
-		ShowActivated="True"		
-		Topmost="True"		
+				
 		TransparencyLevelHint="Blur"
 		ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="NoChrome"				

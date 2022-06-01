@@ -12,10 +12,13 @@
 		xmlns:controls="using:crm.Views.tabs.home.controls"
 		xmlns:converters="using:crm.Views.converters"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		Width="1280"
+		Height="720"
         x:Class="crm.Views.MainWindow"
 		ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaTitleBarHeightHint="-1"
+		ShowActivated="True"
 		Title="XTime CRM"
 		Icon="/Assets/icon.ico"								
 		WindowState="{Binding WindowState}"
@@ -251,7 +254,7 @@
 					</TextBlock>
 				</Grid>
 			</Grid>
-			<Grid
+			<Grid				
 				Grid.Row="1"
 				Height="50"
 				IsVisible="{Binding IsUserMenuVisible}"
@@ -360,7 +363,9 @@
 				</Grid>
 			</Grid>
 
-			<Grid Grid.Row="2">
+			<Grid
+				Name="Grid_WorkArea"				
+				Grid.Row="2">
 				<Grid.DataTemplates>
 					<DataTemplate DataType="{x:Type tabvms:loginVM}">
 						<tabview:loginTab/>

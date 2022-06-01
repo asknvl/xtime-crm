@@ -1,10 +1,13 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace crm.Views.dialogs
 {
@@ -14,7 +17,6 @@ namespace crm.Views.dialogs
         public tagsDlg()
         {
             InitializeComponent();
-
             this.Deactivated += TagsDlg_Deactivated;
 
 #if DEBUG
@@ -23,7 +25,9 @@ namespace crm.Views.dialogs
         }
         private void TagsDlg_Deactivated(object? sender, System.EventArgs e)
         {
-            Close();
+            ((Window)sender).Owner?.Activate();
+            ((Window)sender).Owner?.Focus();
+            this.Close();            
         }
 
         private void InitializeComponent()
@@ -33,8 +37,13 @@ namespace crm.Views.dialogs
 
         protected override void OnLostFocus(RoutedEventArgs e)
         {
-            base.OnLostFocus(e);
-            this.Close();
+            //base.OnLostFocus(e);
+            //this.Close();
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+          
         }
 
         protected override void OnKeyDown(KeyEventArgs e)

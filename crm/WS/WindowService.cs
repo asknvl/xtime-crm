@@ -101,11 +101,15 @@ namespace crm.WS
 
             wnd.DataContext = vm;
             windowList.Add(wnd);
+
             wnd.Closed += (s, e) =>
             {
                 //((MainWindow)main).overlayGrid.IsVisible = false;                
-                main.IsEnabled = true;                
-                windowList.Remove(wnd);                         
+                //((MainWindow)main).overlayGrid.IsVisible = false;                
+                //main.IsEnabled = true;                
+                //main.Activate();
+                ((MainWindow)main).Grid_WorkArea.IsEnabled = true;                
+                windowList.Remove(wnd);                
             };
 
             vm.onCloseRequest += () =>
@@ -113,11 +117,15 @@ namespace crm.WS
                 wnd.Close();                
             };
 
-            main.IsEnabled = false;
+            //main.IsEnabled = false;
             //((MainWindow)main).overlayGrid.IsVisible = true;
+            ((MainWindow)main).Grid_WorkArea.IsEnabled =false;                
 
-            wnd.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            wnd.Show(main);
+            wnd.Position = wnd.Position = new PixelPoint( //Нельзя передавать Owner в Show(main) потому что потом не работает закрытие диалога по клику?
+                main.Position.X + (int)((main.Width - wnd.Width) / 2),
+                main.Position.Y + (int)((main.Height - wnd.Height) / 2));
+
+            wnd.Show();
         }
         public void ShowDialog(ViewModelBase vm, ViewModelBase parent)
         {
@@ -129,6 +137,7 @@ namespace crm.WS
             }
 
             wnd.DataContext = vm;
+            
             windowList.Add(wnd);
             wnd.Closed += (s, e) =>
             {             

@@ -15,9 +15,8 @@ namespace crm.Views
         public MainWindow()
         {            
             InitializeComponent();
-
             overlayGrid = this.FindControl<Grid>("OverlayGrid");
-            overlayGrid.IsVisible = false;
+            overlayGrid.IsVisible = false;        
         }
 
         protected override void OnPointerPressed(PointerPressedEventArgs e)
