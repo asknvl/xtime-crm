@@ -22,9 +22,9 @@ namespace crm.Views
 
         protected override void OnPointerPressed(PointerPressedEventArgs e)
         {
-            base.OnPointerPressed(e);
+            base.OnPointerPressed(e);            
             BeginMoveDrag(e);
-        }
+        }     
         
     }
 }

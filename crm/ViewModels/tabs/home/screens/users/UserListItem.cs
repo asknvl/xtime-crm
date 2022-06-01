@@ -48,9 +48,9 @@ namespace crm.ViewModels.tabs.home.screens.users
         public UserListItem(ApplicationContext appcontext)
         {
             #region commands
-            showTagsCmd = ReactiveCommand.Create(() => {
+            showTagsCmd = ReactiveCommand.CreateFromTask(async () => {
                 tagsDlgVM tags = new tagsDlgVM(Roles);
-                ws.ShowDialog(tags);
+                ws.ShowDialog(tags);               
             });
 
             editUserCmd = ReactiveCommand.Create(() => {

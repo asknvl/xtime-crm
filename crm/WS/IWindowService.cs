@@ -1,4 +1,5 @@
-﻿using crm.ViewModels;
+﻿using Avalonia.Controls;
+using crm.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,6 @@ namespace crm.WS
         void ShowDialog(ViewModelBase vm);
         void ShowDialog(ViewModelBase vm, ViewModelBase parent);
         Task<string> ShowFileDialog(string title, ViewModelBase parent);
+        //Task ShowModalWindow(ViewModelBase vm);
     }
 }

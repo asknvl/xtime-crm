@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using crm.ViewModels.dialogs;
 using crm.Views.dialogs;
+using Avalonia.Controls.ApplicationLifetimes;
+using System.Threading;
 
 namespace crm.WS
 {
@@ -101,26 +103,22 @@ namespace crm.WS
             windowList.Add(wnd);
             wnd.Closed += (s, e) =>
             {
-
-              //  ((MainWindow)main).overlayGrid.IsVisible = false;
-               main.IsEnabled = true;
-                main.Focus();
+                //((MainWindow)main).overlayGrid.IsVisible = false;                
+                main.IsEnabled = true;                
+                windowList.Remove(wnd);                         
             };
-
 
             vm.onCloseRequest += () =>
             {
-                wnd.Close();
-                windowList.Remove(wnd);
+                wnd.Close();                
             };
+
             main.IsEnabled = false;
             //((MainWindow)main).overlayGrid.IsVisible = true;
-
 
             wnd.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             wnd.Show(main);
         }
-
         public void ShowDialog(ViewModelBase vm, ViewModelBase parent)
         {
             Window wnd = null;
@@ -163,6 +161,18 @@ namespace crm.WS
             var p = windowList.FirstOrDefault(w => w.DataContext == parent);
             return await dialog.ShowAsync(p);
         }
+
+        //public async Task ShowModalWindow(ViewModelBase vm)
+        //{
+        //    var mainWindow = (Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)
+        //        .Windows[0];
+
+        //    Window window = new tagsDlg();
+        //    window.DataContext = vm;
+
+        //    await window.ShowDialog(mainWindow);
+            
+        //}
 
         private void Wnd_Closed(object? sender, EventArgs e)
         {
