@@ -29,7 +29,7 @@
 			x:Name="PART_NavigationPane"
 			DisplayMode="CompactInline"
 			OpenPaneLength="230"
-			CompactPaneLength="40"
+			CompactPaneLength="40"   			
 			IsPaneOpen="{Binding Menu.IsMenuExpanded, Mode=TwoWay}">
 			<SplitView.Pane>
 				<Border

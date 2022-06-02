@@ -121,6 +121,7 @@ namespace crm.ViewModels
 
             closeCmd = ReactiveCommand.Create(() =>
             {
+                //
                 OnCloseRequest();
             });
 

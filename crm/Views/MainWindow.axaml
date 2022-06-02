@@ -411,7 +411,7 @@
 				</Transitions>
 			</Grid.Transitions>			
 		</Grid>
-
+		
 		<Popup
 			IsOpen="{Binding IsProfileMenuOpen}"
 			WindowManagerAddShadowHint="False"
