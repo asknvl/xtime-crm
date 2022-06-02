@@ -18,6 +18,7 @@
 		<conv:StatusToSvgPathConverter x:Key="statusConverter"/>
 		<conv:UserCheckedToListItemBackgroundConverter x:Key="checkedToItemBackground"/>
 		<conv:IdPadLeftConverter x:Key="padLeftConverter"/>
+		<conv:WalletToShortWalletConverter x:Key="walletConverter"/>
 	</UserControl.Resources>
 	
 	<Grid
@@ -79,24 +80,46 @@
 			Text="{Binding LastEventDate}"
 				Grid.Column="4">
 			<Interaction.Behaviors>
-				<behaviors:TextBlockClickBehavior Command="{Binding copyCmd}" CommandParameter="{Binding LastEventDate}"/>
+				<behaviors:TextBlockClickBehavior
+					Command="{Binding copyCmd}"
+					CommandParameter="{Binding LastEventDate}"/>
 			</Interaction.Behaviors>
 		</TextBlock>
 		<TextBlock
 			Text="{Binding LastLoginDate}"
 			Grid.Column="5">
+			<Interaction.Behaviors>
+				<behaviors:TextBlockClickBehavior
+					Command="{Binding copyCmd}"
+					CommandParameter="{Binding LastLoginDate}"/>
+			</Interaction.Behaviors>
 		</TextBlock>
 		<TextBlock
 			Text="{Binding LastName}"
 			Grid.Column="6">
+			<Interaction.Behaviors>
+				<behaviors:TextBlockClickBehavior
+					Command="{Binding copyCmd}"
+					CommandParameter="{Binding LastName}"/>
+			</Interaction.Behaviors>
 		</TextBlock>
 		<TextBlock
 			Text="{Binding FirstName}"
 			Grid.Column="7">
+			<Interaction.Behaviors>
+				<behaviors:TextBlockClickBehavior
+					Command="{Binding copyCmd}"
+					CommandParameter="{Binding FirstName}"/>
+			</Interaction.Behaviors>
 		</TextBlock>
 		<TextBlock
 			Text="{Binding MiddleName}"
 			Grid.Column="8">
+			<Interaction.Behaviors>
+				<behaviors:TextBlockClickBehavior
+					Command="{Binding copyCmd}"
+					CommandParameter="{Binding MiddleName}"/>
+			</Interaction.Behaviors>
 		</TextBlock>
 		<Button
 			Name="PART_ShowTags"
@@ -114,18 +137,38 @@
 		<TextBlock
 			Text="{Binding Email}"
 			Grid.Column="10">
+			<Interaction.Behaviors>
+				<behaviors:TextBlockClickBehavior
+					Command="{Binding copyCmd}"
+					CommandParameter="{Binding Email}"/>
+			</Interaction.Behaviors>
 		</TextBlock>
 		<TextBlock
 			Text="{Binding BirthDate}"
 			Grid.Column="11">
+			<Interaction.Behaviors>
+				<behaviors:TextBlockClickBehavior
+					Command="{Binding copyCmd}"
+					CommandParameter="{Binding BirthDate}"/>
+			</Interaction.Behaviors>
 		</TextBlock>
 		<TextBlock
 			Text="{Binding PhoneNumber}"
-			Grid.Column="12">			
+			Grid.Column="12">
+			<Interaction.Behaviors>
+				<behaviors:TextBlockClickBehavior
+					Command="{Binding copyCmd}"
+					CommandParameter="{Binding PhoneNumber}"/>
+			</Interaction.Behaviors>
 		</TextBlock>
 		<TextBlock
 			Text="{Binding SocialNetworks[0].Account}"
-			Grid.Column="13">			
+			Grid.Column="13">
+			<Interaction.Behaviors>
+				<behaviors:TextBlockClickBehavior
+					Command="{Binding copyCmd}"
+					CommandParameter="{Binding SocialNetworks[0].Account}"/>
+			</Interaction.Behaviors>
 		</TextBlock>
 		<Button			
 			Command="{Binding openTelegram}"
@@ -133,7 +176,7 @@
 			FontWeight="Normal"
 			VerticalAlignment="Center"
 			HorizontalAlignment="Center"
-			Grid.Column="14">						
+			Grid.Column="14">
 			<TextBlock Text="{Binding Telegram}"/>
 		</Button>
 		<!--<TextBlock
@@ -141,8 +184,13 @@
 			Grid.Column="14">
 		</TextBlock>-->
 		<TextBlock
-			Text="{Binding Wallet}"
+			Text="{Binding Wallet, Converter={StaticResource walletConverter}}"
 			Grid.Column="15">
+			<Interaction.Behaviors>
+				<behaviors:TextBlockClickBehavior
+					Command="{Binding copyCmd}"
+					CommandParameter="{Binding Wallet}"/>
+			</Interaction.Behaviors>
 		</TextBlock>
 		<TextBlock
 			Text="{Binding Devices[0].Name}"

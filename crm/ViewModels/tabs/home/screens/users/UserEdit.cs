@@ -61,7 +61,7 @@ namespace crm.ViewModels.tabs.home.screens.users
         {
             EditActions = new ObservableCollection<BaseScreen>();
 
-            EditActions.Add(new editUserInfo(AppContext, user));
+            EditActions.Add(new editUserInfo(AppContext, new TestUser()));
             EditActions.Add(new editUserDevices(AppContext));
             EditActions.Add(new editUserDocuments(AppContext));
             Content = EditActions[0];
@@ -73,8 +73,6 @@ namespace crm.ViewModels.tabs.home.screens.users
             Task.Run(async () => {
                 this.user = await AppContext.ServerApi.GetUser(user.Id, AppContext.User.Token);
             }).Wait();
-
-
 
             confirmCmd = ReactiveCommand.CreateFromTask(async () => {
                 try

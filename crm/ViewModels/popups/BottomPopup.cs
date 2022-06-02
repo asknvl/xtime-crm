@@ -43,39 +43,35 @@ namespace crm.ViewModels.popups
         public BottomPopup()
         {
             Opacity = 0.0;
+            IsVisible = false;
         }
 
         #region public
         public async void Show(string text)
         {
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
 
-                Text = text;                                
-                Opacity = 1.0;
-                IsVisible = true;
-                Task.Delay(2000).ContinueWith((t) => {
-                    Opacity = 0.0;
-                    Task.Delay(1000).ContinueWith((t) => {
-                        IsVisible = false;
-                    });
+                await Task.Run(() =>
+                {
+                    while (IsVisible) ;
                 });
-               
 
-                //Height = 0;
+                IsVisible = true;
+                Text = text;
+                Opacity = 1.0;
 
-                //Thread.Sleep(1000);
+                await Task.Delay(1000).ContinueWith((t) =>
+                {
+                    Opacity = 0;
+                });
 
-                //Opacity = 0.0;
+                await Task.Delay(200).ContinueWith((t) =>
+                {
+                    IsVisible = false;
+                });
 
-                //await Task.Run(() => {
-                //    Task.Delay(1000);
-                //});
-
-                //Thread.Sleep(1000);
-
-                //IsVisible = false;
             });
         }
         #endregion

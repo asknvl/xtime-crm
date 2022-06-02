@@ -10,7 +10,7 @@
 		xmlns:scrnvm="using:crm.ViewModels.tabs.home.screens.users"
 		xmlns:scrnview="using:crm.Views.tabs.home.screens.users"
 		xmlns:controls="using:crm.Views.tabs.home.controls"
-		xmlns:converters="using:crm.Views.converters"
+		xmlns:conv="using:crm.Views.converters"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 		Width="1280"
 		Height="720"
@@ -27,6 +27,10 @@
 	<Design.DataContext>
 		<vm:mainVM/>
 	</Design.DataContext>
+
+	<Window.Resources>
+		<conv:UserPopupVisibleToArrowButtonBackgroundConverter x:Key="userMenuBackgroundConverter"/>		
+	</Window.Resources>
 
 	<Window.Styles>
 		<Style Selector="TextBlock">
@@ -94,8 +98,7 @@
 		</Style>
 
 		<Style Selector="Button.ArrowDown">
-			<Setter Property="Foreground" Value="{DynamicResource  HomeTabSecondaryTextForeground}"/>
-			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="Foreground" Value="{DynamicResource  HomeTabSecondaryTextForeground}"/>			
 			<Setter Property="FontSize" Value="12"/>
 			<Setter Property="BorderBrush" Value="Transparent" />
 			<Setter Property="BorderThickness" Value="0" />
@@ -108,8 +111,13 @@
 			<Setter Property="Background" Value="Transparent"/>
 			<Setter Property="TextBlock.Foreground" Value="{DynamicResource  HomeTabPrimaryTextForeground}"/>
 		</Style>
+		<Style Selector="Button.ArrowDown:pressed /template/ ContentPresenter#PART_ContentPresenter">
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="TextBlock.Foreground" Value="{DynamicResource  HomeTabPrimaryTextForeground}"/>
+		</Style>
 		<Style Selector="Button.ArrowDown /template/ ContentPresenter#PART_ContentPresenter">
 			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="TextBlock.Foreground" Value="{DynamicResource  HomeTabPrimaryTextForeground}"/>
 		</Style>
 		<!--<Style Selector="Button.ArrowDown">
 			<Setter Property="RenderTransform" Value="none" />
@@ -120,7 +128,7 @@
 			</Setter>
 		</Style>-->
 		<Style Selector="Button.ArrowDown:pressed">
-			<Setter Property="RenderTransform" Value="scale(0.9)" />
+			<Setter Property="RenderTransform" Value="scale(0.99)" />
 		</Style>
 		<Style Selector="Button.PopUpMenuItem Grid">
 			<Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -325,28 +333,52 @@
 								<Style Selector="ToggleButton:checked /template/ ContentPresenter#PART_ContentPresenter">
 									<Setter Property="Background" Value="{DynamicResource TopPanelActiveColor}"/>
 								</Style>
+								<Style Selector="ToggleButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+									<Setter Property="Background" Value="{DynamicResource TopPanelActiveColor}"/>
+								</Style>
 							</ToggleButton.Styles>
 						</ToggleButton>
-						<controls:InitialLetter
+						<!--<controls:InitialLetter
 							Margin="-130, 0, 0, 0">
 							<controls:InitialLetter.Styles>
 								<Style Selector="TextBlock">
 									<Setter Property="Text" Value="{Binding User.FullName[0]}"/>
 								</Style>
 							</controls:InitialLetter.Styles>
-						</controls:InitialLetter>
+						</controls:InitialLetter>-->
 						<Button
-							Background="Yellow"
-							Grid.Column="2"
+							Background="{Binding IsProfileMenuOpen, Converter={StaticResource userMenuBackgroundConverter}}"
+							Margin="-90, 0, 10, 0"
 							Command="{Binding profileMenuOpenCmd}"
-							HorizontalAlignment="Right"
-							Margin="-80, 0, 0, 0"
-							Classes="Button ArrowDown">
-							<Grid>
-								<material:MaterialIconExt
-									Kind="ChevronDown"
-									Size="20"/>								
+							Height="50"	
+							Width="80"
+							CornerRadius="0"	
+							BorderThickness="0"
+							HorizontalAlignment="Right">
+							<Grid
+								HorizontalAlignment="Center"
+								ColumnDefinitions="Auto, Auto">
+								<controls:InitialLetter
+									Grid.Column="0">
+									<controls:InitialLetter.Styles>
+										<Style Selector="TextBlock">
+											<Setter Property="Text" Value="{Binding User.FirstName[0]}"/>
+										</Style>
+									</controls:InitialLetter.Styles>
+								</controls:InitialLetter>
+								<Svg
+									Grid.Column="1"
+									Margin="8, 0, 0, 0"
+									Path="/Assets/svgs/topmenu/arrow_down_top.svg"
+									Height="10"
+									Width="10">
+								</Svg>								
 							</Grid>
+							<Button.Styles>
+								<Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+									<Setter Property="Background" Value="{DynamicResource TopPanelActiveColor}"/>
+								</Style>
+							</Button.Styles>
 						</Button>
 					</Grid>
 				</Grid>
@@ -391,7 +423,7 @@
 			  IsVisible="{Binding bottomPopup.IsVisible}"
 			  Opacity="{Binding bottomPopup.Opacity}"			  			  
 			  VerticalAlignment="Bottom"
-			  Margin="0, 0, 0, 50"
+			  Margin="0, 0, 0, 100"
 			  HorizontalAlignment="Center">
 			<Border
 				Background="#FF2C2C2C"
@@ -407,13 +439,13 @@
 			</Border>
 			<Grid.Transitions>
 				<Transitions>
-					<DoubleTransition Property="Opacity" Duration="0:0:1"/>
+					<DoubleTransition Property="Opacity" Duration="0:0:0.2"/>
 				</Transitions>
 			</Grid.Transitions>			
 		</Grid>
 		
 		<Popup
-			IsOpen="{Binding IsProfileMenuOpen}"
+			IsOpen="{Binding IsProfileMenuOpen, Mode=TwoWay}"
 			WindowManagerAddShadowHint="False"
 			StaysOpen="False"
 			VerticalOffset="7"

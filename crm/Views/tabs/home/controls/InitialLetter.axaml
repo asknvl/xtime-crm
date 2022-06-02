@@ -5,26 +5,22 @@
 			 xmlns:vm="using:crm.ViewModels.tabs"
              mc:Ignorable="d" d:DesignWidth="50" d:DesignHeight="50"
              x:Class="crm.Views.tabs.home.controls.InitialLetter">
-	
+
 	<UserControl.Styles>
 		<StyleInclude Source="/Styles/TabStyles.axaml" />
 	</UserControl.Styles>
-	<Button
-		Classes="Button ArrowDown"
-		HorizontalAlignment="Center"
-		Width="60">
-		<Grid Classes="Button ArrowDown">
-			<Ellipse
-				Fill="Gray"
-				Width="25"
-				Height="25"
-				VerticalAlignment="Center"
-				HorizontalAlignment="Center"/>
-			<TextBlock
-				VerticalAlignment="Center"
-				HorizontalAlignment="Center"
-				Foreground="White">				
-			</TextBlock>
-		</Grid>
-	</Button>
+	<Grid>
+		<Ellipse
+			Fill="Gray"
+			Width="25"
+			Height="25"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Center"/>
+		<TextBlock
+			VerticalAlignment="Center"
+			HorizontalAlignment="Center"
+			Foreground="White">
+		</TextBlock>
+	</Grid>
+
 </UserControl>

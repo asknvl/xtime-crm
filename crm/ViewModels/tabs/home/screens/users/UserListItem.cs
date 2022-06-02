@@ -67,9 +67,8 @@ namespace crm.ViewModels.tabs.home.screens.users
             });
 
             copyCmd = ReactiveCommand.Create<string>((o) => {
-
                 Debug.WriteLine(o);
-            
+                appcontext.BottomPopup.Show("Значение скопировано");
             });
             #endregion
         }

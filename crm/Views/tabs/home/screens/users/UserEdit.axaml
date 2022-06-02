@@ -64,9 +64,9 @@
 						<Setter Property="BorderBrush" Value="#FF464646"/>						
 						<Setter Property="Background" Value="Transparent"/>						
 					</Style>
-					<Style Selector="ListBox ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+					<Style Selector="ListBox ListBoxItem:pointerover:not(:selected) /template/ ContentPresenter#PART_ContentPresenter">
 						<Setter Property="BorderThickness" Value="0, 0, 0, 2"/>
-						<Setter Property="BorderBrush" Value="#FF464646"/>
+						<Setter Property="BorderBrush" Value="Transparent"/>
 						<Setter Property="Background" Value="Transparent"/>
 					</Style>
 				</ListBox.Styles>
