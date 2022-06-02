@@ -216,6 +216,13 @@ namespace crm.ViewModels.tabs.home.screens
                 List<User> users;
                 int total_users;
 
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+
+                    if (storePage != page)
+                        Users.Clear();
+                });
+
                 (users, TotalPages, total_users) = await srvApi.GetUsers(page - 1, pagesize, token);
 
                 PageInfo = getPageInfo(page, users.Count, total_users);
@@ -223,8 +230,8 @@ namespace crm.ViewModels.tabs.home.screens
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
 
-                    if (storePage != page)
-                        Users.Clear();
+                    //if (storePage != page)
+                    //    Users.Clear();
 
                     storePage = page;
 
