@@ -111,14 +111,14 @@
 		<Style Selector="Button.ArrowDown /template/ ContentPresenter#PART_ContentPresenter">
 			<Setter Property="Background" Value="Transparent"/>
 		</Style>
-		<Style Selector="Button.ArrowDown">
+		<!--<Style Selector="Button.ArrowDown">
 			<Setter Property="RenderTransform" Value="none" />
 			<Setter Property="Transitions">
 				<Transitions>
 					<TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
 				</Transitions>
 			</Setter>
-		</Style>
+		</Style>-->
 		<Style Selector="Button.ArrowDown:pressed">
 			<Setter Property="RenderTransform" Value="scale(0.9)" />
 		</Style>
@@ -263,8 +263,7 @@
 				<Grid
 					Grid.Column="0"
 					ColumnDefinitions="5*, 1*"
-					Background="{DynamicResource HomeTabPrimaryHeaderBackground}"
-						>
+					Background="{DynamicResource HomeTabPrimaryHeaderBackground}">
 					<StackPanel
 						Grid.Column="0"
 						Margin="30, 0, 0, 0"
@@ -343,20 +342,10 @@
 							HorizontalAlignment="Right"
 							Margin="-80, 0, 0, 0"
 							Classes="Button ArrowDown">
-							<Grid
-								Grid.Column="2">
+							<Grid>
 								<material:MaterialIconExt
 									Kind="ChevronDown"
-									Size="20"/>
-								<Popup
-									IsOpen="{Binding IsProfileMenuOpen, Mode=TwoWay}"
-									WindowManagerAddShadowHint="False"
-									StaysOpen="False"
-									VerticalOffset="7"
-									HorizontalOffset="-7"
-									PlacementTarget="{Binding ElementName=profileGrid}">
-									<controls:userProfilePopup/>
-								</Popup>
+									Size="20"/>								
 							</Grid>
 						</Button>
 					</Grid>
@@ -422,5 +411,15 @@
 				</Transitions>
 			</Grid.Transitions>			
 		</Grid>
+
+		<Popup
+			IsOpen="{Binding IsProfileMenuOpen}"
+			WindowManagerAddShadowHint="False"
+			StaysOpen="False"
+			VerticalOffset="7"
+			HorizontalOffset="-7"
+			PlacementTarget="{Binding ElementName=profileGrid}">
+			<controls:userProfilePopup/>
+		</Popup>
 	</Grid>
 </Window>
