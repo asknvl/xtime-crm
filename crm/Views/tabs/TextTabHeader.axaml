@@ -9,11 +9,11 @@
 		ColumnDefinitions="*, Auto"
 		VerticalAlignment="Stretch"
 		Background="Transparent">
-		<Grid.ContextMenu>
+		<!--<Grid.ContextMenu>
 			<ContextMenu>
 				<MenuItem Command="{Binding closeCmd}" Header="Закрыть" VerticalAlignment="Center" FontSize="12"/>
 			</ContextMenu>
-		</Grid.ContextMenu>		
+		</Grid.ContextMenu>-->		
 		<TextBlock
 			Grid.Column="0"
 			Text="{Binding Title}"

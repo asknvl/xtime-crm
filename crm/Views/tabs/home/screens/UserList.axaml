@@ -6,6 +6,7 @@
 			 xmlns:conv="using:crm.Views.converters"
 			 xmlns:vm="using:crm.ViewModels.tabs.home.screens"
 			 xmlns:views="using:crm.Views.tabs.home.screens"
+			 xmlns:sys="using:System"
              mc:Ignorable="d" d:DesignWidth="2800" d:DesignHeight="450"
              x:Class="crm.Views.tabs.home.screens.UserList">
 	<Design.DataContext>
@@ -136,69 +137,211 @@
 								StretchDirection="DownOnly"
 								Stretch="Fill"
 								Width="15"
-								Height="15"/>
+								Height="15"/>							
 						</ToggleButton>
-
-						<TextBlock
+						<ToggleButton
+							Name="bID"
+							Command="{Binding sortParameterCmd}"							
+							Classes="ToggleButton CheckSort"							
 							Grid.Column="1">
-							ID
-						</TextBlock>
-						<TextBlock
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#bID.Name"/>
+									<Binding Path="#bID.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								ID
+							</TextBlock>
+						</ToggleButton>
+						<ToggleButton
+							Name="bLitera"
+							Classes="ToggleButton CheckSort"
+							Command="{Binding sortParameterCmd}"							
 							Grid.Column="2">
-							Буква
-						</TextBlock>
-						<TextBlock
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#bLitera.Name"/>
+									<Binding Path="#bLitera.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								Буква
+							</TextBlock>
+						</ToggleButton>
+						<ToggleButton
+							Name="bStatus"
+							Classes="ToggleButton CheckSort"
+							Command="{Binding sortParameterCmd}"							
 							Grid.Column="3">
-							Статус
-						</TextBlock>
-						<TextBlock
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#bStatus.Name"/>
+									<Binding Path="#bStatus.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								Статус
+							</TextBlock>
+						</ToggleButton>
+						<ToggleButton
+							Name="bLastActive"
+							Classes="ToggleButton CheckSort"
+							Command="{Binding sortParameterCmd}"
 							Grid.Column="4">
-							Последняя активность
-						</TextBlock>
-						<TextBlock
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#bLastActive.Name"/>
+									<Binding Path="#bLastActive.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								Последняя активность
+							</TextBlock>
+						</ToggleButton>
+						<ToggleButton
+							Name="bLastLogin"
+							Classes="ToggleButton CheckSort"
+							Command="{Binding sortParameterCmd}"
 							Grid.Column="5">
-							Последний вход
-						</TextBlock>
-						<TextBlock
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#bLastLogin.Name"/>
+									<Binding Path="#bLastLogin.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								Последний вход
+							</TextBlock>
+						</ToggleButton>
+						<ToggleButton
+							Name="bLastName"
+							Classes="ToggleButton CheckSort"
+							Command="{Binding sortParameterCmd}"
 							Grid.Column="6">
-							Фамилия
-						</TextBlock>
-						<TextBlock
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#bLastName.Name"/>
+									<Binding Path="#bLastName.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								Фамилия
+							</TextBlock>
+						</ToggleButton>
+						<ToggleButton
+							Name="bFirstName"
+							Classes="ToggleButton CheckSort"
+							Command="{Binding sortParameterCmd}"
 							Grid.Column="7">
-							Имя
-						</TextBlock>
-						<TextBlock
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#bFirstName.Name"/>
+									<Binding Path="#bFirstName.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								Имя
+							</TextBlock>
+						</ToggleButton>
+						<ToggleButton
+							Name="bMiddleName"
+							Classes="ToggleButton CheckSort"
+							Command="{Binding sortParameterCmd}"
 							Grid.Column="8">
-							Отчество
-						</TextBlock>
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#bMiddleName.Name"/>
+									<Binding Path="#bMiddleName.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								Отчество
+							</TextBlock>
+						</ToggleButton>
 						<TextBlock
 							Grid.Column="9">
 							Роли
 						</TextBlock>
-						<TextBlock
+						<ToggleButton
+							Name="bEmail"
+							Classes="ToggleButton CheckSort"
+							Command="{Binding sortParameterCmd}"
 							Grid.Column="10">
-							E-mail
-						</TextBlock>
-						<TextBlock
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#bEmail.Name"/>
+									<Binding Path="#bEmail.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								E-mail
+							</TextBlock>
+						</ToggleButton>
+						<ToggleButton
+							Name="bBirthDate"
+							Classes="ToggleButton CheckSort"
+							Command="{Binding sortParameterCmd}"
 							Grid.Column="11">
-							Дата рождения
-						</TextBlock>
-						<TextBlock
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#bBirthDate.Name"/>
+									<Binding Path="#bBirthDate.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								Дата рождения
+							</TextBlock>
+						</ToggleButton>
+						<ToggleButton
+							Name="bPhoneNumber"
+							Classes="ToggleButton CheckSort"
+							Command="{Binding sortParameterCmd}"
 							Grid.Column="12">
-							Номер телефона
-						</TextBlock>
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#bPhoneNumber.Name"/>
+									<Binding Path="#bPhoneNumber.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								Номер телефона
+							</TextBlock>
+						</ToggleButton>
 						<TextBlock
 							Grid.Column="13">
 							Соц. сети
 						</TextBlock>
-						<TextBlock
+						<ToggleButton
+							Name="bTelegram"
+							Classes="ToggleButton CheckSort"
+							Command="{Binding sortParameterCmd}"
 							Grid.Column="14">
-							Телеграм
-						</TextBlock>
-						<TextBlock
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#bTelegram.Name"/>
+									<Binding Path="#bTelegram.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								Телеграм
+							</TextBlock>
+						</ToggleButton>
+						<ToggleButton
+							Name="bWallet"
+							Classes="ToggleButton CheckSort"
+							Command="{Binding sortParameterCmd}"
 							Grid.Column="15">
-							USDT TRC20
-						</TextBlock>
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#bWallet.Name"/>
+									<Binding Path="#bWallet.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								USDT TRC20
+							</TextBlock>
+						</ToggleButton>
 						<TextBlock
 							Grid.Column="16">
 							Устройства

@@ -26,10 +26,10 @@
 	  
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>ONLINE</DefineConstants>
+    <DefineConstants>OFFLINE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>ONLINE</DefineConstants>
+    <DefineConstants>OFFLINE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>		  
     <AvaloniaResource Include="Assets\**" />
@@ -77,6 +77,8 @@
     <None Remove="Assets\svgs\leftslidemenu\on.svg" />
     <None Remove="Assets\svgs\leftslidemenu\subscriptions.svg" />
     <None Remove="Assets\svgs\leftslidemenu\vector_d.svg" />
+    <None Remove="Assets\svgs\screens\sort_down.svg" />
+    <None Remove="Assets\svgs\screens\sort_up.svg" />
     <None Remove="Assets\svgs\user.svg" />
     <None Remove="Assets\svgs\window\close.svg" />
     <None Remove="Assets\svgs\window\curtail.svg" />
@@ -158,7 +160,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\svgs\screens\" />
     <Folder Include="Assets\svgs\topmenu\" />
   </ItemGroup>
 </Project>

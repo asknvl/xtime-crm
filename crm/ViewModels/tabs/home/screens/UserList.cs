@@ -116,6 +116,7 @@ namespace crm.ViewModels.tabs.home.screens
         public ReactiveCommand<Unit, Unit> addUserCmd { get; }
         public ReactiveCommand<Unit, Unit> nextPageCmd { get; }
         public ReactiveCommand<Unit, Unit> prevPageCmd { get; }
+        public ReactiveCommand<object, Unit> sortParameterCmd { get; }
         #endregion
 
         public UserList() : base(new ApplicationContext())
@@ -166,6 +167,16 @@ namespace crm.ViewModels.tabs.home.screens
                 {
                     ws.ShowDialog(new errMsgVM(ex.Message));
                 }
+            });
+
+            sortParameterCmd = ReactiveCommand.Create<object>((o) => {
+
+                ReadOnlyCollection<Object> c = o as ReadOnlyCollection<Object>;
+                string name = (string)c[0];
+                bool value = (bool)c[1];
+
+                Debug.WriteLine($"{name}={value}");
+
             });
 
             //Task.Run(async () =>

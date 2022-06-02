@@ -42,12 +42,7 @@
 						<Grid
 							Grid.Row="0">
 							<ScrollViewer>
-								<ItemsPresenter DataContext="{Binding Menu}" Items="{Binding Items}">
-									<ItemsPresenter.ContextMenu>										
-											<ContextMenu>
-												<MenuItem Command="{Binding showInTabCmd}" Header="Закрыть" VerticalAlignment="Center" FontSize="12"/>
-											</ContextMenu>										
-									</ItemsPresenter.ContextMenu>
+								<ItemsPresenter DataContext="{Binding Menu}" Items="{Binding Items}">									
 									<ItemsPresenter.DataTemplates>
 										<DataTemplate DataType="{x:Type menu:SimpleMenuItem}">
 											<ToggleButton
