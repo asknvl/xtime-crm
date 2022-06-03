@@ -61,7 +61,8 @@
 							Text="{Binding Name}"
 							Grid.Column="1"
 							VerticalAlignment="Center"
-							HorizontalAlignment="Center">
+							HorizontalAlignment="Left"
+							Margin="10, 0, 0, 0">
 						</TextBlock>
 					</Grid>
 				</DataTemplate>

@@ -73,6 +73,16 @@
 						</TextBlock>
 					</Grid>
 				</Button>
+
+				<ToggleButton
+					Classes="ToggleButton MassActions">					
+					<Grid>
+						<TextBlock
+							VerticalAlignment="Center">							
+							asd
+						</TextBlock>
+					</Grid>
+				</ToggleButton>
 				<!--<Button Classes="Button Top">
 					<Grid ColumnDefinitions="*, 40">
 						<TextBlock

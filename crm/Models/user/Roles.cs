@@ -31,6 +31,7 @@ namespace crm.Models.user
         public const string creative = "Креативщик";
         public const string media = "Медиа";
         public const string teamlead = "Тим-лид";
+        public const string buyer = "Баер";
         public const string link = "Связка";
         public const string farm = "Фарм";
 

@@ -10,10 +10,11 @@ using System.Linq;
 using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
+using TextCopy;
 
 namespace crm.ViewModels.tabs.home.screens.users
 {
-    public class UserListItem : BaseUser
+    public class UserListItem : BaseUser, ICheckable<UserListItem> 
     {
         #region vars
         IWindowService ws = WindowService.getInstance();
@@ -24,7 +25,11 @@ namespace crm.ViewModels.tabs.home.screens.users
         public bool IsChecked
         {
             get => isChecked;
-            set => this.RaiseAndSetIfChanged(ref isChecked, value);
+            set
+            {
+                this.RaiseAndSetIfChanged(ref isChecked, value);
+                CheckedEvent?.Invoke(this, value);
+            }
         }
 
         bool status;
@@ -32,10 +37,7 @@ namespace crm.ViewModels.tabs.home.screens.users
         {
             get => status;
             set => this.RaiseAndSetIfChanged(ref status, value);
-        }
-
-        public string ShortWallet => (Wallet.Length > 15) ? $"{Wallet.Substring(0, 15)}..." : Wallet;
-        //public string ShortWallet => $"{Wallet}";
+        }        
         #endregion
 
         #region commands
@@ -66,11 +68,14 @@ namespace crm.ViewModels.tabs.home.screens.users
                 });
             });
 
-            copyCmd = ReactiveCommand.Create<string>((o) => {
-                Debug.WriteLine(o);
+            copyCmd = ReactiveCommand.Create<string>((o) => {                
+                Clipboard clipboard = new Clipboard();
+                clipboard.SetText(o);
                 appcontext.BottomPopup.Show("Значение скопировано");
             });
             #endregion
         }
+
+        public event Action<UserListItem, bool> CheckedEvent;
     }
 }

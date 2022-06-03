@@ -1,0 +1,69 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="250"
+		Height="250" Width="500" WindowStartupLocation="CenterOwner"
+		xmlns:vm="using:crm.ViewModels.dialogs"
+        x:Class="crm.Views.dialogs.commentDlg"				
+		TransparencyLevelHint="Blur"
+		ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1">
+	<Design.DataContext>
+		<vm:commentDlgVM/>
+	</Design.DataContext>
+	<Window.Styles>
+		<StyleInclude Source="/Styles/ScreenStyle.axaml"/>
+		<StyleInclude Source="/Styles/UserListStyle.axaml"/>
+	</Window.Styles>
+	<Grid
+		RowDefinitions="Auto, *, Auto">
+		<Grid
+			Height="50"
+			Background="#FFF2F2F2"
+			Grid.Row="0">
+			<TextBlock
+				VerticalAlignment="Center"
+				FontSize="14"
+				FontWeight="Bold"
+				Foreground="#FF000000"
+				Margin="50, 0, 0, 0">
+				Комментарии
+			</TextBlock>
+		</Grid>
+		<TextBox
+			Text="{Binding Text}"
+			Classes="TextBox NoBorderNormal"
+			Grid.Row="1"						
+			TextWrapping="Wrap"			
+			Margin="50, 20, 50, 20">			
+		</TextBox>
+		<StackPanel
+			Grid.Row="2"
+			Margin="0, 0, 0, 20"
+			Orientation="Horizontal"
+			VerticalAlignment="Center"
+			HorizontalAlignment="Center">
+			<Button
+				Command="{Binding cancelCmd}"
+				IsCancel="True"
+				Grid.Row="2"
+				Classes="Button Dialog"
+				Width="150"
+				Margin="0, 0, 10, 0">
+				Отменить
+			</Button>
+			<Button
+				Command="{Binding acceptCmd}"
+				IsEnabled="{Binding IsValidSelection}"
+				IsDefault="True"
+				Grid.Row="2"
+				Classes="Button Dialog"
+				Width="150"
+				Margin="10, 0, 0, 0">
+				Подтвердить
+			</Button>
+		</StackPanel>
+	</Grid>
+</Window>

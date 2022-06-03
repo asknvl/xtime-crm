@@ -44,8 +44,22 @@
 						Grid.Column="0">
 						ФИО
 					</TextBlock>
-					<TextBox
+					<TextBox							
 						Text="{Binding FullName}"
+						Grid.Column="1">
+					</TextBox>
+				</Grid>
+				<Separator BorderBrush="#FFE5E5E5" BorderThickness="0.5"/>
+				<Grid
+					ColumnDefinitions="1*, 2*"
+					Classes="Grid Items">
+					<TextBlock
+						Classes="TextBlock Param"
+						Grid.Column="0">
+						Буква
+					</TextBlock>
+					<TextBox
+						Text="{Binding Litera}"
 						Grid.Column="1">
 					</TextBox>
 				</Grid>
@@ -182,8 +196,9 @@
 									<TextBlock
 										Text="{Binding Name}"
 										Grid.Column="1"
+										Margin="10, 0, 0, 0"
 										VerticalAlignment="Center"
-										HorizontalAlignment="Center">
+										HorizontalAlignment="Left">
 									</TextBlock>
 								</Grid>
 							</DataTemplate>
@@ -234,7 +249,7 @@
 				<Setter Property="FontSize" Value="12"/>
 				<Setter Property="FontWeight" Value="Bold"/>
 				<Setter Property="Margin" Value="0, 1, 0, 0"/>
-			</Style>
+			</Style>			
 			<Style Selector="TextBox">
 				<Setter Property="IsReadOnly" Value="{Binding !IsEditable}"/>
 				<Setter Property="VerticalAlignment" Value="Center"/>

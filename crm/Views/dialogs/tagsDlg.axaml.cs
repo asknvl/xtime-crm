@@ -29,23 +29,10 @@ namespace crm.Views.dialogs
             ((Window)sender).Owner?.Focus();
             this.Close();            
         }
-
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);            
         }
-
-        protected override void OnLostFocus(RoutedEventArgs e)
-        {
-            //base.OnLostFocus(e);
-            //this.Close();
-        }
-
-        protected override void OnClosing(CancelEventArgs e)
-        {
-          
-        }
-
         protected override void OnKeyDown(KeyEventArgs e)
         {
             if (e.Key == Key.Escape)

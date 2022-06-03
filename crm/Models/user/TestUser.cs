@@ -14,6 +14,7 @@ namespace crm.Models.user
             Email = "test@protonmail.com";
             Password = "F123qwe$%^0000";            
             FullName = "Коновалов Алексей Сергеевич";
+            Litera = "XY";
             FirstName = "Алексей";
             MiddleName = "Сергеевич";
             LastName = "Коновалов";

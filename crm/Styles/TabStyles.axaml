@@ -136,12 +136,11 @@
 	<Style Selector="Button.ArrowDown:pressed">
 		<Setter Property="RenderTransform" Value="scale(0.9)" />
 	</Style>
-
+	
 
 	<Style Selector="Button.PopUpMenuItem Grid">
 		<Setter Property="HorizontalAlignment" Value="Stretch"/>
-	</Style>
-				  
+	</Style>				  
 	<Style Selector="Button.PopUpMenuItem">
 		<Setter Property="Background" Value="{DynamicResource HomeTabPrimaryHeaderBackground}"/>		
 		<Setter Property="VerticalAlignment" Value="Center"/>

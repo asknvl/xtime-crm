@@ -21,6 +21,33 @@
 		<Setter Property="FontSize" Value="12"/>
 		<Setter Property="Foreground" Value="#FF464646"/>
 	</Style>
+	<Style Selector="TextBox:not(:pointerover) /template/ Border#PART_BorderElement">
+		<Setter Property="BorderThickness" Value="10"/>
+		<Setter Property="BorderBrush" Value="Transparent"/>
+	</Style>
+	<Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+		<Setter Property="BorderThickness" Value="10"/>
+		<Setter Property="BorderBrush" Value="Transparent"/>
+	</Style>
+	<Style Selector="TextBox DataValidationErrors">
+		<Setter Property="Template" Value="{DynamicResource TooltipDataValidationContentTemplate}"/>
+		<Setter Property="ErrorTemplate" Value="{DynamicResource TooltipDataValidationErrorTemplate}" />
+	</Style>	
+	<Style Selector="TextBox.NoBorderNormal">		
+		<Setter Property="VerticalAlignment" Value="Center"/>
+		<Setter Property="VerticalContentAlignment" Value="Center"/>
+		<Setter Property="FontSize" Value="12"/>
+		<Setter Property="Padding" Value="6"/>
+		<Setter Property="FontWeight" Value="Normal"/>
+	</Style>
+	<Style Selector="TextBox.NoBorderBold">
+		<Setter Property="VerticalAlignment" Value="Center"/>
+		<Setter Property="VerticalContentAlignment" Value="Center"/>
+		<Setter Property="FontSize" Value="12"/>
+		<Setter Property="Padding" Value="6"/>
+		<Setter Property="FontWeight" Value="Bold"/>
+	</Style>
+	
 	<!--Buttons-->	
 	<Style Selector="Button.Top">						
 		<Setter Property="Height" Value="45"/>
@@ -44,6 +71,28 @@
 		<Setter Property="Margin" Value="0"/>
 		<Setter Property="TextBlock.Foreground" Value="#FFFFFFFF" />		
 	</Style>
+
+	<Style Selector="Button.Hyper">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Foreground" Value="#FF0BB3E8"/>
+		<Setter Property="FontSize" Value="12"/>
+		<Setter Property="BorderBrush" Value="Transparent" />
+		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="CornerRadius" Value="0" />
+		<Setter Property="Padding" Value="0" />
+		<Setter Property="HorizontalAlignment" Value="Center"/>
+		<Setter Property="VerticalAlignment" Value="Center"/>
+	</Style>
+	<Style Selector="Button.Hyper:pointerover TextBlock">
+	</Style>
+	<Style Selector="Button.Hyper:not(:pointerover) TextBlock">
+		<Setter Property="TextDecorations" Value="Underline"/>
+	</Style>
+	<Style Selector="Button.Hyper TextBlock">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="TextBlock.Foreground" Value="#FF0BB3E8"/>
+	</Style>
+
 	<Style Selector="Button.HyperLink">				
 		<Setter Property="FontSize" Value="12"/>
 		<Setter Property="FontWeight" Value="Bold"/>		
@@ -189,5 +238,78 @@
 		<Setter Property="Background" Value="#FF848384"/>
 		<Setter Property="BorderBrush" Value="#FF848384"/>
 		<Setter Property="TextBlock.Foreground" Value="#FFFFFFFF"/>		
+	</Style>
+
+	<Style Selector="ToggleButton.MassActions">
+		<Setter Property="Height" Value="45"/>
+		<Setter Property="Width" Value="180"/>
+		<Setter Property="CornerRadius" Value="5"/>
+		<Setter Property="Margin" Value="0, 20, 35, 20"/>
+	</Style>
+	<Style Selector="ToggleButton.MassActions Grid TextBlock">
+		<Setter Property="Foreground" Value="#FFFFFFFF"/>
+		<Setter Property="TextAlignment" Value="Center"/>
+		<Setter Property="VerticalAlignment" Value="Center"/>
+		<Setter Property="HorizontalAlignment" Value="Center"/>
+	</Style>
+	<Style Selector="ToggleButton.MassActions:checked /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="#FF0BB3E8"/>
+		<Setter Property="BorderBrush" Value="#FF0BB3E8"/>		
+		<Setter Property="TextBlock.Foreground" Value="#FFFFFFFF"/>
+	</Style>
+	<Style Selector="ToggleButton.MassActions:not(:checked) /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="#FF0BB3E8"/>
+		<Setter Property="BorderBrush" Value="#FF0BB3E8"/>
+		<Setter Property="Padding" Value="0"/>
+		<Setter Property="TextBlock.Foreground" Value="#FFFFFFFF"/>
+	</Style>
+
+	<Style Selector="ToggleButton.CheckButton">
+		<Style.Resources>
+			<Color x:Key="ToggleButtonBackgroundPointerOver">#FFFFFFFF</Color>
+			<Color x:Key="ToggleButtonBackgroundPressed">#FFFFFFFF</Color>
+			<Color x:Key="ToggleButtonBorderBrushPointerOver">#FF0BB3E8</Color>
+		</Style.Resources>
+		<Setter Property="Margin" Value="0, 0, 0, 0"/>
+		<Setter Property="CornerRadius" Value="0"/>
+		<Setter Property="BorderThickness" Value="0"/>
+		<Setter Property="Background" Value="Transparent"/>
+	</Style>
+
+	<Style Selector="ToggleButton.CheckButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="BorderBrush" Value="{DynamicResource ToggleButtonBorderBrushPointerOver}"/>
+	</Style>
+	<Style Selector="ToggleButton.CheckButton /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="Transparent"/>
+	</Style>
+	<Style Selector="ToggleButton.CheckButton:checked /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="Transparent"/>
+	</Style>
+	<Style Selector="ToggleButton.CheckButton[IsChecked=True] Svg#PART_CHB">
+		<Setter Property="Path" Value="/Assets/svgs/screens/checkbox_ch.svg"/>
+	</Style>
+	<Style Selector="ToggleButton.CheckButton[IsChecked=False] Svg#PART_CHB">
+		<Setter Property="Path" Value="/Assets/svgs/screens/checkbox_un.svg"/>
+	</Style>
+
+	<Style Selector="ToggleButton.CheckSort:not(:checked) /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="BorderBrush" Value="Transparent"/>
+	</Style>
+	<Style Selector="ToggleButton.CheckSort">
+		<Setter Property="HorizontalAlignment" Value="Center"/>
+		<Setter Property="HorizontalContentAlignment" Value="Center"/>
+		<Setter Property="HorizontalContentAlignment" Value="Center"/>
+		<Setter Property="VerticalContentAlignment" Value="Center"/>
+	</Style>
+	<Style Selector="ToggleButton.CheckSort:checked /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="BorderBrush" Value="Transparent"/>
+	</Style>
+	<Style Selector="ToggleButton.CheckSort:checked Svg">
+		<Setter Property="Path" Value="/Assets/svgs/screens/sort_down.svg"/>
+	</Style>
+	<Style Selector="ToggleButton.CheckSort:not(:checked) Svg">
+		<Setter Property="Path"  Value="/Assets/svgs/screens/sort_up.svg"/>
 	</Style>
 </Styles>

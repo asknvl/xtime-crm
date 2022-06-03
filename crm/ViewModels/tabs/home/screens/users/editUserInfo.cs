@@ -22,6 +22,7 @@ namespace crm.ViewModels.tabs.home.screens.users
     {
         #region vars
         IValidator<string> fn_vl = new FullNameValidator();
+        IValidator<string> litera_vl = new LiteraValidator();
         IAutoComplete email_ac = new EmailAutoComplete();
         IValidator<string> email_vl = new LoginValidator();
         IValidator<string> phone_vl = new PhoneNumberValidator();
@@ -32,6 +33,7 @@ namespace crm.ViewModels.tabs.home.screens.users
         bool
            isEmail,
            isFullName,
+           isLitera,
            isBirthDate,
            isPhoneNumber,
            isTelegram,
@@ -79,6 +81,25 @@ namespace crm.ViewModels.tabs.home.screens.users
                     RemoveError(nameof(FullName));
                 updateValidity();
                 this.RaiseAndSetIfChanged(ref fullname, value);
+            }
+        }
+
+        string litera;
+        public string Litera
+        {
+            get => litera;
+            set
+            {
+                isLitera = litera_vl.IsValid(value);
+                //updateValidity();
+                //if (!isFullName) { 
+                //    throw new DataValidationException(fn_vl.Message);                
+                if (!isFullName)
+                    AddError(nameof(Litera), litera_vl.Message);
+                else
+                    RemoveError(nameof(Litera));
+                updateValidity();
+                this.RaiseAndSetIfChanged(ref litera, value);
             }
         }
 
@@ -193,6 +214,7 @@ namespace crm.ViewModels.tabs.home.screens.users
 
             TestUser user = new TestUser();
             FullName = user.FullName;
+            Litera = user.Litera;
             Email = user.Email;
             PhoneNumber = user.PhoneNumber;
             BirthDate = user.BirthDate;

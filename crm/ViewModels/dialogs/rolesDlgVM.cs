@@ -33,7 +33,7 @@ namespace crm.ViewModels.dialogs
         }
         public ObservableCollection<tagsListItem> Tags { get; } = new();
         public List<tagsListItem> SelectedTags { get; } = new();
-        public SelectionModel<tagsListItem> Selection { get; }       
+        public SelectionModel<tagsListItem> Selection { get; }
         #endregion
 
         #region commands
@@ -59,11 +59,13 @@ namespace crm.ViewModels.dialogs
             Tags = convetrer.GetAllTags();
 
             #region commands    
-            cancelCmd = ReactiveCommand.Create(() => {
+            cancelCmd = ReactiveCommand.Create(() =>
+            {
                 OnCloseRequest();
             });
 
-            acceptCmd = ReactiveCommand.CreateFromTask(async () => {
+            acceptCmd = ReactiveCommand.CreateFromTask(async () =>
+            {
 
                 var roles = convetrer.TagsToRoles(SelectedTags);
 
@@ -74,22 +76,15 @@ namespace crm.ViewModels.dialogs
 
                     OnCloseRequest();
 
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     ws.ShowDialog(new errMsgVM(ex.Message));
                 }
 
                 Clipboard clipboard = new Clipboard();
-                try
-                {
-                    clipboard.SetText(newtoken);
-
-                    appcontext.BottomPopup.Show("Токен скопирован");
-
-                } catch { 
-                }
-
-
+                clipboard.SetText(newtoken);
+                appcontext.BottomPopup.Show("Токен скопирован");
 
             });
             #endregion
@@ -104,15 +99,30 @@ namespace crm.ViewModels.dialogs
             }
 
             foreach (var item in e.DeselectedItems)
-            {                
+            {
                 SelectedTags.Remove(item);
             }
 
-            bool isTeamLead = SelectedTags.Any( t => t.Name.Equals(Role.teamlead));
             bool isAdmin = SelectedTags.Any(t => t.Name.Equals(Role.admin));
-            bool isAnyOne = SelectedTags.Any(t => !t.Name.Equals(Role.teamlead) && !t.Name.Equals(Role.admin));
+            bool isTeamLead = SelectedTags.Any(t => t.Name.Equals(Role.teamlead));
+            bool isBuyer = SelectedTags.Any(t => t.Name.Equals(Role.buyer));
 
-            IsValidSelection = (isAdmin && !isTeamLead ) || (isTeamLead && isAnyOne) || isAnyOne;
+            bool isAnyOne = SelectedTags.Any(t =>
+                !t.Name.Equals(Role.teamlead) &&
+                !t.Name.Equals(Role.admin) &&
+                !t.Name.Equals(Role.buyer) &&
+                !t.Name.Equals(Role.creative) &&
+                !t.Name.Equals(Role.financier));
+
+            bool isCreative = SelectedTags.Any(t => t.Name.Equals(Role.creative));
+            bool isFinancier = SelectedTags.Any(t => t.Name.Equals(Role.financier));
+
+            IsValidSelection =
+                (isAdmin && !isTeamLead && !isBuyer && !isAnyOne && !isCreative && !isFinancier) || //Адимн
+                (isBuyer && !isTeamLead && isAnyOne) ||              //Байер чего-либо
+                (isTeamLead && !isBuyer && isAnyOne) ||              //Тим-либ чего-либо
+                (isCreative && !isAdmin && !isTeamLead && !isBuyer && !isAnyOne) ||
+                (isFinancier && !isAdmin && !isTeamLead && !isBuyer && !isAnyOne);   
 
         }
     }

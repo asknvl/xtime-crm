@@ -29,7 +29,7 @@ namespace crm.ViewModels.tabs.home.screens
                     ScreenCheckedEvent?.Invoke(this, value);
             }
         }
-        public abstract string Title { get; }
+        public virtual string Title { get; }
 
         protected ApplicationContext AppContext { get; }
         #endregion

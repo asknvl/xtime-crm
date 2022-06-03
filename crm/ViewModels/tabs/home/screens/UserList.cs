@@ -30,17 +30,12 @@ namespace crm.ViewModels.tabs.home.screens
         IServerApi srvApi;
         ISocketApi sckApi;
         string token;
+
+        List<UserListItem> checkedUsers = new();
         #endregion
 
         #region properties       
         public override string Title => "Список сотрудников";
-
-        //ObservableCollection<UserListItem> users = new();
-        //public ObservableCollection<UserListItem> Users
-        //{
-        //    get => users;
-        //    set => this.RaiseAndSetIfChanged(ref users, value);
-        //}
 
         public ObservableCollection<UserListItem> Users { get; } = new();
 
@@ -206,8 +201,17 @@ namespace crm.ViewModels.tabs.home.screens
         {
 #if OFFLINE
             Users.Clear();
-            Users.Add(new UserItemTest(AppContext) { FullName = "Иванов Иван Иванович" });
-            Users.Add(new UserItemTest(AppContext) { FullName = "Петров Петр Петрович" });
+
+            UserListItem u1 = new UserItemTest() { Id = "1", FullName = "Иванов Иван Иванович" };
+            u1.CheckedEvent += Item_CheckedEvent;
+            Users.Add(u1);
+
+            UserListItem u2 = new UserItemTest() { Id = "2", FullName = "Петров Петр Петрович" };
+            u2.CheckedEvent += Item_CheckedEvent;
+            Users.Add(u2);
+
+            //Users.Add(new UserItemTest(AppContext) { FullName = "Иванов Иван Иванович" });
+            //Users.Add(new UserItemTest(AppContext) { FullName = "Петров Петр Петрович" });
 #elif ONLINE
 
             await Task.Run(async () =>
@@ -216,13 +220,6 @@ namespace crm.ViewModels.tabs.home.screens
                 List<User> users;
                 int total_users;
 
-                await Dispatcher.UIThread.InvokeAsync(() =>
-                {
-
-                    if (storePage != page)
-                        Users.Clear();
-                });
-
                 (users, TotalPages, total_users) = await srvApi.GetUsers(page - 1, pagesize, token);
 
                 PageInfo = getPageInfo(page, users.Count, total_users);
@@ -230,8 +227,8 @@ namespace crm.ViewModels.tabs.home.screens
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
 
-                    //if (storePage != page)
-                    //    Users.Clear();
+                    if (storePage != page)
+                        Users.Clear();
 
                     storePage = page;
 
@@ -307,6 +304,24 @@ namespace crm.ViewModels.tabs.home.screens
             //sckApi.ReceivedConnectedUsersEvent -= SckApi_ReceivedConnectedUsersEvent;
             //sckApi.ReceivedUsersDatesEvent -= SckApi_ReceivedUsersDatesEvent;
             base.OnDeactivate();            
+        }
+        #endregion
+
+        #region callbacks
+        private void Item_CheckedEvent(UserListItem item, bool ischecked)
+        {
+            var found = checkedUsers.FirstOrDefault(o => o.Id.Equals(item.Id));
+
+            if (ischecked) {
+                if (found == null)
+                    checkedUsers.Add(item);
+            } else
+            {
+                if (found != null)
+                    checkedUsers.Remove(found);
+            }
+
+            Debug.WriteLine(checkedUsers.Count);
         }
         #endregion
     }

@@ -18,6 +18,7 @@ namespace crm.ViewModels.Helpers
         tagsListItem creativeItem = new tagsListItem(Role.creative);
         tagsListItem mediaItem = new tagsListItem(Role.media);
         tagsListItem teamleadItem = new tagsListItem(Role.teamlead);
+        tagsListItem buyerItem = new tagsListItem(Role.buyer);
         tagsListItem linkItem = new tagsListItem(Role.link);
         tagsListItem farmItem = new tagsListItem(Role.farm);
         tagsListItem tagsItem = new tagsListItem(Role.creative);
@@ -28,6 +29,7 @@ namespace crm.ViewModels.Helpers
 
             bool isAdmin = tags.Any(t => t.Name.Equals(Role.admin));
             bool isTeamLead = tags.Any(t => t.Name.Equals(Role.teamlead));
+            bool isBuyer = tags.Any(t => t.Name.Equals(Role.buyer));
             bool isComment = tags.Any(t => t.Name.Equals(Role.comment));
             bool isMedia = tags.Any(t => t.Name.Equals(Role.media));
             bool isLink = tags.Any(t => t.Name.Equals(Role.link));
@@ -133,11 +135,12 @@ namespace crm.ViewModels.Helpers
                 adminItem,
                 financierItem,
                 commentItem,
-                creativeItem,
+                buyerItem,
                 mediaItem,
                 teamleadItem,
                 linkItem,
-                farmItem
+                farmItem,
+                creativeItem
             };
 
             return tags;
@@ -150,11 +153,12 @@ namespace crm.ViewModels.Helpers
                 adminItem,
                 financierItem,
                 commentItem,
-                creativeItem,
+                buyerItem,
                 mediaItem,
                 teamleadItem,
                 linkItem,
-                farmItem
+                farmItem,
+                creativeItem
             };
 
             return tags;
