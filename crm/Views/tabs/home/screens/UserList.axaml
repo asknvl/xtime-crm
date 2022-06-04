@@ -114,7 +114,7 @@
 				<Grid RowDefinitions="Auto, *">
 					<Grid
 						VerticalAlignment="Center"
-						Height="60"
+						Height="{DynamicResource ScreenListItemHeight}"
 						Margin="0, 0, 0, 0"
 						Name="PART_Title"
 						Grid.Row="0"
@@ -137,6 +137,7 @@
 							120,
 							150,
 							120,
+							180,
 							180">
 						<ToggleButton
 							IsChecked="{Binding IsAllChecked}"
@@ -150,14 +151,14 @@
 								Height="15"/>							
 						</ToggleButton>
 						<ToggleButton
-							Name="bID"
+							Name="id"
 							Command="{Binding sortParameterCmd}"							
 							Classes="ToggleButton CheckSort"							
 							Grid.Column="1">
 							<ToggleButton.CommandParameter>
 								<MultiBinding>
-									<Binding Path="#bID.Name"/>
-									<Binding Path="#bID.IsChecked" />
+									<Binding Path="#id.Name"/>
+									<Binding Path="#id.IsChecked" />
 								</MultiBinding>
 							</ToggleButton.CommandParameter>
 							<TextBlock>
@@ -165,14 +166,14 @@
 							</TextBlock>
 						</ToggleButton>
 						<ToggleButton
-							Name="bLitera"
+							Name="letter_id"
 							Classes="ToggleButton CheckSort"
 							Command="{Binding sortParameterCmd}"							
 							Grid.Column="2">
 							<ToggleButton.CommandParameter>
 								<MultiBinding>
-									<Binding Path="#bLitera.Name"/>
-									<Binding Path="#bLitera.IsChecked" />
+									<Binding Path="#letter_id.Name"/>
+									<Binding Path="#letter_id.IsChecked" />
 								</MultiBinding>
 							</ToggleButton.CommandParameter>
 							<TextBlock>
@@ -180,14 +181,14 @@
 							</TextBlock>
 						</ToggleButton>
 						<ToggleButton
-							Name="bStatus"
+							Name="is_connected"
 							Classes="ToggleButton CheckSort"
 							Command="{Binding sortParameterCmd}"							
 							Grid.Column="3">
 							<ToggleButton.CommandParameter>
 								<MultiBinding>
-									<Binding Path="#bStatus.Name"/>
-									<Binding Path="#bStatus.IsChecked" />
+									<Binding Path="#is_connected.Name"/>
+									<Binding Path="#is_connected.IsChecked" />
 								</MultiBinding>
 							</ToggleButton.CommandParameter>
 							<TextBlock>
@@ -195,14 +196,14 @@
 							</TextBlock>
 						</ToggleButton>
 						<ToggleButton
-							Name="bLastActive"
+							Name="last_event_date"
 							Classes="ToggleButton CheckSort"
 							Command="{Binding sortParameterCmd}"
 							Grid.Column="4">
 							<ToggleButton.CommandParameter>
 								<MultiBinding>
-									<Binding Path="#bLastActive.Name"/>
-									<Binding Path="#bLastActive.IsChecked" />
+									<Binding Path="#last_event_date.Name"/>
+									<Binding Path="#last_event_date.IsChecked" />
 								</MultiBinding>
 							</ToggleButton.CommandParameter>
 							<TextBlock>
@@ -210,14 +211,14 @@
 							</TextBlock>
 						</ToggleButton>
 						<ToggleButton
-							Name="bLastLogin"
+							Name="last_login_date"
 							Classes="ToggleButton CheckSort"
 							Command="{Binding sortParameterCmd}"
 							Grid.Column="5">
 							<ToggleButton.CommandParameter>
 								<MultiBinding>
-									<Binding Path="#bLastLogin.Name"/>
-									<Binding Path="#bLastLogin.IsChecked" />
+									<Binding Path="#last_login_date.Name"/>
+									<Binding Path="#last_login_date.IsChecked" />
 								</MultiBinding>
 							</ToggleButton.CommandParameter>
 							<TextBlock>
@@ -225,14 +226,14 @@
 							</TextBlock>
 						</ToggleButton>
 						<ToggleButton
-							Name="bLastName"
+							Name="lastname"
 							Classes="ToggleButton CheckSort"
 							Command="{Binding sortParameterCmd}"
 							Grid.Column="6">
 							<ToggleButton.CommandParameter>
 								<MultiBinding>
-									<Binding Path="#bLastName.Name"/>
-									<Binding Path="#bLastName.IsChecked" />
+									<Binding Path="#lastname.Name"/>
+									<Binding Path="#lastname.IsChecked" />
 								</MultiBinding>
 							</ToggleButton.CommandParameter>
 							<TextBlock>
@@ -240,14 +241,14 @@
 							</TextBlock>
 						</ToggleButton>
 						<ToggleButton
-							Name="bFirstName"
+							Name="firstname"
 							Classes="ToggleButton CheckSort"
 							Command="{Binding sortParameterCmd}"
 							Grid.Column="7">
 							<ToggleButton.CommandParameter>
 								<MultiBinding>
-									<Binding Path="#bFirstName.Name"/>
-									<Binding Path="#bFirstName.IsChecked" />
+									<Binding Path="#firstname.Name"/>
+									<Binding Path="#firstname.IsChecked" />
 								</MultiBinding>
 							</ToggleButton.CommandParameter>
 							<TextBlock>
@@ -255,14 +256,14 @@
 							</TextBlock>
 						</ToggleButton>
 						<ToggleButton
-							Name="bMiddleName"
+							Name="middlename"
 							Classes="ToggleButton CheckSort"
 							Command="{Binding sortParameterCmd}"
 							Grid.Column="8">
 							<ToggleButton.CommandParameter>
 								<MultiBinding>
-									<Binding Path="#bMiddleName.Name"/>
-									<Binding Path="#bMiddleName.IsChecked" />
+									<Binding Path="#middlename.Name"/>
+									<Binding Path="#middlename.IsChecked" />
 								</MultiBinding>
 							</ToggleButton.CommandParameter>
 							<TextBlock>
@@ -274,14 +275,14 @@
 							Роли
 						</TextBlock>
 						<ToggleButton
-							Name="bEmail"
+							Name="email"
 							Classes="ToggleButton CheckSort"
 							Command="{Binding sortParameterCmd}"
 							Grid.Column="10">
 							<ToggleButton.CommandParameter>
 								<MultiBinding>
-									<Binding Path="#bEmail.Name"/>
-									<Binding Path="#bEmail.IsChecked" />
+									<Binding Path="#email.Name"/>
+									<Binding Path="#email.IsChecked" />
 								</MultiBinding>
 							</ToggleButton.CommandParameter>
 							<TextBlock>
@@ -289,14 +290,14 @@
 							</TextBlock>
 						</ToggleButton>
 						<ToggleButton
-							Name="bBirthDate"
+							Name="birthday"
 							Classes="ToggleButton CheckSort"
 							Command="{Binding sortParameterCmd}"
 							Grid.Column="11">
 							<ToggleButton.CommandParameter>
 								<MultiBinding>
-									<Binding Path="#bBirthDate.Name"/>
-									<Binding Path="#bBirthDate.IsChecked" />
+									<Binding Path="#birthday.Name"/>
+									<Binding Path="#birthday.IsChecked" />
 								</MultiBinding>
 							</ToggleButton.CommandParameter>
 							<TextBlock>
@@ -304,14 +305,14 @@
 							</TextBlock>
 						</ToggleButton>
 						<ToggleButton
-							Name="bPhoneNumber"
+							Name="phone"
 							Classes="ToggleButton CheckSort"
 							Command="{Binding sortParameterCmd}"
 							Grid.Column="12">
 							<ToggleButton.CommandParameter>
 								<MultiBinding>
-									<Binding Path="#bPhoneNumber.Name"/>
-									<Binding Path="#bPhoneNumber.IsChecked" />
+									<Binding Path="#phone.Name"/>
+									<Binding Path="#phone.IsChecked" />
 								</MultiBinding>
 							</ToggleButton.CommandParameter>
 							<TextBlock>
@@ -323,14 +324,14 @@
 							Соц. сети
 						</TextBlock>
 						<ToggleButton
-							Name="bTelegram"
+							Name="telegram"
 							Classes="ToggleButton CheckSort"
 							Command="{Binding sortParameterCmd}"
 							Grid.Column="14">
 							<ToggleButton.CommandParameter>
 								<MultiBinding>
-									<Binding Path="#bTelegram.Name"/>
-									<Binding Path="#bTelegram.IsChecked" />
+									<Binding Path="#telegram.Name"/>
+									<Binding Path="#telegram.IsChecked" />
 								</MultiBinding>
 							</ToggleButton.CommandParameter>
 							<TextBlock>
@@ -338,14 +339,14 @@
 							</TextBlock>
 						</ToggleButton>
 						<ToggleButton
-							Name="bWallet"
+							Name="usdt_account"
 							Classes="ToggleButton CheckSort"
 							Command="{Binding sortParameterCmd}"
 							Grid.Column="15">
 							<ToggleButton.CommandParameter>
 								<MultiBinding>
-									<Binding Path="#bWallet.Name"/>
-									<Binding Path="#bWallet.IsChecked" />
+									<Binding Path="#usdt_account.Name"/>
+									<Binding Path="#usdt_account.IsChecked" />
 								</MultiBinding>
 							</ToggleButton.CommandParameter>
 							<TextBlock>
@@ -360,12 +361,16 @@
 							Grid.Column="17">
 							Фото паспорта
 						</TextBlock>
+						<TextBlock
+							Grid.Column="18">
+							Комментарии
+						</TextBlock>
 						<Grid
 							Background="{DynamicResource SeparatorColor}"
 							Height="1"
 							Grid.Row="1"
-							Grid.ColumnSpan="18">
-						</Grid>
+							Grid.ColumnSpan="19">
+						</Grid>						
 						<Grid.Styles>
 							<Style Selector="Grid#PART_Title TextBlock">
 								<Setter Property="FontWeight" Value="Bold"/>

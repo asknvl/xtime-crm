@@ -44,7 +44,8 @@ namespace crm.ViewModels.tabs.home.screens.users
         public ReactiveCommand<Unit, Unit> showTagsCmd { get; }
         public ReactiveCommand<Unit, Unit> editUserCmd { get; }
         public ReactiveCommand<Unit, Unit> openTelegram { get; set; }
-        public ReactiveCommand<string, Unit> copyCmd { get; set; }
+        public ReactiveCommand<Unit, Unit> showCommentsCmd { get; set; } 
+        public ReactiveCommand<string?, Unit>? copyCmd { get; set; }
         #endregion
 
         public UserListItem(ApplicationContext appcontext)
@@ -68,10 +69,14 @@ namespace crm.ViewModels.tabs.home.screens.users
                 });
             });
 
-            copyCmd = ReactiveCommand.Create<string>((o) => {                
+            copyCmd = ReactiveCommand.Create<string?>((o) => {                
                 Clipboard clipboard = new Clipboard();
                 clipboard.SetText(o);
                 appcontext.BottomPopup.Show("Значение скопировано");
+            });
+
+            showCommentsCmd = ReactiveCommand.Create(() => {
+                ws.ShowDialog(new commentDlgVM(this, false));
             });
             #endregion
         }

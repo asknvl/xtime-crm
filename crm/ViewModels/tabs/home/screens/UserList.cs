@@ -32,6 +32,7 @@ namespace crm.ViewModels.tabs.home.screens
         string token;
 
         List<UserListItem> checkedUsers = new();
+        string SortKey = "+firstname";
         #endregion
 
         #region properties       
@@ -144,7 +145,7 @@ namespace crm.ViewModels.tabs.home.screens
                 try
                 {
                     //Users.Clear();
-                    await updatePageInfo(SelectedPage, PageSize);
+                    await updatePageInfo(SelectedPage, PageSize, SortKey);
                 } catch (Exception ex)
                 {
                     ws.ShowDialog(new errMsgVM(ex.Message));
@@ -157,20 +158,25 @@ namespace crm.ViewModels.tabs.home.screens
                 try
                 {
                     //Users.Clear();
-                    await updatePageInfo(SelectedPage, PageSize);
+                    await updatePageInfo(SelectedPage, PageSize, SortKey);
                 } catch (Exception ex)
                 {
                     ws.ShowDialog(new errMsgVM(ex.Message));
                 }
             });
 
-            sortParameterCmd = ReactiveCommand.Create<object>((o) => {
+            sortParameterCmd = ReactiveCommand.CreateFromTask<object>(async (o) => {
 
                 ReadOnlyCollection<Object> c = o as ReadOnlyCollection<Object>;
                 string name = (string)c[0];
                 bool value = (bool)c[1];
 
-                Debug.WriteLine($"{name}={value}");
+                string order = (value) ? "+" : "-";
+                SortKey = $"{order}{name}";
+
+                await updatePageInfo(SelectedPage, PageSize, SortKey);
+
+                Debug.WriteLine(SortKey);
 
             });
 
@@ -197,7 +203,7 @@ namespace crm.ViewModels.tabs.home.screens
         bool isRunning { get; set; }
         int storePage;
 
-        async Task updatePageInfo(int page, int pagesize)
+        async Task updatePageInfo(int page, int pagesize, string sortkey)
         {
 #if OFFLINE
             Users.Clear();
@@ -215,21 +221,24 @@ namespace crm.ViewModels.tabs.home.screens
 #elif ONLINE
 
             await Task.Run(async () =>
-            {            
-                
+            {
+
                 List<User> users;
                 int total_users;
 
-                (users, TotalPages, total_users) = await srvApi.GetUsers(page - 1, pagesize, token);
+                await Dispatcher.UIThread.InvokeAsync(() => {
+                    Users.Clear();
+                });
+
+                (users, TotalPages, total_users) = await srvApi.GetUsers(page - 1, pagesize, token, sortkey);
 
                 PageInfo = getPageInfo(page, users.Count, total_users);
 
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
 
-                    if (storePage != page)
-                        Users.Clear();
-
+                    //if (storePage != page || sortkey != SortKey)
+                
                     storePage = page;
 
                     foreach (var user in users)
@@ -241,7 +250,9 @@ namespace crm.ViewModels.tabs.home.screens
                         } else
                         {
                             var tmp = new UserListItem(AppContext);
+                            tmp.CheckedEvent += Item_CheckedEvent;
                             tmp.Copy(user);
+                            tmp.IsChecked = checkedUsers.Any(u => u.Id.Equals(user.Id));
                             Users.Add(tmp);
                         }
                     }
@@ -262,7 +273,7 @@ namespace crm.ViewModels.tabs.home.screens
 
             try
             {
-                await updatePageInfo(SelectedPage, PageSize);
+                await updatePageInfo(SelectedPage, PageSize, SortKey);
             } catch (OperationCanceledException ex)
             {
             } catch (Exception ex)

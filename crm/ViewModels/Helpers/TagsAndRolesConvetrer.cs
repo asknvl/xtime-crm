@@ -77,53 +77,112 @@ namespace crm.ViewModels.Helpers
             if (adm)
                 tags.Add(adminItem);
 
-
-            bool tl = roles.Any(r =>
-                r.Type == RoleType.team_lead_comment ||
-                r.Type == RoleType.team_lead_farm ||
-                r.Type == RoleType.team_lead_link ||
-                r.Type == RoleType.team_lead_media
-            );
-            if (tl)
-                tags.Add(teamleadItem);
-
             bool fin = roles.Any(r => r.Type == RoleType.financier);
             if (fin)
                 tags.Add(financierItem);
 
-            bool com = roles.Any(r =>
-               r.Type == RoleType.team_lead_comment ||
-               r.Type == RoleType.buyer_comment
-            );
-            if (com)
-                tags.Add(commentItem);
-
-            bool frm = roles.Any(r =>
-               r.Type == RoleType.team_lead_farm ||
-               r.Type == RoleType.buyer_farm
-            );
-            if (frm)
-                tags.Add(farmItem);
-
-            bool lnk = roles.Any(r =>
-               r.Type == RoleType.team_lead_link ||
-               r.Type == RoleType.buyer_link
-            );
-            if (lnk)
-                tags.Add(linkItem);
-
-            bool med = roles.Any(r =>
-               r.Type == RoleType.team_lead_media ||
-               r.Type == RoleType.buyer_media
-            );
-            if (med)
-                tags.Add(mediaItem);
-
-            bool cre = roles.Any(r =>
-               r.Type == RoleType.creative
-            );
+            bool cre = roles.Any(r => r.Type == RoleType.creative);
             if (cre)
                 tags.Add(creativeItem);
+
+            bool tl_comment = roles.Any(r => r.Type == RoleType.team_lead_comment);
+            if (tl_comment)
+            {
+                tags.Add(teamleadItem);
+                tags.Add(commentItem);
+            }
+            bool buyer_comment = roles.Any(r => r.Type == RoleType.buyer_comment);
+            if (buyer_comment)
+            {
+                tags.Add(buyerItem);
+                tags.Add(commentItem);
+            }
+
+            bool tl_farm = roles.Any(r => r.Type == RoleType.team_lead_farm);
+            if (tl_comment)
+            {
+                tags.Add(teamleadItem);
+                tags.Add(farmItem);
+            }
+            bool buyer_farm = roles.Any(r => r.Type == RoleType.buyer_farm);
+            if (buyer_farm)
+            {
+                tags.Add(buyerItem);
+                tags.Add(farmItem);
+            }
+
+            bool tl_link = roles.Any(r => r.Type == RoleType.team_lead_link);
+            if (tl_link)
+            {
+                tags.Add(teamleadItem);
+                tags.Add(linkItem);
+            }
+            bool buyer_link = roles.Any(r => r.Type == RoleType.buyer_link);
+            if (buyer_link)
+            {
+                tags.Add(buyerItem);
+                tags.Add(linkItem);
+            }
+
+            bool tl_media = roles.Any(r => r.Type == RoleType.team_lead_media);
+            if (tl_media)
+            {
+                tags.Add(teamleadItem);
+                tags.Add(mediaItem);
+            }
+            bool buyer_media = roles.Any(r => r.Type == RoleType.buyer_media);
+            if (buyer_media)
+            {
+                tags.Add(buyerItem);
+                tags.Add(mediaItem);
+            }
+
+            //bool tl = roles.Any(r =>
+            //    r.Type == RoleType.team_lead_comment ||
+            //    r.Type == RoleType.team_lead_farm ||
+            //    r.Type == RoleType.team_lead_link ||
+            //    r.Type == RoleType.team_lead_media
+            //);
+            //if (tl)
+            //    tags.Add(teamleadItem);
+
+            //bool fin = roles.Any(r => r.Type == RoleType.financier);
+            //if (fin)
+            //    tags.Add(financierItem);
+
+            //bool com = roles.Any(r =>
+            //   r.Type == RoleType.team_lead_comment ||
+            //   r.Type == RoleType.buyer_comment
+            //);
+            //if (com)
+            //    tags.Add(commentItem);
+
+            //bool frm = roles.Any(r =>
+            //   r.Type == RoleType.team_lead_farm ||
+            //   r.Type == RoleType.buyer_farm
+            //);
+            //if (frm)
+            //    tags.Add(farmItem);
+
+            //bool lnk = roles.Any(r =>
+            //   r.Type == RoleType.team_lead_link ||
+            //   r.Type == RoleType.buyer_link
+            //);
+            //if (lnk)
+            //    tags.Add(linkItem);
+
+            //bool med = roles.Any(r =>
+            //   r.Type == RoleType.team_lead_media ||
+            //   r.Type == RoleType.buyer_media
+            //);
+            //if (med)
+            //    tags.Add(mediaItem);
+
+            //bool cre = roles.Any(r =>
+            //   r.Type == RoleType.creative
+            //);
+            //if (cre)
+            //    tags.Add(creativeItem);
 
             return tags;
         }

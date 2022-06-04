@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 
 namespace crm.Views.dialogs
@@ -9,14 +10,28 @@ namespace crm.Views.dialogs
         public commentDlg()
         {
             InitializeComponent();
+            this.Deactivated += TagsDlg_Deactivated;
 #if DEBUG
             this.AttachDevTools();
 #endif
         }
 
+        private void TagsDlg_Deactivated(object? sender, System.EventArgs e)
+        {
+            ((Window)sender).Owner?.Activate();
+            ((Window)sender).Owner?.Focus();
+            this.Close();
+        }
+
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+                Close();
         }
     }
 }

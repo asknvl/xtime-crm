@@ -99,6 +99,11 @@ namespace crm.WS
                 wnd = new rolesDlg();
             }
 
+            if (vm is commentDlgVM)
+            {
+                wnd = new commentDlg();
+            }
+
             wnd.DataContext = vm;
             windowList.Add(wnd);
 

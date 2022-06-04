@@ -15,7 +15,7 @@ namespace crm.Views.behaviors
     {
         public TextBlockClickBehavior()
         {
-
+            
         }
 
         //public static readonly DirectProperty<TextBlockClickBehavior, ICommand?> CommandProperty =
@@ -37,24 +37,7 @@ namespace crm.Views.behaviors
             get => GetValue(CommandParameterProperty);
             set => SetValue(CommandParameterProperty, value);
         }
-
-        //public ICommand? Command
-        //{
-        //    get => _command;
-        //    set => SetAndRaise(CommandProperty, ref _command, value);
-        //}
-
-        //public static readonly DirectProperty<TextBlockClickBehavior, string> CommandParameterProperty =
-        //    AvaloniaProperty.RegisterDirect<TextBlockClickBehavior, string>(nameof(CommandParameter),
-        //        o => o.CommandParameter);
-
-        //string param;
-        //public string CommandParameter
-        //{
-        //    get => param;
-        //    set => SetValue(CommandParameterProperty, ref param, value);
-        //}
-
+        
         protected override void OnAttached()
         {
             AssociatedObject.PointerPressed += AssociatedObject_PointerPressed;
@@ -65,7 +48,7 @@ namespace crm.Views.behaviors
         {
             if (e.MouseButton == Avalonia.Input.MouseButton.Left)
             {
-                Command.Execute(CommandParameter);
+                Command?.Execute(CommandParameter);
             }
         }
 

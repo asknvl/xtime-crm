@@ -12,7 +12,7 @@
 	<Style Selector="Button">
 		<Setter Property="FontSize" Value="12"/>
 	</Style>
-	<Style Selector="Button.List">		
+	<Style Selector="Button.ListItem">		
 		<Setter Property="Background" Value="#FFFFFFFF"/>
 		<Setter Property="BorderBrush" Value="#FF464646"/>		
 		<Setter Property="CornerRadius" Value="15"/>
@@ -20,13 +20,12 @@
 		<Setter Property="Height" Value="20"/>
 		<Setter Property="Padding" Value="10, 0, 10, 0"/>		
 	</Style>
-
-	<Style Selector="Button.List:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+	<Style Selector="Button.ListItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
 		<Setter Property="Background" Value="#FFF5F5F5"/>
 		<Setter Property="BorderBrush" Value="#FF464646"/>
 		<Setter Property="TextBlock.Foreground" Value="#FFC4C4C4"/>
 	</Style>
-	<Style Selector="Button.List:not(:pointerover) /template/ ContentPresenter#PART_ContentPresenter">
+	<Style Selector="Button.ListItem:not(:pointerover) /template/ ContentPresenter#PART_ContentPresenter">
 		<Setter Property="Background" Value="#FFFFFFFF"/>
 		<Setter Property="BorderBrush" Value="#FF464646"/>		
 	</Style>
@@ -63,6 +62,9 @@
 		<Setter Property="VerticalAlignment" Value="Center"/>
 	</Style>
 	<Style Selector="Button.Passport:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="TextBlock.Background" Value="Transparent"/>
+	</Style>
+	<Style Selector="Button.Passport:disabled /template/ ContentPresenter#PART_ContentPresenter">
 		<Setter Property="TextBlock.Background" Value="Transparent"/>
 	</Style>
 	<Style Selector="Button.Passport Svg">

@@ -1,4 +1,5 @@
 ﻿using crm.Models.appcontext;
+using crm.Models.user;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,12 @@ namespace crm.ViewModels.dialogs
     public class commentDlgVM : ViewModelBase
     {
         #region properties
+        bool isEditable;
+        public bool IsEditable {
+            get => isEditable; 
+            set => this.RaiseAndSetIfChanged(ref isEditable, value);
+        }
+
         string text;
         public string Text
         {
@@ -34,8 +41,10 @@ namespace crm.ViewModels.dialogs
 сложившаяся структура организации напрямую зависит от модели развития!";
         }
 
-        public commentDlgVM(ApplicationContext appcontext)
+        public commentDlgVM(BaseUser user, bool iseditable)
         {
+            IsEditable = iseditable;
+
             cancelCmd = ReactiveCommand.Create(() =>
             {
                 OnCloseRequest();

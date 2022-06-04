@@ -208,7 +208,7 @@ namespace crm.Models.api.server
 
                 var client = new RestClient($"{url}/v1/users/{id}");
                 var request = new RestRequest(Method.GET);
-                request.AddHeader($"Authorization", $"Bearer {token}");
+                request.AddHeader($"Authorization", $"Bearer {token}");                
                 var response = client.Execute(request);
                 var json = JObject.Parse(response.Content);
                 var res = json["success"].ToObject<bool>();
@@ -234,7 +234,7 @@ namespace crm.Models.api.server
             return user;
         }
 
-        public virtual async Task<(List<User>, int, int)> GetUsers(int page, int size, string token)
+        public virtual async Task<(List<User>, int, int)> GetUsers(int page, int size, string token, string sortparameter)
         {
             List<User> users = new List<User>();
             int total_pages = 0;
@@ -245,6 +245,7 @@ namespace crm.Models.api.server
             request.AddHeader($"Authorization", $"Bearer {token}");
             request.AddQueryParameter("page", page.ToString());
             request.AddQueryParameter("size", size.ToString());
+            request.AddQueryParameter("sort_by", sortparameter);
             var response = client.Execute(request);
             var json = JObject.Parse(response.Content);
             var res = json["success"].ToObject<bool>();

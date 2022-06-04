@@ -1,5 +1,6 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:sys="using:System">
     <Design.PreviewWith>
         <Border Padding="20">
 			<Button Classes="Button Confirm">				
@@ -10,7 +11,10 @@
 	<Styles.Resources>
 		<Color x:Key="SeparatorColor">#FFE5E5E5</Color>
 		<Color x:Key="ScreenControlsBorderBrush">#FF464646</Color>
+
+		<sys:Double x:Key="ScreenListItemHeight">50</sys:Double>
 	</Styles.Resources>
+
 	<!--TextBlock-->
 	<Style Selector="TextBlock">
 		<Setter Property="FontSize" Value="12"/>
@@ -21,6 +25,10 @@
 		<Setter Property="FontSize" Value="12"/>
 		<Setter Property="Foreground" Value="#FF464646"/>
 	</Style>
+	<Style Selector="TextBox:disabled">
+		<Setter Property="Foreground" Value="#FF464646"/>
+	</Style>
+
 	<Style Selector="TextBox:not(:pointerover) /template/ Border#PART_BorderElement">
 		<Setter Property="BorderThickness" Value="10"/>
 		<Setter Property="BorderBrush" Value="Transparent"/>
@@ -203,6 +211,24 @@
 	<Style Selector="Button.PageRight Svg">
 		<Setter Property="Path" Value="/Assets/svgs/screens/arrow_right.svg"/>
 	</Style>
+
+	<Style Selector="Button.ScreenEdit">
+		<Setter Property="Background" Value="#FFFFFFFF"/>
+		<Setter Property="BorderBrush" Value="#FF464646"/>
+		<Setter Property="CornerRadius" Value="15"/>
+		<Setter Property="Margin" Value="0"/>
+		<Setter Property="Height" Value="20"/>
+		<Setter Property="Padding" Value="10, 0, 10, 0"/>
+	</Style>
+	<Style Selector="Button.ScreenEdit:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="#FFF5F5F5"/>
+		<Setter Property="BorderBrush" Value="#FF464646"/>
+		<Setter Property="TextBlock.Foreground" Value="#FFC4C4C4"/>
+	</Style>
+	<Style Selector="Button.ScreenEdit:not(:pointerover) /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="#FFFFFFFF"/>
+		<Setter Property="BorderBrush" Value="#FF464646"/>
+	</Style>
 	<!--ToggleButton-->
 	<Style Selector="ToggleButton.EditCancel">		
 		<Setter Property="Background" Value="#FF747374"/>
@@ -311,5 +337,5 @@
 	</Style>
 	<Style Selector="ToggleButton.CheckSort:not(:checked) Svg">
 		<Setter Property="Path"  Value="/Assets/svgs/screens/sort_up.svg"/>
-	</Style>
+	</Style>		
 </Styles>

@@ -13,10 +13,9 @@ namespace crm.Views.dialogs
 {
     public partial class tagsDlg : Window
     {
-
         public tagsDlg()
         {
-            InitializeComponent();
+            InitializeComponent();  
             this.Deactivated += TagsDlg_Deactivated;
 
 #if DEBUG
@@ -27,11 +26,11 @@ namespace crm.Views.dialogs
         {
             ((Window)sender).Owner?.Activate();
             ((Window)sender).Owner?.Focus();
-            this.Close();            
+            this.Close();
         }
         private void InitializeComponent()
         {
-            AvaloniaXamlLoader.Load(this);            
+            AvaloniaXamlLoader.Load(this);
         }
         protected override void OnKeyDown(KeyEventArgs e)
         {

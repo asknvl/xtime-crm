@@ -6,6 +6,7 @@ using crm.Models.user;
 using crm.Models.validators;
 using crm.ViewModels.dialogs;
 using crm.ViewModels.Helpers;
+using crm.WS;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -41,9 +42,10 @@ namespace crm.ViewModels.tabs.home.screens.users
            isRoles;
 
         TagsAndRolesConvetrer convetrer = new();
-
         BaseUser user;
         string token;
+
+        IWindowService ws = WindowService.getInstance();
         #endregion
 
         #region properties
@@ -206,7 +208,8 @@ namespace crm.ViewModels.tabs.home.screens.users
         #endregion
 
         #region commands        
-        public ReactiveCommand<Unit, Unit> openTelegram { get; }        
+        public ReactiveCommand<Unit, Unit> openTelegramCmd { get; }
+        public ReactiveCommand<Unit, Unit> showCommentsCmd { get; }
         #endregion
 
         public editUserInfo() : base(new ApplicationContext())
@@ -237,17 +240,20 @@ namespace crm.ViewModels.tabs.home.screens.users
 
             Selection.SelectionChanged += Selection_SelectionChanged;
 
-            openTelegram = ReactiveCommand.Create(() => {
+            openTelegramCmd = ReactiveCommand.Create(() => {
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = $"tg://resolve?domain={Telegram}",
                     UseShellExecute = true
                 });
-            });         
-            
+            });
+
+            showCommentsCmd = ReactiveCommand.Create(() => {
+                
+            });
         }
 
-        public editUserInfo(ApplicationContext context, BaseUser user) : base(context)
+        public editUserInfo(ApplicationContext appcontext, BaseUser user) : base(appcontext)
         {
             this.user = user;
             token = AppContext.User.Token;
@@ -256,14 +262,18 @@ namespace crm.ViewModels.tabs.home.screens.users
             Selection = new SelectionModel<tagsListItem>();
             Selection.SingleSelect = false;
 
-            init(user);
+            init(this.user);
 
-            openTelegram = ReactiveCommand.Create(() => {
+            openTelegramCmd = ReactiveCommand.Create(() => {
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = $"tg://resolve?domain={Telegram}",
                     UseShellExecute = true
                 });
+            });
+
+            showCommentsCmd = ReactiveCommand.Create(() => {
+                ws.ShowDialog(new commentDlgVM(this.user, IsEditable));
             });
         }
 
@@ -272,6 +282,7 @@ namespace crm.ViewModels.tabs.home.screens.users
         {
             
             FullName = user.FullName;
+            Litera = user.Litera;
             Email = user.Email;
             PhoneNumber = user.PhoneNumber;
             BirthDate = user.BirthDate;

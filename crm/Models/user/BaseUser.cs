@@ -12,79 +12,79 @@ namespace crm.Models.user
     public abstract class BaseUser : ViewModelBase
     {
         #region properties
-        string id;
+        string? id;
         [JsonProperty("id")]
-        public virtual string Id
+        public virtual string? Id
         {
             get => id;
             set => this.RaiseAndSetIfChanged(ref id, value);
         }
-        string token;
-        public string Token { get; set; }
+        string? token;
+        public string? Token { get; set; }
 
-        string litera;
+        string? litera;
         [JsonProperty("letter_id")]
-        public string Litera
+        public string? Litera
         {
             get => litera;
             set => this.RaiseAndSetIfChanged(ref litera, value);
         }
 
-        string email;
+        string? email;
         [JsonProperty("email")]
-        public string Email
+        public string? Email
         {
             get => email;
             set => this.RaiseAndSetIfChanged(ref email, value);
         }
-        string password;
-        public string Password
+        string? password;
+        public string? Password
         {
             get => password;
             set => this.RaiseAndSetIfChanged(ref password, value);
         }
-        string fullname;
+        string? fullname;
         [JsonProperty("fullname")]
-        public string FullName
+        public string? FullName
         {
             get => fullname;
             set => this.RaiseAndSetIfChanged(ref fullname, value);
         }
 
-        string lastname;
+        string? lastname;
         [JsonProperty("lastname")]
-        public string LastName
+        public string? LastName
         {
             get => lastname;
             set => this.RaiseAndSetIfChanged(ref lastname, value);
         }
 
-        string firstname;
+        string? firstname;
         [JsonProperty("firstname")]
-        public string FirstName
+        public string? FirstName
         {
             get => firstname;
             set => this.RaiseAndSetIfChanged(ref firstname, value);
         }
 
-        string middlename;
+        string? middlename;
         [JsonProperty("middlename")]
-        public string MiddleName
+        public string? MiddleName
         {
             get => middlename;
             set => this.RaiseAndSetIfChanged(ref middlename, value);
         }
 
-        string birthdate;
+        string? birthdate;
         [JsonProperty("birthday")]
-        public string BirthDate
+        public string? BirthDate
         {
             get => birthdate;
             set => this.RaiseAndSetIfChanged(ref birthdate, value);
         }
-        string phonenumber;
+        string? phonenumber;
         [JsonProperty("phone")]
-        public string PhoneNumber
+        public string? PhoneNumber
         {
             get => phonenumber;
             set => this.RaiseAndSetIfChanged(ref phonenumber, value);
@@ -98,16 +98,16 @@ namespace crm.Models.user
             set => this.RaiseAndSetIfChanged(ref socialnetworks, value);
         }
 
-        string telegram;
+        string? telegram;
         [JsonProperty("telegram")]
-        public string Telegram
+        public string? Telegram
         {
             get => telegram;
             set => this.RaiseAndSetIfChanged(ref telegram, value);
         }
-        string wallet;
+        string? wallet;
         [JsonProperty("usdt_account")]
-        public string Wallet
+        public string? Wallet
         {
             get => wallet;
             set => this.RaiseAndSetIfChanged(ref wallet, value);
@@ -137,9 +137,9 @@ namespace crm.Models.user
             set => this.RaiseAndSetIfChanged(ref devices, value);
         }
 
-        List<Role> roles;
+        List<Role>? roles;
         [JsonProperty("roles")]
-        public List<Role> Roles
+        public List<Role>? Roles
         {
             get => roles;
             set => this.RaiseAndSetIfChanged(ref roles, value);
