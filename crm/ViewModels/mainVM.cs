@@ -58,11 +58,7 @@ namespace crm.ViewModels
         public bool IsProfileMenuOpen
         {
             get => isProfileMenuOpen;
-            set
-            {
-                isProfileMenuOpen = value;
-                this.RaisePropertyChanged("IsProfileMenuOpen");
-            }
+            set => this.RaiseAndSetIfChanged(ref isProfileMenuOpen, value);
         }
 
         bool isStripVisible;
