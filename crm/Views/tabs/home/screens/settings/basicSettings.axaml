@@ -98,7 +98,7 @@
 			<Style Selector="ToggleSwitch">				
 				<Setter Property="OnContent" Value=""/>
 				<Setter Property="OffContent" Value=""/>
-				<Setter Property="Margin" Value="0, 1, 0, 0"/>
+				<Setter Property="Margin" Value="0, 3, 0, 0"/>
 			</Style>
 		</ScrollViewer.Styles>
 	</ScrollViewer>

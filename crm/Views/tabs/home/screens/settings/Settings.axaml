@@ -8,7 +8,11 @@
              x:Class="crm.Views.tabs.home.screens.settings.Settings">
 	<Design.DataContext>
 		<vm:Settings/>
-	</Design.DataContext>	
+	</Design.DataContext>
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/ScreenStyle.axaml"/>
+		<StyleInclude Source="/Styles/UserListStyle.axaml"/>
+	</UserControl.Styles>
 	<Grid
 		RowDefinitions="Auto, Auto, *"
 		Margin="25, 12, 0, 0">

@@ -26,11 +26,13 @@ namespace crm.ViewModels.tabs.home.screens.settings
         {
             SettingsPages = new ObservableCollection<BaseScreen>();
             SettingsPages.Add(new basicSettings(AppContext));
+            Content = SettingsPages[0];
         }
         public Settings(ApplicationContext context) : base(context)
         {
             SettingsPages = new ObservableCollection<BaseScreen>();
             SettingsPages.Add(new basicSettings(AppContext));
+            Content = SettingsPages[0];
         }
     }
 }
