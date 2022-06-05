@@ -450,7 +450,7 @@
 		
 		<Popup
 			IsOpen="{Binding IsProfileMenuOpen, Mode=TwoWay}"
-			WindowManagerAddShadowHint="False"
+			WindowManagerAddShadowHint="False"						
 			StaysOpen="False"
 			VerticalOffset="7"
 			HorizontalOffset="-7"

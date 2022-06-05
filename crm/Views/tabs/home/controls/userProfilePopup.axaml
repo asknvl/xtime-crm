@@ -4,7 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 xmlns:material="using:Material.Icons.Avalonia"
+			 xmlns:vm="using:crm.ViewModels"
              x:Class="crm.Views.tabs.home.controls.userProfilePopup">
+	<UserControl.DataContext>
+		<vm:mainVM/>
+	</UserControl.DataContext>
 	<UserControl.Styles>
 		<StyleInclude Source="/Styles/TabStyles.axaml" />
 	</UserControl.Styles>
