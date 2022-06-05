@@ -1,0 +1,85 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="using:crm.ViewModels.tabs.home.screens.settings"
+			 xmlns:vs="using:crm.Views.tabs.home.screens.settings"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="crm.Views.tabs.home.screens.settings.Settings">
+	<Design.DataContext>
+		<vm:Settings/>
+	</Design.DataContext>	
+	<Grid
+		RowDefinitions="Auto, Auto, *"
+		Margin="25, 12, 0, 0">
+		<Grid
+			Grid.Row="0">
+			<TextBlock
+				Text="{Binding Title}"
+				FontWeight="Bold"/>
+		</Grid>
+		<Grid
+			Grid.Row="1"
+			Margin="0, 20, 20, 0"
+			Height="45"
+			ColumnDefinitions="620, 300">
+			<ListBox
+				Items="{Binding SettingsPages}"
+				SelectedItem="{Binding Content}">
+				<ListBox.ItemsPanel>
+					<ItemsPanelTemplate>
+						<StackPanel Orientation="Horizontal"/>
+					</ItemsPanelTemplate>
+				</ListBox.ItemsPanel>
+				<ListBox.DataTemplates>
+					<DataTemplate>
+						<Grid
+							Width="90"
+							VerticalAlignment="Stretch">
+							<TextBlock
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								Text="{Binding Title}"/>
+						</Grid>
+					</DataTemplate>
+				</ListBox.DataTemplates>
+				<ListBox.Styles>
+					<Style Selector="ListBox">
+						<Setter Property="CornerRadius" Value="5"/>
+					</Style>
+					<Style Selector="ListBox ListBoxItem">
+						<Setter Property="Padding" Value="20, 2, 20, 0"/>
+						<Setter Property="Margin" Value="10, 0, 10, 0"/>
+					</Style>
+					<Style Selector="ListBox ListBoxItem:not(:selected) /template/ ContentPresenter#PART_ContentPresenter">
+						<Setter Property="BorderThickness" Value="0, 0, 0, 2"/>
+						<Setter Property="BorderBrush" Value="Transparent"/>
+					</Style>
+					<Style Selector="ListBox ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+						<Setter Property="BorderThickness" Value="0, 0, 0, 2"/>
+						<Setter Property="BorderBrush" Value="#FF464646"/>
+						<Setter Property="Background" Value="Transparent"/>
+					</Style>
+					<Style Selector="ListBox ListBoxItem:pointerover:not(:selected) /template/ ContentPresenter#PART_ContentPresenter">
+						<Setter Property="BorderThickness" Value="0, 0, 0, 2"/>
+						<Setter Property="BorderBrush" Value="Transparent"/>
+						<Setter Property="Background" Value="Transparent"/>
+					</Style>
+				</ListBox.Styles>
+			</ListBox>					
+		</Grid>
+		<Grid
+			Grid.Row="2"
+			Margin="0, 30, 0, 0">
+			<Grid.DataTemplates>
+				<DataTemplate DataType="{x:Type vm:basicSettings}">
+					<vs:basicSettings/>
+				</DataTemplate>
+				<!--<DataTemplate DataType="{x:Type vm:editUserDevices}">
+					<vs:editUserDevices/>
+				</DataTemplate>-->
+			</Grid.DataTemplates>
+			<ContentControl Content="{Binding Content}"/>
+		</Grid>
+	</Grid>
+</UserControl>

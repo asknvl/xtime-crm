@@ -32,7 +32,7 @@ namespace crm.ViewModels.tabs.home.screens
         string token;
 
         List<UserListItem> checkedUsers = new();
-        string SortKey = "+firstname";
+        string SortKey = "-is_connected";
         #endregion
 
         #region properties       

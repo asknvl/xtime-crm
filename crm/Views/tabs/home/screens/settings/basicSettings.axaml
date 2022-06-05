@@ -1,0 +1,99 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="using:crm.ViewModels.tabs.home.screens.settings"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="crm.Views.tabs.home.screens.settings.basicSettings">
+	<Design.DataContext>
+		<vm:basicSettings/>
+	</Design.DataContext>
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/DataValidationErros.axaml"/>
+		<StyleInclude Source="/Styles/ScreenStyle.axaml"/>
+		<StyleInclude Source="/Styles/UserListStyle.axaml"/>
+	</UserControl.Styles>
+	<ScrollViewer
+		VerticalScrollBarVisibility="Hidden"
+		HorizontalScrollBarVisibility="Hidden">
+		<Grid
+			RowDefinitions="Auto, *"
+			ColumnDefinitions="600, 400"
+			Margin="0, 0, 0, 50">
+			<Grid.Styles>
+				<Style Selector="Grid TextBox">
+					<Setter Property="Padding" Value="0"/>
+				</Style>
+			</Grid.Styles>
+			<TextBlock
+				Text="Настройки"
+				Grid.Row="0"
+				FontSize="16"
+				VerticalAlignment="Center"
+				FontWeight="Bold"/>
+			<StackPanel
+				Margin="0, 20, 0, 0"
+				Grid.Row="1"
+				Grid.Column="0"
+				Orientation="Vertical">
+				<Grid
+					ColumnDefinitions="1*, 2*"
+					Classes="Grid Items">
+					<TextBlock
+						Classes="TextBlock Param"
+						Grid.Column="0">
+						Оставаться в системе
+					</TextBlock>
+					<ToggleSwitch						
+						Grid.Column="1">
+					</ToggleSwitch>
+				</Grid>
+				
+			</StackPanel>
+			<Grid
+				Grid.Column="1"
+				Grid.Row="1"
+				VerticalAlignment="Top"
+				HorizontalAlignment="Left"
+				Margin="50, 50, 0, 0">
+				<Image
+					Source="avares://crm/Assets/png/screens/userinfo.png" Width="400" Height="329"/>
+			</Grid>
+		</Grid>
+		<ScrollViewer.Styles>
+			<Style Selector="Grid.Items">
+				<Setter Property="HorizontalAlignment" Value="Stretch"/>
+				<Setter Property="Height" Value="{DynamicResource ScreenListItemHeight}"/>
+			</Style>
+			<Style Selector="TextBlock.Param">
+				<Setter Property="VerticalAlignment" Value="Center"/>
+				<Setter Property="FontSize" Value="12"/>
+				<Setter Property="FontWeight" Value="Bold"/>
+				<Setter Property="Margin" Value="0, 1, 0, 0"/>
+			</Style>
+			<Style Selector="TextBox">
+				<Setter Property="IsReadOnly" Value="{Binding !IsEditable}"/>
+				<Setter Property="VerticalAlignment" Value="Center"/>
+				<Setter Property="VerticalContentAlignment" Value="Center"/>
+				<Setter Property="FontSize" Value="12"/>
+				<Setter Property="Padding" Value="6"/>
+				<Setter Property="FontWeight" Value="Bold"/>
+			</Style>
+			<Style Selector="TextBox:not(:pointerover) /template/ Border#PART_BorderElement">
+				<Setter Property="BorderThickness" Value="0"/>
+				<Setter Property="BorderBrush" Value="Transparent"/>
+			</Style>
+			<Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+				<Setter Property="BorderThickness" Value="0"/>
+				<Setter Property="BorderBrush" Value="Transparent"/>
+			</Style>
+			<Style Selector="TextBox:disabled /template/ Border#PART_BorderElement">
+				<Setter Property="Background" Value="Transparent"/>
+			</Style>
+			<Style Selector="TextBox DataValidationErrors">
+				<Setter Property="Template" Value="{DynamicResource TooltipDataValidationContentTemplate}"/>
+				<Setter Property="ErrorTemplate" Value="{DynamicResource TooltipDataValidationErrorTemplate}" />
+			</Style>
+		</ScrollViewer.Styles>
+	</ScrollViewer>
+</UserControl>
