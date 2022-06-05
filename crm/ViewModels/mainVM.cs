@@ -180,9 +180,9 @@ namespace crm.ViewModels
                 User = user;
                 IsUserMenuVisible = true;
 
-                AppContext.User = user;
+                AppContext.User = User;
 #if ONLINE
-                AppContext.SocketApi.Connect(user.Token);
+                await AppContext.SocketApi.Connect(user.Token);
 #endif
 
                 homeVM homeTab = new homeVM(this, AppContext);
