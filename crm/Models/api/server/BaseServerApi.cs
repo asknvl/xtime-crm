@@ -353,6 +353,24 @@ namespace crm.Models.api.server
             return res;
         }
 
+        public virtual async Task<bool> UpdateUserPassword(string token, BaseUser user, string password)
+        {
+            bool res = false;
+            var client = new RestClient($"{url}/v1/users/{user.Id}/password");
+            var request = new RestRequest(Method.PUT);
+            request.AddHeader($"Authorization", $"Bearer {token}");
+            request.AddParameter("password", password);
+            var response = client.Execute(request);
+            var json = JObject.Parse(response.Content);
+            res = json["success"].ToObject<bool>();
+            if (!res)
+            {
+                string e = json["errors"].ToString();
+                List<ServerError>? errors = JsonConvert.DeserializeObject<List<ServerError>>(e);
+                throw new ServerException($"{getErrMsg(errors)}");
+            }
+            return res;
+        }
         #endregion
 
     }

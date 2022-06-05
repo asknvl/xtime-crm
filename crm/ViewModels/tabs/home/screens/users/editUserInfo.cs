@@ -21,6 +21,10 @@ namespace crm.ViewModels.tabs.home.screens.users
 {
     public class editUserInfo : BaseScreen, ICommandActions
     {
+        #region const
+        const string no_change_password = "******";
+        #endregion
+
         #region vars
         IValidator<string> fn_vl = new FullNameValidator();
         IValidator<string> litera_vl = new LiteraValidator();
@@ -30,6 +34,7 @@ namespace crm.ViewModels.tabs.home.screens.users
         IValidator<string> birth_vl = new BirthDateValidator();
         IValidator<string> tg_vl = new TelegramValidator();
         IValidator<string> wallet_vl = new WalletValidator();
+        IValidator<string> pswrd_vl = new PasswordValidator_server();
 
         bool
            isEmail,
@@ -39,7 +44,8 @@ namespace crm.ViewModels.tabs.home.screens.users
            isPhoneNumber,
            isTelegram,
            isWallet,
-           isRoles;
+           isRoles,
+           isPassword;
 
         TagsAndRolesConvetrer convetrer = new();
         BaseUser user;
@@ -204,7 +210,25 @@ namespace crm.ViewModels.tabs.home.screens.users
         }
                 
         public string Description { get; set; }
-        
+
+        string password;
+        public string Password
+        {
+            get => password;
+            set
+            {
+                //isPassword = pswrd_vl.IsValid(value);
+                //if (isPassword)
+                //{
+                //    RemoveError(nameof(Password));                   
+                //} else
+                //    AddError(nameof(Password), pswrd_vl.Message);
+
+                //updateValidity();
+                this.RaiseAndSetIfChanged(ref password, value);
+            }
+        }
+
         public List<tagsListItem> Tags { get; set; } = new();
         public List<tagsListItem> SelectedTags { get; set; } = new();
         public SelectionModel<tagsListItem> Selection { get; set; }
@@ -301,6 +325,7 @@ namespace crm.ViewModels.tabs.home.screens.users
             Telegram = user.Telegram;
             Wallet = user.Wallet;
             Description = user.Description;
+            Password = no_change_password;
 
             foreach (var item in user.SocialNetworks)
                 SocialNetworks.Add(item);
@@ -331,7 +356,8 @@ namespace crm.ViewModels.tabs.home.screens.users
                 isPhoneNumber,
                 isTelegram,
                 isWallet,
-                isRoles
+                isRoles,
+                isPassword
             });
         }
         #endregion
@@ -378,8 +404,14 @@ namespace crm.ViewModels.tabs.home.screens.users
 
             bool usr = await AppContext.ServerApi.UpdateUserInfo(token, updUser);
             bool dsc = await AppContext.ServerApi.UpdateUserComment(token, updUser);
+            bool psw = true;
 
-            return usr & dsc;
+            if (!Password.Equals(no_change_password))
+            {
+                psw = await AppContext.ServerApi.UpdateUserPassword(token, updUser, Password);
+            }
+
+            return usr & dsc & psw;
         }
 
         public void Cancel()

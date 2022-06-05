@@ -111,6 +111,20 @@
 					<TextBlock
 						Classes="TextBlock Param"
 						Grid.Column="0">
+						Пароль
+					</TextBlock>
+					<TextBox
+						Text="{Binding Password}"
+						Grid.Column="1">
+					</TextBox>
+				</Grid>
+				<Separator BorderBrush="#FFE5E5E5" BorderThickness="0.5"/>
+				<Grid
+					Classes="Grid Items"
+					ColumnDefinitions="1*, 2*">
+					<TextBlock
+						Classes="TextBlock Param"
+						Grid.Column="0">
 						Соц. сети
 					</TextBlock>
 					<TextBox						

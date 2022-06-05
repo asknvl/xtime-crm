@@ -75,6 +75,7 @@
 				</Button>
 
 				<ToggleButton
+					IsVisible="False"
 					Classes="ToggleButton MassActions">					
 					<Grid>
 						<TextBlock
