@@ -43,6 +43,7 @@
     <AvaloniaResource Remove="Styles\DataValidationErros.axaml" />
     <AvaloniaResource Remove="Styles\LeftSlideMenuStyles.axaml" />
     <AvaloniaResource Remove="Styles\ScreenStyle.axaml" />
+    <AvaloniaResource Remove="Styles\ToggleSwitch.axaml" />
     <AvaloniaResource Remove="Styles\UserListStyle.axaml" />
     <AvaloniaXaml Remove="Views\Colors.axaml" />
     <!--<None Remove=".gitignore" />
@@ -161,5 +162,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\svgs\topmenu\" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaXaml Update="Styles\ToggleSwitch.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaXaml>
   </ItemGroup>
 </Project>

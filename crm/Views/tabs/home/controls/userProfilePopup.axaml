@@ -18,7 +18,7 @@
 			Background="{DynamicResource HomeTabPrimaryHeaderBackground}"
 			Orientation="Vertical">
 			<Button
-				Command="{Binding Path=editUserCmd}"
+				Command="{Binding editUserCmd}"
 				Classes="Button PopUpMenuItem">
 				<Grid ColumnDefinitions="20, *">					
 					<Image
@@ -33,6 +33,7 @@
 				</Grid>
 			</Button>
 			<Button				
+				Command="{Binding settingsCmd}"
 				Classes="Button PopUpMenuItem">
 				<Grid ColumnDefinitions="20, *">					
 					<Image
@@ -48,7 +49,7 @@
 			</Button>
 			<Grid Height="1" Background="Gray" HorizontalAlignment="Stretch"/>			
 			<Button
-				Command="{Binding Path=quitCmd}"
+				Command="{Binding quitCmd}"
 				Classes="Button PopUpMenuItem">
 				<Grid ColumnDefinitions="20, *">					
 					<Image

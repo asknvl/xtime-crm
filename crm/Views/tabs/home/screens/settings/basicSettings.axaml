@@ -12,6 +12,7 @@
 		<StyleInclude Source="/Styles/DataValidationErros.axaml"/>
 		<StyleInclude Source="/Styles/ScreenStyle.axaml"/>
 		<StyleInclude Source="/Styles/UserListStyle.axaml"/>
+		<StyleInclude Source="/Styles/ToggleSwitch.axaml"/>
 	</UserControl.Styles>
 	<ScrollViewer
 		VerticalScrollBarVisibility="Hidden"
@@ -39,14 +40,14 @@
 				<Grid
 					ColumnDefinitions="1*, 2*"
 					Classes="Grid Items">
-					<TextBlock
+					<TextBlock						
 						Classes="TextBlock Param"
 						Grid.Column="0">
 						Оставаться в системе
 					</TextBlock>
-					<ToggleSwitch						
+					<ToggleSwitch
 						Grid.Column="1">
-					</ToggleSwitch>
+					</ToggleSwitch>					
 				</Grid>
 				
 			</StackPanel>
@@ -68,7 +69,7 @@
 			<Style Selector="TextBlock.Param">
 				<Setter Property="VerticalAlignment" Value="Center"/>
 				<Setter Property="FontSize" Value="12"/>
-				<Setter Property="FontWeight" Value="Bold"/>
+				<Setter Property="FontWeight" Value="Normal"/>
 				<Setter Property="Margin" Value="0, 1, 0, 0"/>
 			</Style>
 			<Style Selector="TextBox">
@@ -93,6 +94,11 @@
 			<Style Selector="TextBox DataValidationErrors">
 				<Setter Property="Template" Value="{DynamicResource TooltipDataValidationContentTemplate}"/>
 				<Setter Property="ErrorTemplate" Value="{DynamicResource TooltipDataValidationErrorTemplate}" />
+			</Style>
+			<Style Selector="ToggleSwitch">				
+				<Setter Property="OnContent" Value=""/>
+				<Setter Property="OffContent" Value=""/>
+				<Setter Property="Margin" Value="0, 1, 0, 0"/>
 			</Style>
 		</ScrollViewer.Styles>
 	</ScrollViewer>

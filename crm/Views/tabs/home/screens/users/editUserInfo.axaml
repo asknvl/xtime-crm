@@ -46,7 +46,7 @@
 						ФИО
 					</TextBlock>
 					<TextBox							
-						Text="{Binding FullName}"
+						Text="{Binding FullName}"						
 						Grid.Column="1">
 					</TextBox>
 				</Grid>

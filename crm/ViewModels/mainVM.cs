@@ -5,6 +5,7 @@ using crm.Models.appcontext;
 using crm.Models.user;
 using crm.ViewModels.popups;
 using crm.ViewModels.tabs;
+using crm.ViewModels.tabs.home.screens.settings;
 using crm.ViewModels.tabs.home.screens.users;
 using crm.ViewModels.tabs.tabservice;
 using ReactiveUI;
@@ -74,6 +75,7 @@ namespace crm.ViewModels
         public ReactiveCommand<Unit, Unit> maximizeCmd { get; }
         public ReactiveCommand<Unit, Unit> minimizeCmd { get; }
         public ReactiveCommand<Unit, Unit> profileMenuOpenCmd { get; }
+        public ReactiveCommand<Unit, Unit> settingsCmd { get; }
         public ReactiveCommand<Unit, Unit> editUserCmd { get; }
         public ReactiveCommand<Unit, Unit> quitCmd { get; }
         public ReactiveCommand<Unit, Unit> testCmd { get; }
@@ -136,6 +138,12 @@ namespace crm.ViewModels
             {
                 Tab edit = new ScreenTab(this, new UserEdit(AppContext, AppContext.User));
                 edit.Show();
+                IsProfileMenuOpen = false;
+            });
+
+            settingsCmd = ReactiveCommand.Create(() => {
+                Tab settings = new ScreenTab(this, new Settings(AppContext));
+                settings.Show();
                 IsProfileMenuOpen = false;
             });
 
