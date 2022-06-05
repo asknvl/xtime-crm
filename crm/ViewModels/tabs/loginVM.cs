@@ -25,8 +25,9 @@ namespace crm.ViewModels.tabs
         bool isPassword;
         IValidator<string> lv = new LoginValidator();
         IAutoComplete la = new EmailAutoComplete();
-
         IWindowService ws = WindowService.getInstance();
+
+        ApplicationContext AppContext;
         #endregion
 
         #region properties       
@@ -75,6 +76,7 @@ namespace crm.ViewModels.tabs
 
         public loginVM(ITabService ts, ApplicationContext appcontext) : base(ts)
         {
+            AppContext = appcontext;
             Title = "Вход";
 
 #if DEBUG
@@ -82,12 +84,8 @@ namespace crm.ViewModels.tabs
             //Password = "Apistarxoz88";
             Login = "fuckup@protonmail.com";
             Password = "Apistarxoz88";
+            
 #endif
-
-            #region dependencies
-
-            #endregion
-
             #region commands
             enterCmd = ReactiveCommand.CreateFromTask(async () =>
             {
@@ -102,7 +100,12 @@ namespace crm.ViewModels.tabs
                     BaseUser user = await appcontext.ServerApi.Login(Login, Password);
 #endif
                     if (user != null)
+                    {
                         onLoginDone?.Invoke(user);
+                        AppContext.Settings.Login = Login;
+                        AppContext.Settings.Password = Password;
+                        AppContext.Settings.Save();
+                    }
 
                 } catch (Exception ex)
                 {
@@ -133,6 +136,34 @@ namespace crm.ViewModels.tabs
             Login = "";
             Password = "";
             needValidate = true;
+        }
+
+        public async Task<bool> TryLoginFromSettings()
+        {            
+            string login = AppContext.Settings.Login;
+            string password = AppContext.Settings.Password;
+            bool rememberMe = AppContext.Settings.RememberMe;
+
+            bool res = false;
+
+            if (rememberMe && !string.IsNullOrEmpty(login) && !string.IsNullOrEmpty(password))
+            {
+                BaseUser user = null;
+                try
+                {
+                    user = await AppContext.ServerApi.Login(Login, Password);
+                    if (user != null)
+                    {
+                        onLoginDone?.Invoke(user);
+                        res = true;
+                    }
+                } catch (Exception ex)
+                {
+                    res = false;
+                }
+
+            }
+            return res;
         }
         #endregion
     }

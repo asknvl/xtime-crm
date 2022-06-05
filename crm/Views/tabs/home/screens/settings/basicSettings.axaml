@@ -46,6 +46,7 @@
 						Оставаться в системе
 					</TextBlock>
 					<ToggleSwitch
+						IsChecked="{Binding RememberMe}"
 						Grid.Column="1">
 					</ToggleSwitch>					
 				</Grid>

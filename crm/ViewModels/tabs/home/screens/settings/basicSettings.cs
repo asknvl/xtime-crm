@@ -1,4 +1,5 @@
 ﻿using crm.Models.appcontext;
+using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,18 @@ namespace crm.ViewModels.tabs.home.screens.settings
     {
         #region properties
         public override string Title => "Основные";
+
+        bool rememberMe;
+        public bool RememberMe
+        {
+            get => rememberMe;
+            set
+            {
+                AppContext.Settings.RememberMe = value;
+                this.RaiseAndSetIfChanged(ref rememberMe, value);
+                AppContext.Settings.Save();
+            }
+        }
         #endregion
 
         public basicSettings() : base(new ApplicationContext())
@@ -19,6 +32,12 @@ namespace crm.ViewModels.tabs.home.screens.settings
 
         public basicSettings(ApplicationContext context) : base(context)
         {
+            RememberMe = AppContext.Settings.RememberMe;
+        }
+
+        public override void OnDeactivate()
+        {
+            //AppContext.Settings.Save();
         }
     }
 }

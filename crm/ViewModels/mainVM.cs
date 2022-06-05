@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using crm.Models.api.server;
 using crm.Models.api.socket;
 using crm.Models.appcontext;
+using crm.Models.appsettings;
 using crm.Models.user;
 using crm.ViewModels.popups;
 using crm.ViewModels.tabs;
@@ -85,7 +86,10 @@ namespace crm.ViewModels
 
             #region dependencies
             ApplicationContext AppContext = new ApplicationContext();
+            AppContext.Settings = new ApplicationSettings();
+            AppContext.Settings.Load();
             AppContext.BottomPopup = bottomPopup;
+
 #if DEBUG
             //AppContext.ServerApi = new ServerApi("http://136.243.74.153:4000");
             //AppContext.SocketApi = new SocketApi("http://136.243.74.153:4000");
@@ -224,7 +228,17 @@ namespace crm.ViewModels
             };
             #endregion
 
+            //login or login tab
             loginTab.Show();
+
+            Task.Run(async () =>
+            {
+                bool loginFromSettings = await loginTab.TryLoginFromSettings();
+                if (!loginFromSettings)
+                    loginTab.Show();
+            }).Wait();
+
+
         }
 
         #region callbacks

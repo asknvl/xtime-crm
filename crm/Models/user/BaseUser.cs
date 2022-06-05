@@ -113,6 +113,14 @@ namespace crm.Models.user
             set => this.RaiseAndSetIfChanged(ref wallet, value);
         }
 
+        bool? isconnected;
+        [JsonProperty("is_connected")]
+        public bool ? IsConnected
+        {
+            get => isconnected;
+            set => this.RaiseAndSetIfChanged(ref isconnected, value);
+        }
+
         string? lastlogindate;
         [JsonProperty("last_login_date")]
         public string? LastLoginDate
@@ -144,6 +152,14 @@ namespace crm.Models.user
             get => roles;
             set => this.RaiseAndSetIfChanged(ref roles, value);
         }
+
+        string description;
+        [JsonProperty("description")]
+        public string Description
+        {
+            get => description;
+            set => this.RaiseAndSetIfChanged(ref description, value);
+        }
         #endregion
 
         #region public
@@ -160,6 +176,10 @@ namespace crm.Models.user
             MiddleName = user.MiddleName;
             BirthDate = user.BirthDate;
             PhoneNumber = user.PhoneNumber;
+            LastLoginDate = user.LastLoginDate;
+            LastEventDate = user.LastEventDate;
+            IsConnected = user.IsConnected;
+            Description = user.Description;
 
             SocialNetworks = new List<SocialNetwork>();
             foreach (var item in user.SocialNetworks)

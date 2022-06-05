@@ -41,9 +41,11 @@ namespace crm.ViewModels.dialogs
 сложившаяся структура организации напрямую зависит от модели развития!";
         }
 
-        public commentDlgVM(BaseUser user, bool iseditable)
+        public commentDlgVM(string text, bool iseditable)
         {
             IsEditable = iseditable;
+
+            Text = text;
 
             cancelCmd = ReactiveCommand.Create(() =>
             {
@@ -55,5 +57,15 @@ namespace crm.ViewModels.dialogs
                 OnCloseRequest();
             });
         }
+
+        public void OnClosing()
+        {
+            if (IsEditable)
+            {
+                ClosingEvent?.Invoke(Text);
+            }
+        }
+
+        public event Action<string> ClosingEvent;
     }
 }

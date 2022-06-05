@@ -33,7 +33,8 @@
 			</TextBlock>
 		</Grid>
 		<TextBox			
-			Text="{Binding Text}"			
+			Text="{Binding Text}"
+			AcceptsReturn="True"
 			IsReadOnly="{Binding !IsEditable}"
 			Grid.Row="1"						
 			TextWrapping="Wrap"			

@@ -45,6 +45,8 @@ namespace crm.ViewModels.tabs.home.screens.users
         BaseUser user;
         string token;
 
+        //commentDlgVM userComment;
+
         IWindowService ws = WindowService.getInstance();
         #endregion
 
@@ -200,7 +202,9 @@ namespace crm.ViewModels.tabs.home.screens.users
                 this.RaiseAndSetIfChanged(ref wallet, value);
             }
         }
-
+                
+        public string Description { get; set; }
+        
         public List<tagsListItem> Tags { get; set; } = new();
         public List<tagsListItem> SelectedTags { get; set; } = new();
         public SelectionModel<tagsListItem> Selection { get; set; }
@@ -272,8 +276,16 @@ namespace crm.ViewModels.tabs.home.screens.users
                 });
             });
 
-            showCommentsCmd = ReactiveCommand.Create(() => {
-                ws.ShowDialog(new commentDlgVM(this.user, IsEditable));
+            showCommentsCmd = ReactiveCommand.CreateFromTask(async () => {                
+                
+                commentDlgVM userComment = new commentDlgVM(Description, IsEditable);
+
+                userComment.ClosingEvent += (s) =>
+                {
+                    Description = s;
+                };
+
+                ws.ShowDialog(userComment);
             });
         }
 
@@ -288,6 +300,7 @@ namespace crm.ViewModels.tabs.home.screens.users
             BirthDate = user.BirthDate;
             Telegram = user.Telegram;
             Wallet = user.Wallet;
+            Description = user.Description;
 
             foreach (var item in user.SocialNetworks)
                 SocialNetworks.Add(item);
@@ -301,6 +314,8 @@ namespace crm.ViewModels.tabs.home.screens.users
                 Selection.Select(index);
             }
             Selection.SelectionChanged += Selection_SelectionChanged;
+
+            
 
         }
         protected bool CheckValidity(bool[] fields)
@@ -359,8 +374,12 @@ namespace crm.ViewModels.tabs.home.screens.users
             updUser.Telegram = Telegram;
             updUser.Wallet = Wallet;
             updUser.Roles = convetrer.TagsToRoles(SelectedTags);
+            updUser.Description = Description;
 
-            return await AppContext.ServerApi.UpdateUserInfo(token, updUser);
+            bool usr = await AppContext.ServerApi.UpdateUserInfo(token, updUser);
+            bool dsc = await AppContext.ServerApi.UpdateUserComment(token, updUser);
+
+            return usr & dsc;
         }
 
         public void Cancel()

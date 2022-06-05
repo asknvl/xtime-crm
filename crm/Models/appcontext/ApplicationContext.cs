@@ -1,5 +1,6 @@
 ﻿using crm.Models.api.server;
 using crm.Models.api.socket;
+using crm.Models.appsettings;
 using crm.Models.user;
 using crm.ViewModels.popups;
 using crm.ViewModels.tabs.tabservice;
@@ -19,6 +20,6 @@ namespace crm.Models.appcontext
         public BaseUser User { get; set; }
         public ITabService TabService { get; set; }
         public IBottomPopupService BottomPopup { get; set; }
-
+        public IApplicationSettings Settings { get; set; }
     }
 }

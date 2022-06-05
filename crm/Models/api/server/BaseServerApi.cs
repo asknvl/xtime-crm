@@ -334,6 +334,25 @@ namespace crm.Models.api.server
             return res;
         }
 
+        public virtual async Task<bool> UpdateUserComment(string token, BaseUser user)
+        {
+            bool res = false;
+            var client = new RestClient($"{url}/v1/users/{user.Id}/description");
+            var request = new RestRequest(Method.PUT);
+            request.AddHeader($"Authorization", $"Bearer {token}");
+            request.AddParameter("description", user.Description);
+            var response = client.Execute(request);
+            var json = JObject.Parse(response.Content);
+            res = json["success"].ToObject<bool>();
+            if (!res)
+            {
+                string e = json["errors"].ToString();
+                List<ServerError>? errors = JsonConvert.DeserializeObject<List<ServerError>>(e);
+                throw new ServerException($"{getErrMsg(errors)}");
+            }
+            return res;
+        }
+
         #endregion
 
     }

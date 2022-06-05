@@ -76,7 +76,7 @@ namespace crm.ViewModels.tabs.home.screens.users
             });
 
             showCommentsCmd = ReactiveCommand.Create(() => {
-                ws.ShowDialog(new commentDlgVM(this, false));
+                ws.ShowDialog(new commentDlgVM(this.Description, false));
             });
             #endregion
         }

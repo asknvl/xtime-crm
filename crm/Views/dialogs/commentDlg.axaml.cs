@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using crm.ViewModels.dialogs;
 
 namespace crm.Views.dialogs
 {
@@ -20,6 +21,7 @@ namespace crm.Views.dialogs
         {
             ((Window)sender).Owner?.Activate();
             ((Window)sender).Owner?.Focus();
+            ((commentDlgVM)DataContext).OnClosing();
             this.Close();
         }
 
