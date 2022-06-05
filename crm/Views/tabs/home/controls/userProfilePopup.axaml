@@ -23,8 +23,7 @@
 			<Button
 				Command="{Binding Path=editUserCmd}"
 				Classes="Button PopUpMenuItem">
-				<Grid ColumnDefinitions="20, *">
-					<!--<material:MaterialIconExt Kind="Person" Size="20"/>-->
+				<Grid ColumnDefinitions="20, *">					
 					<Image
 						Height="20"
 						Width="20"
@@ -38,8 +37,7 @@
 			</Button>
 			<Button				
 				Classes="Button PopUpMenuItem">
-				<Grid ColumnDefinitions="20, *">
-					<!--<material:MaterialIconExt Kind="SettingsVertical" Size="20"/>-->
+				<Grid ColumnDefinitions="20, *">					
 					<Image
 						Height="20"
 						Width="20"
@@ -55,8 +53,7 @@
 			<Button
 				Command="{Binding Path=quitCmd}"
 				Classes="Button PopUpMenuItem">
-				<Grid ColumnDefinitions="20, *">
-					<!--<material:MaterialIconExt Kind="ExitToApp" Size="20"/>-->
+				<Grid ColumnDefinitions="20, *">					
 					<Image
 						Height="20"
 						Width="20"
