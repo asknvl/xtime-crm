@@ -25,11 +25,11 @@
 				Classes="Button PopUpMenuItem">
 				<Grid ColumnDefinitions="20, *">
 					<!--<material:MaterialIconExt Kind="Person" Size="20"/>-->
-					<Svg
+					<Image
 						Height="20"
 						Width="20"
-						Path="/Assets/svgs/topmenu/profile.svg">						
-					</Svg>
+						Source="{SvgImage /Assets/svgs/topmenu/profile.svg}">						
+					</Image>
 					<TextBlock
 						Grid.Column="1">
 						Мой профиль
@@ -40,11 +40,11 @@
 				Classes="Button PopUpMenuItem">
 				<Grid ColumnDefinitions="20, *">
 					<!--<material:MaterialIconExt Kind="SettingsVertical" Size="20"/>-->
-					<Svg
+					<Image
 						Height="20"
 						Width="20"
-						Path="/Assets/svgs/topmenu/settings.svg">						
-					</Svg>
+						Source="{SvgImage /Assets/svgs/topmenu/settings.svg}">
+					</Image>
 					<TextBlock
 						Grid.Column="1">
 						Настройки
@@ -57,11 +57,11 @@
 				Classes="Button PopUpMenuItem">
 				<Grid ColumnDefinitions="20, *">
 					<!--<material:MaterialIconExt Kind="ExitToApp" Size="20"/>-->
-					<Svg
+					<Image
 						Height="20"
 						Width="20"
-						Path="/Assets/svgs/topmenu/quit.svg">
-					</Svg>
+						Source="{SvgImage /Assets/svgs/topmenu/quit.svg}">
+					</Image>
 					<TextBlock
 						Grid.Column="1">
 						Выйти
