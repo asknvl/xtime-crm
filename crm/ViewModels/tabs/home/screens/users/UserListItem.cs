@@ -75,8 +75,39 @@ namespace crm.ViewModels.tabs.home.screens.users
                 appcontext.BottomPopup.Show("Значение скопировано");
             });
 
-            showCommentsCmd = ReactiveCommand.Create(() => {
-                ws.ShowDialog(new commentDlgVM(this.Description, false));
+            showCommentsCmd = ReactiveCommand.CreateFromTask(async () => {
+
+                BaseUser user = null;
+
+                try
+                {
+                    user = await appcontext.ServerApi.GetUser(Id, appcontext.User.Token);
+
+                } catch (Exception ex)
+                {
+                    ws.ShowDialog(new errMsgVM(ex.Message));
+                }
+
+                Description = user.Description;
+
+                commentDlgVM userComment = new commentDlgVM(Description, true);
+
+                userComment.ClosingEvent += (s) =>
+                {
+                    Description = s;
+
+                    try
+                    {
+                        appcontext.ServerApi.UpdateUserComment(appcontext.User.Token, this);
+
+                    } catch (Exception ex)
+                    {
+                        ws.ShowDialog(new errMsgVM(ex.Message));
+                    }
+                };
+
+                ws.ShowDialog(userComment);
+                
             });
             #endregion
         }
