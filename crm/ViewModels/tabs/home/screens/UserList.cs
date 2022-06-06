@@ -1,5 +1,4 @@
-﻿using Avalonia.Threading;
-using crm.Models.api.server;
+﻿using crm.Models.api.server;
 using crm.Models.api.socket;
 using crm.Models.appcontext;
 using crm.Models.user;
@@ -13,9 +12,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Timers;
 
 namespace crm.ViewModels.tabs.home.screens
 {
@@ -105,7 +102,26 @@ namespace crm.ViewModels.tabs.home.screens
             set => this.RaiseAndSetIfChanged(ref pageInfo, value);
         }
 
-        bool allowUpdate { get; set; } = true;
+        bool isMassActionsVisible;
+        public bool IsMassActionsVisible
+        {
+            get => isMassActionsVisible;
+            set => this.RaiseAndSetIfChanged(ref isMassActionsVisible, value);
+        }
+
+        bool isMassActionOpen;
+        public bool IsMassActionOpen
+        {
+            get => isMassActionOpen;
+            set => this.RaiseAndSetIfChanged(ref isMassActionOpen, value);
+        }
+
+        string massActiontext;
+        public string MassActionText
+        {
+            get => massActiontext;
+            set => this.RaiseAndSetIfChanged(ref massActiontext, value);    
+        }
         #endregion
 
         #region commands        
@@ -113,12 +129,15 @@ namespace crm.ViewModels.tabs.home.screens
         public ReactiveCommand<Unit, Unit> nextPageCmd { get; }
         public ReactiveCommand<Unit, Unit> prevPageCmd { get; }
         public ReactiveCommand<object, Unit> sortParameterCmd { get; }
+        public ReactiveCommand<Unit, Unit> showMassActionsCmd { get; }
         #endregion
 
         public UserList() : base(new ApplicationContext())
         {
             Users = new();
             Users.Add(new UserItemTest(new ApplicationContext()));
+            IsMassActionOpen = true;
+            IsMassActionsVisible = true;
         }
 
         public UserList(ApplicationContext context) : base(context)
@@ -180,13 +199,18 @@ namespace crm.ViewModels.tabs.home.screens
 
             });
 
+            showMassActionsCmd = ReactiveCommand.Create(() =>
+            {
+                IsMassActionOpen = true;
+            });
+
             //Task.Run(async () =>
             //{
             //    while (true)
             //    {
             //        await updatePageInfo(SelectedPage, PageSize);
             //        Thread.Sleep(10000);
-                
+
 
             //    }
             //});
@@ -352,7 +376,10 @@ namespace crm.ViewModels.tabs.home.screens
                     checkedUsers.Remove(found);
             }
 
-            Debug.WriteLine(checkedUsers.Count);
+            int checkedNumber = checkedUsers.Count;
+            IsMassActionsVisible = checkedNumber > 0;
+            MassActionText = (IsMassActionsVisible) ?
+                $"Выберите действие ({checkedNumber} пользователей)" : "";
         }
         #endregion
     }

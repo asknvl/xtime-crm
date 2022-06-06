@@ -71,17 +71,32 @@
 						</TextBlock>
 					</Grid>
 				</Button>
-
-				<ToggleButton
-					IsVisible="False"
-					Classes="ToggleButton MassActions">					
-					<Grid>
-						<TextBlock
-							VerticalAlignment="Center">							
-							asd
-						</TextBlock>
-					</Grid>
-				</ToggleButton>
+				
+				<Grid
+					Name="PART_MassActionsButton"
+					IsVisible="{Binding IsMassActionsVisible}"
+					ColumnDefinitions="Auto, Auto">
+					<Button						
+						Command="{Binding showMassActionsCmd}"						
+						Grid.Column="0"
+						Classes="Button TopMassActions">					
+						<Grid>
+							<TextBlock								
+								Text="{Binding MassActionText}"
+								VerticalAlignment="Center"
+								>															
+							</TextBlock>
+						</Grid>
+					</Button>
+					<Button						
+						Classes="Button Hyper"
+						Grid.Column="1"
+						Margin="5">
+						<Svg							
+							Path="/Assets/svgs/screens/mass_actions_close.svg">
+						</Svg>
+					</Button>
+				</Grid>
 				<!--<Button Classes="Button Top">
 					<Grid ColumnDefinitions="*, 40">
 						<TextBlock
@@ -426,5 +441,35 @@
 				HorizontalAlignment="Left">
 			</TextBlock>
 		</Grid>
-	</Grid>
+
+		<Popup
+			IsOpen="{Binding  IsMassActionOpen, Mode=TwoWay}"			
+			WindowManagerAddShadowHint="False"		
+			StaysOpen="False"			
+			VerticalOffset="-15"				
+			HorizontalOffset="-10"				
+			Width="320"			
+			PlacementTarget="{Binding ElementName=PART_MassActionsButton}">
+			<Border					
+				Margin="10"					
+				Height="200"					
+				VerticalAlignment="Top"					
+				HorizontalAlignment="Stretch"
+				Background="White"
+				BorderBrush="Black"
+				BoxShadow="0 0 10 1 LightGray"
+				CornerRadius="8">
+				<StackPanel
+					Orientation="Vertical">
+					<Button
+						Height="40"
+						VerticalAlignment="Center"
+						VerticalContentAlignment="Center"
+						Classes="Button Hyper">
+						Добавить теги
+					</Button>
+				</StackPanel>
+			</Border>			
+		</Popup>
+	</Grid>	
 </UserControl>
