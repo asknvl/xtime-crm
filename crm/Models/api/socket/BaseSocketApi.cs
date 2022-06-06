@@ -28,7 +28,7 @@ namespace crm.Models.api.socket
         {
             uri = new Uri(url);
             timer.AutoReset = true;
-            timer.Interval = 1000;
+            timer.Interval = 5000;
             timer.Elapsed += Timer_Elapsed;
         }
 
@@ -38,9 +38,12 @@ namespace crm.Models.api.socket
             client = new SocketIO(uri, new SocketIOOptions()
             {
                 ExtraHeaders = new Dictionary<string, string>() {
-                    { "Authorization", $"Bearer {token}" }
+                    { "Authorization", $"Bearer {token}" },
+                    
                 }
+
             });
+
             //var jsonSerializer = client.JsonSerializer as SystemTextJsonSerializer;
             client.OnConnected += Client_OnConnected;
             client.OnError += Client_OnError;
@@ -66,15 +69,22 @@ namespace crm.Models.api.socket
                 userChangedDTO changed = response.GetValue<userChangedDTO>(1);
                 ReceivedUserInfoChangedEvent?.Invoke(changed);
             });
+            
             await client.ConnectAsync();
-
+            
             timer.Start();
         }
 
         private async void Timer_Elapsed(object? sender, ElapsedEventArgs e)
         {
-            if (!client.Connected)
+            try
+            {
+                 await client.EmitAsync("keep-alive");
+                 
+            } catch (Exception)
+            {
                 await client.ConnectAsync();
+            }
 
         }
 
@@ -87,9 +97,6 @@ namespace crm.Models.api.socket
 
         public virtual void RequestConnectedUsers()
         {
-            //if (!isConnected)
-            //    throw new SocketApiException("Соединение с сервером не установлено (sock)");
-
             client.EmitAsync("get-connected-users");
         }
         #endregion
@@ -97,16 +104,17 @@ namespace crm.Models.api.socket
         #region callbacks
         private void Client_OnDisconnected(object? sender, string e)
         {
-            isConnected = false;
+            Debug.WriteLine("disc");
         }
         private void Client_OnError(object? sender, string e)
         {
-            isConnected = false;
+            Debug.WriteLine("err");
         }
 
         private void Client_OnConnected(object? sender, EventArgs e)
         {
-            isConnected = true;
+            RequestConnectedUsers();
+            Debug.WriteLine("conn");
         }
         #endregion
     }
