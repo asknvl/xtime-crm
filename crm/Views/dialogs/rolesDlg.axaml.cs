@@ -11,7 +11,7 @@ namespace crm.Views.dialogs
         {
             InitializeComponent();
 
-            //Deactivated += RolesDlg_Deactivated;
+            Deactivated += RolesDlg_Deactivated;
 #if DEBUG
             this.AttachDevTools();
 #endif
