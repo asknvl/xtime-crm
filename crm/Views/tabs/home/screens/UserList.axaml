@@ -441,7 +441,9 @@
 				HorizontalAlignment="Left">
 			</TextBlock>
 		</Grid>
-
+		
+		
+		
 		<Popup
 			IsOpen="{Binding  IsMassActionOpen, Mode=TwoWay}"			
 			WindowManagerAddShadowHint="False"		
