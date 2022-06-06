@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace crm.Models.api.socket
 {
@@ -15,6 +16,7 @@ namespace crm.Models.api.socket
         #region vars       
         Uri uri;
         SocketIO client;
+        Timer timer = new Timer();
         bool isConnected;
 
         public event Action<List<usersOnlineDTO>> ReceivedConnectedUsersEvent;
@@ -25,6 +27,9 @@ namespace crm.Models.api.socket
         public BaseSocketApi(string url)
         {
             uri = new Uri(url);
+            timer.AutoReset = true;
+            timer.Interval = 1000;
+            timer.Elapsed += Timer_Elapsed;
         }
 
         #region public
@@ -62,10 +67,21 @@ namespace crm.Models.api.socket
                 ReceivedUserInfoChangedEvent?.Invoke(changed);
             });
             await client.ConnectAsync();
+
+            timer.Start();
+        }
+
+        private async void Timer_Elapsed(object? sender, ElapsedEventArgs e)
+        {
+            if (!client.Connected)
+                await client.ConnectAsync();
+
         }
 
         public async Task Disconnect()
         {
+            timer.Elapsed -= Timer_Elapsed;
+            timer.Stop();            
             await client.DisconnectAsync();
         }
 

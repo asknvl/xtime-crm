@@ -1,4 +1,5 @@
-﻿using crm.Models.api.server;
+﻿using Avalonia.Threading;
+using crm.Models.api.server;
 using crm.Models.api.socket;
 using crm.Models.appcontext;
 using crm.Models.user;
