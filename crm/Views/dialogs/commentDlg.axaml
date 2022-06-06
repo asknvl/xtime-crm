@@ -38,7 +38,7 @@
 			IsReadOnly="{Binding !IsEditable}"
 			Grid.Row="1"						
 			TextWrapping="Wrap"			
-			Margin="50, 20, 50, 20">
+			Margin="40, 20, 40, 20">
 			<!--<TextBox.Styles>
 				<Style Selector="TextBox ScrollViewer:pointerover">
 					<Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
