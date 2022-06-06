@@ -19,7 +19,7 @@
 		HorizontalScrollBarVisibility="Hidden">
 		<Grid
 			RowDefinitions="Auto, *"
-			ColumnDefinitions="600, 400"
+			ColumnDefinitions="608, 400"
 			Margin="0, 0, 0, 50">
 			<Grid.Styles>
 				<Style Selector="Grid TextBox">

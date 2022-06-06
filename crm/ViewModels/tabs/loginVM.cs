@@ -82,8 +82,8 @@ namespace crm.ViewModels.tabs
 #if DEBUG
             //Login = "devfrontend@protonmail.com";
             //Password = "Apistarxoz88";
-            Login = "fuckup@protonmail.com";
-            Password = "Apistarxoz88";
+            //Login = "fuckup@protonmail.com";
+            //Password = "Apistarxoz88";
             
 #endif
             #region commands
@@ -140,8 +140,8 @@ namespace crm.ViewModels.tabs
 
         public async Task<bool> TryLoginFromSettings()
         {            
-            string login = AppContext.Settings.Login;
-            string password = AppContext.Settings.Password;
+            Login = AppContext.Settings.Login;
+            Password = AppContext.Settings.Password;
             bool rememberMe = AppContext.Settings.RememberMe;
 
             bool res = false;

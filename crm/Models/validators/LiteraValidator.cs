@@ -13,7 +13,7 @@ namespace crm.Models.validators
 
         public bool IsValid(string value)
         {
-            Regex regex = new Regex(@"^[[A-Z0-9]{2,2}$");
+            Regex regex = new Regex(@"^[A-Z]{2,2}$");
             return regex.IsMatch(value);
         }
     }

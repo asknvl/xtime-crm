@@ -129,7 +129,7 @@ namespace crm.ViewModels.tabs.home.screens
             sckApi = AppContext.SocketApi;
             sckApi.ReceivedConnectedUsersEvent += SckApi_ReceivedConnectedUsersEvent;
             sckApi.ReceivedUsersDatesEvent += SckApi_ReceivedUsersDatesEvent;
-
+            sckApi.ReceivedUserInfoChangedEvent += SckApi_ReceivedUserInfoChangedEvent;
 
             SelectedPage = 1;
 
@@ -307,6 +307,26 @@ namespace crm.ViewModels.tabs.home.screens
             {
                 user.LastLoginDate = dates.last_login_date;
                 user.LastEventDate = dates.last_event_date;
+            }
+        }
+
+        private async void SckApi_ReceivedUserInfoChangedEvent(userChangedDTO changed)
+        {
+            string id = changed.user_id;
+            var userToUpdate = Users.FirstOrDefault(u => u.Id.Equals(id));
+            if (userToUpdate != null)
+            {
+                BaseUser updatedUser = null;
+                try
+                {
+                    updatedUser = await AppContext.ServerApi.GetUser(id, token);
+                    userToUpdate.Copy(updatedUser);
+
+                } catch (Exception ex)
+                {
+                    ws.ShowDialog(new errMsgVM(ex.Message));
+                }
+
             }
         }
 

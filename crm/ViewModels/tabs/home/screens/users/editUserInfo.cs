@@ -104,7 +104,7 @@ namespace crm.ViewModels.tabs.home.screens.users
                 //updateValidity();
                 //if (!isFullName) { 
                 //    throw new DataValidationException(fn_vl.Message);                
-                if (!isFullName)
+                if (!isLitera)
                     AddError(nameof(Litera), litera_vl.Message);
                 else
                     RemoveError(nameof(Litera));
@@ -395,6 +395,7 @@ namespace crm.ViewModels.tabs.home.screens.users
 
             updUser.Email = Email;
             updUser.FullName = FullName;
+            updUser.Litera = Litera;
             updUser.BirthDate = BirthDate;
             updUser.PhoneNumber = PhoneNumber;
             updUser.Telegram = Telegram;

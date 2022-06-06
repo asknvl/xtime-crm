@@ -53,8 +53,7 @@
 						</TextBlock>
 					</Grid>
 				</Button>
-				<Button
-					IsEnabled="False"
+				<Button					
 					Classes="Button Top">
 					<Grid>
 						<TextBlock
@@ -63,8 +62,7 @@
 						</TextBlock>
 					</Grid>
 				</Button>
-				<Button
-					IsEnabled="False"
+				<Button					
 					Classes="Button Top">
 					<Grid>
 						<TextBlock
@@ -122,9 +120,9 @@
 						RowDefinitions="*, 1"
 						ColumnDefinitions="
 							30, 
-							80,
-							80,
-							80,
+							70,
+							70,
+							70,
 							180,
 							180,
 							100,
@@ -132,7 +130,7 @@
 							100,
 							180,
 							250,
-							180,
+							150,
 							180,
 							120,
 							120,
@@ -151,7 +149,7 @@
 								Width="15"
 								Height="15"/>							
 						</ToggleButton>
-						<ToggleButton
+						<ToggleButton							
 							Name="id"
 							Command="{Binding sortParameterCmd}"							
 							Classes="ToggleButton CheckSort"							
