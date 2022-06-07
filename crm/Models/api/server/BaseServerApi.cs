@@ -373,5 +373,21 @@ namespace crm.Models.api.server
         }
         #endregion
 
+        public virtual async Task DeleteUser(string token, BaseUser user)
+        {
+            bool res = false;
+            var client = new RestClient($"{url}/v1/users/{user.Id}");
+            var request = new RestRequest(Method.DELETE);
+            request.AddHeader($"Authorization", $"Bearer {token}");            
+            var response = client.Execute(request);
+            var json = JObject.Parse(response.Content);
+            res = json["success"].ToObject<bool>();
+            if (!res)
+            {
+                string e = json["errors"].ToString();
+                List<ServerError>? errors = JsonConvert.DeserializeObject<List<ServerError>>(e);
+                throw new ServerException($"{getErrMsg(errors)}");
+            }            
+        }
     }
 }

@@ -18,5 +18,6 @@ namespace crm.Models.api.server
         Task<bool> UpdateUserInfo(string token, BaseUser user);
         Task<bool> UpdateUserComment(string token, BaseUser user);
         Task<bool> UpdateUserPassword(string token, BaseUser user, string password);
+        Task DeleteUser(string token, BaseUser user);
     }
 }

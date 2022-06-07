@@ -211,20 +211,23 @@ namespace crm.ViewModels.tabs.home.screens
                 IsAllChecked = false;
             });
 
-            deleteMassUsersCmd = ReactiveCommand.CreateFromTask(async () => {
+            deleteMassUsersCmd = ReactiveCommand.CreateFromTask(async () =>
+            {
+                try
+                {
+                    foreach (var user in checkedUsers)
+                    {
+                        await srvApi.DeleteUser(token, user);
 
-            })
-
-            //Task.Run(async () =>
-            //{
-            //    while (true)
-            //    {
-            //        await updatePageInfo(SelectedPage, PageSize);
-            //        Thread.Sleep(10000);
-
-
-            //    }
-            //});
+                        var found = Users.FirstOrDefault(u => u.Id.Equals(user.Id));
+                        if (found != null)
+                            Users.Remove(found);
+                    }
+                } catch (Exception ex)
+                {
+                    ws.ShowDialog(new errMsgVM(ex.Message));
+                }                
+            });           
             #endregion
         }
 
@@ -361,16 +364,15 @@ namespace crm.ViewModels.tabs.home.screens
 
                 } catch (Exception ex)
                 {
-                    ws.ShowDialog(new errMsgVM(ex.Message));
+                    await Dispatcher.UIThread.InvokeAsync(() => {
+                        ws.ShowDialog(new errMsgVM(ex.Message));
+                    });
                 }
-
             }
         }
 
         public override void OnDeactivate()
-        {
-            //sckApi.ReceivedConnectedUsersEvent -= SckApi_ReceivedConnectedUsersEvent;
-            //sckApi.ReceivedUsersDatesEvent -= SckApi_ReceivedUsersDatesEvent;
+        {            
             base.OnDeactivate();            
         }
         #endregion
