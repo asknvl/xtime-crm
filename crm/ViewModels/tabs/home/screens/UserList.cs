@@ -131,6 +131,8 @@ namespace crm.ViewModels.tabs.home.screens
         public ReactiveCommand<Unit, Unit> prevPageCmd { get; }
         public ReactiveCommand<object, Unit> sortParameterCmd { get; }
         public ReactiveCommand<Unit, Unit> showMassActionsCmd { get; }
+        public ReactiveCommand<Unit, Unit> deselectMassTagsCmd { get; }
+        public ReactiveCommand<Unit, Unit> deleteMassUsersCmd { get; }
         #endregion
 
         public UserList() : base(new ApplicationContext())
@@ -160,7 +162,7 @@ namespace crm.ViewModels.tabs.home.screens
             });
 
             prevPageCmd = ReactiveCommand.CreateFromTask(async () =>
-            {                   
+            {
                 SelectedPage--;
                 try
                 {
@@ -173,7 +175,7 @@ namespace crm.ViewModels.tabs.home.screens
             });
 
             nextPageCmd = ReactiveCommand.CreateFromTask(async () =>
-            {                
+            {
                 SelectedPage++;
                 try
                 {
@@ -204,6 +206,14 @@ namespace crm.ViewModels.tabs.home.screens
             {
                 IsMassActionOpen = true;
             });
+
+            deselectMassTagsCmd = ReactiveCommand.Create(() => {
+                IsAllChecked = false;
+            });
+
+            deleteMassUsersCmd = ReactiveCommand.CreateFromTask(async () => {
+
+            })
 
             //Task.Run(async () =>
             //{

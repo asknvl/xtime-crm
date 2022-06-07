@@ -32,5 +32,6 @@ namespace crm.ViewModels.dialogs
                 OnCloseRequest();
             });
         }
+
     }
 }

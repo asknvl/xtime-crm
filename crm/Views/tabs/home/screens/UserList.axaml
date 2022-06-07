@@ -12,7 +12,7 @@
 	<Design.DataContext>
 		<vm:UserList/>
 	</Design.DataContext>
-	<UserControl.Styles>
+	<UserControl.Styles>		
 		<StyleInclude Source="/Styles/ScreenStyle.axaml"/>
 		<StyleInclude Source="/Styles/UserListStyle.axaml"/>
 	</UserControl.Styles>
@@ -88,32 +88,16 @@
 							</TextBlock>
 						</Grid>
 					</Button>
-					<Button						
+					<Button
+						Command="{Binding deselectMassTagsCmd}"
 						Classes="Button Hyper"
 						Grid.Column="1"
-						Margin="5">
+						Margin="8">
 						<Svg							
 							Path="/Assets/svgs/screens/mass_actions_close.svg">
 						</Svg>
 					</Button>
-				</Grid>
-				<!--<Button Classes="Button Top">
-					<Grid ColumnDefinitions="*, 40">
-						<TextBlock
-							Grid.Column="0"
-							VerticalAlignment="Center">
-							Новый пользователь
-						</TextBlock>
-						<Border
-							Grid.Column="1">
-							<Svg
-								Height="15"
-								Width="15"
-								Path="/Assets/svgs/screens/new_user.svg">
-							</Svg>
-						</Border>
-					</Grid>
-				</Button>-->
+				</Grid>				
 			</StackPanel>
 		</Grid>
 		<Grid
@@ -442,34 +426,85 @@
 			</TextBlock>
 		</Grid>
 		
-		
-		
 		<Popup
 			IsOpen="{Binding  IsMassActionOpen, Mode=TwoWay}"			
 			WindowManagerAddShadowHint="False"		
 			StaysOpen="False"			
 			VerticalOffset="-15"				
-			HorizontalOffset="-10"				
-			Width="320"			
+			HorizontalOffset="-9"				
+			Width="318"			
 			PlacementTarget="{Binding ElementName=PART_MassActionsButton}">
 			<Border					
-				Margin="10"					
-				Height="200"					
+				Margin="10"									
 				VerticalAlignment="Top"					
 				HorizontalAlignment="Stretch"
 				Background="White"
 				BorderBrush="Black"
 				BoxShadow="0 0 10 1 LightGray"
 				CornerRadius="8">
-				<StackPanel
-					Orientation="Vertical">
-					<Button
-						Height="40"
-						VerticalAlignment="Center"
-						VerticalContentAlignment="Center"
-						Classes="Button Hyper">
-						Добавить теги
+				<StackPanel					
+					Orientation="Vertical"
+					Margin="30, 5, 30, 5">
+					<Button	
+						Classes="Button MassAction"
+						Height="{DynamicResource MenuItemMassActionsHeight}"
+						HorizontalAlignment="Stretch">
+						<Grid							
+							ColumnDefinitions="*, Auto">
+							<TextBlock
+								Grid.Column="0"
+								VerticalAlignment="Center">
+								Добавить теги
+							</TextBlock>
+							<Svg
+								Grid.Column="1"
+								Height="20"
+								Width="20"
+								Path="/Assets/svgs/screens/tag.svg">
+							</Svg>
+						</Grid>					
 					</Button>
+					<Separator BorderBrush="#FFE5E5E5" BorderThickness="0.5"/>
+					<Button
+						Classes="Button MassAction"
+						Height="{DynamicResource MenuItemMassActionsHeight}"
+						HorizontalAlignment="Stretch">
+						<Grid
+							ColumnDefinitions="*, Auto">
+							<TextBlock
+								Grid.Column="0"
+								VerticalAlignment="Center">
+								Убрать теги
+							</TextBlock>
+							<Svg
+								Grid.Column="1"
+								Height="20"
+								Width="20"
+								Path="/Assets/svgs/screens/tag.svg">
+							</Svg>
+						</Grid>						
+					</Button>
+					<Separator BorderBrush="#FFE5E5E5" BorderThickness="0.5"/>
+					<Button
+						Command="{Binding deleteMassUsersCmd}"
+						Classes="Button MassAction"
+						Height="{DynamicResource MenuItemMassActionsHeight}"
+						HorizontalAlignment="Stretch">
+						<Grid
+							ColumnDefinitions="*, Auto">
+							<TextBlock
+								Grid.Column="0"
+								VerticalAlignment="Center">
+								Удалить
+							</TextBlock>
+							<Svg
+								Grid.Column="1"
+								Height="20"
+								Width="20"
+								Path="/Assets/svgs/screens/trash_full.svg">
+							</Svg>
+						</Grid>
+					</Button>					
 				</StackPanel>
 			</Border>			
 		</Popup>

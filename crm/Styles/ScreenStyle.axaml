@@ -17,6 +17,7 @@
 		<sys:Double x:Key="TopButtonHeight">45</sys:Double>
 		<sys:Double x:Key="TopButtonMassActionsWidth">300</sys:Double>
 		<sys:Double x:Key="TopButtonMassActionsHeight">45</sys:Double>
+		<sys:Double x:Key="MenuItemMassActionsHeight">40</sys:Double>
 	</Styles.Resources>
 
 	<!--TextBlock-->
@@ -183,6 +184,12 @@
 		<Setter Property="Background" Value="#FF1BD3F8"/>
 		<Setter Property="BorderBrush" Value="#FF1BD3F8"/>
 		<Setter Property="TextBlock.Foreground" Value="#FFFFFFFF"/>
+	</Style>
+
+	<Style Selector="Button.MassAction /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="BorderThickness" Value="0"/>
+		<Setter Property="Padding" Value="0"/>
 	</Style>
 	<!--Pages-->
 	<Style Selector="Border.Page">

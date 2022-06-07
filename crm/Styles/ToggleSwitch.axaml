@@ -166,6 +166,14 @@
 		</Setter>
 	</Style>
 
+	<Style Selector="ToggleSwitch:not(:dragging):not(:pointerover) /template/ Grid#MovingKnobs">
+		<Setter Property="Transitions">
+			<Transitions>
+				<DoubleTransition Property="Canvas.Left" Duration="0:0:0" Easing="CubicEaseOut"/>
+			</Transitions>
+		</Setter>
+	</Style>
+
 	<!-- PointerOverState -->
 	<Style Selector="ToggleSwitch:pointerover /template/ Border#OuterBorder">
 		<Setter Property="BorderBrush" Value="{DynamicResource ToggleSwitchStrokeOffPointerOver}"/>
