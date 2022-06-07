@@ -310,7 +310,7 @@ namespace crm.ViewModels.tabs.home.screens
         #endregion
         
         #region callbacks
-        private void SckApi_ReceivedConnectedUsersEvent(List<usersOnlineDTO> connectedUsers)
+        private async void SckApi_ReceivedConnectedUsersEvent(List<usersOnlineDTO> connectedUsers)
         {
             try
             {
@@ -320,9 +320,11 @@ namespace crm.ViewModels.tabs.home.screens
                     if (user != null)
                         user.Status = connected.connected;
                 }
-            } catch (Exception ex) {
+            } catch (Exception ex)
+            {
                 Debug.WriteLine(ex.Message);
             }
+
         }
 
         private void SckApi_ReceivedUsersDatesEvent(usersDatesDTO dates)
