@@ -169,7 +169,6 @@ namespace crm.ViewModels.tabs.home.screens.users
                 this.RaiseAndSetIfChanged(ref birthdate, value);
             }
         }
-
         public ObservableCollection<SocialNetwork> SocialNetworks { get; } = new ObservableCollection<SocialNetwork>();
 
         string telegram;
@@ -255,7 +254,6 @@ namespace crm.ViewModels.tabs.home.screens.users
             foreach (var item in user.SocialNetworks)
                 SocialNetworks.Add(item);
 
-            //SelectedTags = convetrer.RolesToTags(user.Roles);
 
             Tags = convetrer.GetAllTagsList();
             Selection = new SelectionModel<tagsListItem>();
@@ -329,6 +327,9 @@ namespace crm.ViewModels.tabs.home.screens.users
 
             foreach (var item in user.SocialNetworks)
                 SocialNetworks.Add(item);
+            if (SocialNetworks.Count == 0)
+                SocialNetworks.Add(new SocialNetwork());
+
 
             Selection.Clear();
             Selection.SelectionChanged -= Selection_SelectionChanged;
@@ -402,6 +403,9 @@ namespace crm.ViewModels.tabs.home.screens.users
             updUser.Wallet = Wallet;
             updUser.Roles = convetrer.TagsToRoles(SelectedTags);
             updUser.Description = Description;
+
+            updUser.SocialNetworks = new List<SocialNetwork>();
+            updUser.SocialNetworks.Add(new SocialNetwork() { Account = SocialNetworks[0].Account });
 
             bool usr = await AppContext.ServerApi.UpdateUserInfo(token, updUser);
             bool dsc = await AppContext.ServerApi.UpdateUserComment(token, updUser);

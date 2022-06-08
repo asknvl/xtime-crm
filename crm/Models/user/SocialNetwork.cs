@@ -15,5 +15,12 @@ namespace crm.Models.user
         public string Address { get; set; }
         [JsonProperty("account")]
         public string Account { get; set; }
+
+        public SocialNetwork()
+        {
+            Id = 0;
+            Address = "";
+            Account = "";
+        }
     }
 }

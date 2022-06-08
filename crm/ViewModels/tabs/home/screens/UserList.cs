@@ -38,15 +38,25 @@ namespace crm.ViewModels.tabs.home.screens
 
         public ObservableCollection<UserListItem> Users { get; } = new();
 
+
+        bool needInvokeAllCheck { get; set; } = true;
         bool isAllChecked;
         public bool IsAllChecked
         {
             get => isAllChecked;
             set
             {
-                foreach (var item in Users)
-                    item.IsChecked = value;
+                if (needInvokeAllCheck)
+                {
+                    foreach (var item in Users)
+                        item.IsChecked = value;
 
+                    if (!value)
+                    {
+                        checkedUsers.Clear();
+                        updateMassActions();
+                    }
+                }    
                 this.RaiseAndSetIfChanged(ref isAllChecked, value);
             }
         }
@@ -209,24 +219,77 @@ namespace crm.ViewModels.tabs.home.screens
 
             deselectMassTagsCmd = ReactiveCommand.Create(() => {
                 IsAllChecked = false;
+                //checkedUsers.Clear();
+                //updateMassActions();
             });
 
             deleteMassUsersCmd = ReactiveCommand.CreateFromTask(async () =>
             {
+                //try
+                //{
+                //    foreach (var user in checkedUsers)
+                //    {
+                //        await srvApi.DeleteUser(token, user);
+
+                //        var found = Users.FirstOrDefault(u => u.Id.Equals(user.Id));
+                //        if (found != null)
+                //            Users.Remove(found);
+                //    }
+                //} catch (Exception ex)
+                //{
+                //    ws.ShowDialog(new errMsgVM(ex.Message));
+                //}                
+
+                List<UserListItem> deletedUsers = new();
+
                 try
                 {
                     foreach (var user in checkedUsers)
                     {
                         await srvApi.DeleteUser(token, user);
+                        deletedUsers.Add(user);
 
                         var found = Users.FirstOrDefault(u => u.Id.Equals(user.Id));
                         if (found != null)
                             Users.Remove(found);
                     }
+
+                    foreach (var deleted in deletedUsers)
+                    {
+                        var found = checkedUsers.FirstOrDefault(u => u.Id.Equals(deleted.Id));
+                        if (found != null)
+                            checkedUsers.Remove(found);
+                    }
+
+                    updateMassActions();
+
+                    //BaseUser checkedUser = checkedUsers.FirstOrDefault(u => u.IsChecked);
+
+                    //while (checkedUser != null)
+                    //{
+                    //    await srvApi.DeleteUser(token, checkedUser);
+                    //    var found = Users.FirstOrDefault(u => u.Id.Equals(checkedUser.Id));
+                    //    if (found != null)
+                    //        Users.Remove(found);
+                    //    checkedUsers.Remove(found);
+                    //    checkedUser = checkedUsers.FirstOrDefault(u => u.IsChecked);
+
+                    //    updateMassActions();
+                    //}
+
+                        //Users.Clear();
+                    await updatePageInfo(SelectedPage, PageSize, SortKey);
+                   
+
+
                 } catch (Exception ex)
                 {
-                    ws.ShowDialog(new errMsgVM(ex.Message));
-                }                
+                    //ws.ShowDialog(new errMsgVM(ex.Message));
+                    ws.ShowDialog(new errMsgVM($"Не удалось удалить пользователя"));
+
+                } finally { 
+                    IsMassActionOpen = false; 
+                }
             });           
             #endregion
         }
@@ -237,9 +300,6 @@ namespace crm.ViewModels.tabs.home.screens
             int p = (users_count < displayed_lines_num) ? (page - 1) * displayed_lines_num + users_count : page * displayed_lines_num;
             return $"{(page - 1) * displayed_lines_num + 1}-{p} из {total_users}";
         }
-
-        bool isRunning { get; set; }
-        int storePage;
 
         async Task updatePageInfo(int page, int pagesize, string sortkey)
         {
@@ -274,13 +334,8 @@ namespace crm.ViewModels.tabs.home.screens
 
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-
-                    //if (storePage != page || sortkey != SortKey)
-                
-                    storePage = page;
-
                     foreach (var user in users)
-                    {                 
+                    {
                         var found = Users.FirstOrDefault(u => u.Id.Equals(user.Id));
                         if (found != null)
                         {
@@ -290,7 +345,7 @@ namespace crm.ViewModels.tabs.home.screens
                             var tmp = new UserListItem(AppContext);
                             tmp.CheckedEvent += Item_CheckedEvent;
                             tmp.Copy(user);
-                            tmp.IsChecked = checkedUsers.Any(u => u.Id.Equals(user.Id));
+                            tmp.IsChecked = checkedUsers.Any(u => u.Id.Equals(user.Id)) || IsAllChecked;
                             Users.Add(tmp);
                         }
                     }
@@ -301,6 +356,32 @@ namespace crm.ViewModels.tabs.home.screens
             sckApi.RequestConnectedUsers();
 
 #endif
+        }
+
+        void updateMassActions()
+        {
+            int checkedNumber = checkedUsers.Count;
+            IsMassActionsVisible = checkedNumber > 0;
+
+            string ending = "";
+            if (checkedNumber.ToString().EndsWith("5") ||
+                checkedNumber.ToString().EndsWith("6") ||
+                checkedNumber.ToString().EndsWith("7") ||
+                checkedNumber.ToString().EndsWith("8") ||
+                checkedNumber.ToString().EndsWith("9") ||
+                checkedNumber.ToString().EndsWith("0"))            
+                ending = "лей";
+            else
+            if (checkedNumber.ToString().EndsWith("2") ||
+                checkedNumber.ToString().EndsWith("3") ||
+                checkedNumber.ToString().EndsWith("4"))
+                ending = "ля";
+            else
+                ending = "ль";
+
+
+            MassActionText = (IsMassActionsVisible) ?
+                $"Выберите действие ({checkedNumber} пользовате{ending})" : "";
         }
         #endregion
 
@@ -364,9 +445,11 @@ namespace crm.ViewModels.tabs.home.screens
 
                 } catch (Exception ex)
                 {
-                    await Dispatcher.UIThread.InvokeAsync(() => {
-                        ws.ShowDialog(new errMsgVM(ex.Message));
-                    });
+                    //TODO Исключение игнорируется, пока антон не перестанет слать этот ивент при удалении пользователя
+
+                    //await Dispatcher.UIThread.InvokeAsync(() => {
+                    //    ws.ShowDialog(new errMsgVM(ex.Message));
+                    //});
                 }
             }
         }
@@ -380,6 +463,13 @@ namespace crm.ViewModels.tabs.home.screens
         #region callbacks
         private void Item_CheckedEvent(UserListItem item, bool ischecked)
         {
+            if (!ischecked && IsAllChecked)
+            {
+                needInvokeAllCheck = false;
+                IsAllChecked = false;
+                needInvokeAllCheck = true;
+            }
+
             var found = checkedUsers.FirstOrDefault(o => o.Id.Equals(item.Id));
 
             if (ischecked) {
@@ -391,10 +481,7 @@ namespace crm.ViewModels.tabs.home.screens
                     checkedUsers.Remove(found);
             }
 
-            int checkedNumber = checkedUsers.Count;
-            IsMassActionsVisible = checkedNumber > 0;
-            MassActionText = (IsMassActionsVisible) ?
-                $"Выберите действие ({checkedNumber} пользователей)" : "";
+            updateMassActions();
         }
         #endregion
     }
