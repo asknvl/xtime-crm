@@ -456,12 +456,18 @@
 								VerticalAlignment="Center">
 								Добавить теги
 							</TextBlock>
-							<Svg
+							<!--<Svg
 								Grid.Column="1"
 								Height="20"
 								Width="20"
 								Path="/Assets/svgs/screens/tag.svg">
-							</Svg>
+							</Svg>-->
+							<Image
+								Grid.Column="1"
+								Height="20"
+								Width="20"
+								Source="{SvgImage /Assets/svgs/screens/tag.svg}">
+							</Image>
 						</Grid>					
 					</Button>
 					<Separator BorderBrush="#FFE5E5E5" BorderThickness="0.5"/>
@@ -476,12 +482,18 @@
 								VerticalAlignment="Center">
 								Убрать теги
 							</TextBlock>
-							<Svg
+							<!--<Svg
 								Grid.Column="1"
 								Height="20"
 								Width="20"
 								Path="/Assets/svgs/screens/tag.svg">
-							</Svg>
+							</Svg>-->
+							<Image
+								Grid.Column="1"
+								Height="20"
+								Width="20"
+								Source="{SvgImage /Assets/svgs/screens/tag.svg}">
+							</Image>
 						</Grid>						
 					</Button>
 					<Separator BorderBrush="#FFE5E5E5" BorderThickness="0.5"/>
@@ -497,12 +509,18 @@
 								VerticalAlignment="Center">
 								Удалить
 							</TextBlock>
-							<Svg
+							<!--<Svg
 								Grid.Column="1"
 								Height="20"
 								Width="20"
 								Path="/Assets/svgs/screens/trash_full.svg">
-							</Svg>
+							</Svg>-->
+							<Image
+								Grid.Column="1"
+								Height="20"
+								Width="20"
+								Source="{SvgImage /Assets/svgs/screens/trash_full.svg}">
+							</Image>
 						</Grid>
 					</Button>					
 				</StackPanel>
