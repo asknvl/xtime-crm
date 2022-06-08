@@ -21,7 +21,7 @@ namespace crm.Views.dialogs
         {
             ((Window)sender).Owner?.Activate();
             ((Window)sender).Owner?.Focus();
-            ((commentDlgVM)DataContext).OnClosing();
+            ((commentDlgVM)DataContext).OnClosing();            
             this.Close();
         }
 

@@ -104,6 +104,11 @@ namespace crm.WS
                 wnd = new commentDlg();
             }
 
+            if (vm is confirmationDlgVM)
+            {
+                wnd = new confirmationDlg();
+            }
+
             wnd.DataContext = vm;
             windowList.Add(wnd);
 

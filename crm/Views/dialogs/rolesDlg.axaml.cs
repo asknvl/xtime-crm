@@ -19,6 +19,8 @@ namespace crm.Views.dialogs
 
         private void RolesDlg_Deactivated(object? sender, System.EventArgs e)
         {
+            ((Window)sender).Owner?.Activate();
+            ((Window)sender).Owner?.Focus();
             Close();
         }
 

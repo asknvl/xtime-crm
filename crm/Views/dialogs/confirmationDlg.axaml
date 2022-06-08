@@ -57,8 +57,7 @@
 				Отменить
 			</Button>
 			<Button
-				Command="{Binding acceptCmd}"
-				IsEnabled="{Binding IsValidSelection}"
+				Command="{Binding confirmCmd}"				
 				IsDefault="True"
 				Grid.Row="2"
 				Classes="Button Dialog"

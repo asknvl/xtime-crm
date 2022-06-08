@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace crm.ViewModels.dialogs
 {
-    public class confirmationDlg : BaseDialog
+    public class confirmationDlgVM : BaseDialog
     {
         #region properties
         string title;
@@ -30,14 +30,16 @@ namespace crm.ViewModels.dialogs
         public ReactiveCommand<Unit, Unit> cancelCmd { get; }
         public ReactiveCommand<Unit, Unit> confirmCmd { get; }
         #endregion
-        public confirmationDlg()
+        public confirmationDlgVM()
         {
             #region commands
             cancelCmd = ReactiveCommand.Create(() => {
                 DialogResultEvent?.Invoke(false);
+                OnCloseRequest();
             });
             confirmCmd = ReactiveCommand.Create(() => {
                 DialogResultEvent?.Invoke(true);
+                OnCloseRequest();
             });
             #endregion
         }

@@ -12,6 +12,14 @@ namespace crm.Views.dialogs
 #if DEBUG
             this.AttachDevTools();
 #endif
+            Deactivated += ConfirmationDlg_Deactivated;
+        }
+
+        private void ConfirmationDlg_Deactivated(object? sender, System.EventArgs e)
+        {
+            ((Window)sender).Owner?.Activate();
+            ((Window)sender).Owner?.Focus();
+            this.Close();
         }
 
         private void InitializeComponent()

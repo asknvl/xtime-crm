@@ -48,7 +48,7 @@ namespace crm.ViewModels.tabs.home.screens.users
            isPassword;
 
         TagsAndRolesConvetrer convetrer = new();
-        BaseUser user;
+        BaseUser User;
         string token;
 
         //commentDlgVM userComment;
@@ -281,14 +281,14 @@ namespace crm.ViewModels.tabs.home.screens.users
 
         public editUserInfo(ApplicationContext appcontext, BaseUser user) : base(appcontext)
         {
-            this.user = user;
+            User = user;
             token = AppContext.User.Token;
 
             Tags = convetrer.GetAllTagsList();
             Selection = new SelectionModel<tagsListItem>();
             Selection.SingleSelect = false;
 
-            init(this.user);
+            init(User);
 
             openTelegramCmd = ReactiveCommand.Create(() => {
                 Process.Start(new ProcessStartInfo
@@ -297,17 +297,38 @@ namespace crm.ViewModels.tabs.home.screens.users
                     UseShellExecute = true
                 });
             });
+            
+            showCommentsCmd = ReactiveCommand.CreateFromTask(async () => {
 
-            showCommentsCmd = ReactiveCommand.CreateFromTask(async () => {                
-                
-                commentDlgVM userComment = new commentDlgVM(Description, IsEditable);
+                BaseUser user = null;
+
+                try
+                {
+                    user = await appcontext.ServerApi.GetUser(User.Id, appcontext.User.Token);
+
+                } catch (Exception ex)
+                {
+                    ws.ShowDialog(new errMsgVM(ex.Message));
+                }
+
+                commentDlgVM userComment = new commentDlgVM(user.Description, true);
 
                 userComment.ClosingEvent += (s) =>
                 {
-                    Description = s;
+                    user.Description = s;
+
+                    try
+                    {
+                        appcontext.ServerApi.UpdateUserComment(appcontext.User.Token, user);
+
+                    } catch (Exception ex)
+                    {
+                        ws.ShowDialog(new errMsgVM(ex.Message));
+                    }
                 };
 
                 ws.ShowDialog(userComment);
+
             });
         }
 
@@ -392,7 +413,7 @@ namespace crm.ViewModels.tabs.home.screens.users
         {
 
             BaseUser updUser = new User();
-            updUser.Copy(user);
+            updUser.Copy(User);
 
             updUser.Email = Email;
             updUser.FullName = FullName;
@@ -407,8 +428,7 @@ namespace crm.ViewModels.tabs.home.screens.users
             updUser.SocialNetworks = new List<SocialNetwork>();
             updUser.SocialNetworks.Add(new SocialNetwork() { Account = SocialNetworks[0].Account });
 
-            bool usr = await AppContext.ServerApi.UpdateUserInfo(token, updUser);
-            bool dsc = await AppContext.ServerApi.UpdateUserComment(token, updUser);
+            bool usr = await AppContext.ServerApi.UpdateUserInfo(token, updUser);            
             bool psw = true;
 
             if (!Password.Equals(no_change_password))
@@ -416,12 +436,12 @@ namespace crm.ViewModels.tabs.home.screens.users
                 psw = await AppContext.ServerApi.UpdateUserPassword(token, updUser, Password);
             }
 
-            return usr & dsc & psw;
+            return usr & psw;
         }
 
         public void Cancel()
         {
-            init(user);
+            init(User);
         }
 
         #endregion

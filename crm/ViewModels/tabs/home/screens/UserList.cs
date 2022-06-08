@@ -223,7 +223,7 @@ namespace crm.ViewModels.tabs.home.screens
                 //updateMassActions();
             });
 
-            deleteMassUsersCmd = ReactiveCommand.CreateFromTask(async () =>
+            deleteMassUsersCmd = ReactiveCommand.Create(() =>
             {
                 //try
                 //{
@@ -240,6 +240,20 @@ namespace crm.ViewModels.tabs.home.screens
                 //    ws.ShowDialog(new errMsgVM(ex.Message));
                 //}                
 
+                confirmationDlgVM confirmDelete = new confirmationDlgVM();
+                confirmDelete.Title = "Удаление пользователей";
+                confirmDelete.Message = "Удалить выбранных пользователей?";
+                confirmDelete.DialogResultEvent += ConfirmDelete_DialogResultEvent;
+                ws.ShowDialog(confirmDelete);
+               
+            });           
+            #endregion
+        }
+
+        private async void ConfirmDelete_DialogResultEvent(bool res)
+        {
+            if (res)
+            {
                 List<UserListItem> deletedUsers = new();
 
                 try
@@ -262,36 +276,17 @@ namespace crm.ViewModels.tabs.home.screens
                     }
 
                     updateMassActions();
-
-                    //BaseUser checkedUser = checkedUsers.FirstOrDefault(u => u.IsChecked);
-
-                    //while (checkedUser != null)
-                    //{
-                    //    await srvApi.DeleteUser(token, checkedUser);
-                    //    var found = Users.FirstOrDefault(u => u.Id.Equals(checkedUser.Id));
-                    //    if (found != null)
-                    //        Users.Remove(found);
-                    //    checkedUsers.Remove(found);
-                    //    checkedUser = checkedUsers.FirstOrDefault(u => u.IsChecked);
-
-                    //    updateMassActions();
-                    //}
-
-                        //Users.Clear();
                     await updatePageInfo(SelectedPage, PageSize, SortKey);
-                   
-
 
                 } catch (Exception ex)
-                {
-                    //ws.ShowDialog(new errMsgVM(ex.Message));
+                {                    
                     ws.ShowDialog(new errMsgVM($"Не удалось удалить пользователя"));
 
-                } finally { 
-                    IsMassActionOpen = false; 
+                } finally
+                {
+                    IsMassActionOpen = false;
                 }
-            });           
-            #endregion
+            }
         }
 
         #region helpers
