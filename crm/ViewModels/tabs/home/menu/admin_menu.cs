@@ -41,8 +41,8 @@ namespace crm.ViewModels.tabs.home.menu
             AddItem(accimport);
 
             SimpleMenuItem creatives = new items.Creatives();
-            //creatives.AddScreen(new screens.Creatives(context));
-            creatives.AddScreen(new screens.TBD(context, "Креативы"));
+            creatives.AddScreen(new screens.Creatives(context));
+            //creatives.AddScreen(new screens.TBD(context, "Креативы"));
             AddItem(creatives);
 
             SimpleMenuItem subscriptions = new items.Subscriptions();

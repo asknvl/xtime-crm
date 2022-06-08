@@ -1,0 +1,531 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:uservm="using:crm.ViewModels.tabs.home.screens.users"
+			 xmlns:conv="using:crm.Views.converters"
+			 xmlns:vm="using:crm.ViewModels.tabs.home.screens"
+			 xmlns:views="using:crm.Views.tabs.home.screens"
+			 xmlns:sys="using:System"
+             mc:Ignorable="d" d:DesignWidth="2800" d:DesignHeight="450"
+             x:Class="crm.Views.tabs.home.screens.Creatives">
+	<Design.DataContext>
+		<vm:UserList/>
+	</Design.DataContext>
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/ScreenStyle.axaml"/>
+		<StyleInclude Source="/Styles/UserListStyle.axaml"/>
+	</UserControl.Styles>
+	<UserControl.Resources>
+		<conv:StatusToSvgPathConverter x:Key="statusConverter"/>
+		<conv:UserCheckedToListItemBackgroundConverter x:Key="checkedToItemBackground"/>
+		<conv:IdPadLeftConverter x:Key="padLeftConverter"/>
+	</UserControl.Resources>
+	<Grid
+		RowDefinitions="Auto, Auto, Auto, *, Auto"
+		Margin="25, 12, 0, 0">
+		<Grid
+			Grid.Row="0">
+			<StackPanel
+				Orientation="Horizontal">
+				<TextBlock>
+					Сотрудники
+				</TextBlock>
+				<TextBlock Margin="2, 0, 2, 0">
+					/
+				</TextBlock>
+				<TextBlock
+					Text="Список сотрудников"
+					FontWeight="Bold"/>
+			</StackPanel>
+		</Grid>
+		<Grid
+			Grid.Row="1">
+			<StackPanel
+				Orientation="Horizontal">
+				<Button
+					Command="{Binding addUserCmd}"
+					Classes="Button Top">
+					<Grid>
+						<TextBlock
+							VerticalAlignment="Center">
+							Новый пользователь
+						</TextBlock>
+					</Grid>
+				</Button>
+				<Button
+					Classes="Button Top">
+					<Grid>
+						<TextBlock
+							VerticalAlignment="Center">
+							Фильтры
+						</TextBlock>
+					</Grid>
+				</Button>
+				<Button
+					Classes="Button Top">
+					<Grid>
+						<TextBlock
+							VerticalAlignment="Center">
+							Поля
+						</TextBlock>
+					</Grid>
+				</Button>
+
+				<Grid
+					Name="PART_MassActionsButton"
+					IsVisible="{Binding IsMassActionsVisible}"
+					ColumnDefinitions="Auto, Auto">
+					<Button
+						Command="{Binding showMassActionsCmd}"
+						Grid.Column="0"
+						Classes="Button TopMassActions">
+						<Grid>
+							<TextBlock
+								Text="{Binding MassActionText}"
+								VerticalAlignment="Center"
+								>
+							</TextBlock>
+						</Grid>
+					</Button>
+					<Button
+						Command="{Binding deselectMassTagsCmd}"
+						Classes="Button Hyper"
+						Grid.Column="1"
+						Margin="8">
+						<Svg
+							Path="/Assets/svgs/screens/mass_actions_close.svg">
+						</Svg>
+					</Button>
+				</Grid>
+			</StackPanel>
+		</Grid>
+		<Grid
+			Grid.Row="2"
+			Background="{DynamicResource SeparatorColor}"
+			Height="1"
+			Margin="-25, 2, 0, 0">
+		</Grid>
+		<Grid
+			Grid.Row="3">
+			<ScrollViewer>
+				<Grid RowDefinitions="Auto, *">
+					<Grid
+						VerticalAlignment="Center"
+						Height="{DynamicResource ScreenListItemHeight}"
+						Margin="0, 0, 0, 0"
+						Name="PART_Title"
+						Grid.Row="0"
+						RowDefinitions="*, 1"
+						ColumnDefinitions="
+							30, 
+							70,
+							70,
+							70,
+							180,
+							180,
+							100,
+							100,
+							100,
+							180,
+							250,
+							150,
+							180,
+							120,
+							120,
+							150,
+							120,
+							180,
+							180">
+						<ToggleButton
+							IsChecked="{Binding IsAllChecked}"
+							Grid.Column="0"
+							Classes="ToggleButton CheckButton"
+							Padding="5, 0, 0, 0">
+							<Svg Name="PART_CHB"
+								StretchDirection="DownOnly"
+								Stretch="Fill"
+								Width="15"
+								Height="15"/>
+						</ToggleButton>
+						<ToggleButton
+							Name="id"
+							Command="{Binding sortParameterCmd}"
+							Classes="ToggleButton CheckSort"
+							Grid.Column="1">
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#id.Name"/>
+									<Binding Path="#id.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								ID
+							</TextBlock>
+						</ToggleButton>
+						<ToggleButton
+							Name="letter_id"
+							Classes="ToggleButton CheckSort"
+							Command="{Binding sortParameterCmd}"
+							Grid.Column="2">
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#letter_id.Name"/>
+									<Binding Path="#letter_id.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								Буква
+							</TextBlock>
+						</ToggleButton>
+						<ToggleButton
+							Name="is_connected"
+							Classes="ToggleButton CheckSort"
+							Command="{Binding sortParameterCmd}"
+							Grid.Column="3">
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#is_connected.Name"/>
+									<Binding Path="#is_connected.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								Статус
+							</TextBlock>
+						</ToggleButton>
+						<ToggleButton
+							Name="last_event_date"
+							Classes="ToggleButton CheckSort"
+							Command="{Binding sortParameterCmd}"
+							Grid.Column="4">
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#last_event_date.Name"/>
+									<Binding Path="#last_event_date.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								Последняя активность
+							</TextBlock>
+						</ToggleButton>
+						<ToggleButton
+							Name="last_login_date"
+							Classes="ToggleButton CheckSort"
+							Command="{Binding sortParameterCmd}"
+							Grid.Column="5">
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#last_login_date.Name"/>
+									<Binding Path="#last_login_date.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								Последний вход
+							</TextBlock>
+						</ToggleButton>
+						<ToggleButton
+							Name="lastname"
+							Classes="ToggleButton CheckSort"
+							Command="{Binding sortParameterCmd}"
+							Grid.Column="6">
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#lastname.Name"/>
+									<Binding Path="#lastname.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								Фамилия
+							</TextBlock>
+						</ToggleButton>
+						<ToggleButton
+							Name="firstname"
+							Classes="ToggleButton CheckSort"
+							Command="{Binding sortParameterCmd}"
+							Grid.Column="7">
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#firstname.Name"/>
+									<Binding Path="#firstname.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								Имя
+							</TextBlock>
+						</ToggleButton>
+						<ToggleButton
+							Name="middlename"
+							Classes="ToggleButton CheckSort"
+							Command="{Binding sortParameterCmd}"
+							Grid.Column="8">
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#middlename.Name"/>
+									<Binding Path="#middlename.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								Отчество
+							</TextBlock>
+						</ToggleButton>
+						<TextBlock
+							Grid.Column="9">
+							Роли
+						</TextBlock>
+						<ToggleButton
+							Name="email"
+							Classes="ToggleButton CheckSort"
+							Command="{Binding sortParameterCmd}"
+							Grid.Column="10">
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#email.Name"/>
+									<Binding Path="#email.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								E-mail
+							</TextBlock>
+						</ToggleButton>
+						<ToggleButton
+							Name="birthday"
+							Classes="ToggleButton CheckSort"
+							Command="{Binding sortParameterCmd}"
+							Grid.Column="11">
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#birthday.Name"/>
+									<Binding Path="#birthday.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								Дата рождения
+							</TextBlock>
+						</ToggleButton>
+						<ToggleButton
+							Name="phone"
+							Classes="ToggleButton CheckSort"
+							Command="{Binding sortParameterCmd}"
+							Grid.Column="12">
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#phone.Name"/>
+									<Binding Path="#phone.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								Номер телефона
+							</TextBlock>
+						</ToggleButton>
+						<TextBlock
+							Grid.Column="13">
+							Соц. сети
+						</TextBlock>
+						<ToggleButton
+							Name="telegram"
+							Classes="ToggleButton CheckSort"
+							Command="{Binding sortParameterCmd}"
+							Grid.Column="14">
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#telegram.Name"/>
+									<Binding Path="#telegram.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								Телеграм
+							</TextBlock>
+						</ToggleButton>
+						<ToggleButton
+							Name="usdt_account"
+							Classes="ToggleButton CheckSort"
+							Command="{Binding sortParameterCmd}"
+							Grid.Column="15">
+							<ToggleButton.CommandParameter>
+								<MultiBinding>
+									<Binding Path="#usdt_account.Name"/>
+									<Binding Path="#usdt_account.IsChecked" />
+								</MultiBinding>
+							</ToggleButton.CommandParameter>
+							<TextBlock>
+								USDT TRC20
+							</TextBlock>
+						</ToggleButton>
+						<TextBlock
+							Grid.Column="16">
+							Устройства
+						</TextBlock>
+						<TextBlock
+							Grid.Column="17">
+							Фото паспорта
+						</TextBlock>
+						<TextBlock
+							Grid.Column="18">
+							Комментарии
+						</TextBlock>
+						<Grid
+							Background="{DynamicResource SeparatorColor}"
+							Height="1"
+							Grid.Row="1"
+							Grid.ColumnSpan="19">
+						</Grid>
+						<Grid.Styles>
+							<Style Selector="Grid#PART_Title TextBlock">
+								<Setter Property="FontWeight" Value="Bold"/>
+								<Setter Property="VerticalAlignment" Value="Center"/>
+								<Setter Property="HorizontalAlignment" Value="Center"/>
+							</Style>
+						</Grid.Styles>
+					</Grid>
+					<ItemsPresenter Grid.Row="1" Items="{Binding Users}">
+						<ItemsPresenter.DataTemplates>
+							<DataTemplate>
+								<views:userListItem/>
+							</DataTemplate>
+						</ItemsPresenter.DataTemplates>
+					</ItemsPresenter>
+				</Grid>
+				<ScrollViewer.Styles>
+					<Style Selector="ScrollViewer:pointerover">
+						<Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+						<Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
+					</Style>
+					<Style Selector="ScrollViewer">
+						<Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
+						<Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
+					</Style>
+				</ScrollViewer.Styles>
+			</ScrollViewer>
+		</Grid>
+		<Grid
+			Grid.Row="4">
+			<StackPanel
+				Margin="15"
+				HorizontalAlignment="Right"
+				Orientation="Horizontal">
+				<Button
+					Command="{Binding prevPageCmd}"
+					IsEnabled="{Binding IsPrevActive}"
+					Classes="Button PageLeft">
+					<Svg/>
+				</Button>
+				<Border Classes="Border Page">
+					<TextBlock Text="{Binding SelectedPage}"/>
+				</Border>
+				<Button
+					Command="{Binding nextPageCmd}"
+					IsEnabled="{Binding IsNextActive}"
+					Classes="Button PageRight">
+					<Svg/>
+				</Button>
+			</StackPanel>
+			<TextBlock
+				Text="{Binding PageInfo}"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Left">
+			</TextBlock>
+		</Grid>
+
+		<Popup
+			IsOpen="{Binding  IsMassActionOpen, Mode=TwoWay}"
+			WindowManagerAddShadowHint="False"
+			StaysOpen="False"
+			VerticalOffset="-15"
+			HorizontalOffset="-9"
+			Width="318"
+			PlacementTarget="{Binding ElementName=PART_MassActionsButton}">
+			<Border
+				Margin="10"
+				VerticalAlignment="Top"
+				HorizontalAlignment="Stretch"
+				Background="White"
+				BorderBrush="Black"
+				BoxShadow="0 0 10 1 LightGray"
+				CornerRadius="8">
+				<StackPanel
+					Orientation="Vertical"
+					Margin="30, 5, 30, 5">
+					<Button
+						Classes="Button MassAction"
+						Height="{DynamicResource MenuItemMassActionsHeight}"
+						HorizontalAlignment="Stretch">
+						<Grid
+							ColumnDefinitions="*, Auto">
+							<TextBlock
+								Grid.Column="0"
+								VerticalAlignment="Center">
+								Добавить теги
+							</TextBlock>
+							<!--<Svg
+								Grid.Column="1"
+								Height="20"
+								Width="20"
+								Path="/Assets/svgs/screens/tag.svg">
+							</Svg>-->
+							<Image
+								Grid.Column="1"
+								Height="20"
+								Width="20"
+								Source="{SvgImage /Assets/svgs/screens/tag.svg}">
+							</Image>
+						</Grid>
+					</Button>
+					<Separator BorderBrush="#FFE5E5E5" BorderThickness="0.5"/>
+					<Button
+						Classes="Button MassAction"
+						Height="{DynamicResource MenuItemMassActionsHeight}"
+						HorizontalAlignment="Stretch">
+						<Grid
+							ColumnDefinitions="*, Auto">
+							<TextBlock
+								Grid.Column="0"
+								VerticalAlignment="Center">
+								Убрать теги
+							</TextBlock>
+							<!--<Svg
+								Grid.Column="1"
+								Height="20"
+								Width="20"
+								Path="/Assets/svgs/screens/tag.svg">
+							</Svg>-->
+							<Image
+								Grid.Column="1"
+								Height="20"
+								Width="20"
+								Source="{SvgImage /Assets/svgs/screens/tag.svg}">
+							</Image>
+						</Grid>
+					</Button>
+					<Separator BorderBrush="#FFE5E5E5" BorderThickness="0.5"/>
+					<Button
+						Command="{Binding deleteMassUsersCmd}"
+						Classes="Button MassAction"
+						Height="{DynamicResource MenuItemMassActionsHeight}"
+						HorizontalAlignment="Stretch">
+						<Grid
+							ColumnDefinitions="*, Auto">
+							<TextBlock
+								Grid.Column="0"
+								VerticalAlignment="Center">
+								Удалить
+							</TextBlock>
+							<!--<Svg
+								Grid.Column="1"
+								Height="20"
+								Width="20"
+								Path="/Assets/svgs/screens/trash_full.svg">
+							</Svg>-->
+							<Image
+								Grid.Column="1"
+								Height="20"
+								Width="20"
+								Source="{SvgImage /Assets/svgs/screens/trash_full.svg}">
+							</Image>
+						</Grid>
+					</Button>
+				</StackPanel>
+			</Border>
+		</Popup>
+	</Grid>
+</UserControl>
+

@@ -208,6 +208,9 @@
 					<DataTemplate DataType="{x:Type scrvm:UserActions}">
 						<scrvw:TBD/>
 					</DataTemplate>
+					<DataTemplate DataType="{x:Type scrvm:Creatives}">
+						<scrvw:Creatives/>
+					</DataTemplate>
 				</Grid.DataTemplates>
 				<ContentControl Content="{Binding Menu.Screen}"/>
 			</Grid>
