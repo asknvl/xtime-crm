@@ -83,7 +83,11 @@ namespace crm.Models.api.socket
                  
             } catch (Exception)
             {
-                await client.ConnectAsync();
+                try
+                {
+                    await client.ConnectAsync();
+                } catch { };
+
             }
 
         }

@@ -128,7 +128,7 @@
 						Соц. сети
 					</TextBlock>
 					<TextBox						
-						Text="{Binding SocialNetworks[0].Account}"
+						Text="{Binding SocialNetworks[0].Account, Mode=TwoWay}"
 						Grid.Column="1"/>
 				</Grid>
 				<Separator BorderBrush="#FFE5E5E5" BorderThickness="0.5"/>

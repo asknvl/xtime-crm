@@ -169,7 +169,7 @@ namespace crm.ViewModels.tabs.home.screens.users
                 this.RaiseAndSetIfChanged(ref birthdate, value);
             }
         }
-        public ObservableCollection<SocialNetwork> SocialNetworks { get; } = new ObservableCollection<SocialNetwork>();
+        public ObservableCollection<SocialNetwork> SocialNetworks { get; set; } = new ObservableCollection<SocialNetwork>();
 
         string telegram;
         public string Telegram
@@ -346,11 +346,20 @@ namespace crm.ViewModels.tabs.home.screens.users
             Description = user.Description;
             Password = no_change_password;
 
-            foreach (var item in user.SocialNetworks)
-                SocialNetworks.Add(item);
-            if (SocialNetworks.Count == 0)
+            //foreach (var item in user.SocialNetworks)
+            //    SocialNetworks.Add(item);
+            //if (SocialNetworks.Count == 0)
+            //    SocialNetworks.Add(new SocialNetwork());
+
+            SocialNetworks.Clear();
+            
+            if (user.SocialNetworks.Count > 0)
+                SocialNetworks.Add(new SocialNetwork() { Account = user.SocialNetworks[0].Account });
+            else
                 SocialNetworks.Add(new SocialNetwork());
 
+
+            //SocialNetworks[0].Account = user.SocialNetworks[0].Account;
 
             Selection.Clear();
             Selection.SelectionChanged -= Selection_SelectionChanged;
