@@ -28,7 +28,7 @@ namespace crm.Models.api.socket
         {
             uri = new Uri(url);
             timer.AutoReset = true;
-            timer.Interval = 5000;
+            timer.Interval = 10000;
             timer.Elapsed += Timer_Elapsed;
         }
 
@@ -38,9 +38,12 @@ namespace crm.Models.api.socket
             client = new SocketIO(uri, new SocketIOOptions()
             {
                 ExtraHeaders = new Dictionary<string, string>() {
-                    { "Authorization", $"Bearer {token}" },
-                    
-                }
+                    { "Authorization", $"Bearer {token}" }
+                },
+
+                Reconnection = true,
+                ReconnectionDelay = 5000,
+                ReconnectionAttempts = 10                
 
             });
 
