@@ -20,6 +20,11 @@ namespace crm.ViewModels.tabs.home.menu
             proxies.AddScreen(new screens.TBD(context, "В разработке"));
             proxies.AddScreen(new screens.TBD(context, "В разработке"));
             AddItem(proxies);
+
+            SimpleMenuItem creatives = new items.Creatives();
+            creatives.AddScreen(new screens.Creatives(context));
+            //creatives.AddScreen(new screens.TBD(context, "Креативы"));
+            AddItem(creatives);
         }
 
         public admin_menu(ApplicationContext context) : base(context)
@@ -41,8 +46,8 @@ namespace crm.ViewModels.tabs.home.menu
             AddItem(accimport);
 
             SimpleMenuItem creatives = new items.Creatives();
-            //creatives.AddScreen(new screens.Creatives(context));
-            creatives.AddScreen(new screens.TBD(context, "Креативы"));
+            creatives.AddScreen(new screens.Creatives(context));
+            //creatives.AddScreen(new screens.TBD(context, "Креативы"));
             AddItem(creatives);
 
             SimpleMenuItem subscriptions = new items.Subscriptions();

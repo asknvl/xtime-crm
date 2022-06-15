@@ -85,6 +85,30 @@
 		<Setter Property="TextBlock.Foreground" Value="#FFFFFFFF" />		
 	</Style>
 
+	<Style Selector="Button.TopAction">
+		<Setter Property="Height" Value="{DynamicResource TopButtonHeight}"/>
+		<Setter Property="Width" Value="{DynamicResource TopButtonWidth}"/>
+		<Setter Property="CornerRadius" Value="5"/>
+		<Setter Property="Margin" Value="0, 20, 35, 20"/>
+	</Style>
+	<Style Selector="Button.TopAction Grid TextBlock">
+		<Setter Property="Foreground" Value="#FFFFFFFF"/>
+		<Setter Property="TextAlignment" Value="Center"/>
+	</Style>
+	<Style Selector="Button.TopAction:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="#FF0BB3E8" />
+		<Setter Property="BorderBrush" Value="Transparent"/>
+		<Setter Property="TextBlock.Foreground" Value="#FFFFFFFF" />
+	</Style>
+	<Style Selector="Button.TopAction /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="#FF0BB3E8" />
+		<Setter Property="BorderBrush" Value="Transparent"/>
+		<Setter Property="Padding" Value="0"/>
+		<Setter Property="Margin" Value="0"/>
+		<Setter Property="TextBlock.Foreground" Value="#FFFFFFFF" />
+	</Style>
+
+
 	<Style Selector="Button.TopMassActions">
 		<Setter Property="Height" Value="{DynamicResource TopButtonMassActionsHeight}"/>
 		<Setter Property="Width" Value="{DynamicResource TopButtonMassActionsWidth}"/>
