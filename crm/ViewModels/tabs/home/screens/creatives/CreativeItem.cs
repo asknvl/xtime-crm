@@ -8,7 +8,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 {
     public class CreativeItem : BaseCreative
     {
-        public override Task Unicalize()
+        public override Task UnicalizeAsync()
         {
             throw new NotImplementedException();
         }

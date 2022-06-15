@@ -7,9 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace crm.Models.creatives
-{
+{    
     internal interface ICreativesRemoteManager
     {
-        Task<List<BaseCreative>>
+        Task Upload(GEO geo, string fullname);
+        Task<List<BaseCreative>> GetAvaliableAsync(GEO geo, CreativeType type, bool showInvisible);
     }
 }

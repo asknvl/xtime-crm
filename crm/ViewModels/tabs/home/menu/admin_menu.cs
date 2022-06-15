@@ -6,28 +6,28 @@ namespace crm.ViewModels.tabs.home.menu
     public class admin_menu : BaseMenu
     {
 
-        public admin_menu() : base()
-        {
-            ApplicationContext context = ApplicationContext.getInstance();
-            context.ServerApi = new Models.api.server.ServerApi("");
-            context.User = new TestUser();
+        //public admin_menu() : base()
+        //{
+        //    ApplicationContext context = ApplicationContext.getInstance();
+        //    context.ServerApi = new Models.api.server.ServerApi("");
+        //    context.User = new TestUser();
             
-            SimpleMenuItem dashboard = new items.Dashboard();
-            dashboard.AddScreen(new screens.Dashboard());
-            AddItem(dashboard);
+        //    SimpleMenuItem dashboard = new items.Dashboard();
+        //    dashboard.AddScreen(new screens.Dashboard());
+        //    AddItem(dashboard);
 
-            ComplexMenuItem proxies = new items.Proxies();
-            proxies.AddScreen(new screens.TBD("В разработке"));
-            proxies.AddScreen(new screens.TBD("В разработке"));
-            AddItem(proxies);
+        //    ComplexMenuItem proxies = new items.Proxies();
+        //    proxies.AddScreen(new screens.TBD("В разработке"));
+        //    proxies.AddScreen(new screens.TBD("В разработке"));
+        //    AddItem(proxies);
 
-             SimpleMenuItem creatives = new items.Creatives();
-            creatives.AddScreen(new screens.Creatives());
-            //creatives.AddScreen(new screens.TBD(context, "Креативы"));
-            AddItem(creatives);
-        }
+        //     SimpleMenuItem creatives = new items.Creatives();
+        //    creatives.AddScreen(new screens.Creatives());
+        //    //creatives.AddScreen(new screens.TBD(context, "Креативы"));
+        //    AddItem(creatives);
+        //}
 
-        public admin_menu(ApplicationContext context) : base()
+        public admin_menu() : base()
         {
 
             SimpleMenuItem dashboard = new items.Dashboard();

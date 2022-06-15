@@ -1,4 +1,5 @@
 ﻿using crm.Models.appcontext;
+using crm.Models.creatives;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
     {
         #region vars
         protected ApplicationContext AppContext = ApplicationContext.getInstance();
+        ICreativeService creativeServicve;
         #endregion
 
         #region propeties
@@ -55,6 +57,11 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         #region commands
         public ReactiveCommand<Unit, Unit> toggleVisibility { get; }
         #endregion
+
+        public BaseCreative()
+        {
+            creativeServicve = new CreativeService();
+        }
 
         #region protected
         bool setVisibility(bool isvisible) {

@@ -18,6 +18,7 @@ namespace crm.Models.storage
         public string TmpDir { get; set; }
         public string VerURL { get; set; }
         public string ZipURL { get; set; }
+        public string CreativeFolderPath { get; set; }
         #endregion
 
         private static Paths instance;
@@ -84,6 +85,10 @@ namespace crm.Models.storage
             AppDir = app_dir;
 
             AppPath = Path.Combine(app_dir, $"{settings.app_name}.exe");
+
+            CreativeFolderPath = Path.Combine(app_dir, "Creatives");
+            if (!Directory.Exists(CreativeFolderPath))
+                Directory.CreateDirectory(CreativeFolderPath);
         }
         void initPathsMac()
         {
@@ -117,6 +122,10 @@ namespace crm.Models.storage
             AppDir = app_dir;
 
             AppPath = Path.Combine(app_dir, $"{settings.app_name}.app");
+
+            CreativeFolderPath = Path.Combine(app_dir, "Creatives");
+            if (!Directory.Exists(CreativeFolderPath))
+                Directory.CreateDirectory(CreativeFolderPath);
 
         }
         #endregion

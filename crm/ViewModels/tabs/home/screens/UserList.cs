@@ -336,7 +336,7 @@ namespace crm.ViewModels.tabs.home.screens
                             found.Copy(user);
                         } else
                         {
-                            var tmp = new UserListItem(AppContext);
+                            var tmp = new UserListItem();
                             tmp.CheckedEvent += Item_CheckedEvent;
                             tmp.Copy(user);
                             tmp.IsChecked = checkedUsers.Any(u => u.Id.Equals(user.Id)) || IsAllChecked;

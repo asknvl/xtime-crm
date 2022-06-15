@@ -36,6 +36,7 @@
 			<StackPanel
 				Orientation="Horizontal">
 				<Button					
+					Command="{Binding testCmd}"
 					Classes="Button Top">
 					<Grid>
 						<TextBlock
