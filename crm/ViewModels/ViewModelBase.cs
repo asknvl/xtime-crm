@@ -1,3 +1,4 @@
+using crm.Models.appcontext;
 using ReactiveUI;
 using System;
 using System.Collections;
@@ -9,6 +10,9 @@ namespace crm.ViewModels
 {
     public class ViewModelBase : ReactiveObject, INotifyDataErrorInfo
     {
+        #region appcontext
+        protected ApplicationContext AppContext = ApplicationContext.getInstance();
+        #endregion
 
         #region error validattion
         private Dictionary<string, List<string>> _errors = new Dictionary<string, List<string>>();

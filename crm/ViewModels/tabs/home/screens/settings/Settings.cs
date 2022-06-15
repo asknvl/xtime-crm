@@ -21,17 +21,11 @@ namespace crm.ViewModels.tabs.home.screens.settings
             get => content;
             set => this.RaiseAndSetIfChanged(ref content, value);
         }
-        #endregion
-        public Settings() : base(new ApplicationContext())
+        #endregion        
+        public Settings() : base()
         {
             SettingsPages = new ObservableCollection<BaseScreen>();
-            SettingsPages.Add(new basicSettings(AppContext));
-            Content = SettingsPages[0];
-        }
-        public Settings(ApplicationContext context) : base(context)
-        {
-            SettingsPages = new ObservableCollection<BaseScreen>();
-            SettingsPages.Add(new basicSettings(AppContext));
+            SettingsPages.Add(new basicSettings());
             Content = SettingsPages[0];
         }
     }

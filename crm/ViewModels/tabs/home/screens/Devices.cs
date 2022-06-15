@@ -9,7 +9,7 @@ namespace crm.ViewModels.tabs.home.screens
 {
     public class Devices : BaseScreen
     {
-        public Devices(ApplicationContext context) : base(context)
+        public Devices() : base()
         {
         }
 

@@ -9,7 +9,7 @@ namespace crm.ViewModels.tabs.home.screens
 {
     public class UserActions : BaseScreen
     {
-        public UserActions(ApplicationContext context) : base(context)
+        public UserActions() : base()
         {
         }
 

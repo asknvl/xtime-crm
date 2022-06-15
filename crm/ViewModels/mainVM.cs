@@ -85,7 +85,7 @@ namespace crm.ViewModels
         {
 
             #region dependencies
-            ApplicationContext AppContext = new ApplicationContext();
+            ApplicationContext AppContext = ApplicationContext.getInstance();
             AppContext.Settings = new ApplicationSettings();
             AppContext.Settings.Load();
             AppContext.BottomPopup = bottomPopup;
@@ -140,13 +140,13 @@ namespace crm.ViewModels
 
             editUserCmd = ReactiveCommand.Create(() =>
             {
-                Tab edit = new ScreenTab(this, new UserEdit(AppContext, AppContext.User));
+                Tab edit = new ScreenTab(this, new UserEdit(AppContext.User));
                 edit.Show();
                 IsProfileMenuOpen = false;
             });
 
             settingsCmd = ReactiveCommand.Create(() => {
-                Tab settings = new ScreenTab(this, new Settings(AppContext));
+                Tab settings = new ScreenTab(this, new Settings());
                 settings.Show();
                 IsProfileMenuOpen = false;
             });
@@ -197,7 +197,7 @@ namespace crm.ViewModels
                 await AppContext.SocketApi.Connect(user.Token);
 #endif
 
-                homeVM homeTab = new homeVM(this, AppContext);
+                homeVM homeTab = new homeVM(this);
                 homeTab.Menu.MenuExpandedEvent += Menu_MenuExpandedEvent;
                 //homeTab.TabClosedEvent += (tab) =>
                 //{

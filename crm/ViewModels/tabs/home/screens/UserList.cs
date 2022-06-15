@@ -145,16 +145,15 @@ namespace crm.ViewModels.tabs.home.screens
         public ReactiveCommand<Unit, Unit> deleteMassUsersCmd { get; }
         #endregion
 
-        public UserList() : base(new ApplicationContext())
+        public UserList() : base()
         {
+
+#if OFFLINE
             Users = new();
-            Users.Add(new UserItemTest(new ApplicationContext()));
+            Users.Add(new UserItemTest());
             IsMassActionOpen = true;
             IsMassActionsVisible = true;
-        }
-
-        public UserList(ApplicationContext context) : base(context)
-        {
+#endif
 
             srvApi = AppContext.ServerApi;
             token = AppContext.User.Token;

@@ -9,7 +9,7 @@ namespace crm.ViewModels.tabs.home.screens
 {
     public class Subscriptions : BaseScreen
     {
-        public Subscriptions(ApplicationContext context) : base(context)
+        public Subscriptions() : base()
         {
         }
 

@@ -9,7 +9,7 @@ namespace crm.ViewModels.tabs.home.screens
 {
     public class Dashboard : BaseScreen
     {
-        public Dashboard(ApplicationContext context) : base(context)
+        public Dashboard() : base()
         {
         }
 

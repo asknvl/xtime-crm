@@ -25,12 +25,7 @@ namespace crm.ViewModels.tabs.home.screens.settings
             }
         }
         #endregion
-
-        public basicSettings() : base(new ApplicationContext())
-        {
-        }
-
-        public basicSettings(ApplicationContext context) : base(context)
+        public basicSettings() : base()
         {
             RememberMe = AppContext.Settings.RememberMe;
         }

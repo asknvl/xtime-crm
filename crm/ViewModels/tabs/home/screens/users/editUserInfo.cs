@@ -239,7 +239,7 @@ namespace crm.ViewModels.tabs.home.screens.users
         public ReactiveCommand<Unit, Unit> showCommentsCmd { get; }
         #endregion
 
-        public editUserInfo() : base(new ApplicationContext())
+        public editUserInfo() : base()
         {        
 
             TestUser user = new TestUser();
@@ -279,7 +279,7 @@ namespace crm.ViewModels.tabs.home.screens.users
             });
         }
 
-        public editUserInfo(ApplicationContext appcontext, BaseUser user) : base(appcontext)
+        public editUserInfo(BaseUser user) : base()
         {
             User = user;
             token = AppContext.User.Token;
@@ -304,7 +304,7 @@ namespace crm.ViewModels.tabs.home.screens.users
 
                 try
                 {
-                    user = await appcontext.ServerApi.GetUser(User.Id, appcontext.User.Token);
+                    user = await AppContext.ServerApi.GetUser(User.Id, AppContext.User.Token);
 
                 } catch (Exception ex)
                 {
@@ -319,7 +319,7 @@ namespace crm.ViewModels.tabs.home.screens.users
 
                     try
                     {
-                        appcontext.ServerApi.UpdateUserComment(appcontext.User.Token, user);
+                        AppContext.ServerApi.UpdateUserComment(AppContext.User.Token, user);
 
                     } catch (Exception ex)
                     {

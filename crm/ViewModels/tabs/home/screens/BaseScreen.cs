@@ -11,6 +11,9 @@ namespace crm.ViewModels.tabs.home.screens
 {
     public abstract class BaseScreen : ViewModelBase
     {
+        #region vars
+        protected ApplicationContext AppContext;
+        #endregion
 
         #region properties
         bool NeedInvoke { get; set; } = true;
@@ -29,14 +32,12 @@ namespace crm.ViewModels.tabs.home.screens
                     ScreenCheckedEvent?.Invoke(this, value);
             }
         }
-        public virtual string Title { get; }
-
-        protected ApplicationContext AppContext { get; }
+        public virtual string Title { get; }        
         #endregion
 
-        public BaseScreen(ApplicationContext context)
+        public BaseScreen()
         {
-            AppContext = context;
+            AppContext = ApplicationContext.getInstance();
         }
 
         #region public

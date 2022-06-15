@@ -9,7 +9,7 @@ namespace crm.ViewModels.tabs.home.screens
 {
     public class TBD : BaseScreen
     {
-        public TBD(ApplicationContext context, string title) : base(context)
+        public TBD(string title) : base()
         {
             Title = title;
         }

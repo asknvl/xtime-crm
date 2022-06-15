@@ -97,7 +97,7 @@ namespace crm.ViewModels.tabs.home.screens
         public ReactiveCommand<object, Unit> sortParameterCmd { get; }
         #endregion
 
-        public BaseListScreen(ApplicationContext context) : base(context)
+        public BaseListScreen() : base()
         {
             #region commands
             prevPageCmd = ReactiveCommand.CreateFromTask(async () =>

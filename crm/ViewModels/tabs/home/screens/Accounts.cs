@@ -9,7 +9,7 @@ namespace crm.ViewModels.tabs.home.screens
 {
     public class Accounts : BaseScreen
     {
-        public Accounts(ApplicationContext context) : base(context)
+        public Accounts() : base()
         {
         }
         public override string Title => "Аккаунты";

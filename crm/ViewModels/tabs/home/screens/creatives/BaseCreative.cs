@@ -3,6 +3,7 @@ using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,7 +12,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
     public abstract class BaseCreative : ViewModelBase
     {
         #region vars
-        protected ApplicationContext AppContext;
+        protected ApplicationContext AppContext = ApplicationContext.getInstance();
         #endregion
 
         #region propeties
@@ -51,10 +52,9 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         }
         #endregion
 
-        public BaseCreative()
-        {
-            
-        }
+        #region commands
+        public ReactiveCommand<Unit, Unit> toggleVisibility { get; }
+        #endregion
 
         #region protected
         bool setVisibility(bool isvisible) {
@@ -65,11 +65,21 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         #endregion
 
         #region abstract
-        public abstract Task Unicalize();
+        public abstract Task UnicalizeAsync();
         #endregion
 
         #region public
-        public async Task Load(string srcurl, string destpath, IProgress<float> progress)
+        public async Task SynchronizeAsync()
+        {
+            await Task.Run(() => { });
+        }
+
+        public async Task DownloadAsync()
+        {
+            await Task.Run(() => { });
+        } 
+
+        public async Task UploadAsync()
         {
             await Task.Run(() => { });
         }

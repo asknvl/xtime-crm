@@ -10,7 +10,7 @@ namespace crm.ViewModels.tabs.home.screens.users
     public class editUserDevices : BaseScreen
     {
         public override string Title => "Устройства";
-        public editUserDevices(ApplicationContext context) : base(context)
+        public editUserDevices() : base()
         {
         }
 

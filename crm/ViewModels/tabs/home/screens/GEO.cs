@@ -9,7 +9,7 @@ namespace crm.ViewModels.tabs.home.screens
 {
     public class GEO : BaseScreen
     {
-        public GEO(ApplicationContext context) : base(context)
+        public GEO() : base()
         {
         }
 

@@ -50,13 +50,7 @@ namespace crm.ViewModels.tabs
         public ReactiveCommand<Unit, Unit> editUserCmd { get; }
         public ReactiveCommand<Unit, Unit> quitCmd { get; }
         #endregion
-
-        public homeVM() : base((new ApplicationContext()).TabService)
-        {
-            Menu = new admin_menu();
-        }
-
-        public homeVM(ITabService ts, ApplicationContext appcontext) : base(ts)
+        public homeVM(ITabService ts) : base(ts)
         {
 
             Title = "Домой";
@@ -97,7 +91,7 @@ namespace crm.ViewModels.tabs
 
 
             //Menu = menu;
-            Menu = new admin_menu(appcontext);
+            Menu = new admin_menu();
         }
 
         //public override void Show()

@@ -10,7 +10,7 @@ namespace crm.ViewModels.tabs.home.screens.users
     public class editUserDocuments : BaseScreen
     {
         public override string Title => "Документы";
-        public editUserDocuments(ApplicationContext context) : base(context)
+        public editUserDocuments() : base()
         {
         }
     }

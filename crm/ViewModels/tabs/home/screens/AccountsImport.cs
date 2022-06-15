@@ -9,7 +9,7 @@ namespace crm.ViewModels.tabs.home.screens
 {
     public class AccountsImport : BaseScreen
     {
-        public AccountsImport(ApplicationContext appcontext) : base(appcontext)
+        public AccountsImport() : base()
         {
         }
 

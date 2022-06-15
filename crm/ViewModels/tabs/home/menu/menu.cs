@@ -9,7 +9,7 @@ namespace crm.ViewModels.tabs.home.menu
 {
     public class menu : BaseMenu
     {
-        public menu(ApplicationContext context) : base(context)
+        public menu() : base()
         {
         }
     }

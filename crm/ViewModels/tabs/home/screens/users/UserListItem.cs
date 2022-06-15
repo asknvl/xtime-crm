@@ -18,6 +18,7 @@ namespace crm.ViewModels.tabs.home.screens.users
     {
         #region vars
         IWindowService ws = WindowService.getInstance();
+        ApplicationContext appcontext = ApplicationContext.getInstance();
         #endregion
 
         #region properties        
@@ -48,7 +49,7 @@ namespace crm.ViewModels.tabs.home.screens.users
         public ReactiveCommand<string?, Unit>? copyCmd { get; set; }
         #endregion
 
-        public UserListItem(ApplicationContext appcontext)
+        public UserListItem()
         {
             #region commands
             showTagsCmd = ReactiveCommand.CreateFromTask(async () => {
@@ -57,7 +58,7 @@ namespace crm.ViewModels.tabs.home.screens.users
             });
 
             editUserCmd = ReactiveCommand.Create(() => {
-                ScreenTab editTab = new ScreenTab(appcontext.TabService, new UserEdit(appcontext, this));
+                ScreenTab editTab = new ScreenTab(appcontext.TabService, new UserEdit(this));
                 editTab.Show();
             });
 

@@ -57,16 +57,18 @@ namespace crm.ViewModels.tabs.home.screens.users
         public ReactiveCommand<Unit, Unit> confirmCmd { get; }
         #endregion
 
-        public UserEdit() : base(new ApplicationContext() { User = new TestUser() })
+        public UserEdit() : base()
         {
-            EditActions = new ObservableCollection<BaseScreen>();
 
-            EditActions.Add(new editUserInfo(AppContext, new TestUser()));
-            EditActions.Add(new editUserDevices(AppContext));
-            EditActions.Add(new editUserDocuments(AppContext));
+            AppContext.User = new TestUser();
+
+            EditActions = new ObservableCollection<BaseScreen>();
+            EditActions.Add(new editUserInfo(new TestUser()));
+            EditActions.Add(new editUserDevices());
+            EditActions.Add(new editUserDocuments());
             Content = EditActions[0];
         }
-        public UserEdit(ApplicationContext context, BaseUser user) : base(context)
+        public UserEdit(BaseUser user) : base()
         {
 
             //this.user = user;
@@ -89,9 +91,9 @@ namespace crm.ViewModels.tabs.home.screens.users
 
             EditActions = new ObservableCollection<BaseScreen>();
 
-            EditActions.Add(new editUserInfo(AppContext, this.user));
-            EditActions.Add(new editUserDevices(AppContext));
-            EditActions.Add(new editUserDocuments(AppContext));
+            EditActions.Add(new editUserInfo(this.user));
+            EditActions.Add(new editUserDevices());
+            EditActions.Add(new editUserDocuments());
 
             Content = EditActions[0];
         }

@@ -12,17 +12,12 @@ namespace crm.ViewModels.tabs.home.screens
     public class Creatives : BaseScreen
     {
         #region properties
+        public override string Title => "Креативы";
         public ObservableCollection<BaseCreative> CreativesList { get; }
         #endregion
-        public Creatives() : base(new ApplicationContext())
+        public Creatives() : base()
         {
 
-        }
-
-        public Creatives(ApplicationContext context) : base(context)
-        {
-        }
-
-        public override string Title => "Креативы";
+        }        
     }
 }
