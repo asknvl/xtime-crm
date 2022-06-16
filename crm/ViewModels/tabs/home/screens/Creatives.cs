@@ -1,15 +1,16 @@
 ﻿using crm.Models.appcontext;
 using crm.ViewModels.tabs.home.screens.creatives;
+using Independentsoft.Webdav;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
-using WinSCP;
 
 namespace crm.ViewModels.tabs.home.screens
 {
@@ -26,44 +27,26 @@ namespace crm.ViewModels.tabs.home.screens
 
         public Creatives() : base()
         {
-            testCmd = ReactiveCommand.Create(() => {
+            testCmd = ReactiveCommand.CreateFromTask( async () => {
 
-                SessionOptions sessionOptions = new SessionOptions
+                NetworkCredential credential = new NetworkCredential("user287498742876", "TK&9HhALSv3utvd58px3#tGgQ");
+                WebdavSession session = new WebdavSession(credential);
+                Resource resource = new Resource(session);
+
+                try
                 {
-                    Protocol = Protocol.Webdav,
-                    HostName = "136.243.74.153",
-                    PortNumber = 4080,
-                    UserName = "user287498742876",
-                    Password = "TK&9HhALSv3utvd58px3#tGgQ",
-                };
+                    string[] list = resource.List("http://136.243.74.153:4080/webdav/");
+                    resource.CreateFolder("http://136.243.74.153:4080/webdav/1");
 
-                using (Session session = new Session())
-                {
-                    session.FileTransferProgress += Session_FileTransferProgress;
-                    session.Open(sessionOptions);
-                    TransferOptions transferOptions = new TransferOptions();
-                    transferOptions.TransferMode = TransferMode.Binary;
-
-                    TransferOperationResult transferResult;
-                    transferResult =
-                        session.PutFiles(@"d:\out\*", "/webdav/uniq/", false, transferOptions);
-
-                    // Throw on any error
-                    transferResult.Check();
-
-                    // Print results
-                    foreach (TransferEventArgs transfer in transferResult.Transfers)
+                    for (int i = 0; i < list.Length; i++)
                     {
-                        Console.WriteLine("Upload of {0} succeeded", transfer.FileName);
+                        Console.WriteLine(list[i]);
                     }
+                } catch (Exception ex)
+                {
+
                 }
-
             });
-        }
-
-        private void Session_FileTransferProgress(object sender, FileTransferProgressEventArgs e)
-        {
-            Debug.WriteLine("\r{0} ({1:P0})", e.FileName, e.FileProgress);
-        }
+        }       
     }
 }
