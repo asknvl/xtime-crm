@@ -12,5 +12,7 @@ namespace crm.Models.creatives
     {
         Task Upload(GEO geo, string fullname);
         Task<List<BaseCreative>> GetAvaliableAsync(GEO geo, CreativeType type, bool showInvisible);
+
+        event Action<float> UploadProgressUpdateEvent;
     }
 }

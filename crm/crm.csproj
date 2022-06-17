@@ -106,7 +106,6 @@
     <PackageReference Include="Avalonia.Svg.Skia" Version="0.10.12" />
     <PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.10.13.3" />
     <PackageReference Include="Dotnet.Bundle" Version="0.9.13" />
-    <PackageReference Include="Independentsoft.Webdav" Version="1.0.660" />
     <PackageReference Include="Material.Icons.Avalonia" Version="1.0.2" />
     <PackageReference Include="NETStandard.Library" Version="2.0.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
