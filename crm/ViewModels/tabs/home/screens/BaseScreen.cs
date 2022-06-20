@@ -32,7 +32,7 @@ namespace crm.ViewModels.tabs.home.screens
                     ScreenCheckedEvent?.Invoke(this, value);
             }
         }
-        public virtual string Title { get; }        
+        public virtual string Title { get; set; }        
         #endregion
 
         public BaseScreen()

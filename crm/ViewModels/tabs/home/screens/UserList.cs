@@ -394,9 +394,13 @@ namespace crm.ViewModels.tabs.home.screens
                 ws.ShowDialog(new errMsgVM(ex.Message));
             }
 
-        }       
+        }
+        public override void OnDeactivate()
+        {
+            base.OnDeactivate();
+        }
         #endregion
-        
+
         #region callbacks
         private async void SckApi_ReceivedConnectedUsersEvent(List<usersOnlineDTO> connectedUsers)
         {
@@ -448,13 +452,6 @@ namespace crm.ViewModels.tabs.home.screens
             }
         }
 
-        public override void OnDeactivate()
-        {            
-            base.OnDeactivate();            
-        }
-        #endregion
-
-        #region callbacks
         private void Item_CheckedEvent(UserListItem item, bool ischecked)
         {
             if (!ischecked && IsAllChecked)

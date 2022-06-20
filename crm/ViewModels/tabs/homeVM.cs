@@ -124,18 +124,20 @@ namespace crm.ViewModels.tabs
         //}
         public override void OnActivate()
         {
-            foreach (var item in Menu.Items)
-                foreach (var screen in item.Screens)
-                    screen.OnActivate();
+            //foreach (var item in Menu.Items)
+            //    foreach (var screen in item.Screens)
+            //        screen.OnActivate();
             base.OnActivate();
+            Menu.Screen?.OnActivate();
         }
 
         public override void OnDeactivate()
         {
-            foreach (var item in Menu.Items)
-                foreach (var screen in item.Screens)
-                    screen.OnDeactivate();
+            //foreach (var item in Menu.Items)
+            //    foreach (var screen in item.Screens)
+            //        screen.OnDeactivate();
             base.OnDeactivate();
+            Menu.Screen?.OnDeactivate();
         }
     }
 

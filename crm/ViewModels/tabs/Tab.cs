@@ -69,7 +69,6 @@ namespace crm.ViewModels.tabs
 
         public virtual void OnDeactivate() { }
         #endregion
-
         public virtual void Clear() { }
 
 

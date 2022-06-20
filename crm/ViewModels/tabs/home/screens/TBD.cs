@@ -14,6 +14,6 @@ namespace crm.ViewModels.tabs.home.screens
             Title = title;
         }
 
-        public override string Title { get; }
+        public override string Title { get; set; }
     }
 }

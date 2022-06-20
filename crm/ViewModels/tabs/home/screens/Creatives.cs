@@ -26,7 +26,17 @@ namespace crm.ViewModels.tabs.home.screens
 
         #region properties
         public override string Title => "Креативы";
-        public ObservableCollection<BaseCreative> CreativesList { get; }
+        public ObservableCollection<GeoPage> GeoPages { get; } = new();
+
+        GeoPage content;
+        public GeoPage Content
+        {
+            get => content;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref content, value);
+            }
+        }
         #endregion
 
         #region commands
@@ -35,6 +45,10 @@ namespace crm.ViewModels.tabs.home.screens
 
         public Creatives() : base()
         {
+
+            GeoPages.Add(new GeoPage(new Models.geoservice.GEO("IND")));
+            GeoPages.Add(new GeoPage(new Models.geoservice.GEO("PER")));
+            GeoPages.Add(new GeoPage(new Models.geoservice.GEO("LAM")));
 
             #region dependencies
             #endregion
@@ -61,9 +75,13 @@ namespace crm.ViewModels.tabs.home.screens
             });
         }
 
-        private void Remote_UploadProgressUpdateEvent(float progress)
+        public override void OnActivate()
         {
-            Debug.WriteLine($"{progress}");
+            base.OnActivate();            
+
+            //get all avaliable geos
+            //create list for selected geo
+
         }
     }
 }

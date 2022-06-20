@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
+using geo = crm.Models.geoservice;
 
 namespace crm.ViewModels.tabs.home.screens.creatives
 {
@@ -18,8 +19,8 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         #endregion
 
         #region propeties
-        GEO geo;
-        public GEO GEO
+        geo.GEO geo;
+        public geo.GEO GEO
         {
             get => geo;
             set => this.RaiseAndSetIfChanged(ref geo, value);
@@ -51,6 +52,13 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         {
             get => uniques;
             set => this.RaiseAndSetIfChanged(ref uniques, value);
+        }
+
+        bool isChecked;
+        public bool IsChecked
+        {
+            get => isChecked;
+            set => this.RaiseAndSetIfChanged(ref isChecked, value);
         }
         #endregion
 
