@@ -215,13 +215,13 @@
 			<TextBlock>
 				Посмотреть
 			</TextBlock>
-		</Button>
+		</Button>		
 		<Grid
 			Background="{DynamicResource SeparatorColor}"
 			Height="1"
 			Grid.Row="1"
 			Grid.ColumnSpan="19">
-		</Grid>		
+		</Grid>	
 		<Grid.Styles>
 			<Style Selector="Grid#PART_ItemGrid TextBlock">
 				<Setter Property="VerticalAlignment" Value="Center"/>

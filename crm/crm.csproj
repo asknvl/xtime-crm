@@ -26,10 +26,10 @@
 	  
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>OFFLINE</DefineConstants>
+    <DefineConstants>ONLINE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>OFFLINE</DefineConstants>
+    <DefineConstants>ONLINE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>		  
     <AvaloniaResource Include="Assets\**" />
@@ -164,8 +164,8 @@
     <Folder Include="Assets\svgs\topmenu\" />
   </ItemGroup>
   <ItemGroup>
-    <AvaloniaXaml Update="Styles\ToggleSwitch.axaml">
+    <!--<AvaloniaXaml Update="Styles\ToggleSwitch.axaml">
       <SubType>Designer</SubType>
-    </AvaloniaXaml>
+    </AvaloniaXaml>-->
   </ItemGroup>
 </Project>

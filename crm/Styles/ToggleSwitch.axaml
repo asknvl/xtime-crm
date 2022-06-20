@@ -48,12 +48,12 @@
 				<Grid Background="{TemplateBinding Background}"
 				  RowDefinitions="Auto,*">
 
-					<ContentPresenter x:Name="PART_ContentPresenter"
+					<!--<ContentPresenter x:Name="PART_ContentPresenter"
 					  Grid.Row="0"
 					  Content="{TemplateBinding Content}"
 					  ContentTemplate="{TemplateBinding ContentTemplate}"
 					  RecognizesAccessKey="True"
-					  VerticalAlignment="Top"/>
+					  VerticalAlignment="Top"/>-->
 
 					<Grid Grid.Row="1"
 					  MinWidth="{DynamicResource ToggleSwitchThemeMinWidth}"
@@ -78,21 +78,21 @@
 						  TemplatedControl.IsTemplateFocusTarget="True"
 						  Margin="0,5" />
 
-						<ContentPresenter x:Name="PART_OffContentPresenter"
+						<!--<ContentPresenter x:Name="PART_OffContentPresenter"
 						  Grid.RowSpan="3"
 						  Grid.Column="2"
 						  Content="{TemplateBinding OffContent}"
 						  ContentTemplate="{TemplateBinding OffContentTemplate}"
 						  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-						  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+						  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>-->
 
-						<ContentPresenter x:Name="PART_OnContentPresenter"
+						<!--<ContentPresenter x:Name="PART_OnContentPresenter"
 						  Grid.RowSpan="3"
 						  Grid.Column="2"
 						  Content="{TemplateBinding OnContent}"
 						  ContentTemplate="{TemplateBinding OnContentTemplate}"
 						  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-						  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+						  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>-->
 
 						<Border x:Name="OuterBorder"
 						  Grid.Row="1"
@@ -128,12 +128,12 @@
 		</Setter>
 	</Style>
 
-	<Style Selector="ToggleSwitch /template/ ContentPresenter#PART_ContentPresenter">
+	<!--<Style Selector="ToggleSwitch /template/ ContentPresenter#PART_ContentPresenter">
 		<Setter Property="Margin" Value="{DynamicResource ToggleSwitchTopHeaderMargin}" />
 	</Style>
 	<Style Selector="ToggleSwitch /template/ ContentPresenter#PART_ContentPresenter:empty">
 		<Setter Property="Margin" Value="0" />
-	</Style>
+	</Style>-->
 
 	<!-- NormalState -->
 	<Style Selector="ToggleSwitch /template/ Grid#SwitchAreaGrid">

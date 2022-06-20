@@ -50,6 +50,8 @@ namespace crm.ViewModels.tabs.home.screens
             GeoPages.Add(new GeoPage(new Models.geoservice.GEO("PER")));
             GeoPages.Add(new GeoPage(new Models.geoservice.GEO("LAM")));
 
+            Content = GeoPages[0];
+
             #region dependencies
             #endregion
 
