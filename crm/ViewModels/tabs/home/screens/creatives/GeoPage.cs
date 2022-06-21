@@ -62,7 +62,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         public GeoPage(geo.GEO g)
         {
             GEO = g;
-            Title = GEO.Name;
+            Title = GEO.Code;
 
             #region commands
             prevPageCmd = ReactiveCommand.CreateFromTask(async () =>
@@ -107,7 +107,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
                 for (int i = 0; i < 10; i++)
                 {
-                    var c = new CreativeItem() { GEO = GEO, Id = i, Name = $"{GEO.Name}{i}" };
+                    var c = new CreativeItem() { GEO = GEO, Id = i, Name = $"{GEO.Code}{i}" };
                     c.CheckedEvent += Creative_CheckedEvent;
                     c.IsChecked = checkedCreatives.Any(u => u.Id.Equals(c.Id)) || IsAllChecked;
 

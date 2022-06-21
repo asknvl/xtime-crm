@@ -2,7 +2,9 @@
 using crm.Models.api.socket;
 using crm.Models.appcontext;
 using crm.Models.creatives;
+using crm.ViewModels.dialogs;
 using crm.ViewModels.tabs.home.screens.creatives;
+using crm.WS;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -14,6 +16,7 @@ using System.Net;
 using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
+using geo = crm.Models.geoservice;
 
 namespace crm.ViewModels.tabs.home.screens
 {
@@ -22,6 +25,8 @@ namespace crm.ViewModels.tabs.home.screens
         #region vars
         IServerApi server;
         ISocketApi socket;
+        string token;
+        IWindowService ws = WindowService.getInstance();
         #endregion
 
         #region properties
@@ -69,18 +74,22 @@ namespace crm.ViewModels.tabs.home.screens
         public Creatives() : base()
         {
 
-            GeoPage p1 = new GeoPage(new Models.geoservice.GEO("IND"));
-            p1.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
-            GeoPage p2 = new GeoPage(new Models.geoservice.GEO("PER"));
-            p2.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
-            GeoPage p3 = new GeoPage(new Models.geoservice.GEO("LAM"));
-            p3.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
+            server = AppContext.ServerApi;
+            socket = AppContext.SocketApi;
+            token = AppContext.User.Token;
 
-            GeoPages.Add(p1);
-            GeoPages.Add(p2);
-            GeoPages.Add(p3);
+            //GeoPage p1 = new GeoPage(new Models.geoservice.GEO("IND"));
+            //p1.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
+            //GeoPage p2 = new GeoPage(new Models.geoservice.GEO("PER"));
+            //p2.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
+            //GeoPage p3 = new GeoPage(new Models.geoservice.GEO("LAM"));
+            //p3.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
 
-            Content = GeoPages[0];
+            //GeoPages.Add(p1);
+            //GeoPages.Add(p2);
+            //GeoPages.Add(p3);
+
+            //Content = GeoPages[0];
 
             #region commands
             newCreativeCmd = ReactiveCommand.CreateFromTask( async () => { 
@@ -153,13 +162,27 @@ namespace crm.ViewModels.tabs.home.screens
         #endregion
 
         #region override
-        public override void OnActivate()
+        public override async void OnActivate()
         {
-            base.OnActivate();            
+            base.OnActivate();
 
+            try
+            {
+                List<geo.GEO> geos = await server.GetGeos(token, "+id");
+
+                foreach (var geo in geos)
+                {
+                    var gp = new GeoPage(geo);
+                    gp.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
+                    GeoPages.Add(gp);
+                }
+
+            } catch (Exception ex)
+            {
+                ws.ShowDialog(new errMsgVM(ex.Message));
+            }
             //get all avaliable geos
             //create list for selected geo
-
         }
         #endregion
     }

@@ -10,6 +10,7 @@ using crm.Models.user;
 using crm.Models.api.server.valuesconverter;
 using Newtonsoft.Json;
 using crm.Models.api.server.serialization;
+using geo = crm.Models.geoservice;
 
 namespace crm.Models.api.server
 {
@@ -371,23 +372,49 @@ namespace crm.Models.api.server
             }
             return res;
         }
-        #endregion
-
         public virtual async Task DeleteUser(string token, BaseUser user)
-        {
-            bool res = false;
+        {            
             var client = new RestClient($"{url}/v1/users/{user.Id}");
             var request = new RestRequest(Method.DELETE);
-            request.AddHeader($"Authorization", $"Bearer {token}");            
+            request.AddHeader($"Authorization", $"Bearer {token}");
             var response = client.Execute(request);
             var json = JObject.Parse(response.Content);
-            res = json["success"].ToObject<bool>();
+            bool res = json["success"].ToObject<bool>();
             if (!res)
             {
                 string e = json["errors"].ToString();
                 List<ServerError>? errors = JsonConvert.DeserializeObject<List<ServerError>>(e);
                 throw new ServerException($"{getErrMsg(errors)}");
-            }            
+            }
         }
+
+        public virtual async Task<List<geo.GEO>> GetGeos(string token, string sortparameter)
+        {
+            List<geo.GEO> geos = new List<geo.GEO>();          
+            var client = new RestClient($"{url}/v1/geolocations/");
+            var request = new RestRequest(Method.GET);
+            request.AddHeader($"Authorization", $"Bearer {token}");            
+            request.AddQueryParameter("sort_by", sortparameter);
+            var response = client.Execute(request);
+            var json = JObject.Parse(response.Content);
+            var res = json["success"].ToObject<bool>();
+            if (res)
+            {
+                JToken data = json["data"];
+                if (data != null)
+                {
+                    geos = JsonConvert.DeserializeObject<List<geo.GEO>>(data.ToString());                    
+                }
+            } else
+            {
+                string e = json["errors"].ToString();
+                List<ServerError>? errors = JsonConvert.DeserializeObject<List<ServerError>>(e);
+                throw new ServerException($"{getErrMsg(errors)}");
+            }
+            return geos;
+        }
+        #endregion
+
+
     }
 }

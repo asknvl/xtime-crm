@@ -1,4 +1,5 @@
-﻿using crm.Models.user;
+﻿using crm.Models.geoservice;
+using crm.Models.user;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +20,6 @@ namespace crm.Models.api.server
         Task<bool> UpdateUserComment(string token, BaseUser user);
         Task<bool> UpdateUserPassword(string token, BaseUser user, string password);
         Task DeleteUser(string token, BaseUser user);
+        Task<List<GEO>> GetGeos(string token, string sortparameter);
     }
 }
