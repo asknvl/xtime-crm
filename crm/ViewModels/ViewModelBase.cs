@@ -55,10 +55,15 @@ namespace crm.ViewModels
         }
         #endregion
 
+        #region lifecycle
         public event Action onCloseRequest;
         public void OnCloseRequest()
         {
             onCloseRequest?.Invoke();
         }
+        #endregion
+
+
+
     }
 }

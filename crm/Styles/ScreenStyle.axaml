@@ -15,7 +15,7 @@
 		<sys:Double x:Key="ScreenListItemHeight">50</sys:Double>
 		<sys:Double x:Key="TopButtonWidth">180</sys:Double>
 		<sys:Double x:Key="TopButtonHeight">45</sys:Double>
-		<sys:Double x:Key="TopButtonMassActionsWidth">300</sys:Double>
+		<sys:Double x:Key="TopButtonMassActionsWidth">247</sys:Double>
 		<sys:Double x:Key="TopButtonMassActionsHeight">45</sys:Double>
 		<sys:Double x:Key="MenuItemMassActionsHeight">40</sys:Double>
 	</Styles.Resources>

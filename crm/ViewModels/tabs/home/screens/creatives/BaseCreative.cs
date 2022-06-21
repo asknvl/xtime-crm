@@ -19,6 +19,13 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         #endregion
 
         #region propeties
+        int id;
+        public int Id
+        {
+            get => id;
+            set => this.RaiseAndSetIfChanged(ref id, value);
+        }
+
         geo.GEO geo;
         public geo.GEO GEO
         {
@@ -54,12 +61,12 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             set => this.RaiseAndSetIfChanged(ref uniques, value);
         }
 
-        bool isChecked;
-        public bool IsChecked
-        {
-            get => isChecked;
-            set => this.RaiseAndSetIfChanged(ref isChecked, value);
-        }
+        //bool isChecked;
+        //public virtual bool IsChecked
+        //{
+        //    get => isChecked;
+        //    set => this.RaiseAndSetIfChanged(ref isChecked, value);
+        //}
         #endregion
 
         #region commands

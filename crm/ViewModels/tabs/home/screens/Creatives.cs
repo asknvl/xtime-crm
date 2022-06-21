@@ -35,25 +35,60 @@ namespace crm.ViewModels.tabs.home.screens
             set
             {
                 this.RaiseAndSetIfChanged(ref content, value);
+                content.OnActivate();             
             }
+        }
+
+        bool isMassActionsVisible;
+        public bool IsMassActionsVisible
+        {
+            get => isMassActionsVisible;
+            set => this.RaiseAndSetIfChanged(ref isMassActionsVisible, value);
+        }
+
+        bool isMassActionOpen;
+        public bool IsMassActionOpen
+        {
+            get => isMassActionOpen;
+            set => this.RaiseAndSetIfChanged(ref isMassActionOpen, value);
+        }
+
+        string massActiontext;
+        public string MassActionText
+        {
+            get => massActiontext;
+            set => this.RaiseAndSetIfChanged(ref massActiontext, value);
         }
         #endregion
 
         #region commands
+        public ReactiveCommand<Unit, Unit> newCreativeCmd { get; }
         public ReactiveCommand<Unit, Unit> testCmd { get; }
         #endregion
 
         public Creatives() : base()
         {
 
-            GeoPages.Add(new GeoPage(new Models.geoservice.GEO("IND")));
-            GeoPages.Add(new GeoPage(new Models.geoservice.GEO("PER")));
-            GeoPages.Add(new GeoPage(new Models.geoservice.GEO("LAM")));
+            GeoPage p1 = new GeoPage(new Models.geoservice.GEO("IND"));
+            p1.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
+            GeoPage p2 = new GeoPage(new Models.geoservice.GEO("PER"));
+            p2.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
+            GeoPage p3 = new GeoPage(new Models.geoservice.GEO("LAM"));
+            p3.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
+
+            GeoPages.Add(p1);
+            GeoPages.Add(p2);
+            GeoPages.Add(p3);
 
             Content = GeoPages[0];
 
-            #region dependencies
-            #endregion
+            #region commands
+            newCreativeCmd = ReactiveCommand.CreateFromTask( async () => { 
+
+
+
+            });
+
 
             testCmd = ReactiveCommand.CreateFromTask( async () => {
 
@@ -75,8 +110,49 @@ namespace crm.ViewModels.tabs.home.screens
                 //await remote.Upload(geo, @"D:\out\1.mp4");
 
             });
+            #endregion
         }
 
+        #region helpers
+        void updateMassActions(int checkedNumber)
+        {            
+            IsMassActionsVisible = checkedNumber > 0;
+
+            string ending = "";           
+            
+            
+            if (checkedNumber.ToString().EndsWith("11") ||
+                checkedNumber.ToString().EndsWith("12") ||
+                checkedNumber.ToString().EndsWith("13") ||
+                checkedNumber.ToString().EndsWith("14"))
+                ending = "ов";
+            else
+            if (checkedNumber.ToString().EndsWith("2") ||
+                checkedNumber.ToString().EndsWith("3") ||
+                checkedNumber.ToString().EndsWith("4"))
+                ending = "a";
+            else
+            if (checkedNumber.ToString().EndsWith("1"))
+                ending = "";
+            else
+                ending = "ов";
+
+            MassActionText = (IsMassActionsVisible) ?
+                $"Уникализировать ({checkedNumber} креатив{ending})" : "";
+        }
+        #endregion
+
+        #region public
+        #endregion
+
+        #region callbacks
+        private void GeoPage_CreativesSelectionChangedEvent(int number)
+        {
+            updateMassActions(number);
+        }
+        #endregion
+
+        #region override
         public override void OnActivate()
         {
             base.OnActivate();            
@@ -85,5 +161,6 @@ namespace crm.ViewModels.tabs.home.screens
             //create list for selected geo
 
         }
+        #endregion
     }
 }

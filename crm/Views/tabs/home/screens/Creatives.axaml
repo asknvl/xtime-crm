@@ -8,7 +8,7 @@
 			 xmlns:creatives="using:crm.ViewModels.tabs.home.screens.creatives"
 			 xmlns:views="using:crm.Views.tabs.home.screens"
 			 xmlns:sys="using:System"
-             mc:Ignorable="d" d:DesignWidth="2800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="1440" d:DesignHeight="693"
              x:Class="crm.Views.tabs.home.screens.Creatives">
 	<Design.DataContext>
 		<vm:Creatives/>
@@ -24,8 +24,8 @@
 		<conv:IdPadLeftConverter x:Key="padLeftConverter"/>
 	</UserControl.Resources>
 	<Grid
-		RowDefinitions="Auto, Auto, Auto, Auto, *"
-		ColumnDefinitions="630, 300"
+		RowDefinitions="Auto, Auto, Auto, Auto, *, Auto"
+		ColumnDefinitions="610, *"
 		Margin="25, 12, 0, 0">
 		<Grid
 			Grid.Row="0">
@@ -39,7 +39,7 @@
 			<StackPanel
 				Orientation="Horizontal">
 				<Button
-					Command="{Binding testCmd}"
+					Command="{Binding newCreativeCmd}"
 					Classes="Button Top">
 					<Grid>
 						<TextBlock
@@ -57,7 +57,7 @@
 						</TextBlock>
 					</Grid>
 				</Button>
-				<Button
+				<!--<Button
 					Classes="Button TopAction">
 					<Grid>
 						<TextBlock
@@ -65,12 +65,47 @@
 							Унакилизировать
 						</TextBlock>
 					</Grid>
+				</Button>-->
+				<Button
+					Classes="Button Top">
+					<Grid>
+						<TextBlock
+							VerticalAlignment="Center">
+							Поля
+						</TextBlock>
+					</Grid>
 				</Button>
+				<Grid
+					Name="PART_MassActionsButton"
+					IsVisible="{Binding IsMassActionsVisible}"
+					ColumnDefinitions="Auto, Auto">
+					<Button
+						Command="{Binding showMassActionsCmd}"
+						Grid.Column="0"
+						Classes="Button TopMassActions">
+						<Grid>
+							<TextBlock
+								Text="{Binding MassActionText}"
+								VerticalAlignment="Center"
+								>
+							</TextBlock>
+						</Grid>
+					</Button>
+					<Button
+						Command="{Binding deselectMassTagsCmd}"
+						Classes="Button Hyper"
+						Grid.Column="1"
+						Margin="8">
+						<Svg
+							Path="/Assets/svgs/screens/mass_actions_close.svg">
+						</Svg>
+					</Button>
+				</Grid>
 			</StackPanel>
 		</Grid>
 		<Grid
 			Grid.Row="2"
-			Margin="0, 10, 20, 0"
+			Margin="0, 10, 0, 0"
 			Height="45">
 			<ListBox
 				Grid.Column="0"
@@ -121,11 +156,11 @@
 		<Border
 			Grid.Row="3"
 			BorderThickness="0, 0, 0, 1"
-			Margin="0, 0, 20, 0"
+			Margin="0, 0, 0, 0"
 			BorderBrush="{DynamicResource SeparatorColor}">
 			<Grid
 				HorizontalAlignment="Left"
-				Margin="35, 10, 0, 0"
+				Margin="35, 15, 0, 10"
 				ColumnDefinitions="150, 150, 150, 150">
 				<ToggleButton
 					Name="id"
@@ -169,13 +204,12 @@
 			<Grid.DataTemplates>
 				<DataTemplate>
 					<ScrollViewer>						
-						<ItemsPresenter							
+						<ItemsPresenter									
 							Items="{Binding CreativesList}">
 							<ItemsPresenter.DataTemplates>
 								<DataTemplate>									
-									<Border
-										BorderThickness="0, 0, 0, 1"
-										Margin="0, 0, 20, 0"
+									<Border										
+										BorderThickness="0, 0, 0, 1"																														
 										BorderBrush="{DynamicResource SeparatorColor}" >
 										<Grid
 											ColumnDefinitions="Auto, *"
@@ -272,6 +306,34 @@
 				</DataTemplate>
 			</Grid.DataTemplates>
 			<ContentControl Content="{Binding Content}"/>			
+		</Grid>
+		<Grid
+			Grid.Row="5" Grid.ColumnSpan="2">
+			<StackPanel
+				Margin="15"
+				HorizontalAlignment="Right"
+				Orientation="Horizontal">
+				<Button
+					Command="{Binding Content.prevPageCmd}"
+					IsEnabled="{Binding IsPrevActive}"
+					Classes="Button PageLeft">
+					<Svg/>
+				</Button>
+				<Border Classes="Border Page">
+					<TextBlock Text="{Binding Content.SelectedPage}"/>
+				</Border>
+				<Button
+					Command="{Binding Content.nextPageCmd}"
+					IsEnabled="{Binding Content.IsNextActive}"
+					Classes="Button PageRight">
+					<Svg/>
+				</Button>
+			</StackPanel>
+			<TextBlock
+				Text="{Binding Content.PageInfo}"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Left">
+			</TextBlock>
 		</Grid>
 
 
