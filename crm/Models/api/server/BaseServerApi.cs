@@ -413,6 +413,48 @@ namespace crm.Models.api.server
             }
             return geos;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="filename"></param>
+        /// <param name="geo"></param>
+        /// <returns>(creative_name, filepath)</returns>
+        /// <exception cref="ServerException"></exception>
+        public virtual async Task<(string, string)> AddCreative(string token, string filename, geo.GEO geo)
+        {
+            string creative_name = "";
+            string filepath = "";
+            var client = new RestClient($"{url}/v1/creatives");
+            var request = new RestRequest(Method.POST);
+            request.AddHeader($"Authorization", $"Bearer {token}");
+
+            string[] splt = filename.Split(".");
+            request.AddParameter("filename", splt[0]);
+            request.AddParameter("file_extension", splt[1]);
+            request.AddParameter("geolocation_id", geo.Id);
+            var response = client.Execute(request);
+            var json = JObject.Parse(response.Content);
+            bool res = json["success"].ToObject<bool>();
+            if (res)
+            {
+                JToken data = json["data"];
+                if (data != null)
+                {
+                    creative_name = data["creative_name"].ToString();
+                    filepath = data["filepath"].ToString();
+                }
+
+            } else            
+            {
+                string e = json["errors"].ToString();
+                List<ServerError>? errors = JsonConvert.DeserializeObject<List<ServerError>>(e);
+                throw new ServerException($"{getErrMsg(errors)}");
+            }
+
+            return (creative_name, filepath);
+        }
         #endregion
 
 

@@ -78,23 +78,33 @@ namespace crm.ViewModels.tabs.home.screens
             socket = AppContext.SocketApi;
             token = AppContext.User.Token;
 
-            //GeoPage p1 = new GeoPage(new Models.geoservice.GEO("IND"));
-            //p1.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
-            //GeoPage p2 = new GeoPage(new Models.geoservice.GEO("PER"));
-            //p2.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
-            //GeoPage p3 = new GeoPage(new Models.geoservice.GEO("LAM"));
-            //p3.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
-
-            //GeoPages.Add(p1);
-            //GeoPages.Add(p2);
-            //GeoPages.Add(p3);
-
-            //Content = GeoPages[0];
-
             #region commands
-            newCreativeCmd = ReactiveCommand.CreateFromTask( async () => { 
+            newCreativeCmd = ReactiveCommand.CreateFromTask( async () => {
 
+                //geo.GEO geo = Content.GEO;
+                //Debug.WriteLine(geo.Code);
+                string[] files = await ws.ShowFileDialog("Выберите креатив");
+                if (files != null && files.Length > 0)
+                {
+                    var dlg = new creativeUploadDlgVM()
+                    {
+                        Files = files,
+                        GEO = Content.GEO
+                    };                    
 
+                    ws.ShowModalWindow(dlg);                   
+
+                    try
+                    {
+                        await dlg.RunFilesUploadAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        ws.ShowDialog(new errMsgVM(ex.Message));
+                    }
+
+                    
+                }
 
             });
 
@@ -166,6 +176,8 @@ namespace crm.ViewModels.tabs.home.screens
         {
             base.OnActivate();
 
+#if ONLINE
+
             try
             {
                 List<geo.GEO> geos = await server.GetGeos(token, "+id");
@@ -181,6 +193,20 @@ namespace crm.ViewModels.tabs.home.screens
             {
                 ws.ShowDialog(new errMsgVM(ex.Message));
             }
+#else
+            GeoPage p1 = new GeoPage(new geo.GEO() { Code = "IND" });
+            p1.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
+            GeoPage p2 = new GeoPage(new geo.GEO() { Code = "PER" });
+            p2.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
+            GeoPage p3 = new GeoPage(new geo.GEO() { Code = "LAM"});
+            p3.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
+
+            GeoPages.Add(p1);
+            GeoPages.Add(p2);
+            GeoPages.Add(p3);
+
+            Content = GeoPages[0];
+#endif
             //get all avaliable geos
             //create list for selected geo
         }

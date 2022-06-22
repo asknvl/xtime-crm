@@ -109,6 +109,11 @@ namespace crm.WS
                 wnd = new confirmationDlg();
             }
 
+            if (vm is creativeUploadDlgVM)
+            {
+                wnd = new creativeUploadDlg();
+            }
+
             wnd.DataContext = vm;
             windowList.Add(wnd);
 
@@ -137,6 +142,36 @@ namespace crm.WS
 
             wnd.Show();
         }
+
+        public void ShowModalWindow(ViewModelBase vm)
+        {
+            Window wnd = null;          
+
+            if (vm is creativeUploadDlgVM)
+            {
+                wnd = new creativeUploadDlg();
+            }
+
+            wnd.DataContext = vm;
+            windowList.Add(wnd);
+
+            wnd.Closed += (s, e) =>
+            {                
+                windowList.Remove(wnd);
+            };
+
+            vm.onCloseRequest += () =>
+            {
+                wnd.Close();
+            };
+
+            wnd.Position = wnd.Position = new PixelPoint( //Нельзя передавать Owner в Show(main) потому что потом не работает закрытие диалога по клику?
+                main.Position.X + (int)((main.Width - wnd.Width) / 2),
+                main.Position.Y + (int)((main.Height - wnd.Height) / 2));
+
+            wnd.Show();
+        }
+
         public void ShowDialog(ViewModelBase vm, ViewModelBase parent)
         {
             Window wnd = null;
@@ -174,11 +209,10 @@ namespace crm.WS
             wnd.Show(main);            
         }
 
-        public async Task<string> ShowFileDialog(string title, ViewModelBase parent)
+        public async Task<string[]> ShowFileDialog(string title)
         {
-            var dialog = new OpenFolderDialog() { Title = title };
-            var p = windowList.FirstOrDefault(w => w.DataContext == parent);
-            return await dialog.ShowAsync(p);
+            var dialog = new OpenFileDialog() { Title = title, AllowMultiple = true };            
+            return await dialog.ShowAsync(main);
         }
 
         //public async Task ShowModalWindow(ViewModelBase vm)

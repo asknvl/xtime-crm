@@ -13,7 +13,8 @@ namespace crm.WS
         void ShowWindow(ViewModelBase vm);
         void ShowDialog(ViewModelBase vm);
         void ShowDialog(ViewModelBase vm, ViewModelBase parent);
-        Task<string> ShowFileDialog(string title, ViewModelBase parent);
+        void ShowModalWindow(ViewModelBase vm);
+        Task<string[]> ShowFileDialog(string title);
         //Task ShowModalWindow(ViewModelBase vm);
     }
 }
