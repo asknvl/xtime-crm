@@ -49,6 +49,7 @@
 					</Grid>
 				</Button>
 				<Button
+					Command="{Binding testCmd}"
 					Classes="Button Top">
 					<Grid>
 						<TextBlock

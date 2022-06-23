@@ -12,7 +12,8 @@ namespace crm.Models.storage
         public string AppDir { get; set; }
         public string AppPath { get; set; }        
         public string VerURL { get; set; }
-        public string CreativeFolderPath { get; set; }
+        public string CreativesRootPath { get; set; }
+        public string CreativesRootURL { get; set; }
         
     }
 }

@@ -118,9 +118,11 @@ namespace crm.ViewModels.tabs.home.screens
                  );                
                 
                 client.Credentials = credential;
-                //client.DownloadProgressChanged += Client_DownloadProgressChanged;
+                client.UploadProgressChanged +=(s,e)=>{
+                    Debug.WriteLine($"{e.BytesSent} {e.TotalBytesToSend} {e.ProgressPercentage}%");
+                };
 
-                await client.UploadFileTaskAsync(@"http://136.243.74.153:4080/webdav/uniq/1.mp4", "PUT", @"D:\out\1.mp4");
+                await client.UploadFileTaskAsync(@"http://136.243.74.153:4080/webdav/uniq/IND/videos/1.mp4", "PUT", @"D:\out\1.mp4");
                 //await client.DownloadFileTaskAsync("http://136.243.74.153:4080/webdav/1.mp4", @"D:\out\2.mp4");
 
                 //CreativesRemoteManager remote = new CreativesRemoteManager("http://136.243.74.153:4080/webdav/", AppContext.ServerApi, AppContext.SocketApi);
@@ -184,10 +186,17 @@ namespace crm.ViewModels.tabs.home.screens
 
                 foreach (var geo in geos)
                 {
+                    bool found = GeoPages.Any(o => o.Title.Equals(geo.Code));
+                    if (found)
+                        continue;
+
                     var gp = new GeoPage(geo);
                     gp.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
                     GeoPages.Add(gp);
                 }
+
+                if (Content == null)
+                    Content = GeoPages[0];
 
             } catch (Exception ex)
             {

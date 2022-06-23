@@ -11,6 +11,7 @@ using crm.Models.api.server.valuesconverter;
 using Newtonsoft.Json;
 using crm.Models.api.server.serialization;
 using geo = crm.Models.geoservice;
+using System.IO;
 
 namespace crm.Models.api.server
 {
@@ -422,17 +423,15 @@ namespace crm.Models.api.server
         /// <param name="geo"></param>
         /// <returns>(creative_name, filepath)</returns>
         /// <exception cref="ServerException"></exception>
-        public virtual async Task<(string, string)> AddCreative(string token, string filename, geo.GEO geo)
+        public virtual async Task<(string, string)> AddCreative(string token, string filename, string extension, geo.GEO geo)
         {
             string creative_name = "";
             string filepath = "";
             var client = new RestClient($"{url}/v1/creatives");
             var request = new RestRequest(Method.POST);
-            request.AddHeader($"Authorization", $"Bearer {token}");
-
-            string[] splt = filename.Split(".");
-            request.AddParameter("filename", splt[0]);
-            request.AddParameter("file_extension", splt[1]);
+            request.AddHeader($"Authorization", $"Bearer {token}");            
+            request.AddParameter("filename", filename);
+            request.AddParameter("file_extension", extension);
             request.AddParameter("geolocation_id", geo.Id);
             var response = client.Execute(request);
             var json = JObject.Parse(response.Content);

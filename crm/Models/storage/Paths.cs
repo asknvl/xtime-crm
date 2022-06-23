@@ -18,7 +18,8 @@ namespace crm.Models.storage
         public string TmpDir { get; set; }
         public string VerURL { get; set; }
         public string ZipURL { get; set; }
-        public string CreativeFolderPath { get; set; }
+        public string CreativesRootPath { get; set; }
+        public string CreativesRootURL { get; set; }        
         #endregion
 
         private static Paths instance;
@@ -29,6 +30,8 @@ namespace crm.Models.storage
                 initPathsMac();
             else
                 initPathsWin();
+
+            initWebPaths();
         }
 
         public static Paths getInstance()
@@ -86,9 +89,9 @@ namespace crm.Models.storage
 
             AppPath = Path.Combine(app_dir, $"{settings.app_name}.exe");
 
-            CreativeFolderPath = Path.Combine(app_dir, "Creatives");
-            if (!Directory.Exists(CreativeFolderPath))
-                Directory.CreateDirectory(CreativeFolderPath);
+            CreativesRootPath = Path.Combine(app_dir, "Creatives");
+            if (!Directory.Exists(CreativesRootPath))
+                Directory.CreateDirectory(CreativesRootPath);
         }
         void initPathsMac()
         {
@@ -123,10 +126,15 @@ namespace crm.Models.storage
 
             AppPath = Path.Combine(app_dir, $"{settings.app_name}.app");
 
-            CreativeFolderPath = Path.Combine(app_dir, "Creatives");
-            if (!Directory.Exists(CreativeFolderPath))
-                Directory.CreateDirectory(CreativeFolderPath);
+            CreativesRootPath = Path.Combine(app_dir, "Creatives");
+            if (!Directory.Exists(CreativesRootPath))
+                Directory.CreateDirectory(CreativesRootPath);
 
+        }
+
+        void initWebPaths()
+        {
+            CreativesRootURL = "http://136.243.74.153:4080/webdav/uniq";
         }
         #endregion
     }

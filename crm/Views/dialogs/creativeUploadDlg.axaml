@@ -45,7 +45,7 @@
 			</TextBlock>
 			<ProgressBar	
 				Margin="40, 0, 40, 0"
-				Value="10">				
+				Value="{Binding Progress}">				
 			</ProgressBar>
 		</StackPanel>
 		<StackPanel

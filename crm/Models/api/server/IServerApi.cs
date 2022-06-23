@@ -21,6 +21,6 @@ namespace crm.Models.api.server
         Task<bool> UpdateUserPassword(string token, BaseUser user, string password);
         Task DeleteUser(string token, BaseUser user);
         Task<List<GEO>> GetGeos(string token, string sortparameter);
-        Task<(string, string)> AddCreative(string token, string filename, GEO geo);
+        Task<(string, string)> AddCreative(string token, string filename, string extension, GEO geo);
     }
 }
