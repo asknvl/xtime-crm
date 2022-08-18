@@ -68,6 +68,7 @@ namespace crm.ViewModels.tabs.home.screens
 
         #region commands
         public ReactiveCommand<Unit, Unit> newCreativeCmd { get; }
+        public ReactiveCommand<Unit, Unit> unicalizeCmd { get; }
         public ReactiveCommand<Unit, Unit> testCmd { get; }
         #endregion
 
@@ -107,6 +108,8 @@ namespace crm.ViewModels.tabs.home.screens
                 }
 
             });
+
+            unicalizeCmd = ReactiveCommand.CreateFromTask(async () => { });
 
 
             testCmd = ReactiveCommand.CreateFromTask( async () => {

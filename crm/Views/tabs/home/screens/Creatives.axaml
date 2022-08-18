@@ -81,7 +81,7 @@
 					IsVisible="{Binding IsMassActionsVisible}"
 					ColumnDefinitions="Auto, Auto">
 					<Button
-						Command="{Binding showMassActionsCmd}"
+						Command="{Binding unicalizeCmd}"
 						Grid.Column="0"
 						Classes="Button TopMassActions">
 						<Grid>
