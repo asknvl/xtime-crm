@@ -1,6 +1,8 @@
 ﻿using crm.Models.api.server;
 using crm.Models.api.socket;
+using crm.Models.appcontext;
 using crm.Models.geoservice;
+using crm.Models.storage;
 using crm.ViewModels.tabs.home.screens.creatives;
 using System;
 using System.Collections.Generic;
@@ -8,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace crm.Models.creatives
@@ -15,18 +18,19 @@ namespace crm.Models.creatives
     public class CreativesRemoteManager : ICreativesRemoteManager
     {
         #region vars                
+        IPaths paths = Paths.getInstance();
+        ApplicationContext AppContext = ApplicationContext.getInstance();
         WebClient client;
-        Uri host;
-        IServerApi server;
-        ISocketApi socket;
+        Uri host;        
+        long TotalBytes = 0;        
+        IServerApi serverApi;
+        string token;
         #endregion
 
-        public CreativesRemoteManager(string host, IServerApi server, ISocketApi socket)
+        public CreativesRemoteManager()
         {
-            this.host = new Uri(host);
-            this.server = server;
-            this.socket = socket;
-
+            serverApi = AppContext.ServerApi;
+            token = AppContext.User.Token;
             client = new WebClient();
             NetworkCredential credential = new NetworkCredential(
                  "user287498742876",
@@ -35,11 +39,18 @@ namespace crm.Models.creatives
             client.Credentials = credential;
             client.DownloadProgressChanged += Client_DownloadProgressChanged;
             client.UploadProgressChanged += Client_UploadProgressChanged;
+            client.UploadDataCompleted += Client_UploadDataCompleted;
         }
+        
         #region private        
         private void Client_UploadProgressChanged(object sender, UploadProgressChangedEventArgs e)
         {
-            UploadProgressUpdateEvent?.Invoke(e.ProgressPercentage);
+            int progress = (int)(e.BytesSent / TotalBytes * 100);
+            UploadProgressUpdateEvent?.Invoke(progress);
+        }
+        private void Client_UploadDataCompleted(object sender, UploadDataCompletedEventArgs e)
+        {
+            UploadProgressUpdateEvent?.Invoke(0);
         }
 
         private void Client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
@@ -55,14 +66,26 @@ namespace crm.Models.creatives
 
         public async Task Upload(GEO geo, string fullname)
         {
-            string fname = Path.GetFileName(fullname);
-            //Uri uri = new Uri(host, $"{geo.Name}/test.mp4");
-            Uri uri = host;
-            await client.UploadFileTaskAsync(uri, "POST", fullname);
+            string filename = Path.GetFileName(fullname);
+
+            string[] splt = filename.Split(".");
+            string name = splt[0];
+            string extension = splt[1];
+
+            string creative_name = null;
+            string filepath = null;
+            (creative_name, filepath) = await serverApi.AddCreative(token, name, extension, geo);
+
+            if (!string.IsNullOrEmpty(creative_name) && !string.IsNullOrEmpty(filepath))
+            {
+                TotalBytes = new System.IO.FileInfo(fullname).Length;
+                string url = $"{paths.CreativesRootURL}{filepath}.{extension}";
+                await client.UploadFileTaskAsync(new Uri(url), "PUT", fullname);
+            }
         }
 
         #region callbacks
-        public event Action<float> UploadProgressUpdateEvent;
+        public event Action<int> UploadProgressUpdateEvent;
         #endregion
     }
 }
