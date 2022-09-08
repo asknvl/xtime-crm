@@ -210,7 +210,7 @@ namespace crm.Models.api.server
 
                 var client = new RestClient($"{url}/v1/users/{id}");
                 var request = new RestRequest(Method.GET);
-                request.AddHeader($"Authorization", $"Bearer {token}");                
+                request.AddHeader($"Authorization", $"Bearer {token}");
                 var response = client.Execute(request);
                 var json = JObject.Parse(response.Content);
                 var res = json["success"].ToObject<bool>();
@@ -374,7 +374,7 @@ namespace crm.Models.api.server
             return res;
         }
         public virtual async Task DeleteUser(string token, BaseUser user)
-        {            
+        {
             var client = new RestClient($"{url}/v1/users/{user.Id}");
             var request = new RestRequest(Method.DELETE);
             request.AddHeader($"Authorization", $"Bearer {token}");
@@ -391,10 +391,10 @@ namespace crm.Models.api.server
 
         public virtual async Task<List<geo.GEO>> GetGeos(string token, string sortparameter)
         {
-            List<geo.GEO> geos = new List<geo.GEO>();          
+            List<geo.GEO> geos = new List<geo.GEO>();
             var client = new RestClient($"{url}/v1/geolocations/");
             var request = new RestRequest(Method.GET);
-            request.AddHeader($"Authorization", $"Bearer {token}");            
+            request.AddHeader($"Authorization", $"Bearer {token}");
             request.AddQueryParameter("sort_by", sortparameter);
             var response = client.Execute(request);
             var json = JObject.Parse(response.Content);
@@ -404,7 +404,7 @@ namespace crm.Models.api.server
                 JToken data = json["data"];
                 if (data != null)
                 {
-                    geos = JsonConvert.DeserializeObject<List<geo.GEO>>(data.ToString());                    
+                    geos = JsonConvert.DeserializeObject<List<geo.GEO>>(data.ToString());
                 }
             } else
             {
@@ -423,13 +423,14 @@ namespace crm.Models.api.server
         /// <param name="geo"></param>
         /// <returns>(creative_name, filepath)</returns>
         /// <exception cref="ServerException"></exception>
-        public virtual async Task<(string, string)> AddCreative(string token, string filename, string extension, geo.GEO geo)
+        public virtual async Task<(int, string, string)> AddCreative(string token, string filename, string extension, geo.GEO geo)
         {
+            int creative_id = 0;
             string creative_name = "";
             string filepath = "";
             var client = new RestClient($"{url}/v1/creatives");
             var request = new RestRequest(Method.POST);
-            request.AddHeader($"Authorization", $"Bearer {token}");            
+            request.AddHeader($"Authorization", $"Bearer {token}");
             request.AddParameter("filename", filename);
             request.AddParameter("file_extension", extension);
             request.AddParameter("geolocation_id", geo.Id);
@@ -441,21 +442,57 @@ namespace crm.Models.api.server
                 JToken data = json["data"];
                 if (data != null)
                 {
+                    creative_id = data["creative_id"].ToObject<int>();
                     creative_name = data["creative_name"].ToString();
                     filepath = data["filepath"].ToString();
                 }
 
-            } else            
+            } else
             {
                 string e = json["errors"].ToString();
                 List<ServerError>? errors = JsonConvert.DeserializeObject<List<ServerError>>(e);
                 throw new ServerException($"{getErrMsg(errors)}");
             }
 
-            return (creative_name, filepath);
+            return (creative_id, creative_name, filepath);
         }
+
+        class StatusParameters
+        {
+            public bool uploaded { get; set; }
+            public bool visibility { get; set; }
+        }
+        public virtual async Task SetCreativeStatus(string token, int id, bool isUploaded, bool isVisible)
+        {
+            var client = new RestClient($"{url}/v1/creatives/{id}");
+            var request = new RestRequest(Method.PUT);
+            request.AddHeader($"Authorization", $"Bearer {token}");
+
+            StatusParameters sp = new();
+            sp.visibility = isVisible;
+            sp.uploaded = isUploaded;
+
+            string ssp = JsonConvert.SerializeObject(sp);
+            request.AddParameter("application/json", ssp, ParameterType.RequestBody);
+            
+            await Task.Run(() => {
+                var response = client.Execute(request);
+                var json = JObject.Parse(response.Content);
+                bool res = json["success"].ToObject<bool>();
+                if (res)
+                {
+                } else
+                {
+                    string e = json["errors"].ToString();
+                    List<ServerError>? errors = JsonConvert.DeserializeObject<List<ServerError>>(e);
+                    throw new ServerException($"{getErrMsg(errors)}");
+                }
+            });
+        }   
+
         #endregion
 
 
     }
+
 }

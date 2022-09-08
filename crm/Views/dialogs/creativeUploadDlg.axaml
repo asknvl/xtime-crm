@@ -40,10 +40,10 @@
 			HorizontalAlignment="Stretch">
 			<TextBlock
 				TextAlignment="Center"
-				Margin="10">
-				Загрузка 1 из 3
+				Margin="10"
+				Text="{Binding FilesCounter}">				
 			</TextBlock>
-			<ProgressBar	
+			<ProgressBar				
 				Margin="40, 0, 40, 0"
 				Value="{Binding Progress}">				
 			</ProgressBar>

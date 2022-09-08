@@ -25,14 +25,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         public CreativeItem()
         {
 
-        }
-
-        #region public
-        public override Task UnicalizeAsync()
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
+        }      
 
         #region events
         public event Action<CreativeItem, bool> CheckedEvent;

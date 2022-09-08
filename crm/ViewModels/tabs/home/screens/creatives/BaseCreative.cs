@@ -14,8 +14,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
     public abstract class BaseCreative : ViewModelBase
     {
         #region vars
-        protected ApplicationContext AppContext = ApplicationContext.getInstance();
-        ICreativeService creativeServicve;
+        protected ApplicationContext AppContext = ApplicationContext.getInstance();        
         #endregion
 
         #region propeties
@@ -75,7 +74,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
         public BaseCreative()
         {
-            creativeServicve = new CreativeService();
+         
         }
 
         #region protected
@@ -87,24 +86,16 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         #endregion
 
         #region abstract
-        public abstract Task UnicalizeAsync();
+        public virtual async Task UnicalizeAsync() {
+            await Task.Run(() => { });
+        }
         #endregion
 
         #region public
         public async Task SynchronizeAsync()
         {
             await Task.Run(() => { });
-        }
-
-        public async Task DownloadAsync()
-        {
-            await Task.Run(() => { });
-        } 
-
-        public async Task UploadAsync()
-        {
-            await Task.Run(() => { });
-        }
+        }        
         #endregion
     }
 }

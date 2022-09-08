@@ -38,30 +38,32 @@ namespace crm.Models.creatives
                  );
             client.Credentials = credential;
             client.DownloadProgressChanged += Client_DownloadProgressChanged;
-            client.UploadProgressChanged += Client_UploadProgressChanged;
-            client.UploadDataCompleted += Client_UploadDataCompleted;
+            client.UploadProgressChanged += Client_UploadProgressChanged;            
         }
         
         #region private        
         private void Client_UploadProgressChanged(object sender, UploadProgressChangedEventArgs e)
         {
-            int progress = (int)(e.BytesSent / TotalBytes * 100);
+            int progress = (int)(e.BytesSent * 100.0d / TotalBytes );
             UploadProgressUpdateEvent?.Invoke(progress);
         }
-        private void Client_UploadDataCompleted(object sender, UploadDataCompletedEventArgs e)
-        {
-            UploadProgressUpdateEvent?.Invoke(0);
-        }
-
+        
         private void Client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             throw new NotImplementedException();
         }
         #endregion
 
-        public Task<List<BaseCreative>> GetAvaliableAsync(GEO geo, CreativeType type, bool showInvisible)
+        public async Task<List<BaseCreative>> GetAvaliableAsync(GEO geo, CreativeType type, bool showInvisible)
         {
-            throw new NotImplementedException();
+            List<BaseCreative> res = new List<BaseCreative>();
+
+            await Task.Run(async () => { 
+            
+            
+            });
+
+            return res;
         }
 
         public async Task Upload(GEO geo, string fullname)
@@ -72,15 +74,23 @@ namespace crm.Models.creatives
             string name = splt[0];
             string extension = splt[1];
 
+            int creative_id;
             string creative_name = null;
             string filepath = null;
-            (creative_name, filepath) = await serverApi.AddCreative(token, name, extension, geo);
+
+            await serverApi.SetCreativeStatus(token, 1, false, false);
+            await serverApi.SetCreativeStatus(token, 2, false, false);
+            await serverApi.SetCreativeStatus(token, 3, false, false);
+
+            //(creative_id, creative_name, filepath) = await serverApi.AddCreative(token, name, extension, geo);
 
             if (!string.IsNullOrEmpty(creative_name) && !string.IsNullOrEmpty(filepath))
             {
                 TotalBytes = new System.IO.FileInfo(fullname).Length;
                 string url = $"{paths.CreativesRootURL}{filepath}.{extension}";
-                await client.UploadFileTaskAsync(new Uri(url), "PUT", fullname);
+                //await client.UploadFileTaskAsync(new Uri(url), "PUT", fullname);
+                //await serverApi.SetCreativeStatus(token, creative_id, true, true);
+                
             }
         }
 

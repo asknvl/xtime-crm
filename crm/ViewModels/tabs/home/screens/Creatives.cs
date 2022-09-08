@@ -68,8 +68,7 @@ namespace crm.ViewModels.tabs.home.screens
 
         #region commands
         public ReactiveCommand<Unit, Unit> newCreativeCmd { get; }
-        public ReactiveCommand<Unit, Unit> unicalizeCmd { get; }
-        public ReactiveCommand<Unit, Unit> testCmd { get; }
+        public ReactiveCommand<Unit, Unit> unicalizeCmd { get; }        
         #endregion
 
         public Creatives() : base()
@@ -81,9 +80,7 @@ namespace crm.ViewModels.tabs.home.screens
 
             #region commands
             newCreativeCmd = ReactiveCommand.CreateFromTask( async () => {
-
-                //geo.GEO geo = Content.GEO;
-                //Debug.WriteLine(geo.Code);
+                
                 string[] files = await ws.ShowFileDialog("Выберите креатив");
                 if (files != null && files.Length > 0)
                 {
@@ -109,31 +106,7 @@ namespace crm.ViewModels.tabs.home.screens
 
             });
 
-            unicalizeCmd = ReactiveCommand.CreateFromTask(async () => { });
-
-
-            testCmd = ReactiveCommand.CreateFromTask( async () => {
-
-                WebClient client = new WebClient();
-                NetworkCredential credential = new NetworkCredential(
-                 "user287498742876",
-                 "TK&9HhALSv3utvd58px3#tGgQ"
-                 );                
-                
-                client.Credentials = credential;
-                client.UploadProgressChanged +=(s,e)=>{
-                    Debug.WriteLine($"{e.BytesSent} {e.TotalBytesToSend} {e.ProgressPercentage}%");
-                };
-
-                await client.UploadFileTaskAsync(@"http://136.243.74.153:4080/webdav/uniq/IND/videos/1.mp4", "PUT", @"D:\out\1.mp4");
-                //await client.DownloadFileTaskAsync("http://136.243.74.153:4080/webdav/1.mp4", @"D:\out\2.mp4");
-
-                //CreativesRemoteManager remote = new CreativesRemoteManager("http://136.243.74.153:4080/webdav/", AppContext.ServerApi, AppContext.SocketApi);
-                //remote.UploadProgressUpdateEvent += Remote_UploadProgressUpdateEvent;
-                //Models.geoservice.GEO geo = new Models.geoservice.GEO("IND");
-                //await remote.Upload(geo, @"D:\out\1.mp4");
-
-            });
+            unicalizeCmd = ReactiveCommand.CreateFromTask(async () => { });            
             #endregion
         }
 

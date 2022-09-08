@@ -18,14 +18,10 @@ namespace crm.ViewModels.dialogs
 {
     public class creativeUploadDlgVM : ViewModelBase
     {
-        #region vars
-        //IServerApi server;
-        //string token;
+        #region vars        
         ICreativesRemoteManager creativesRemoteManager;
         CancellationTokenSource cts;
-        IPaths paths = Paths.getInstance();
-        //WebClient client;
-        //long TotalBytes = 0;
+        IPaths paths = Paths.getInstance();        
         #endregion
 
         #region properties
@@ -38,6 +34,13 @@ namespace crm.ViewModels.dialogs
             get => progress;
             set => this.RaiseAndSetIfChanged(ref progress, value);
         }
+
+        string filesCounter;
+        public string FilesCounter
+        {
+            get => filesCounter;
+            set => this.RaiseAndSetIfChanged(ref filesCounter, value);
+        }
         #endregion
 
         #region commands
@@ -46,18 +49,11 @@ namespace crm.ViewModels.dialogs
         public creativeUploadDlgVM()
         {
             creativesRemoteManager = new CreativesRemoteManager();
-
-            //server = AppContext.ServerApi;
-            //token = AppContext.User.Token;
-            //client = new WebClient();            
-            //NetworkCredential credential = new NetworkCredential(
-            //    "user287498742876",
-            //    "TK&9HhALSv3utvd58px3#tGgQ"
-            //    );
-
-            //client.Credentials = credential;
-            //client.UploadProgressChanged += Client_UploadProgressChanged;
-            //client.UploadFileCompleted += Client_UploadFileCompleted;
+            creativesRemoteManager.UploadProgressUpdateEvent += (progress) =>
+            {
+                Progress = progress;
+                Debug.WriteLine(progress);
+            };
 
             #region commands
             cancelCmd = ReactiveCommand.Create(() => {
@@ -65,16 +61,6 @@ namespace crm.ViewModels.dialogs
             });
             #endregion
         }
-
-        //private void Client_UploadFileCompleted(object sender, UploadFileCompletedEventArgs e)
-        //{
-        //    Progress = 0;
-        //}
-
-        //private void Client_UploadProgressChanged(object sender, UploadProgressChangedEventArgs e)
-        //{
-        //    Progress = (int)(e.BytesSent / TotalBytes * 100);            
-        //}
 
         public async Task RunFilesUploadAsync()
         {
@@ -84,25 +70,15 @@ namespace crm.ViewModels.dialogs
             {
                 await Task.Run(async () =>
                 {
+                    int fcounter = 0;
+
                     foreach (var file in Files)
                     {
+
+                        FilesCounter = $"Загрузка {++fcounter} файлов из {Files.Length}";
+
                         await creativesRemoteManager.Upload(GEO, file);
 
-                        //string filename = Path.GetFileName(file);
-                        //string[] splt = filename.Split(".");
-                        //string name = splt[0];
-                        //string extension = splt[1];
-
-                        //string creative_name = null;
-                        //string filepath = null;
-                        //(creative_name, filepath) = await server.AddCreative(token, name, extension, GEO);   
-
-                        //if (!string.IsNullOrEmpty(creative_name) && !string.IsNullOrEmpty(filepath))
-                        //{
-                        //    TotalBytes = new System.IO.FileInfo(file).Length;                            
-                        //    string url = $"{paths.CreativesRootURL}{filepath}.{extension}";                            
-                        //    await client.UploadFileTaskAsync(new Uri(url), "PUT", file);
-                        //}
                         cts.Token.ThrowIfCancellationRequested();
                     }
                 });
