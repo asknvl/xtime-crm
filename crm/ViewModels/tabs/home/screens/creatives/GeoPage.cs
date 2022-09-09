@@ -1,4 +1,5 @@
 ﻿using Avalonia.Threading;
+using crm.Models.creatives;
 using crm.ViewModels.dialogs;
 using crm.WS;
 using ReactiveUI;
@@ -105,16 +106,32 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                     CreativesList.Clear();
                 });
 
-                for (int i = 0; i < 10; i++)
-                {
-                    var c = new CreativeItem() { GEO = GEO, Id = i, Name = $"{GEO.Code}{i}" };
-                    c.CheckedEvent += Creative_CheckedEvent;
-                    c.IsChecked = checkedCreatives.Any(u => u.Id.Equals(c.Id)) || IsAllChecked;
+                CreativesRemoteManager crm = new();
 
-                    await Dispatcher.UIThread.InvokeAsync(() => {
-                        CreativesList.Add(c);
-                    });
+
+
+                var creos = await crm.GetAvaliableCreatives(GEO, CreativeType.video);
+                
+                foreach (var creo in creos)
+                {
+                    if (!CreativesList.Contains(creo))
+                    {                        
+                        CreativesList.Add(creo);
+                        creo.Synchronize();
+                    }                    
                 }
+
+
+                //for (int i = 0; i < 10; i++)
+                //{
+                //    var c = new CreativeItem() { GEO = GEO, Id = i, Name = $"{GEO.Code}{i}" };
+                //    c.CheckedEvent += Creative_CheckedEvent;
+                //    c.IsChecked = checkedCreatives.Any(u => u.Id.Equals(c.Id)) || IsAllChecked;
+
+                //    await Dispatcher.UIThread.InvokeAsync(() => {
+                //        CreativesList.Add(c);
+                //    });
+                //}
 
                 PageInfo = getPageInfo(SelectedPage, 10, 10);
 

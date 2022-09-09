@@ -13,10 +13,6 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 {
     public abstract class BaseCreative : ViewModelBase
     {
-        #region vars
-        protected ApplicationContext AppContext = ApplicationContext.getInstance();        
-        #endregion
-
         #region propeties
         int id;
         public int Id
@@ -67,23 +63,10 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         //    set => this.RaiseAndSetIfChanged(ref isChecked, value);
         //}
         #endregion
-
-        #region commands
-        public ReactiveCommand<Unit, Unit> toggleVisibility { get; }
-        #endregion
-
         public BaseCreative()
         {
          
         }
-
-        #region protected
-        bool setVisibility(bool isvisible) {
-            bool res = true;
-            return res;
-            //Запрос по рест сделать видимым            
-        }
-        #endregion
 
         #region abstract
         public virtual async Task UnicalizeAsync() {
@@ -92,9 +75,9 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         #endregion
 
         #region public
-        public async Task SynchronizeAsync()
+        public virtual void Synchronize()
         {
-            await Task.Run(() => { });
+            Task.Run(() => { });
         }        
         #endregion
     }

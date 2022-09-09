@@ -12,11 +12,16 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using static crm.Models.api.server.BaseServerApi;
 
 namespace crm.Models.creatives
 {
     public class CreativesRemoteManager : ICreativesRemoteManager
     {
+
+        #region const        
+        #endregion
+
         #region vars                
         IPaths paths = Paths.getInstance();
         ApplicationContext AppContext = ApplicationContext.getInstance();
@@ -50,21 +55,23 @@ namespace crm.Models.creatives
         
         private void Client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            int progress = (int)(e.BytesReceived * 100.0d / e.TotalBytesToReceive);
+            DownloadProgessUpdateEvent?.Invoke(progress);
         }
         #endregion
-
-        public async Task<List<BaseCreative>> GetAvaliableAsync(GEO geo, CreativeType type, bool showInvisible)
+        public async Task<List<CreativeItem>> GetAvaliableCreatives(GEO geo, CreativeType type)
         {
-            List<BaseCreative> res = new List<BaseCreative>();
+            List<CreativeItem> res = new();
 
-            await Task.Run(async () => { 
-            
-            
-            });
+            List<CreativeDTO> creatives = await serverApi.GetAvaliableCreatives(geo, (int)type);
 
             return res;
         }
+
+        public async Task Download(GEO geo, string filename)
+        {
+
+        }          
 
         public async Task Upload(GEO geo, string fullname)
         {
@@ -78,24 +85,21 @@ namespace crm.Models.creatives
             string creative_name = null;
             string filepath = null;
 
-            await serverApi.SetCreativeStatus(token, 1, false, false);
-            await serverApi.SetCreativeStatus(token, 2, false, false);
-            await serverApi.SetCreativeStatus(token, 3, false, false);
-
-            //(creative_id, creative_name, filepath) = await serverApi.AddCreative(token, name, extension, geo);
+            (creative_id, creative_name, filepath) = await serverApi.AddCreative(token, name, extension, geo);
 
             if (!string.IsNullOrEmpty(creative_name) && !string.IsNullOrEmpty(filepath))
             {
                 TotalBytes = new System.IO.FileInfo(fullname).Length;
                 string url = $"{paths.CreativesRootURL}{filepath}.{extension}";
-                //await client.UploadFileTaskAsync(new Uri(url), "PUT", fullname);
-                //await serverApi.SetCreativeStatus(token, creative_id, true, true);
-                
+                await client.UploadFileTaskAsync(new Uri(url), "PUT", fullname);
+                await serverApi.SetCreativeStatus(token, creative_id, true, true);
+
             }
         }
 
         #region callbacks
         public event Action<int> UploadProgressUpdateEvent;
+        public event Action<int> DownloadProgessUpdateEvent;
         #endregion
     }
 }

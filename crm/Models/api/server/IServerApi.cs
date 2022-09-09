@@ -23,6 +23,22 @@ namespace crm.Models.api.server
         Task<List<GEO>> GetGeos(string token, string sortparameter);
         Task<(int, string, string)> AddCreative(string token, string filename, string extension, GEO geo);
         Task SetCreativeStatus(string token, int id, bool isUploaded, bool isVisible);
+        Task<List<CreativeDTO>> GetAvaliableCreatives(GEO geo, int filetype);
+    }
+
+    public class CreativeDTO
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+        public string filename { get; set; }
+        public int geolocation_id { get; set; }
+        public string geolocation_code { get; set; }
+        public string file_extension { get; set; }
+        public int file_type_id { get; set; }
+        public string file_type { get; set; }
+        public bool uploaded { get; set; }
+        public bool visibility { get; set; }
 
     }
+
 }

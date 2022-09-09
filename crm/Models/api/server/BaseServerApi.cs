@@ -490,6 +490,19 @@ namespace crm.Models.api.server
             });
         }   
 
+        public virtual async Task<List<CreativeDTO>> GetAvaliableCreatives(int page, int size, geo.GEO geo, int filetype)
+        {
+            List<CreativeDTO> res = new();
+
+            //http://136.243.74.153:4000/v1/creatives?page=0&size=10&file_type_id=1&sort_by=+id&geolocation_id=1
+
+            var client = new RestClient($"{url}/v1/creatives/");
+            var request = new RestRequest(Method.GET);
+            request
+
+            return res;
+        }
+
         #endregion
 
 
