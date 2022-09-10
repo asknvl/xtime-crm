@@ -58,7 +58,20 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             GEO = new geo.GEO() { Id = dto.geolocation_id, Code = dto.geolocation_code };
             Type = (dto.file_type.Equals("video")) ? CreativeType.video : CreativeType.picture;
 
-            UrlPath = $"{paths.CreativesRootURL}/{dto.geolocation_code}/{dto.file_type}/{dto.name}.{dto.file_extension}";
+            string stype ="";
+            switch (Type)
+            {
+                case CreativeType.video:
+                    stype = "videos";
+                    break;
+                case CreativeType.picture:
+                    stype = "picures";
+                    break;
+                default:
+                    break;
+            }
+
+            UrlPath = $"{paths.CreativesRootURL}/{dto.geolocation_code}/{stype}/{dto.name}.{dto.file_extension}";
 
             string geopath = Path.Combine(paths.CreativesRootPath, dto.geolocation_code);
             if (!Directory.Exists(geopath))
