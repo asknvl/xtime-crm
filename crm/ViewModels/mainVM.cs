@@ -93,6 +93,7 @@ namespace crm.ViewModels
 #if DEBUG
             //AppContext.ServerApi = new ServerApi("http://136.243.74.153:4000");
             //AppContext.SocketApi = new SocketApi("http://136.243.74.153:4000");
+
             AppContext.ServerApi = new ServerApi("http://185.46.9.229:4000");
             AppContext.SocketApi = new SocketApi("http://185.46.9.229:4000");
 

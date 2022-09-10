@@ -432,8 +432,8 @@ namespace crm.Models.api.server
             var request = new RestRequest(Method.POST);
             request.AddHeader($"Authorization", $"Bearer {token}");
             request.AddParameter("filename", filename);
-            request.AddParameter("file_extension", extension);
-            request.AddParameter("geolocation_id", geo.Id);
+            request.AddParameter("file_extension", extension);            
+            request.AddParameter("geolocation_id", geo.Id);            
             var response = client.Execute(request);
             var json = JObject.Parse(response.Content);
             bool res = json["success"].ToObject<bool>();
@@ -490,17 +490,40 @@ namespace crm.Models.api.server
             });
         }   
 
-        public virtual async Task<List<CreativeDTO>> GetAvaliableCreatives(int page, int size, geo.GEO geo, int filetype)
+        public virtual async Task<List<CreativeDTO>> GetAvaliableCreatives(string token, int page, int size, geo.GEO geo, int filetype)
         {
-            List<CreativeDTO> res = new();
-
-            //http://136.243.74.153:4000/v1/creatives?page=0&size=10&file_type_id=1&sort_by=+id&geolocation_id=1
+            List<CreativeDTO> creatives = new();
+            int total_pages = 0;
+            int total_users = 0;
 
             var client = new RestClient($"{url}/v1/creatives/");
             var request = new RestRequest(Method.GET);
-            request
+            request.AddHeader($"Authorization", $"Bearer {token}");
+            request.AddQueryParameter("page", page.ToString());
+            request.AddQueryParameter("size", size.ToString());
+            request.AddQueryParameter("geolocation_id", geo.Id.ToString());
+            request.AddQueryParameter("file_type_id", filetype.ToString());
+            request.AddQueryParameter("sort_by", "-id");
+            var response = client.Execute(request);
+            var json = JObject.Parse(response.Content);
+            var res = json["success"].ToObject<bool>();
+            if (res)
+            {
+                JToken data = json["data"];
+                if (data != null)
+                {
+                    creatives = JsonConvert.DeserializeObject<List<CreativeDTO>>(data.ToString());
+                    total_pages = json["total_pages"].ToObject<int>();
+                    total_users = json["total_users"].ToObject<int>();
+                }
+            } else
+            {
+                string e = json["errors"].ToString();
+                List<ServerError>? errors = JsonConvert.DeserializeObject<List<ServerError>>(e);
+                throw new ServerException($"{getErrMsg(errors)}");
+            }            
 
-            return res;
+            return creatives;
         }
 
         #endregion

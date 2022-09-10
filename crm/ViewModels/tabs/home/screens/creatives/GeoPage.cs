@@ -1,4 +1,5 @@
 ﻿using Avalonia.Threading;
+using crm.Models.api.server;
 using crm.Models.creatives;
 using crm.ViewModels.dialogs;
 using crm.WS;
@@ -21,6 +22,8 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         IWindowService ws = WindowService.getInstance();
         List<CreativeItem> checkedCreatives = new();
         string SortKey = "+id";
+        string token;
+        IServerApi server;
         #endregion
 
         #region properties
@@ -65,6 +68,9 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             GEO = g;
             Title = GEO.Code;
 
+            server = AppContext.ServerApi;
+            token = AppContext.User.Token;
+
             #region commands
             prevPageCmd = ReactiveCommand.CreateFromTask(async () =>
             {
@@ -73,8 +79,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                 {
                     //Users.Clear();
                     await updatePageInfo(SelectedPage, PageSize, SortKey);
-                }
-                catch (Exception ex)
+                } catch (Exception ex)
                 {
                     ws.ShowDialog(new errMsgVM(ex.Message));
                 }
@@ -87,8 +92,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                 {
                     //Users.Clear();
                     await updatePageInfo(SelectedPage, PageSize, SortKey);
-                }
-                catch (Exception ex)
+                } catch (Exception ex)
                 {
                     ws.ShowDialog(new errMsgVM(ex.Message));
                 }
@@ -100,26 +104,48 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         #region helpers
         async Task updatePageInfo(int page, int pagesize, string sortkey)
         {
-            await Task.Run(async () => {
+            await Task.Run(async () =>
+            {
 
-                await Dispatcher.UIThread.InvokeAsync(() => {
-                    CreativesList.Clear();
-                });
+                //await Dispatcher.UIThread.InvokeAsync(() => {
+                //    CreativesList.Clear();
+                //});
 
-                CreativesRemoteManager crm = new();
+                var crdtos = await AppContext.ServerApi.GetAvaliableCreatives(token, SelectedPage - 1, PageSize, GEO, (int)CreativeType.video);
 
-
-
-                var creos = await crm.GetAvaliableCreatives(GEO, CreativeType.video);
-                
-                foreach (var creo in creos)
+                foreach (var cdt in crdtos)
                 {
-                    if (!CreativesList.Contains(creo))
-                    {                        
-                        CreativesList.Add(creo);
-                        creo.Synchronize();
-                    }                    
+                    var found = CreativesList.FirstOrDefault(o => o.Id == cdt.id);
+                    if (found == null)
+                    {
+
+                        CreativeItem creative = new CreativeItem(cdt);
+
+                        if (creative.IsUploaded)
+                        {
+
+                            await Dispatcher.UIThread.InvokeAsync(() =>
+                            {
+                                CreativesList.Add(creative);
+                            });
+
+                            creative.Synchronize();
+                        }
+
+                    }
                 }
+
+
+                //foreach (var creo in creos)
+                //{
+                //    if (!CreativesList.Contains(creo))
+                //    {                        
+                //        CreativesList.Add(creo);
+                //        creo.Synchronize();
+                //    }                    
+                //}
+
+
 
 
                 //for (int i = 0; i < 10; i++)
@@ -135,7 +161,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
                 PageInfo = getPageInfo(SelectedPage, 10, 10);
 
-            }); 
+            });
         }
         #endregion
 
@@ -159,8 +185,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             {
                 if (found == null)
                     checkedCreatives.Add(creative);
-            }
-            else
+            } else
             {
                 if (found != null)
                     checkedCreatives.Remove(found);

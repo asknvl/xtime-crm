@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 namespace crm.Models.creatives
 {
     public interface ICreativesLocalManager
-    {
-        Task<List<BaseCreative>> GetAvaliableAsync(GEO geo, CreativeType type);
+    {        
     }
 }

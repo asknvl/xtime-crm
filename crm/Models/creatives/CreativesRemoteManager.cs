@@ -58,19 +58,13 @@ namespace crm.Models.creatives
             int progress = (int)(e.BytesReceived * 100.0d / e.TotalBytesToReceive);
             DownloadProgessUpdateEvent?.Invoke(progress);
         }
-        #endregion
-        public async Task<List<CreativeItem>> GetAvaliableCreatives(GEO geo, CreativeType type)
+        #endregion       
+
+        public async Task Download(string source, string destination)
         {
-            List<CreativeItem> res = new();
+            //string url = $"{paths.CreativesRootURL}{source}";
 
-            List<CreativeDTO> creatives = await serverApi.GetAvaliableCreatives(geo, (int)type);
-
-            return res;
-        }
-
-        public async Task Download(GEO geo, string filename)
-        {
-
+            //await client.DownloadFileTaskAsync()
         }          
 
         public async Task Upload(GEO geo, string fullname)

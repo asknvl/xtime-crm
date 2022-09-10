@@ -11,9 +11,21 @@ using geo = crm.Models.geoservice;
 
 namespace crm.ViewModels.tabs.home.screens.creatives
 {
-    public abstract class BaseCreative : ViewModelBase
+    public abstract class BaseCreative
     {
+
+        #region vars
+        ICreativesLocalManager localManaged = new CreativesLocalManager();
+        ICreativesRemoteManager remoteManaged = new CreativesRemoteManager();
+        #endregion
+
         #region propeties
+        CreativeType type;
+        public CreativeType Type {
+            get => type;
+            set => this.RaiseAndSetIfChanged(ref type, value);  
+        }
+
         int id;
         public int Id
         {
@@ -35,11 +47,25 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             set => this.RaiseAndSetIfChanged(ref name, value);
         }
 
-        string path;
-        public string Path
+        string fname;
+        public string FileName
         {
-            get => path;
-            set => this.RaiseAndSetIfChanged(ref path, value);
+            get => fname;
+            set => this.RaiseAndSetIfChanged(ref fname, value);
+        }
+
+        string lpath;
+        public string LocalPath
+        {
+            get => lpath;
+            set => this.RaiseAndSetIfChanged(ref lpath, value);
+        }
+
+        string upath;
+        public string UrlPath
+        {
+            get => upath;
+            set => this.RaiseAndSetIfChanged(ref upath, value);
         }
 
         bool isVisible;
@@ -49,23 +75,17 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             set => this.RaiseAndSetIfChanged(ref isVisible, value);
         }
 
-        int uniques;
-        public int Uniques
+        bool isUploaded;
+        public bool IsUploaded
         {
-            get => uniques;
-            set => this.RaiseAndSetIfChanged(ref uniques, value);
+            get => isUploaded;
+            set => this.RaiseAndSetIfChanged(ref isUploaded, value);
         }
 
-        //bool isChecked;
-        //public virtual bool IsChecked
-        //{
-        //    get => isChecked;
-        //    set => this.RaiseAndSetIfChanged(ref isChecked, value);
-        //}
+       
         #endregion
         public BaseCreative()
-        {
-         
+        {         
         }
 
         #region abstract

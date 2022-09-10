@@ -1,7 +1,9 @@
 ﻿using crm.Models.geoservice;
+using crm.Models.storage;
 using crm.ViewModels.tabs.home.screens.creatives;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,9 +12,20 @@ namespace crm.Models.creatives
 {
     public class CreativesLocalManager : ICreativesLocalManager
     {
-        public Task<List<BaseCreative>> GetAvaliableAsync(GEO geo, CreativeType type)
+        #region vars
+        IPaths paths = Paths.getInstance();
+        #endregion
+
+        public CreativesLocalManager()
         {
-            throw new NotImplementedException();
+
         }
+        #region public
+        public bool CheckCreativeDownloaded(GEO geo, string filename)
+        {            
+            string fullpath = Path.Combine(paths.CreativesRootPath, geo.Code, filename);
+            return File.Exists(fullpath);            
+        }
+        #endregion
     }
 }

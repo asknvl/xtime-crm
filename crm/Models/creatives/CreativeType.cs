@@ -8,7 +8,7 @@ namespace crm.Models.creatives
 {
     public enum CreativeType : int
     {
-        video,
+        video = 1,
         picture,
         any
     }
