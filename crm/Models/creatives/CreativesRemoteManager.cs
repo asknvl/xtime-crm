@@ -6,6 +6,7 @@ using crm.Models.storage;
 using crm.ViewModels.tabs.home.screens.creatives;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -57,14 +58,13 @@ namespace crm.Models.creatives
         {
             int progress = (int)(e.BytesReceived * 100.0d / e.TotalBytesToReceive);
             DownloadProgessUpdateEvent?.Invoke(progress);
+            Debug.WriteLine(progress);
         }
         #endregion       
 
-        public async Task Download(string source, string destination)
-        {
-            //string url = $"{paths.CreativesRootURL}{source}";
-
-            //await client.DownloadFileTaskAsync()
+        public async Task Download(ICreative creative)
+        {            
+            await client.DownloadFileTaskAsync(new Uri(creative.UrlPath), creative.LocalPath);            
         }          
 
         public async Task Upload(GEO geo, string fullname)

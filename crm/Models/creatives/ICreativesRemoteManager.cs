@@ -11,7 +11,7 @@ namespace crm.Models.creatives
     internal interface ICreativesRemoteManager
     {
         Task Upload(GEO geo, string fullname);
-        Task Download(string source, string destination);        
+        Task Download(ICreative creative);        
 
         event Action<int> UploadProgressUpdateEvent;
 
