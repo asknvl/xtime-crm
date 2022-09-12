@@ -15,8 +15,8 @@ namespace crm.ViewModels.tabs.home.screens.creatives
     public class CreativeItem : ViewModelBase, ICreative
     {
         #region vars
-        ICreativesRemoteManager remoteManager = new CreativesRemoteManager();
-        ICreativesLocalManager localManager = new CreativesLocalManager();
+        ICreativesRemoteManager remoteManager;
+        ICreativesLocalManager localManager;
         IPaths paths = Paths.getInstance();
         #endregion
 
@@ -52,6 +52,11 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
         public CreativeItem(CreativeDTO dto)
         {
+
+            remoteManager = new CreativesRemoteManager();
+            remoteManager.DownloadProgessUpdateEvent += RemoteManager_DownloadProgessUpdateEvent;
+            localManager = new CreativesLocalManager();
+
             Id = dto.id;
             Name = dto.name;
             //FileName = $"{dto.filename}.{dto.file_extension}";
@@ -83,16 +88,26 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             IsUploaded = dto.uploaded;
         }
 
+        private void RemoteManager_DownloadProgessUpdateEvent(int progress)
+        {
+            
+        }
+
+        #region public
         public void Synchronize()
         {
-            remoteManager.Download(this);
+            if (!localManager.CheckCreativeDownloaded(this))
+                remoteManager.Download(this);
         }
 
         public async Task UnicalizeAsync()
         {
             await Task.Run(() => { });
         }
+        #endregion
 
+        #region callbacks
         public event Action<CreativeItem, bool> CheckedEvent;
+        #endregion
     }
 }

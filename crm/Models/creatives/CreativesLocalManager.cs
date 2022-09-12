@@ -21,10 +21,9 @@ namespace crm.Models.creatives
 
         }
         #region public
-        public bool CheckCreativeDownloaded(GEO geo, string filename)
-        {            
-            string fullpath = Path.Combine(paths.CreativesRootPath, geo.Code, filename);
-            return File.Exists(fullpath);            
+        public bool CheckCreativeDownloaded(ICreative creative)
+        {   
+            return File.Exists(creative.LocalPath);            
         }
         #endregion
     }

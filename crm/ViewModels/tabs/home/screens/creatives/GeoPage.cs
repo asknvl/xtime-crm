@@ -111,6 +111,9 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                 //    CreativesList.Clear();
                 //});
 
+
+#if ONLINE
+
                 var crdtos = await AppContext.ServerApi.GetAvaliableCreatives(token, SelectedPage - 1, PageSize, GEO, (int)CreativeType.video);
 
                 foreach (var cdt in crdtos)
@@ -134,17 +137,19 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
                     }
                 }
+#else                
+#endif
 
                 PageInfo = getPageInfo(SelectedPage, 10, 10);
 
             });
         }
-        #endregion
+#endregion
 
-        #region public  
-        #endregion
+#region public  
+#endregion
 
-        #region callbacks
+#region callbacks
         private void Creative_CheckedEvent(CreativeItem creative, bool ischecked)
         {
 
@@ -169,13 +174,13 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
             CreativesSelectionChangedEvent?.Invoke(checkedCreatives.Count);
         }
-        #endregion
+#endregion
 
-        #region events
+#region events
         public event Action<int> CreativesSelectionChangedEvent;
-        #endregion
+#endregion
 
-        #region override    
+#region override    
         public override async void OnActivate()
         {
             base.OnActivate();
@@ -190,6 +195,6 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                 ws.ShowDialog(new errMsgVM(ex.Message));
             }
         }
-        #endregion
+#endregion
     }
 }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace crm.Models.creatives
 {
     public interface ICreativesLocalManager
-    {        
+    {
+        bool CheckCreativeDownloaded(ICreative creative);
     }
 }
