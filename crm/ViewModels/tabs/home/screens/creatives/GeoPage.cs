@@ -33,7 +33,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             get => geo;
             set => this.RaiseAndSetIfChanged(ref geo, value);
         }
-        public ObservableCollection<CreativeItem> CreativesList { get; } = new();
+        public ObservableCollection<Object> CreativesList { get; } = new();
 
         bool needInvokeAllCheck { get; set; } = true;
         bool isAllChecked;
@@ -45,7 +45,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                 if (needInvokeAllCheck)
                 {
                     foreach (var item in CreativesList)
-                        item.IsChecked = value;
+                        ((CreativeItem)item).IsChecked = value;
 
                     if (!value)
                     {
@@ -126,7 +126,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
                 foreach (var cdt in crdtos)
                 {
-                    var found = CreativesList.FirstOrDefault(o => o.Id == cdt.id);
+                    var found = CreativesList.FirstOrDefault(o => ((CreativeItem)o).Id == cdt.id);
                     if (found == null)
                     {
 
@@ -144,8 +144,15 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
                             creative.Synchronize();
                         }
-
                     }
+                }
+
+                if (CreativesList.Count > 0)
+                {
+                    await Dispatcher.UIThread.InvokeAsync(() =>
+                    {
+                        CreativesList.Add(new MassUniqItem());
+                    });
                 }
 #else                
 #endif               

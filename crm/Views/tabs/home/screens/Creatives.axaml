@@ -10,10 +10,10 @@
 			 xmlns:sys="using:System"
              mc:Ignorable="d" d:DesignWidth="1440" d:DesignHeight="693"
              x:Class="crm.Views.tabs.home.screens.Creatives">
-	<Design.DataContext>
+	<!--<Design.DataContext>
 		<vm:Creatives/>
-	</Design.DataContext>
-	<UserControl.Styles>		
+	</Design.DataContext>-->
+	<UserControl.Styles>
 		<StyleInclude Source="/Styles/ScreenStyle.axaml"/>
 		<StyleInclude Source="/Styles/UserListStyle.axaml"/>
 		<StyleInclude Source="/Styles/ToggleSwitch.axaml"/>
@@ -24,7 +24,7 @@
 		<conv:IdPadLeftConverter x:Key="padLeftConverter"/>
 	</UserControl.Resources>
 	<Grid
-		RowDefinitions="Auto, Auto, Auto, Auto, *, Auto"
+		RowDefinitions="Auto, Auto, Auto, Auto, *, Auto, Auto"
 		ColumnDefinitions="610, *"
 		Margin="25, 12, 0, 0">
 		<Grid
@@ -109,51 +109,51 @@
 			Margin="0, 10, 0, 0"
 			Height="45">
 			<ScrollViewer>
-			<ListBox
-				Grid.Column="0"
-				Items="{Binding GeoPages}"
-				SelectedItem="{Binding Content}">
-				<ListBox.ItemsPanel>
-					<ItemsPanelTemplate>
-						<StackPanel Orientation="Horizontal"/>
-					</ItemsPanelTemplate>
-				</ListBox.ItemsPanel>
-				<ListBox.DataTemplates>
-					<DataTemplate>
-						<Grid
-							Width="50"
-							VerticalAlignment="Stretch">
-							<TextBlock
-								HorizontalAlignment="Center"
-								VerticalAlignment="Center"
-								Text="{Binding Title}"/>
-						</Grid>
-					</DataTemplate>
-				</ListBox.DataTemplates>
-				<ListBox.Styles>
-					<Style Selector="ListBox">
-						<Setter Property="CornerRadius" Value="5"/>
-					</Style>
-					<Style Selector="ListBox ListBoxItem">
-						<Setter Property="Padding" Value="20, 2, 20, 0"/>
-						<Setter Property="Margin" Value="10, 0, 10, 0"/>
-					</Style>
-					<Style Selector="ListBox ListBoxItem:not(:selected) /template/ ContentPresenter#PART_ContentPresenter">
-						<Setter Property="BorderThickness" Value="0, 0, 0, 2"/>
-						<Setter Property="BorderBrush" Value="Transparent"/>
-					</Style>
-					<Style Selector="ListBox ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
-						<Setter Property="BorderThickness" Value="0, 0, 0, 2"/>
-						<Setter Property="BorderBrush" Value="#FF464646"/>
-						<Setter Property="Background" Value="Transparent"/>
-					</Style>
-					<Style Selector="ListBox ListBoxItem:pointerover:not(:selected) /template/ ContentPresenter#PART_ContentPresenter">
-						<Setter Property="BorderThickness" Value="0, 0, 0, 2"/>
-						<Setter Property="BorderBrush" Value="Transparent"/>
-						<Setter Property="Background" Value="Transparent"/>
-					</Style>
-				</ListBox.Styles>
-			</ListBox>
+				<ListBox
+					Grid.Column="0"
+					Items="{Binding GeoPages}"
+					SelectedItem="{Binding Content}">
+					<ListBox.ItemsPanel>
+						<ItemsPanelTemplate>
+							<StackPanel Orientation="Horizontal"/>
+						</ItemsPanelTemplate>
+					</ListBox.ItemsPanel>
+					<ListBox.DataTemplates>
+						<DataTemplate>
+							<Grid
+								Width="50"
+								VerticalAlignment="Stretch">
+								<TextBlock
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									Text="{Binding Title}"/>
+							</Grid>
+						</DataTemplate>
+					</ListBox.DataTemplates>
+					<ListBox.Styles>
+						<Style Selector="ListBox">
+							<Setter Property="CornerRadius" Value="5"/>
+						</Style>
+						<Style Selector="ListBox ListBoxItem">
+							<Setter Property="Padding" Value="20, 2, 20, 0"/>
+							<Setter Property="Margin" Value="10, 0, 10, 0"/>
+						</Style>
+						<Style Selector="ListBox ListBoxItem:not(:selected) /template/ ContentPresenter#PART_ContentPresenter">
+							<Setter Property="BorderThickness" Value="0, 0, 0, 2"/>
+							<Setter Property="BorderBrush" Value="Transparent"/>
+						</Style>
+						<Style Selector="ListBox ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+							<Setter Property="BorderThickness" Value="0, 0, 0, 2"/>
+							<Setter Property="BorderBrush" Value="#FF464646"/>
+							<Setter Property="Background" Value="Transparent"/>
+						</Style>
+						<Style Selector="ListBox ListBoxItem:pointerover:not(:selected) /template/ ContentPresenter#PART_ContentPresenter">
+							<Setter Property="BorderThickness" Value="0, 0, 0, 2"/>
+							<Setter Property="BorderBrush" Value="Transparent"/>
+							<Setter Property="Background" Value="Transparent"/>
+						</Style>
+					</ListBox.Styles>
+				</ListBox>
 				<ScrollViewer.Styles>
 					<Style Selector="ScrollViewer:pointerover">
 						<Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
@@ -201,7 +201,7 @@
 				<TextBlock
 					Grid.Column="3">
 					Видимость
-				</TextBlock>				
+				</TextBlock>
 				<Grid.Styles>
 					<Style Selector="Grid TextBlock">
 						<!--<Setter Property="Margin" Value="20, 10, 20, 10"/>-->
@@ -216,13 +216,17 @@
 			Grid.Row="4">
 			<Grid.DataTemplates>
 				<DataTemplate>
-					<ScrollViewer>						
-						<ItemsPresenter									
+					<ScrollViewer>
+						<ItemsPresenter
+							Grid.Row="0"
 							Items="{Binding CreativesList}">
 							<ItemsPresenter.DataTemplates>
-								<DataTemplate>									
-									<Border										
-										BorderThickness="0, 0, 0, 1"																														
+								<!--<DataTemplate DataType="{x:Type creatives:MassUniqItem}">
+									
+								</DataTemplate>-->
+								<DataTemplate DataType="{x:Type creatives:CreativeItem}">
+									<Border
+										BorderThickness="0, 0, 0, 1"
 										BorderBrush="{DynamicResource SeparatorColor}" >
 										<Grid
 											ColumnDefinitions="Auto, *"
@@ -238,10 +242,10 @@
 													Stretch="Fill"
 													Width="15"
 													Height="15"/>
-											</ToggleButton>											
+											</ToggleButton>
 											<Grid
 												Margin="15, 0, 0, 0"
-												Grid.Column="1"												
+												Grid.Column="1"
 												ColumnDefinitions="150, 150, 150, 150">
 												<ProgressBar
 													Grid.Column="0"
@@ -258,15 +262,15 @@
 													VerticalAlignment="Center"
 													HorizontalAlignment="Center"/>
 												<Button
-													Classes="Button Hyper"													
-													Grid.Column="1"	
+													Classes="Button Hyper"
+													Grid.Column="1"
 													HorizontalAlignment="Center">
 													<TextBlock>
 														Предпросмотр
 													</TextBlock>
-												</Button>												
+												</Button>
 												<TextBox
-													Text="20"													
+													Text="20"
 													Grid.Column="2"
 													VerticalAlignment="Center"
 													HorizontalAlignment="Center"
@@ -297,9 +301,9 @@
 													Grid.Column="3"
 													VerticalAlignment="Center"
 													HorizontalAlignment="Center"
-													IsChecked="False">													
-												</ToggleSwitch>												
-											</Grid>											
+													IsChecked="False">
+												</ToggleSwitch>
+											</Grid>
 										</Grid>
 									</Border>
 								</DataTemplate>
@@ -308,20 +312,29 @@
 						<ScrollViewer.Styles>
 							<Style Selector="ScrollViewer:pointerover">
 								<Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
-								<Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
+								<Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
 							</Style>
 							<Style Selector="ScrollViewer">
 								<Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
 								<Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
 							</Style>
-						</ScrollViewer.Styles>						
+						</ScrollViewer.Styles>
 					</ScrollViewer>
 				</DataTemplate>
 			</Grid.DataTemplates>
-			<ContentControl Content="{Binding Content}"/>			
+			<ContentControl Content="{Binding Content}"/>
 		</Grid>
+		<Border
+			Grid.Row="5"
+			BorderThickness="0, 1, 0, 1"
+			Margin="0, 0, 0, 0"
+			BorderBrush="{DynamicResource SeparatorColor}">
+			<Grid
+				Height="{DynamicResource ScreenListItemHeight}">
+			</Grid>
+		</Border>
 		<Grid
-			Grid.Row="5" Grid.ColumnSpan="2">
+			Grid.Row="6" Grid.ColumnSpan="2">
 			<StackPanel
 				Margin="15"
 				HorizontalAlignment="Right"
@@ -348,69 +361,6 @@
 				HorizontalAlignment="Left">
 			</TextBlock>
 		</Grid>
-
-
-		<!--<Grid
-			Grid.Row="2">
-			<ScrollViewer>
-
-				<Grid RowDefinitions="Auto, *">
-					<Grid
-						VerticalAlignment="Center"
-						Height="{DynamicResource ScreenListItemHeight}"
-						Margin="0, 0, 0, 0"
-						Name="PART_Title"
-						Grid.Row="0"
-						RowDefinitions="*, 1"
-						ColumnDefinitions="
-							100, 
-							70,
-							70,
-							70">						
-						<ToggleButton
-							Name="id"
-							Command="{Binding sortParameterCmd}"
-							Classes="ToggleButton CheckSort"
-							Grid.Column="1">
-							<ToggleButton.CommandParameter>
-								<MultiBinding>
-									<Binding Path="#id.Name"/>
-									<Binding Path="#id.IsChecked" />
-								</MultiBinding>
-							</ToggleButton.CommandParameter>
-							<TextBlock>
-								ID
-							</TextBlock>
-						</ToggleButton>						
-						<Grid.Styles>
-							<Style Selector="Grid#PART_Title TextBlock">
-								<Setter Property="FontWeight" Value="Bold"/>
-								<Setter Property="VerticalAlignment" Value="Center"/>
-								<Setter Property="HorizontalAlignment" Value="Center"/>
-							</Style>
-						</Grid.Styles>
-					</Grid>
-					<ItemsPresenter Grid.Row="1" Items="{Binding Users}">
-						<ItemsPresenter.DataTemplates>
-							<DataTemplate>
-								<views:userListItem/>
-							</DataTemplate>
-						</ItemsPresenter.DataTemplates>
-					</ItemsPresenter>
-				</Grid>
-				
-				<ScrollViewer.Styles>
-					<Style Selector="ScrollViewer:pointerover">
-						<Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
-						<Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
-					</Style>
-					<Style Selector="ScrollViewer">
-						<Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
-						<Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
-					</Style>
-				</ScrollViewer.Styles>
-			</ScrollViewer>
-		</Grid>-->
 	</Grid>
 </UserControl>
 
