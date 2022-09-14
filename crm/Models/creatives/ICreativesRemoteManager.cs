@@ -16,6 +16,8 @@ namespace crm.Models.creatives
         event Action<int> UploadProgressUpdateEvent;
 
         event Action<int> DownloadProgessUpdateEvent;
+
+        event Action DownloadCompleted;
         
     }
 }

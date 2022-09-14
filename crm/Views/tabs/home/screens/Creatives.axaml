@@ -243,15 +243,15 @@
 												Margin="15, 0, 0, 0"
 												Grid.Column="1"												
 												ColumnDefinitions="150, 150, 150, 150">
-												<!--<ProgressBar
+												<ProgressBar
 													Grid.Column="0"
 													Grid.ColumnSpan="4"
 													VerticalAlignment="Stretch"
 													Opacity="0.2"
-													Value="50"
+													Value="{Binding Progress}"
 													Background="White"
 													Foreground="LightBlue">
-												</ProgressBar>-->
+												</ProgressBar>
 												<TextBlock
 													Grid.Column="0"
 													Text="{Binding Name}"
@@ -328,7 +328,7 @@
 				Orientation="Horizontal">
 				<Button
 					Command="{Binding Content.prevPageCmd}"
-					IsEnabled="{Binding IsPrevActive}"
+					IsEnabled="{Binding Content.IsPrevActive}"
 					Classes="Button PageLeft">
 					<Svg/>
 				</Button>

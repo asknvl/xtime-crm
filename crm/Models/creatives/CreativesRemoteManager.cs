@@ -44,9 +44,15 @@ namespace crm.Models.creatives
                  );
             client.Credentials = credential;
             client.DownloadProgressChanged += Client_DownloadProgressChanged;
-            client.UploadProgressChanged += Client_UploadProgressChanged;            
+            client.UploadProgressChanged += Client_UploadProgressChanged;
+            client.DownloadFileCompleted += Client_DownloadFileCompleted;
         }
-        
+
+        private void Client_DownloadFileCompleted(object? sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        {
+            DownloadCompleted?.Invoke();
+        }
+
         #region private        
         private void Client_UploadProgressChanged(object sender, UploadProgressChangedEventArgs e)
         {
@@ -94,6 +100,7 @@ namespace crm.Models.creatives
         #region callbacks
         public event Action<int> UploadProgressUpdateEvent;
         public event Action<int> DownloadProgessUpdateEvent;
+        public event Action DownloadCompleted;
         #endregion
     }
 }

@@ -490,11 +490,11 @@ namespace crm.Models.api.server
             });
         }   
 
-        public virtual async Task<List<CreativeDTO>> GetAvaliableCreatives(string token, int page, int size, geo.GEO geo, int filetype)
+        public virtual async Task<(List<CreativeDTO>, int, int)> GetAvaliableCreatives(string token, int page, int size, geo.GEO geo, int filetype)
         {
             List<CreativeDTO> creatives = new();
             int total_pages = 0;
-            int total_users = 0;
+            int total_creatives = 0;
 
             var client = new RestClient($"{url}/v1/creatives/");
             var request = new RestRequest(Method.GET);
@@ -514,7 +514,7 @@ namespace crm.Models.api.server
                 {
                     creatives = JsonConvert.DeserializeObject<List<CreativeDTO>>(data.ToString());
                     total_pages = json["total_pages"].ToObject<int>();
-                    total_users = json["total_users"].ToObject<int>();
+                    total_creatives = json["total_users"].ToObject<int>();
                 }
             } else
             {
@@ -523,8 +523,10 @@ namespace crm.Models.api.server
                 throw new ServerException($"{getErrMsg(errors)}");
             }            
 
-            return creatives;
+            return (creatives, total_pages, total_creatives);
         }
+
+        
 
         #endregion
 

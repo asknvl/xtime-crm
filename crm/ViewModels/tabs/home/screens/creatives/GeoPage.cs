@@ -63,13 +63,15 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         public ReactiveCommand<Unit, Unit> prevPageCmd { get; }
         #endregion
 
-        public GeoPage(geo.GEO g)
+        public GeoPage(geo.GEO g) : base()
         {
             GEO = g;
             Title = GEO.Code;
 
             server = AppContext.ServerApi;
             token = AppContext.User.Token;
+
+            SelectedPage = 1;
 
             #region commands
             prevPageCmd = ReactiveCommand.CreateFromTask(async () =>
@@ -107,14 +109,20 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             await Task.Run(async () =>
             {
 
-                //await Dispatcher.UIThread.InvokeAsync(() => {
-                //    CreativesList.Clear();
-                //});
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    CreativesList.Clear();
+                });
 
 
 #if ONLINE
+                int total_pages = 0;
+                int total_creatives = 0;
+                List<CreativeDTO> crdtos;
 
-                var crdtos = await AppContext.ServerApi.GetAvaliableCreatives(token, SelectedPage - 1, PageSize, GEO, (int)CreativeType.video);
+                (crdtos, TotalPages, total_creatives) = await AppContext.ServerApi.GetAvaliableCreatives(token, page - 1, pagesize, GEO, (int)CreativeType.video);
+
+                PageInfo = getPageInfo(SelectedPage, crdtos.Count, total_creatives);
 
                 foreach (var cdt in crdtos)
                 {
@@ -138,9 +146,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                     }
                 }
 #else                
-#endif
-
-                PageInfo = getPageInfo(SelectedPage, 10, 10);
+#endif               
 
             });
         }

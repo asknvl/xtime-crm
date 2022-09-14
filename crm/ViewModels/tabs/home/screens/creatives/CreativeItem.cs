@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using geo = crm.Models.geoservice;
 
@@ -39,6 +40,20 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             set => this.RaiseAndSetIfChanged(ref uniques, value);
         }
 
+        int progress;
+        public int Progress
+        {
+            get => progress;
+            set => this.RaiseAndSetIfChanged(ref progress, value);
+        }
+
+        bool isSynchronized;
+        public bool IsSynchronized
+        {
+            get => isSynchronized;
+            set => this.RaiseAndSetIfChanged(ref isSynchronized, value);
+        }
+
         public CreativeType Type { get; set; }
         public int Id { get; set; }
         public geo.GEO GEO { get; set; }
@@ -55,6 +70,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
             remoteManager = new CreativesRemoteManager();
             remoteManager.DownloadProgessUpdateEvent += RemoteManager_DownloadProgessUpdateEvent;
+            remoteManager.DownloadCompleted += RemoteManager_DownloadCompleted;
             localManager = new CreativesLocalManager();
 
             Id = dto.id;
@@ -88,15 +104,22 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             IsUploaded = dto.uploaded;
         }
 
+        private void RemoteManager_DownloadCompleted()
+        {
+            IsSynchronized = true;
+        }
+
         private void RemoteManager_DownloadProgessUpdateEvent(int progress)
         {
-            
+            Progress = progress;            
         }
 
         #region public
         public void Synchronize()
         {
-            if (!localManager.CheckCreativeDownloaded(this))
+            if (localManager.CheckCreativeDownloaded(this))
+                IsSynchronized = true;
+            else
                 remoteManager.Download(this);
         }
 

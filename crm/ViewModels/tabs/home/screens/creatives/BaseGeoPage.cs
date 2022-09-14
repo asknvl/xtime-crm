@@ -20,7 +20,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         #endregion
 
         #region pagination
-        const int displayed_lines_num = 20;
+        const int displayed_lines_num = 5;
 
         int page = 1;
         public int SelectedPage
@@ -82,10 +82,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         #endregion
 
         public BaseGeoPage()
-        {
-            #region commands
-            
-            #endregion
+        {            
         }
 
         #region public
