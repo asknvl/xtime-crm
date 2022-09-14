@@ -137,6 +137,8 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
                             await Dispatcher.UIThread.InvokeAsync(() =>
                             {
+                                creative.CheckedEvent -= Creative_CheckedEvent;
+                                creative.CheckedEvent += Creative_CheckedEvent;
                                 CreativesList.Add(creative);
                             });
 
@@ -150,12 +152,17 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
             });
         }
-#endregion
 
-#region public  
-#endregion
+        private void Creative_CheckedEvent1(CreativeItem arg1, bool arg2)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
 
-#region callbacks
+        #region public  
+        #endregion
+
+        #region callbacks
         private void Creative_CheckedEvent(CreativeItem creative, bool ischecked)
         {
 
