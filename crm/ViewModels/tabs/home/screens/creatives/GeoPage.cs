@@ -56,6 +56,13 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                 this.RaiseAndSetIfChanged(ref isAllChecked, value);
             }
         }
+
+        bool needMassUniqalization;
+        public bool NeedMassUniqalization
+        {
+            get => needMassUniqalization;
+            set => this.RaiseAndSetIfChanged(ref needMassUniqalization, value);
+        }
         #endregion
 
         #region commands
@@ -147,13 +154,13 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                     }
                 }
 
-                if (CreativesList.Count > 0)
-                {
-                    await Dispatcher.UIThread.InvokeAsync(() =>
-                    {
-                        CreativesList.Add(new MassUniqItem());
-                    });
-                }
+                //if (CreativesList.Count > 0)
+                //{
+                //    await Dispatcher.UIThread.InvokeAsync(() =>
+                //    {
+                //        CreativesList.Add(new MassUniqItem());
+                //    });
+                //}
 #else                
 #endif               
 
@@ -194,13 +201,13 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
             CreativesSelectionChangedEvent?.Invoke(checkedCreatives.Count);
         }
-#endregion
+        #endregion
 
-#region events
+        #region events
         public event Action<int> CreativesSelectionChangedEvent;
-#endregion
+        #endregion
 
-#region override    
+        #region override    
         public override async void OnActivate()
         {
             base.OnActivate();
@@ -215,6 +222,6 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                 ws.ShowDialog(new errMsgVM(ex.Message));
             }
         }
-#endregion
+        #endregion
     }
 }

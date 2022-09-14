@@ -24,7 +24,7 @@
 		<conv:IdPadLeftConverter x:Key="padLeftConverter"/>
 	</UserControl.Resources>
 	<Grid
-		RowDefinitions="Auto, Auto, Auto, Auto, *, Auto, Auto"
+		RowDefinitions="Auto, Auto, Auto, Auto, *, Auto"
 		ColumnDefinitions="610, *"
 		Margin="25, 12, 0, 0">
 		<Grid
@@ -179,6 +179,8 @@
 					Name="id"
 					Command="{Binding sortParameterCmd}"
 					Classes="ToggleButton CheckSort"
+					HorizontalAlignment="Left"
+					Margin="35, 0, 0, 0"
 					Grid.Column="0">
 					<ToggleButton.CommandParameter>
 						<MultiBinding>
@@ -214,127 +216,180 @@
 		</Border>
 		<Grid
 			Grid.Row="4">
-			<Grid.DataTemplates>
-				<DataTemplate>
-					<ScrollViewer>
-						<ItemsPresenter
-							Grid.Row="0"
-							Items="{Binding CreativesList}">
-							<ItemsPresenter.DataTemplates>
-								<!--<DataTemplate DataType="{x:Type creatives:MassUniqItem}">
-									
-								</DataTemplate>-->
-								<DataTemplate DataType="{x:Type creatives:CreativeItem}">
-									<Border
+			<ContentControl Content="{Binding Content}">
+				<ContentControl.ContentTemplate>
+					<DataTemplate>
+						<ScrollViewer>
+							<Grid
+								RowDefinitions="Auto, Auto">
+								<ItemsPresenter
+									Grid.Row="0"
+									Items="{Binding CreativesList}">
+									<ItemsPresenter.DataTemplates>
+										<DataTemplate DataType="{x:Type creatives:CreativeItem}">
+											<Border
+												BorderThickness="0, 0, 0, 1"
+												BorderBrush="{DynamicResource SeparatorColor}" >
+												<Grid
+													ColumnDefinitions="Auto, *"
+													Height="{DynamicResource ScreenListItemHeight}">
+													<ToggleButton														
+														IsChecked="{Binding IsChecked}"
+														Name="PART_ItemChecked"
+														Grid.Column="0"
+														Classes="ToggleButton CheckButton"
+														Padding="5, 0, 0, 0">
+														<Svg Name="PART_CHB"
+															StretchDirection="DownOnly"
+															Stretch="Fill"
+															Width="15"
+															Height="15"/>
+													</ToggleButton>
+													<Grid
+														Margin="15, 0, 0, 0"
+														Grid.Column="1"
+														ColumnDefinitions="150, 150, 150, 150">
+														<ProgressBar
+															Grid.Column="0"
+															Grid.ColumnSpan="4"
+															VerticalAlignment="Stretch"
+															Opacity="0.2"
+															Value="{Binding Progress}"
+															Background="White"
+															Foreground="LightBlue">
+														</ProgressBar>
+														<TextBlock
+															Grid.Column="0"
+															Text="{Binding Name}"
+															VerticalAlignment="Center"
+															Margin="45, 0, 0, 0"
+															HorizontalAlignment="Left"/>
+														<Button
+															Classes="Button Hyper"
+															Grid.Column="1"
+															HorizontalAlignment="Center">
+															<TextBlock>
+																Предпросмотр
+															</TextBlock>
+														</Button>
+														<TextBox
+															Text="20"
+															Grid.Column="2"
+															VerticalAlignment="Center"
+															HorizontalAlignment="Center"
+															Padding="0"
+															VerticalContentAlignment="Center"
+															HorizontalContentAlignment="Center">
+															<TextBox.Styles>
+																<Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+																	<Setter Property="BorderBrush" Value="#FF464646"/>
+																	<Setter Property="BorderThickness" Value="1"/>
+																	<Setter Property="MinHeight" Value="0"/>
+																	<Setter Property="Height" Value="21"/>
+																	<Setter Property="MinWidth" Value="0"/>
+																	<Setter Property="Width" Value="55"/>
+																</Style>
+																<Style Selector="TextBox:not(:pointerover) /template/ Border#PART_BorderElement">
+																	<Setter Property="BorderBrush" Value="#FF464646"/>
+																	<Setter Property="BorderThickness" Value="1"/>
+																	<Setter Property="MinHeight" Value="0"/>
+																	<Setter Property="Height" Value="21"/>
+																	<Setter Property="MinWidth" Value="0"/>
+																	<Setter Property="Width" Value="55"/>
+																</Style>
+															</TextBox.Styles>
+														</TextBox>
+														<ToggleSwitch
+															Margin="15, 0, 0, 0"
+															Grid.Column="3"
+															VerticalAlignment="Center"
+															HorizontalAlignment="Center"
+															IsChecked="False">
+														</ToggleSwitch>
+													</Grid>
+												</Grid>
+											</Border>
+										</DataTemplate>
+									</ItemsPresenter.DataTemplates>
+								</ItemsPresenter>
+								<Border
+									Grid.Row="1"
 										BorderThickness="0, 0, 0, 1"
 										BorderBrush="{DynamicResource SeparatorColor}" >
+									<Grid
+										ColumnDefinitions="Auto, *"
+										Height="{DynamicResource ScreenListItemHeight}">
+										<ToggleButton
+											IsChecked="{Binding NeedMassUniqalization}"
+											Name="PART_ItemChecked"
+											Grid.Column="0"
+											Padding="5, 0, 0, 0"
+											Classes="ToggleButton CheckButton">
+											<Svg Name="PART_CHB"
+												StretchDirection="DownOnly"
+												Stretch="Fill"
+												Width="15"
+												Height="15"/>
+										</ToggleButton>
 										<Grid
-											ColumnDefinitions="Auto, *"
-											Height="{DynamicResource ScreenListItemHeight}">
-											<ToggleButton
-												IsChecked="{Binding IsChecked}"
-												Name="PART_ItemChecked"
+											Margin="15, 0, 0, 0"											
+											Grid.Column="1"
+											ColumnDefinitions="150, 150, 150, 150">											
+											<TextBlock
 												Grid.Column="0"
-												Classes="ToggleButton CheckButton"
-												Padding="5, 0, 0, 0">
-												<Svg Name="PART_CHB"
-													StretchDirection="DownOnly"
-													Stretch="Fill"
-													Width="15"
-													Height="15"/>
-											</ToggleButton>
-											<Grid
-												Margin="15, 0, 0, 0"
-												Grid.Column="1"
-												ColumnDefinitions="150, 150, 150, 150">
-												<ProgressBar
-													Grid.Column="0"
-													Grid.ColumnSpan="4"
-													VerticalAlignment="Stretch"
-													Opacity="0.2"
-													Value="{Binding Progress}"
-													Background="White"
-													Foreground="LightBlue">
-												</ProgressBar>
-												<TextBlock
-													Grid.Column="0"
-													Text="{Binding Name}"
-													VerticalAlignment="Center"
-													HorizontalAlignment="Center"/>
-												<Button
-													Classes="Button Hyper"
-													Grid.Column="1"
-													HorizontalAlignment="Center">
-													<TextBlock>
-														Предпросмотр
-													</TextBlock>
-												</Button>
-												<TextBox
-													Text="20"
-													Grid.Column="2"
-													VerticalAlignment="Center"
-													HorizontalAlignment="Center"
-													Padding="0"
-													VerticalContentAlignment="Center"
-													HorizontalContentAlignment="Center">
-													<TextBox.Styles>
-														<Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
-															<Setter Property="BorderBrush" Value="#FF464646"/>
-															<Setter Property="BorderThickness" Value="1"/>
-															<Setter Property="MinHeight" Value="0"/>
-															<Setter Property="Height" Value="21"/>
-															<Setter Property="MinWidth" Value="0"/>
-															<Setter Property="Width" Value="55"/>
-														</Style>
-														<Style Selector="TextBox:not(:pointerover) /template/ Border#PART_BorderElement">
-															<Setter Property="BorderBrush" Value="#FF464646"/>
-															<Setter Property="BorderThickness" Value="1"/>
-															<Setter Property="MinHeight" Value="0"/>
-															<Setter Property="Height" Value="21"/>
-															<Setter Property="MinWidth" Value="0"/>
-															<Setter Property="Width" Value="55"/>
-														</Style>
-													</TextBox.Styles>
-												</TextBox>
-												<ToggleSwitch
-													Margin="15, 0, 0, 0"
-													Grid.Column="3"
-													VerticalAlignment="Center"
-													HorizontalAlignment="Center"
-													IsChecked="False">
-												</ToggleSwitch>
-											</Grid>
+												Grid.ColumnSpan="2"
+												Text="Массовая уникализация"		
+												Margin="45, 0, 0, 0"
+												VerticalAlignment="Center"
+												HorizontalAlignment="Left"/>											
+											<TextBox
+												Text="20"
+												Grid.Column="2"
+												VerticalAlignment="Center"
+												HorizontalAlignment="Center"
+												Padding="0"
+												VerticalContentAlignment="Center"
+												HorizontalContentAlignment="Center">
+												<TextBox.Styles>
+													<Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+														<Setter Property="BorderBrush" Value="#FF464646"/>
+														<Setter Property="BorderThickness" Value="1"/>
+														<Setter Property="MinHeight" Value="0"/>
+														<Setter Property="Height" Value="21"/>
+														<Setter Property="MinWidth" Value="0"/>
+														<Setter Property="Width" Value="55"/>
+													</Style>
+													<Style Selector="TextBox:not(:pointerover) /template/ Border#PART_BorderElement">
+														<Setter Property="BorderBrush" Value="#FF464646"/>
+														<Setter Property="BorderThickness" Value="1"/>
+														<Setter Property="MinHeight" Value="0"/>
+														<Setter Property="Height" Value="21"/>
+														<Setter Property="MinWidth" Value="0"/>
+														<Setter Property="Width" Value="55"/>
+													</Style>
+												</TextBox.Styles>
+											</TextBox>											
 										</Grid>
-									</Border>
-								</DataTemplate>
-							</ItemsPresenter.DataTemplates>
-						</ItemsPresenter>
-						<ScrollViewer.Styles>
-							<Style Selector="ScrollViewer:pointerover">
-								<Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
-								<Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
-							</Style>
-							<Style Selector="ScrollViewer">
-								<Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
-								<Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
-							</Style>
-						</ScrollViewer.Styles>
-					</ScrollViewer>
-				</DataTemplate>
-			</Grid.DataTemplates>
-			<ContentControl Content="{Binding Content}"/>
-		</Grid>
-		<Border
-			Grid.Row="5"
-			BorderThickness="0, 1, 0, 1"
-			Margin="0, 0, 0, 0"
-			BorderBrush="{DynamicResource SeparatorColor}">
-			<Grid
-				Height="{DynamicResource ScreenListItemHeight}">
-			</Grid>
-		</Border>
+									</Grid>
+								</Border>
+							</Grid>
+							<ScrollViewer.Styles>
+								<Style Selector="ScrollViewer:pointerover">
+									<Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+									<Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
+								</Style>
+								<Style Selector="ScrollViewer">
+									<Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
+									<Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
+								</Style>
+							</ScrollViewer.Styles>
+						</ScrollViewer>
+					</DataTemplate>
+				</ContentControl.ContentTemplate>
+			</ContentControl>
+		</Grid>		
 		<Grid
-			Grid.Row="6" Grid.ColumnSpan="2">
+			Grid.Row="5" Grid.ColumnSpan="2">
 			<StackPanel
 				Margin="15"
 				HorizontalAlignment="Right"
