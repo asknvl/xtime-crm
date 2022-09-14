@@ -99,17 +99,20 @@ namespace crm.ViewModels.tabs.home.screens
                     catch (Exception ex)
                     {
                         ws.ShowDialog(new errMsgVM(ex.Message));
-                    }
-
-                    
+                    }                    
                 }
-
             });
 
             unicalizeCmd = ReactiveCommand.CreateFromTask(async () => {
 
                 var creatives = Content.CreativesList;
-            
+
+                await Task.Run(async () => { 
+
+                    foreach (var creative in creatives)
+
+                        await creative.Unicalize();
+                });            
             });            
             #endregion
         }

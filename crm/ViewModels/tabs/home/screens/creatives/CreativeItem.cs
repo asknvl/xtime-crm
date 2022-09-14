@@ -123,8 +123,11 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                 remoteManager.Download(this);
         }
 
-        public async Task UnicalizeAsync()
+        public async Task Unicalize()
         {
+            if (!IsChecked)
+                return;
+
             await Task.Run(() => { });
         }
         #endregion

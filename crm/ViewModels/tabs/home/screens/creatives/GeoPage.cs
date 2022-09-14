@@ -153,6 +153,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                             {
                                 creative.CheckedEvent -= Creative_CheckedEvent;
                                 creative.CheckedEvent += Creative_CheckedEvent;
+                                creative.IsChecked = checkedCreatives.Any(u => u.Id.Equals(creative.Id)) || IsAllChecked;
                                 CreativesList.Add(creative);
                             });
 
