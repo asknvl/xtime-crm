@@ -1,0 +1,30 @@
+using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Markup.Xaml;
+using Avalonia.Styling;
+using System;
+using System.Text.RegularExpressions;
+
+namespace crm.Views.custom
+{
+    public partial class IntTextBox : TextBox, IStyleable
+    {
+        Type IStyleable.StyleKey => typeof(TextBox);
+
+        public IntTextBox()
+        {
+            InitializeComponent();
+        }
+
+        private void InitializeComponent()
+        {
+            AvaloniaXamlLoader.Load(this);
+        }
+        protected override void OnTextInput(TextInputEventArgs e)
+        {
+            Regex regex = new Regex(@"^[1-9]\d*$");
+            e.Handled = !regex.IsMatch(e.Text);
+            base.OnTextInput(e);
+        }
+    }
+}

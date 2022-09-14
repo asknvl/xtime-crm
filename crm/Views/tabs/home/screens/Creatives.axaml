@@ -7,6 +7,7 @@
 			 xmlns:vm="using:crm.ViewModels.tabs.home.screens"
 			 xmlns:creatives="using:crm.ViewModels.tabs.home.screens.creatives"
 			 xmlns:views="using:crm.Views.tabs.home.screens"
+			 xmlns:cust="using:crm.Views.custom"
 			 xmlns:sys="using:System"
              mc:Ignorable="d" d:DesignWidth="1440" d:DesignHeight="693"
              x:Class="crm.Views.tabs.home.screens.Creatives">
@@ -57,16 +58,7 @@
 							Фильтры
 						</TextBlock>
 					</Grid>
-				</Button>
-				<!--<Button
-					Classes="Button TopAction">
-					<Grid>
-						<TextBlock
-							VerticalAlignment="Center">
-							Унакилизировать
-						</TextBlock>
-					</Grid>
-				</Button>-->
+				</Button>				
 				<Button
 					Classes="Button Top">
 					<Grid>
@@ -272,8 +264,8 @@
 																Предпросмотр
 															</TextBlock>
 														</Button>
-														<TextBox
-															Text="20"
+														<cust:IntTextBox
+															Text="{Binding Uniques}"
 															Grid.Column="2"
 															VerticalAlignment="Center"
 															HorizontalAlignment="Center"
@@ -298,7 +290,7 @@
 																	<Setter Property="Width" Value="55"/>
 																</Style>
 															</TextBox.Styles>
-														</TextBox>
+														</cust:IntTextBox>
 														<ToggleSwitch
 															Margin="15, 0, 0, 0"
 															Grid.Column="3"
@@ -341,9 +333,9 @@
 												Text="Массовая уникализация"		
 												Margin="45, 0, 0, 0"
 												VerticalAlignment="Center"
-												HorizontalAlignment="Left"/>											
-											<TextBox
-												Text="20"
+												HorizontalAlignment="Left"/>
+											<cust:IntTextBox
+												Text="{Binding Uniques}"
 												Grid.Column="2"
 												VerticalAlignment="Center"
 												HorizontalAlignment="Center"
@@ -368,7 +360,7 @@
 														<Setter Property="Width" Value="55"/>
 													</Style>
 												</TextBox.Styles>
-											</TextBox>											
+											</cust:IntTextBox>											
 										</Grid>
 									</Grid>
 								</Border>

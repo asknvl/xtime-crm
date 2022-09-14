@@ -106,7 +106,11 @@ namespace crm.ViewModels.tabs.home.screens
 
             });
 
-            unicalizeCmd = ReactiveCommand.CreateFromTask(async () => { });            
+            unicalizeCmd = ReactiveCommand.CreateFromTask(async () => {
+
+                var creatives = Content.CreativesList;
+            
+            });            
             #endregion
         }
 
