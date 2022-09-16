@@ -114,6 +114,11 @@ namespace crm.WS
                 wnd = new creativeUploadDlg();
             }
 
+            if (vm is progressDlgVM)
+            {
+                wnd = new progressDlg();
+            }
+
             wnd.DataContext = vm;
             windowList.Add(wnd);
 
@@ -150,6 +155,11 @@ namespace crm.WS
             if (vm is creativeUploadDlgVM)
             {
                 wnd = new creativeUploadDlg();
+            }
+
+            if (vm is progressDlgVM)
+            {
+                wnd = new progressDlg();
             }
 
             wnd.DataContext = vm;

@@ -19,7 +19,9 @@ namespace crm.Models.storage
         public string VerURL { get; set; }
         public string ZipURL { get; set; }
         public string CreativesRootPath { get; set; }
-        public string CreativesRootURL { get; set; }        
+        public string CreativesRootURL { get; set; }
+        public string CreativesOutputRootPath { get; set; }
+        public string CodecBinariesPath { get; set; }
         #endregion
 
         private static Paths instance;
@@ -92,6 +94,18 @@ namespace crm.Models.storage
             CreativesRootPath = Path.Combine(app_dir, "Creatives");
             if (!Directory.Exists(CreativesRootPath))
                 Directory.CreateDirectory(CreativesRootPath);
+
+            Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+
+            string userRootPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            CreativesOutputRootPath = Path.Combine(userRootPath, "Downloads", "Creatives");
+            if (!Directory.Exists(CreativesOutputRootPath))
+                Directory.CreateDirectory(CreativesOutputRootPath);
+
+            CodecBinariesPath = Path.Combine(app_dir, "FFMPEG");
+            if (!Directory.Exists(CodecBinariesPath))
+                Directory.CreateDirectory(CodecBinariesPath);   
+
         }
         void initPathsMac()
         {

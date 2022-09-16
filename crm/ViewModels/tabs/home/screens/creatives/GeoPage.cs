@@ -24,6 +24,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         string SortKey = "+id";
         string token;
         IServerApi server;
+        Dictionary<int, List<CreativeItem>> creativeListDictionary = new();
         #endregion
 
         #region properties
@@ -33,8 +34,9 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             get => geo;
             set => this.RaiseAndSetIfChanged(ref geo, value);
         }
-        public ObservableCollection<CreativeItem> CreativesList { get; } = new();
 
+        public ObservableCollection<CreativeItem> CreativesList { get; set; } = new();
+        
         bool needInvokeAllCheck { get; set; } = true;
         bool isAllChecked;
         public bool IsAllChecked
@@ -128,7 +130,6 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                     CreativesList.Clear();
                 });
 
-
 #if ONLINE
                 int total_pages = 0;
                 int total_creatives = 0;
@@ -138,9 +139,20 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
                 PageInfo = getPageInfo(SelectedPage, crdtos.Count, total_creatives);
 
+                if (!creativeListDictionary.ContainsKey(SelectedPage))
+                    creativeListDictionary.Add(SelectedPage, new List<CreativeItem>());
+
                 foreach (var cdt in crdtos)
                 {
-                    var found = CreativesList.FirstOrDefault(o => o.Id == cdt.id);
+                    //var found = CreativesList.FirstOrDefault(o => o.Id == cdt.id);
+
+                    CreativeItem found = null;
+                    if (creativeListDictionary.ContainsKey(SelectedPage))
+                    {
+                        var list = creativeListDictionary[SelectedPage];
+                        found = list.FirstOrDefault(o => o.Id == cdt.id);
+                    }                        
+
                     if (found == null)
                     {
 
@@ -154,15 +166,31 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                                 creative.CheckedEvent -= Creative_CheckedEvent;
                                 creative.CheckedEvent += Creative_CheckedEvent;
                                 creative.IsChecked = checkedCreatives.Any(u => u.Id.Equals(creative.Id)) || IsAllChecked;
-                                CreativesList.Add(creative);
+                                //CreativesList.Add(creative);
+                                creativeListDictionary[SelectedPage].Add(creative);
+
                             });
 
                             creative.Synchronize();
                         }
                     }
                 }
-#else                
-#endif               
+
+                foreach (var creative in creativeListDictionary[SelectedPage])
+                {
+                    await Dispatcher.UIThread.InvokeAsync(() => { 
+                        CreativesList.Add(creative);
+                    });
+                }
+                
+
+                //await Dispatcher.UIThread.InvokeAsync(() =>
+                //{
+                //    foreach (var creative in creativeListDictionary[SelectedPage])
+                //        CreativesList.Add(creative);
+                //});                
+#else
+#endif
 
             });
         }

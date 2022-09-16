@@ -23,7 +23,9 @@ namespace crm.Models.creatives
         public bool IsVisible { get; set; }        
         public bool IsUploaded { get; set; }       
         
-        public Task Unicalize();
+        public Task Uniqalize();
+        public void StopUniqalization();
         public void Synchronize();               
+        
     }
 }

@@ -2,6 +2,8 @@
 using crm.Models.api.socket;
 using crm.Models.appcontext;
 using crm.Models.creatives;
+using crm.Models.storage;
+using crm.Models.uniq;
 using crm.ViewModels.dialogs;
 using crm.ViewModels.tabs.home.screens.creatives;
 using crm.WS;
@@ -16,6 +18,7 @@ using System.Net;
 using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
+using Xabe.FFmpeg;
 using geo = crm.Models.geoservice;
 
 namespace crm.ViewModels.tabs.home.screens
@@ -64,6 +67,13 @@ namespace crm.ViewModels.tabs.home.screens
             get => massActiontext;
             set => this.RaiseAndSetIfChanged(ref massActiontext, value);
         }
+
+        bool allowCancel;
+        public bool AllowCancel
+        {
+            get => allowCancel;
+            set => this.RaiseAndSetIfChanged(ref allowCancel, value);
+        }
         #endregion
 
         #region commands
@@ -107,12 +117,22 @@ namespace crm.ViewModels.tabs.home.screens
 
                 var creatives = Content.CreativesList;
 
-                await Task.Run(async () => { 
+                if (!allowCancel)
+                {                    
+                    await Task.Run(async () =>
+                    {
+                        foreach (var creative in creatives)
+                            await creative.Uniqalize();
+                    });
 
+                } else
+                {
                     foreach (var creative in creatives)
+                        creative.StopUniqalization();
+                }
 
-                        await creative.Unicalize();
-                });            
+                allowCancel = !allowCancel;
+                 
             });            
             #endregion
         }
@@ -160,6 +180,15 @@ namespace crm.ViewModels.tabs.home.screens
         public override async void OnActivate()
         {
             base.OnActivate();
+            var dlg = new progressDlgVM();
+            ws.ShowModalWindow(dlg);
+
+            await Uniqalizer.Init(Paths.getInstance().CodecBinariesPath, (progress) =>
+            {
+                dlg.Progress = progress;
+            });
+
+
 
 #if ONLINE
 
@@ -216,6 +245,11 @@ namespace crm.ViewModels.tabs.home.screens
 #endif
             //get all avaliable geos
             //create list for selected geo
+        }
+
+        public void Report(ProgressInfo value)
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }

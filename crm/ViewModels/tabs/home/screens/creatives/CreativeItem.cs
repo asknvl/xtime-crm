@@ -1,6 +1,7 @@
 ﻿using crm.Models.api.server;
 using crm.Models.creatives;
 using crm.Models.storage;
+using crm.Models.uniq;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,9 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         #region vars
         ICreativesRemoteManager remoteManager;
         ICreativesLocalManager localManager;
+        IUniqalizer uniqalizer;
         IPaths paths = Paths.getInstance();
+        bool isSynchronizing = false;
         #endregion
 
         #region properties
@@ -33,7 +36,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             }
         }
 
-        int uniques;
+        int uniques = 1;
         public int Uniques
         {
             get => uniques;
@@ -72,6 +75,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             remoteManager.DownloadProgessUpdateEvent += RemoteManager_DownloadProgessUpdateEvent;
             remoteManager.DownloadCompleted += RemoteManager_DownloadCompleted;
             localManager = new CreativesLocalManager();
+            uniqalizer = new Uniqalizer();            
 
             Id = dto.id;
             Name = dto.name;
@@ -107,6 +111,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         private void RemoteManager_DownloadCompleted()
         {
             IsSynchronized = true;
+            Progress = 0;
         }
 
         private void RemoteManager_DownloadProgessUpdateEvent(int progress)
@@ -117,18 +122,27 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         #region public
         public void Synchronize()
         {
-            if (localManager.CheckCreativeDownloaded(this))
-                IsSynchronized = true;
-            else
-                remoteManager.Download(this);
+            if (isSynchronizing)
+                return;
+
+            Task.Run(async () => {
+                isSynchronizing = true;
+                if (localManager.CheckCreativeDownloaded(this))
+                {
+                    IsSynchronized = true;
+                } else
+                {
+                    await remoteManager.Download(this);
+                }
+                isSynchronizing = false;
+            });
         }
 
-        public async Task Unicalize()
+        public async Task Uniqalize()
         {
             if (!IsChecked)
                 return;
-
-            await Task.Run(() => { });
+            await uniqalizer.Uniqalize(this, Uniques, paths.CreativesOutputRootPath);
         }
         #endregion
 
