@@ -75,7 +75,8 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             remoteManager.DownloadProgessUpdateEvent += RemoteManager_DownloadProgessUpdateEvent;
             remoteManager.DownloadCompleted += RemoteManager_DownloadCompleted;
             localManager = new CreativesLocalManager();
-            uniqalizer = new Uniqalizer();            
+            uniqalizer = new Uniqalizer();
+            uniqalizer.UniqalizeProgessUpdateEvent += Uniqalizer_UniqalizeProgessUpdateEvent;
 
             Id = dto.id;
             Name = dto.name;
@@ -106,6 +107,11 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
             IsVisible = dto.visibility;
             IsUploaded = dto.uploaded;
+        }
+
+        private void Uniqalizer_UniqalizeProgessUpdateEvent(int progress)
+        {
+            Progress = (progress < 100) ? progress : 0;
         }
 
         private void RemoteManager_DownloadCompleted()
@@ -143,6 +149,11 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             if (!IsChecked)
                 return;
             await uniqalizer.Uniqalize(this, Uniques, paths.CreativesOutputRootPath);
+        }
+
+        public void StopUniqalization()
+        {
+            
         }
         #endregion
 

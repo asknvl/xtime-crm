@@ -180,15 +180,13 @@ namespace crm.ViewModels.tabs.home.screens
         public override async void OnActivate()
         {
             base.OnActivate();
-            var dlg = new progressDlgVM();
-            ws.ShowModalWindow(dlg);
+            //var dlg = new progressDlgVM();
+            //ws.ShowModalWindow(dlg);
 
             await Uniqalizer.Init(Paths.getInstance().CodecBinariesPath, (progress) =>
             {
-                dlg.Progress = progress;
+                //dlg.Progress = progress;
             });
-
-
 
 #if ONLINE
 

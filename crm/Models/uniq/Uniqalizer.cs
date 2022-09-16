@@ -65,7 +65,7 @@ namespace crm.Models.uniq
 
                     var conversion = FFmpeg.Conversions.New();
                     conversion.OnProgress += (s, a) => {
-                        Debug.WriteLine(a.Percent);
+                        UniqalizeProgessUpdateEvent?.Invoke(a.Percent);
                     };
 
                     IConversionResult conversionResult = await conversion
