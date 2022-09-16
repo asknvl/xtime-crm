@@ -153,7 +153,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
         public void StopUniqalization()
         {
-            
+            uniqalizer.Cancel();
         }
         #endregion
 

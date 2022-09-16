@@ -20,7 +20,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
     {
         #region vars        
         IWindowService ws = WindowService.getInstance();
-        List<CreativeItem> checkedCreatives = new();
+        public List<CreativeItem> CheckedCreatives = new();
         string SortKey = "+id";
         string token;
         IServerApi server;
@@ -51,7 +51,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
                     if (!value)
                     {
-                        checkedCreatives.Clear();
+                        CheckedCreatives.Clear();
                         CreativesSelectionChangedEvent?.Invoke(0);
                     }
                 }
@@ -165,7 +165,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                             {
                                 creative.CheckedEvent -= Creative_CheckedEvent;
                                 creative.CheckedEvent += Creative_CheckedEvent;
-                                creative.IsChecked = checkedCreatives.Any(u => u.Id.Equals(creative.Id)) || IsAllChecked;
+                                creative.IsChecked = CheckedCreatives.Any(u => u.Id.Equals(creative.Id)) || IsAllChecked;
                                 //CreativesList.Add(creative);
                                 creativeListDictionary[SelectedPage].Add(creative);
 
@@ -210,19 +210,19 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                 needInvokeAllCheck = true;
             }
 
-            var found = checkedCreatives.FirstOrDefault(o => o.Id.Equals(creative.Id));
+            var found = CheckedCreatives.FirstOrDefault(o => o.Id.Equals(creative.Id));
 
             if (ischecked)
             {
                 if (found == null)
-                    checkedCreatives.Add(creative);
+                    CheckedCreatives.Add(creative);
             } else
             {
                 if (found != null)
-                    checkedCreatives.Remove(found);
+                    CheckedCreatives.Remove(found);
             }
 
-            CreativesSelectionChangedEvent?.Invoke(checkedCreatives.Count);
+            CreativesSelectionChangedEvent?.Invoke(CheckedCreatives.Count);
         }
         #endregion
 
@@ -235,7 +235,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         {
             base.OnActivate();
 
-            CreativesSelectionChangedEvent?.Invoke(checkedCreatives.Count);
+            CreativesSelectionChangedEvent?.Invoke(CheckedCreatives.Count);
 
             try
             {

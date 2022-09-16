@@ -85,7 +85,8 @@
 						</Grid>
 					</Button>
 					<Button
-						Command="{Binding deselectMassTagsCmd}"
+						IsVisible="{Binding !IsUniqRunning}"
+						Command="{Binding deselectAllCmd}"
 						Classes="Button Hyper"
 						Grid.Column="1"
 						Margin="8">

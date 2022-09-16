@@ -29,7 +29,7 @@ namespace crm.ViewModels.tabs.home.screens
         IServerApi server;
         ISocketApi socket;
         string token;
-        IWindowService ws = WindowService.getInstance();
+        IWindowService ws = WindowService.getInstance();        
         #endregion
 
         #region properties
@@ -43,7 +43,7 @@ namespace crm.ViewModels.tabs.home.screens
             set
             {
                 this.RaiseAndSetIfChanged(ref content, value);
-                content.OnActivate();             
+                content.OnActivate();
             }
         }
 
@@ -68,17 +68,18 @@ namespace crm.ViewModels.tabs.home.screens
             set => this.RaiseAndSetIfChanged(ref massActiontext, value);
         }
 
-        bool allowCancel;
-        public bool AllowCancel
+        bool isUniqRunning;
+        public bool IsUniqRunning
         {
-            get => allowCancel;
-            set => this.RaiseAndSetIfChanged(ref allowCancel, value);
+            get => isUniqRunning;
+            set => this.RaiseAndSetIfChanged(ref isUniqRunning, value);
         }
         #endregion
 
         #region commands
         public ReactiveCommand<Unit, Unit> newCreativeCmd { get; }
-        public ReactiveCommand<Unit, Unit> unicalizeCmd { get; }        
+        public ReactiveCommand<Unit, Unit> unicalizeCmd { get; }
+        public ReactiveCommand<Unit, Unit> deselectAllCmd { get; }
         #endregion
 
         public Creatives() : base()
@@ -89,8 +90,9 @@ namespace crm.ViewModels.tabs.home.screens
             token = AppContext.User.Token;
 
             #region commands
-            newCreativeCmd = ReactiveCommand.CreateFromTask( async () => {
-                
+            newCreativeCmd = ReactiveCommand.CreateFromTask(async () =>
+            {
+
                 string[] files = await ws.ShowFileDialog("Выберите креатив");
                 if (files != null && files.Length > 0)
                 {
@@ -98,53 +100,72 @@ namespace crm.ViewModels.tabs.home.screens
                     {
                         Files = files,
                         GEO = Content.GEO
-                    };                    
+                    };
 
-                    ws.ShowModalWindow(dlg);                   
+                    ws.ShowModalWindow(dlg);
 
                     try
                     {
                         await dlg.RunFilesUploadAsync();
-                    }
-                    catch (Exception ex)
+                    } catch (Exception ex)
                     {
                         ws.ShowDialog(new errMsgVM(ex.Message));
-                    }                    
+                    }
                 }
             });
 
-            unicalizeCmd = ReactiveCommand.CreateFromTask(async () => {
+            unicalizeCmd = ReactiveCommand.Create(() =>
+            {
 
-                var creatives = Content.CreativesList;
+                var creatives = Content.CheckedCreatives;
+                Debug.WriteLine(IsUniqRunning);
 
-                if (!allowCancel)
-                {                    
-                    await Task.Run(async () =>
+                if (!IsUniqRunning)
+                {
+                    MassActionText = "Прервать";
+                    IsUniqRunning = true;
+
+                    Task.Run(() =>
                     {
+                        List<Task> tasks = new();
+
                         foreach (var creative in creatives)
-                            await creative.Uniqalize();
+                        {
+                            if (creative.IsChecked)
+                            {
+                                tasks.Add(creative.Uniqalize());                                
+                            }
+                        }    
+
+                        var continueTask = Task.WhenAll(tasks).ContinueWith((a) => {
+                            IsUniqRunning = false;                                
+                            Content.IsAllChecked = false;
+                        });
                     });
 
                 } else
-                {
+                {                    
                     foreach (var creative in creatives)
                         creative.StopUniqalization();
                 }
 
-                allowCancel = !allowCancel;
-                 
-            });            
+
+            });
+
+            deselectAllCmd = ReactiveCommand.Create(() => {
+                Content.IsAllChecked = false;
+            });
             #endregion
         }
 
         #region helpers
         void updateMassActions(int checkedNumber)
-        {            
+        {
             IsMassActionsVisible = checkedNumber > 0;
 
-            string ending = "";           
-            
-            
+            string ending = "";
+
+
             if (checkedNumber.ToString().EndsWith("11") ||
                 checkedNumber.ToString().EndsWith("12") ||
                 checkedNumber.ToString().EndsWith("13") ||
@@ -161,8 +182,11 @@ namespace crm.ViewModels.tabs.home.screens
             else
                 ending = "ов";
 
-            MassActionText = (IsMassActionsVisible) ?
-                $"Уникализировать ({checkedNumber} креатив{ending})" : "";
+            //MassActionText = (IsMassActionsVisible) ?
+            //    $"Уникализировать ({checkedNumber} креатив{ending})" : "";
+
+            MassActionText = (IsMassActionsVisible) ? $"Уникализировать ({checkedNumber} креатив{ending})" : "";
+
         }
         #endregion
 
@@ -172,7 +196,8 @@ namespace crm.ViewModels.tabs.home.screens
         #region callbacks
         private void GeoPage_CreativesSelectionChangedEvent(int number)
         {
-            updateMassActions(number);
+            if (!IsUniqRunning)
+                updateMassActions(number);
         }
         #endregion
 
@@ -241,13 +266,7 @@ namespace crm.ViewModels.tabs.home.screens
 
             Content = GeoPages[0];
 #endif
-            //get all avaliable geos
-            //create list for selected geo
-        }
 
-        public void Report(ProgressInfo value)
-        {
-            throw new NotImplementedException();
         }
         #endregion
     }
