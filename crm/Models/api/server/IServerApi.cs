@@ -1,4 +1,5 @@
-﻿using crm.Models.geoservice;
+﻿using crm.Models.creatives;
+using crm.Models.geoservice;
 using crm.Models.user;
 using System;
 using System.Collections.Generic;
@@ -21,9 +22,10 @@ namespace crm.Models.api.server
         Task<bool> UpdateUserPassword(string token, BaseUser user, string password);
         Task DeleteUser(string token, BaseUser user);
         Task<List<GEO>> GetGeos(string token, string sortparameter);
-        Task<(int, string, string)> AddCreative(string token, string filename, string extension, GEO geo);
+        Task<List<CreativeServerDirectory>> GetCreativeServerDirectories(string token);
+        Task<(int, string, string)> AddCreative(string token, string filename, string extension, CreativeServerDirectory dir);
         Task SetCreativeStatus(string token, int id, bool isUploaded, bool isVisible);
-        Task<(List<CreativeDTO>, int, int)> GetAvaliableCreatives(string token, int page, int size, GEO geo, int filetype);
+        Task<(List<CreativeDTO>, int, int)> GetAvaliableCreatives(string token, int page, int size, CreativeServerDirectory dir, int filetype);
     }
 
     public class CreativeDTO
@@ -31,8 +33,9 @@ namespace crm.Models.api.server
         public int id { get; set; }
         public string name { get; set; }
         public string filename { get; set; }
-        public int geolocation_id { get; set; }
-        public string geolocation_code { get; set; }
+        public int creo_directory_id { get; set; }
+        public string geolocation { get; set; }
+        public string creo_type { get; set; }
         public string file_extension { get; set; }
         public int file_type_id { get; set; }
         public string file_type { get; set; }

@@ -99,7 +99,7 @@ namespace crm.ViewModels.tabs.home.screens
                     var dlg = new creativeUploadDlgVM()
                     {
                         Files = files,
-                        GEO = Content.GEO
+                        CreativeServerDirectory = Content.CreativeServerDirectory
                     };
 
                     ws.ShowModalWindow(dlg);
@@ -217,15 +217,15 @@ namespace crm.ViewModels.tabs.home.screens
 
             try
             {
-                List<geo.GEO> geos = await server.GetGeos(token, "+id");
+                List<CreativeServerDirectory> dirs = await server.GetCreativeServerDirectories(token);
 
-                foreach (var geo in geos)
+                foreach (var dir in dirs)
                 {
-                    bool found = GeoPages.Any(o => o.Title.Equals(geo.Code));
+                    bool found = GeoPages.Any(o => o.Title.Equals(dir.dir));
                     if (found)
                         continue;
 
-                    var gp = new GeoPage(geo);
+                    var gp = new GeoPage(dir);
                     gp.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
                     GeoPages.Add(gp);
                 }

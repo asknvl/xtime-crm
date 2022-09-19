@@ -60,7 +60,7 @@ namespace crm.Models.uniq
 
             string inputPath = Path.GetFullPath(creative.LocalPath);
 
-            string outputFolderPath = Path.Combine(outputdir, creative.GEO.Code, creative.Name);
+            string outputFolderPath = Path.Combine(outputdir, creative.CreativeServerDirectory.dir, creative.Name);
             if (!Directory.Exists(outputFolderPath))
                 Directory.CreateDirectory(outputFolderPath);
 

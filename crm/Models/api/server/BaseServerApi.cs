@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using crm.Models.api.server.serialization;
 using geo = crm.Models.geoservice;
 using System.IO;
+using crm.Models.creatives;
 
 namespace crm.Models.api.server
 {
@@ -415,6 +416,31 @@ namespace crm.Models.api.server
             return geos;
         }
 
+        public virtual async Task<List<CreativeServerDirectory>> GetCreativeServerDirectories(string token)
+        {
+            List<CreativeServerDirectory> dirs = new();
+            var client = new RestClient($"{url}/v1/creatives/directories");
+            var request = new RestRequest(Method.GET);
+            request.AddHeader($"Authorization", $"Bearer {token}");
+            var response = client.Execute(request);
+            var json = JObject.Parse(response.Content);
+            var res = json["success"].ToObject<bool>();
+            if (res)
+            {
+                JToken data = json["data"];
+                if (data != null)
+                {
+                    dirs = JsonConvert.DeserializeObject<List<CreativeServerDirectory>>(data.ToString());
+                }
+            } else
+            {
+                string e = json["errors"].ToString();
+                List<ServerError>? errors = JsonConvert.DeserializeObject<List<ServerError>>(e);
+                throw new ServerException($"{getErrMsg(errors)}");
+            }
+            return dirs;
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -423,7 +449,7 @@ namespace crm.Models.api.server
         /// <param name="geo"></param>
         /// <returns>(creative_name, filepath)</returns>
         /// <exception cref="ServerException"></exception>
-        public virtual async Task<(int, string, string)> AddCreative(string token, string filename, string extension, geo.GEO geo)
+        public virtual async Task<(int, string, string)> AddCreative(string token, string filename, string extension, CreativeServerDirectory dir)
         {
             int creative_id = 0;
             string creative_name = "";
@@ -433,7 +459,7 @@ namespace crm.Models.api.server
             request.AddHeader($"Authorization", $"Bearer {token}");
             request.AddParameter("filename", filename);
             request.AddParameter("file_extension", extension);            
-            request.AddParameter("geolocation_id", geo.Id);            
+            request.AddParameter("creo_directory_id", dir.id);            
             var response = client.Execute(request);
             var json = JObject.Parse(response.Content);
             bool res = json["success"].ToObject<bool>();

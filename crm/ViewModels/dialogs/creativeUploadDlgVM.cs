@@ -26,7 +26,7 @@ namespace crm.ViewModels.dialogs
 
         #region properties
         public string[] Files { get; set; }
-        public geo.GEO GEO { get; set; }
+        public CreativeServerDirectory CreativeServerDirectory { get; set; }
 
         int progress;
         public int Progress
@@ -77,7 +77,7 @@ namespace crm.ViewModels.dialogs
 
                         FilesCounter = $"Загрузка {++fcounter} файлов из {Files.Length}";
 
-                        await creativesRemoteManager.Upload(GEO, file);
+                        await creativesRemoteManager.Upload(CreativeServerDirectory, file);
 
                         cts.Token.ThrowIfCancellationRequested();
                     }

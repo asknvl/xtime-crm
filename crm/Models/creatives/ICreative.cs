@@ -14,8 +14,8 @@ namespace crm.Models.creatives
     public interface ICreative
     {   
         public CreativeType Type { get; set; }        
-        public int Id { get; set; }        
-        public geo.GEO GEO { get; set; }        
+        public int Id { get; set; }                
+        CreativeServerDirectory CreativeServerDirectory { get; set; }
         public string Name { get; set; }                
         public string FileName { get; set; }                
         public string LocalPath { get; set; }                

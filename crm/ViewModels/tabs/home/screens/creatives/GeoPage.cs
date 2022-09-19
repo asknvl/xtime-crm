@@ -28,11 +28,11 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         #endregion
 
         #region properties
-        geo.GEO geo;
-        public geo.GEO GEO
+        CreativeServerDirectory creativeServerDirectory;
+        public CreativeServerDirectory CreativeServerDirectory
         {
-            get => geo;
-            set => this.RaiseAndSetIfChanged(ref geo, value);
+            get => creativeServerDirectory;
+            set => this.RaiseAndSetIfChanged(ref creativeServerDirectory, value);
         }
 
         public ObservableCollection<CreativeItem> CreativesList { get; set; } = new();
@@ -79,10 +79,10 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         public ReactiveCommand<Unit, Unit> prevPageCmd { get; }
         #endregion
 
-        public GeoPage(geo.GEO g) : base()
+        public GeoPage(CreativeServerDirectory dir) : base()
         {
-            GEO = g;
-            Title = GEO.Code;
+            CreativeServerDirectory = dir;
+            Title = dir.dir;
 
             server = AppContext.ServerApi;
             token = AppContext.User.Token;
@@ -135,7 +135,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                 int total_creatives = 0;
                 List<CreativeDTO> crdtos;
 
-                (crdtos, TotalPages, total_creatives) = await AppContext.ServerApi.GetAvaliableCreatives(token, page - 1, pagesize, GEO, (int)CreativeType.video);
+                (crdtos, TotalPages, total_creatives) = await AppContext.ServerApi.GetAvaliableCreatives(token, page - 1, pagesize, CreativeServerDirectory, (int)CreativeType.video);
 
                 PageInfo = getPageInfo(SelectedPage, crdtos.Count, total_creatives);
 

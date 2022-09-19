@@ -56,10 +56,9 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             get => isSynchronized;
             set => this.RaiseAndSetIfChanged(ref isSynchronized, value);
         }
-
         public CreativeType Type { get; set; }
         public int Id { get; set; }
-        public geo.GEO GEO { get; set; }
+        public CreativeServerDirectory CreativeServerDirectory { get; set; }
         public string Name { get; set; }
         public string FileName { get; set; }
         public string LocalPath { get; set; }
@@ -81,7 +80,9 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             Id = dto.id;
             Name = dto.name;
             //FileName = $"{dto.filename}.{dto.file_extension}";
-            GEO = new geo.GEO() { Id = dto.geolocation_id, Code = dto.geolocation_code };
+            
+            
+
             Type = (dto.file_type.Equals("video")) ? CreativeType.video : CreativeType.picture;
 
             string stype ="";

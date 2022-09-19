@@ -73,7 +73,7 @@ namespace crm.Models.creatives
             await client.DownloadFileTaskAsync(new Uri(creative.UrlPath), creative.LocalPath);            
         }          
 
-        public async Task Upload(GEO geo, string fullname)
+        public async Task Upload(CreativeServerDirectory dir, string fullname)
         {
             string filename = Path.GetFileName(fullname);
 
@@ -85,7 +85,7 @@ namespace crm.Models.creatives
             string creative_name = null;
             string filepath = null;
 
-            (creative_id, creative_name, filepath) = await serverApi.AddCreative(token, name, extension, geo);
+            (creative_id, creative_name, filepath) = await serverApi.AddCreative(token, name, extension, dir);
 
             if (!string.IsNullOrEmpty(creative_name) && !string.IsNullOrEmpty(filepath))
             {
