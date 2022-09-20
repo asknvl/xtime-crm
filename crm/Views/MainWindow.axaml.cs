@@ -11,19 +11,30 @@ namespace crm.Views
     {
 
         public Grid overlayGrid;
+        public Grid topGrid;
 
         public MainWindow()
         {            
             InitializeComponent();
             overlayGrid = this.FindControl<Grid>("OverlayGrid");
-            overlayGrid.IsVisible = false;        
+            overlayGrid.IsVisible = false;
+
+            topGrid = this.FindControl<Grid>("TOP");
+            topGrid.PointerPressed += TopGrid_PointerPressed;
+        }
+
+        private void TopGrid_PointerPressed(object? sender, PointerPressedEventArgs e)
+        {
+            BeginMoveDrag(e);
         }
 
         protected override void OnPointerPressed(PointerPressedEventArgs e)
         {
-            BeginMoveDrag(e);
-            base.OnPointerPressed(e);         
+            
+            base.OnPointerPressed(e);            
         }
+
+        
 
     }
 }

@@ -96,21 +96,43 @@
 					</Button>
 				</Grid>
 			</StackPanel>
-		</Grid>		
-		<Grid			
+		</Grid>
+		<Border
+			Name="TBDirListGrid"
 			Grid.Row="2"
-			Margin="0, 10, 0, 0"
-			Height="45">
-			<ComboBox
-				Items="{Binding GeoPages}"
-				SelectedItem="{Binding Content}">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding Title}"/>
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
-			<!--<ScrollViewer>			
+			BorderBrush="Gray"
+			BorderThickness="1"
+			CornerRadius="5">
+			<Grid				
+				Margin="40, 0, 0, 0"
+				Height="45">
+				<ToggleButton Name="TBDirList">
+					<TextBlock Text="{Binding Content.Title}"/>
+				</ToggleButton>
+				<!--<ComboBox
+					VerticalAlignment="Center"
+					Items="{Binding GeoPages}"
+					SelectedItem="{Binding Content}"
+					BorderThickness="0">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<Grid
+								Background="White">
+								<TextBlock Text="{Binding Title}"/>
+							</Grid>
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+					<ComboBox.Styles>
+						<Style Selector="ComboBox Popup">
+							<Setter Property="VerticalOffset" Value="20"/>
+							<Setter Property="HorizontalOffset" Value="-40"/>								
+						</Style>
+						
+					</ComboBox.Styles>
+				</ToggleButton>-->
+
+				
+				<!--<ScrollViewer>			
 				<ListBox
 					Grid.Column="0"
 					Items="{Binding GeoPages}"
@@ -167,7 +189,8 @@
 					</Style>
 				</ScrollViewer.Styles>
 			</ScrollViewer>-->
-		</Grid>
+			</Grid>
+		</Border>
 		<Border
 			Grid.Row="3"
 			BorderThickness="0, 0, 0, 1"
@@ -418,6 +441,61 @@
 				HorizontalAlignment="Left">
 			</TextBlock>
 		</Grid>
+
+		<Popup
+			IsOpen="{Binding  #TBDirList.IsChecked, Mode=TwoWay}"
+			WindowManagerAddShadowHint="False"
+			StaysOpen="False"
+			VerticalOffset="-15"
+			HorizontalOffset="-9"
+			Width="200"
+			PlacementTarget="{Binding ElementName=TBDirListGrid}">
+			<Border
+				Margin="10"
+				VerticalAlignment="Top"
+				HorizontalAlignment="Stretch"
+				Background="White"
+				BorderBrush="Black"
+				BoxShadow="0 0 10 1 LightGray"
+				CornerRadius="8">
+				<StackPanel
+					Orientation="Vertical"
+					Margin="5">
+					<ListBox
+						Items="{Binding GeoPages}"
+						SelectedItem="{Binding Content}">
+						<ListBox.DataTemplates>
+							<DataTemplate>
+								<Grid>
+									<TextBlock
+										Text="{Binding Title}"/>
+								</Grid>
+							</DataTemplate>
+						</ListBox.DataTemplates>
+						<ListBox.Styles>
+							<Style Selector="ListBox ListBoxItem">
+								<Setter Property="Padding" Value="0"/>
+								<Setter Property="Margin" Value="4"/>
+								<Setter Property="Background" Value="#FFFFFFFF"/>								
+							</Style>							
+							<Style Selector="ListBox ListBoxItem TextBlock">
+								<Setter Property="Foreground" Value="#FF464646" />
+							</Style>
+
+							<Style Selector="ListBox ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">								
+								<Setter Property="Foreground" Value="#FF0BB3E8" />
+							</Style>
+
+
+						</ListBox.Styles>
+					</ListBox>
+				</StackPanel>
+			</Border>
+		</Popup>
+		
 	</Grid>
+
+	
+
 </UserControl>
 

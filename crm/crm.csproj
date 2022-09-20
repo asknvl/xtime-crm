@@ -165,9 +165,4 @@
   <ItemGroup>
     <Folder Include="Assets\svgs\topmenu\" />
   </ItemGroup>
-  <ItemGroup>
-    <!--<AvaloniaXaml Update="Styles\ToggleSwitch.axaml">
-      <SubType>Designer</SubType>
-    </AvaloniaXaml>-->
-  </ItemGroup>
 </Project>
