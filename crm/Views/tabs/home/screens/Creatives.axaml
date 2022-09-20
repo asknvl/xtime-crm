@@ -463,11 +463,13 @@
 					Margin="5">
 					<ListBox
 						Items="{Binding GeoPages}"
-						SelectedItem="{Binding Content}">
+						SelectedItem="{Binding Content}"
+						Background="#FFFFFFFF">
 						<ListBox.DataTemplates>
 							<DataTemplate>
 								<Grid>
 									<TextBlock
+										Background="White"
 										Text="{Binding Title}"/>
 								</Grid>
 							</DataTemplate>
@@ -482,10 +484,10 @@
 								<Setter Property="Foreground" Value="#FF464646" />
 							</Style>
 
-							<Style Selector="ListBox ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">								
-								<Setter Property="Foreground" Value="#FF0BB3E8" />
+							<Style Selector="ListBox ListBoxItem:pointerover TextBlock">								
+								<Setter Property="Foreground" Value="#FF0BB3E8"/>
+								<Setter Property="Background" Value="#FFFFFFFF"/>
 							</Style>
-
 
 						</ListBox.Styles>
 					</ListBox>
