@@ -96,22 +96,31 @@
 					</Button>
 				</Grid>
 			</StackPanel>
-		</Grid>
-		<Grid
+		</Grid>		
+		<Grid			
 			Grid.Row="2"
 			Margin="0, 10, 0, 0"
 			Height="45">
-			<ScrollViewer>
-				<ComboBox
+			<ComboBox
+				Items="{Binding GeoPages}"
+				SelectedItem="{Binding Content}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Title}"/>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+			<!--<ScrollViewer>			
+				<ListBox
 					Grid.Column="0"
 					Items="{Binding GeoPages}"
 					SelectedItem="{Binding Content}">
-					<ComboBox.ItemsPanel>
+					<ListBox.ItemsPanel>
 						<ItemsPanelTemplate>
-							<StackPanel Orientation="Vertical"/>
+							<StackPanel Orientation="Horizontal"/>
 						</ItemsPanelTemplate>
-					</ComboBox.ItemsPanel>
-					<ComboBox.DataTemplates>
+					</ListBox.ItemsPanel>
+					<ListBox.DataTemplates>
 						<DataTemplate>
 							<Grid
 								Width="50"
@@ -122,8 +131,8 @@
 									Text="{Binding Title}"/>
 							</Grid>
 						</DataTemplate>
-					</ComboBox.DataTemplates>
-					<ComboBox.Styles>
+					</ListBox.DataTemplates>
+					<ListBox.Styles>
 						<Style Selector="ListBox">
 							<Setter Property="CornerRadius" Value="5"/>
 						</Style>
@@ -145,8 +154,8 @@
 							<Setter Property="BorderBrush" Value="Transparent"/>
 							<Setter Property="Background" Value="Transparent"/>
 						</Style>
-					</ComboBox.Styles>
-				</ComboBox>
+					</ListBox.Styles>
+				</ListBox>
 				<ScrollViewer.Styles>
 					<Style Selector="ScrollViewer:pointerover">
 						<Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
@@ -157,7 +166,7 @@
 						<Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
 					</Style>
 				</ScrollViewer.Styles>
-			</ScrollViewer>
+			</ScrollViewer>-->
 		</Grid>
 		<Border
 			Grid.Row="3"
