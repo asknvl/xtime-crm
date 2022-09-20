@@ -156,7 +156,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                     if (found == null)
                     {
 
-                        CreativeItem creative = new CreativeItem(cdt);
+                        CreativeItem creative = new CreativeItem(cdt, CreativeServerDirectory);
 
                         if (creative.IsUploaded)
                         {

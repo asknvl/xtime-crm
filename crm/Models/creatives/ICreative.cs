@@ -15,7 +15,7 @@ namespace crm.Models.creatives
     {   
         public CreativeType Type { get; set; }        
         public int Id { get; set; }                
-        CreativeServerDirectory CreativeServerDirectory { get; set; }
+        CreativeServerDirectory ServerDirectory { get; set; }        
         public string Name { get; set; }                
         public string FileName { get; set; }                
         public string LocalPath { get; set; }                

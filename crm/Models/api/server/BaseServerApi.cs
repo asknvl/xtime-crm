@@ -516,7 +516,7 @@ namespace crm.Models.api.server
             });
         }   
 
-        public virtual async Task<(List<CreativeDTO>, int, int)> GetAvaliableCreatives(string token, int page, int size, geo.GEO geo, int filetype)
+        public virtual async Task<(List<CreativeDTO>, int, int)> GetAvaliableCreatives(string token, int page, int size, CreativeServerDirectory dir, int filetype)
         {
             List<CreativeDTO> creatives = new();
             int total_pages = 0;
@@ -527,7 +527,7 @@ namespace crm.Models.api.server
             request.AddHeader($"Authorization", $"Bearer {token}");
             request.AddQueryParameter("page", page.ToString());
             request.AddQueryParameter("size", size.ToString());
-            request.AddQueryParameter("geolocation_id", geo.Id.ToString());
+            request.AddQueryParameter("creo_directory_id", dir.id.ToString());
             request.AddQueryParameter("file_type_id", filetype.ToString());
             request.AddQueryParameter("sort_by", "-id");
             var response = client.Execute(request);

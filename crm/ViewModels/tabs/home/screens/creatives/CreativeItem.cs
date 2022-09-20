@@ -58,16 +58,17 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         }
         public CreativeType Type { get; set; }
         public int Id { get; set; }
-        public CreativeServerDirectory CreativeServerDirectory { get; set; }
+
+        public CreativeServerDirectory ServerDirectory { get; set; }
         public string Name { get; set; }
         public string FileName { get; set; }
         public string LocalPath { get; set; }
         public string UrlPath { get; set; }
         public bool IsVisible { get; set; }
-        public bool IsUploaded { get; set; }
+        public bool IsUploaded { get; set; }        
         #endregion
 
-        public CreativeItem(CreativeDTO dto)
+        public CreativeItem(CreativeDTO dto, CreativeServerDirectory dir)
         {
 
             remoteManager = new CreativesRemoteManager();
@@ -80,8 +81,12 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             Id = dto.id;
             Name = dto.name;
             //FileName = $"{dto.filename}.{dto.file_extension}";
-            
-            
+
+            ServerDirectory = new CreativeServerDirectory()
+            {
+                id = dir.id,
+                dir = dir.dir
+            };
 
             Type = (dto.file_type.Equals("video")) ? CreativeType.video : CreativeType.picture;
 
@@ -97,14 +102,15 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                 default:
                     break;
             }
+            
 
-            UrlPath = $"{paths.CreativesRootURL}/{dto.geolocation_code}/{stype}/{dto.name}.{dto.file_extension}";
+            UrlPath = $"{paths.CreativesRootURL}/{ServerDirectory.dir}/{stype}/{dto.name}.{dto.file_extension}";
 
-            string geopath = Path.Combine(paths.CreativesRootPath, dto.geolocation_code);
+            string geopath = Path.Combine(paths.CreativesRootPath, ServerDirectory.dir);
             if (!Directory.Exists(geopath))
                 Directory.CreateDirectory(geopath);
 
-            LocalPath = Path.Combine(paths.CreativesRootPath, dto.geolocation_code, $"{dto.name}.{dto.file_extension}");
+            LocalPath = Path.Combine(paths.CreativesRootPath, ServerDirectory.dir, $"{dto.name}.{dto.file_extension}");
 
             IsVisible = dto.visibility;
             IsUploaded = dto.uploaded;
