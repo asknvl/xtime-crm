@@ -78,6 +78,7 @@
     <None Remove="Assets\svgs\leftslidemenu\on.svg" />
     <None Remove="Assets\svgs\leftslidemenu\subscriptions.svg" />
     <None Remove="Assets\svgs\leftslidemenu\vector_d.svg" />
+    <None Remove="Assets\svgs\screens\arrow_down.svg" />
     <None Remove="Assets\svgs\screens\sort_down.svg" />
     <None Remove="Assets\svgs\screens\sort_up.svg" />
     <None Remove="Assets\svgs\user.svg" />

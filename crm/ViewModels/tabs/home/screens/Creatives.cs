@@ -29,7 +29,7 @@ namespace crm.ViewModels.tabs.home.screens
         IServerApi server;
         ISocketApi socket;
         string token;
-        IWindowService ws = WindowService.getInstance();        
+        IWindowService ws = WindowService.getInstance();
         #endregion
 
         #region properties
@@ -141,18 +141,22 @@ namespace crm.ViewModels.tabs.home.screens
                         {
                             if (creative.IsChecked)
                             {
-                                tasks.Add(creative.Uniqalize());                                
+                                if (Content.NeedMassUniqalization)
+                                    tasks.Add(creative.Uniqalize(Content.Uniques));
+                                else
+                                    tasks.Add(creative.Uniqalize());
                             }
-                        }    
+                        }
 
-                        var continueTask = Task.WhenAll(tasks).ContinueWith((a) => {
-                            IsUniqRunning = false;                                
+                        var continueTask = Task.WhenAll(tasks).ContinueWith((a) =>
+                        {
+                            IsUniqRunning = false;
                             Content.IsAllChecked = false;
                         });
                     });
 
                 } else
-                {                    
+                {
                     foreach (var creative in creatives)
                         creative.StopUniqalization();
                 }
@@ -160,7 +164,8 @@ namespace crm.ViewModels.tabs.home.screens
 
             });
 
-            deselectAllCmd = ReactiveCommand.Create(() => {
+            deselectAllCmd = ReactiveCommand.Create(() =>
+            {
                 Content.IsAllChecked = false;
             });
             #endregion
@@ -216,10 +221,10 @@ namespace crm.ViewModels.tabs.home.screens
             //var dlg = new progressDlgVM();
             //ws.ShowModalWindow(dlg);
 
-            //await Uniqalizer.Init(Paths.getInstance().CodecBinariesPath, (progress) =>
-            //{
-            //    //dlg.Progress = progress;
-            //});
+            await Uniqalizer.Init(Paths.getInstance().CodecBinariesPath, (progress) =>
+            {
+                //dlg.Progress = progress;
+            });
 
 #if ONLINE
 
@@ -245,34 +250,7 @@ namespace crm.ViewModels.tabs.home.screens
             {
                 ws.ShowDialog(new errMsgVM(ex.Message));
             }
-#else
-            GeoPage p1 = new GeoPage(new geo.GEO() { Code = "IND" });
-            p1.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
-            GeoPage p2 = new GeoPage(new geo.GEO() { Code = "PER" });
-            p2.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
-            GeoPage p3 = new GeoPage(new geo.GEO() { Code = "COL"});
-            p3.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
-            GeoPage p4 = new GeoPage(new geo.GEO() { Code = "PERX1" });
-            p4.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
-            GeoPage p5 = new GeoPage(new geo.GEO() { Code = "PERX2" });
-            p4.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
-            GeoPage p6 = new GeoPage(new geo.GEO() { Code = "PERX3" });
-            p4.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
-            GeoPage p7 = new GeoPage(new geo.GEO() { Code = "COLX1" });
-            p4.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
-            GeoPage p8 = new GeoPage(new geo.GEO() { Code = "COLX2" });
-            p8.CreativesSelectionChangedEvent += GeoPage_CreativesSelectionChangedEvent;
-
-            GeoPages.Add(p1);
-            GeoPages.Add(p2);
-            GeoPages.Add(p3);
-            GeoPages.Add(p4);
-            GeoPages.Add(p5);
-            GeoPages.Add(p6);
-            GeoPages.Add(p7);
-            GeoPages.Add(p8);            
-
-            Content = GeoPages[0];
+#else           
 #endif
 
         }

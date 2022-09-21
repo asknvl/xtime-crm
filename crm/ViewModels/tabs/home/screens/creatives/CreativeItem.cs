@@ -36,7 +36,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             }
         }
 
-        int uniques = 1;
+        int uniques = 20;
         public int Uniques
         {
             get => uniques;
@@ -156,6 +156,13 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             if (!IsChecked)
                 return;
             await uniqalizer.Uniqalize(this, Uniques, paths.CreativesOutputRootPath);
+        }
+
+        public async Task Uniqalize(int uniques)
+        {
+            if (!IsChecked)
+                return;
+            await uniqalizer.Uniqalize(this, uniques, paths.CreativesOutputRootPath);
         }
 
         public void StopUniqalization()

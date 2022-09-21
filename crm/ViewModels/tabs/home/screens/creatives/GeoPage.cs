@@ -36,7 +36,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         }
 
         public ObservableCollection<CreativeItem> CreativesList { get; set; } = new();
-        
+
         bool needInvokeAllCheck { get; set; } = true;
         bool isAllChecked;
         public bool IsAllChecked
@@ -146,7 +146,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                 if (total_in_dictionary < total_creatives)
                     creativeListDictionary.Clear();
 
-                if (!creativeListDictionary.ContainsKey(SelectedPage))                    
+                if (!creativeListDictionary.ContainsKey(SelectedPage))
                     creativeListDictionary.Add(SelectedPage, new List<CreativeItem>());
 
                 foreach (var cdt in crdtos)
@@ -158,7 +158,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                     {
                         var list = creativeListDictionary[SelectedPage];
                         found = list.FirstOrDefault(o => o.Id == cdt.id);
-                    }                        
+                    }
 
                     if (found == null)
                     {
@@ -185,17 +185,11 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
                 foreach (var creative in creativeListDictionary[SelectedPage])
                 {
-                    await Dispatcher.UIThread.InvokeAsync(() => { 
+                    await Dispatcher.UIThread.InvokeAsync(() =>
+                    {
                         CreativesList.Add(creative);
                     });
                 }
-                
-
-                //await Dispatcher.UIThread.InvokeAsync(() =>
-                //{
-                //    foreach (var creative in creativeListDictionary[SelectedPage])
-                //        CreativesList.Add(creative);
-                //});                
 #else
 #endif
 

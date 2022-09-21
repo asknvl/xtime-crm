@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace crm.ViewModels.tabs.home.screens.creatives
+namespace crm.Models.creatives
 {
-    public class MassUniqItem : ViewModelBase
+    public interface ICreativePreviewer
     {
+        void Preview(ICreative creative);
     }
 }

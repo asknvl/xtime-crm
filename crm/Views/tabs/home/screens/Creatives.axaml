@@ -110,7 +110,16 @@
 				<ToggleButton	
 					IsChecked="{Binding IsServerDirectoriesVisible}"
 					Name="TBDirList">
-					<TextBlock Text="{Binding Content.Title}"/>
+					<StackPanel
+						Orientation="Horizontal">
+						<TextBlock Text="{Binding Content.Title}"/>
+						<Svg
+							Margin="10, 0, 0, 0"
+							Height="8"
+							Width="8"
+							Path="/Assets/svgs/screens/arrow_down.svg">
+						</Svg>
+					</StackPanel>
 					<ToggleButton.Styles>
 						<Style Selector="ToggleButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
 							<Setter Property="BorderBrush" Value="Transparent"/>
@@ -135,7 +144,7 @@
 			<Grid
 				HorizontalAlignment="Left"
 				Margin="15, 15, 0, 10"
-				ColumnDefinitions="150, 150, 150, 150">
+				ColumnDefinitions="180, 140, 140, 140">
 				<ToggleButton
 					Name="id"
 					Command="{Binding sortParameterCmd}"
@@ -212,7 +221,7 @@
 													<Grid
 														Margin="15, 0, 0, 0"
 														Grid.Column="1"
-														ColumnDefinitions="150, 150, 150, 150">
+														ColumnDefinitions="180, 140, 140, 140">
 														<ProgressBar
 															Grid.Column="0"
 															Grid.ColumnSpan="4"
@@ -222,13 +231,23 @@
 															Background="White"
 															Foreground="LightBlue">
 														</ProgressBar>
-														<TextBlock
+														<!--<TextBlock
 															Grid.Column="0"
-															Text="{Binding Name}"
-															
+															Text="{Binding Name}"															
 															VerticalAlignment="Center"
 															Margin="25, 0, 0, 0"
-															HorizontalAlignment="Left"/>
+															HorizontalAlignment="Left"/>-->
+														<Button
+															Classes="Button Hyper"
+															Grid.Column="0"
+															HorizontalAlignment="Left">
+															<TextBlock
+																Grid.Column="0"
+																Margin="25, 0, 0, 0"
+																Text="{Binding Name}"
+																VerticalAlignment="Center"																
+																HorizontalAlignment="Left"/>
+														</Button>
 														<Button
 															Classes="Button Hyper"
 															Grid.Column="1"
@@ -269,7 +288,7 @@
 															Grid.Column="3"
 															VerticalAlignment="Center"
 															HorizontalAlignment="Center"
-															IsChecked="False">
+															IsChecked="{Binding IsVisible}">
 														</ToggleSwitch>
 													</Grid>
 												</Grid>
@@ -299,7 +318,7 @@
 										<Grid
 											Margin="15, 0, 0, 0"
 											Grid.Column="1"
-											ColumnDefinitions="150, 150, 150, 150">
+											ColumnDefinitions="180, 140, 140, 140">
 											<TextBlock
 												Grid.Column="0"
 												Grid.ColumnSpan="2"
