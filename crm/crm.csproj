@@ -23,6 +23,7 @@
 	  <NSPrincipalClass>NSApplication</NSPrincipalClass>
 	  <NSHighResolutionCapable>true</NSHighResolutionCapable>
 	  <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
+	  <Configurations>Debug;Release;WIN;MAC</Configurations>
 	  
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

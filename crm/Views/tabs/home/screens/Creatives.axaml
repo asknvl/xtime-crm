@@ -249,6 +249,7 @@
 																HorizontalAlignment="Left"/>
 														</Button>
 														<Button
+															Command="{Binding previewCmd}"
 															Classes="Button Hyper"
 															Grid.Column="1"
 															HorizontalAlignment="Center">

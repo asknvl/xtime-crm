@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reactive;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         ICreativesRemoteManager remoteManager;
         ICreativesLocalManager localManager;
         IUniqalizer uniqalizer;
+        ICreativePreviewer previewer;
         IPaths paths = Paths.getInstance();
         bool isSynchronizing = false;
         #endregion
@@ -65,7 +67,11 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         public string LocalPath { get; set; }
         public string UrlPath { get; set; }
         public bool IsVisible { get; set; }
-        public bool IsUploaded { get; set; }        
+        public bool IsUploaded { get; set; }
+        #endregion
+
+        #region commands
+        public ReactiveCommand<Unit, Unit> previewCmd { get; }
         #endregion
 
         public CreativeItem(CreativeDTO dto, CreativeServerDirectory dir)
@@ -77,6 +83,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             localManager = new CreativesLocalManager();
             uniqalizer = new Uniqalizer();
             uniqalizer.UniqalizeProgessUpdateEvent += Uniqalizer_UniqalizeProgessUpdateEvent;
+            previewer = new CreativePreviewer();
 
             Id = dto.id;
             Name = dto.name;
@@ -114,6 +121,12 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
             IsVisible = dto.visibility;
             IsUploaded = dto.uploaded;
+
+            #region commands
+            previewCmd = ReactiveCommand.Create(() => {
+                previewer.Preview(this);
+            });
+            #endregion
         }
 
         private void Uniqalizer_UniqalizeProgessUpdateEvent(int progress)
