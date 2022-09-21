@@ -43,6 +43,7 @@ namespace crm.ViewModels.tabs.home.screens
             set
             {
                 this.RaiseAndSetIfChanged(ref content, value);
+                IsServerDirectoriesVisible = false;
                 content.OnActivate();
             }
         }
@@ -73,6 +74,13 @@ namespace crm.ViewModels.tabs.home.screens
         {
             get => isUniqRunning;
             set => this.RaiseAndSetIfChanged(ref isUniqRunning, value);
+        }
+
+        bool isServerDirectoriesVisible;
+        public bool IsServerDirectoriesVisible
+        {
+            get => isServerDirectoriesVisible;
+            set => this.RaiseAndSetIfChanged(ref isServerDirectoriesVisible, value);
         }
         #endregion
 
@@ -208,10 +216,10 @@ namespace crm.ViewModels.tabs.home.screens
             //var dlg = new progressDlgVM();
             //ws.ShowModalWindow(dlg);
 
-            await Uniqalizer.Init(Paths.getInstance().CodecBinariesPath, (progress) =>
-            {
-                //dlg.Progress = progress;
-            });
+            //await Uniqalizer.Init(Paths.getInstance().CodecBinariesPath, (progress) =>
+            //{
+            //    //dlg.Progress = progress;
+            //});
 
 #if ONLINE
 

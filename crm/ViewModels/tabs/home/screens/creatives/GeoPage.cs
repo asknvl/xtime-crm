@@ -139,7 +139,14 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
                 PageInfo = getPageInfo(SelectedPage, crdtos.Count, total_creatives);
 
-                if (!creativeListDictionary.ContainsKey(SelectedPage))
+                int total_in_dictionary = 0;
+                foreach (var item in creativeListDictionary)
+                    total_in_dictionary += item.Value.Count;
+
+                if (total_in_dictionary < total_creatives)
+                    creativeListDictionary.Clear();
+
+                if (!creativeListDictionary.ContainsKey(SelectedPage))                    
                     creativeListDictionary.Add(SelectedPage, new List<CreativeItem>());
 
                 foreach (var cdt in crdtos)

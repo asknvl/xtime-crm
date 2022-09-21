@@ -58,7 +58,7 @@
 							Фильтры
 						</TextBlock>
 					</Grid>
-				</Button>				
+				</Button>
 				<Button
 					Classes="Button Top">
 					<Grid>
@@ -99,96 +99,32 @@
 		</Grid>
 		<Border
 			Name="TBDirListGrid"
+			Background="#FFF2F2F2"
 			Grid.Row="2"
-			BorderBrush="Gray"
+			BorderBrush="Transparent"
 			BorderThickness="1"
 			CornerRadius="5">
-			<Grid				
-				Margin="40, 0, 0, 0"
+			<Grid
+				Margin="50, 0, 0, 0"
 				Height="45">
-				<ToggleButton Name="TBDirList">
+				<ToggleButton	
+					IsChecked="{Binding IsServerDirectoriesVisible}"
+					Name="TBDirList">
 					<TextBlock Text="{Binding Content.Title}"/>
-				</ToggleButton>
-				<!--<ComboBox
-					VerticalAlignment="Center"
-					Items="{Binding GeoPages}"
-					SelectedItem="{Binding Content}"
-					BorderThickness="0">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<Grid
-								Background="White">
-								<TextBlock Text="{Binding Title}"/>
-							</Grid>
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-					<ComboBox.Styles>
-						<Style Selector="ComboBox Popup">
-							<Setter Property="VerticalOffset" Value="20"/>
-							<Setter Property="HorizontalOffset" Value="-40"/>								
-						</Style>
-						
-					</ComboBox.Styles>
-				</ToggleButton>-->
-
-				
-				<!--<ScrollViewer>			
-				<ListBox
-					Grid.Column="0"
-					Items="{Binding GeoPages}"
-					SelectedItem="{Binding Content}">
-					<ListBox.ItemsPanel>
-						<ItemsPanelTemplate>
-							<StackPanel Orientation="Horizontal"/>
-						</ItemsPanelTemplate>
-					</ListBox.ItemsPanel>
-					<ListBox.DataTemplates>
-						<DataTemplate>
-							<Grid
-								Width="50"
-								VerticalAlignment="Stretch">
-								<TextBlock
-									HorizontalAlignment="Center"
-									VerticalAlignment="Center"
-									Text="{Binding Title}"/>
-							</Grid>
-						</DataTemplate>
-					</ListBox.DataTemplates>
-					<ListBox.Styles>
-						<Style Selector="ListBox">
-							<Setter Property="CornerRadius" Value="5"/>
-						</Style>
-						<Style Selector="ListBox ListBoxItem">
-							<Setter Property="Padding" Value="20, 2, 20, 0"/>
-							<Setter Property="Margin" Value="10, 0, 10, 0"/>
-						</Style>
-						<Style Selector="ListBox ListBoxItem:not(:selected) /template/ ContentPresenter#PART_ContentPresenter">
-							<Setter Property="BorderThickness" Value="0, 0, 0, 2"/>
+					<ToggleButton.Styles>
+						<Style Selector="ToggleButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
 							<Setter Property="BorderBrush" Value="Transparent"/>
 						</Style>
-						<Style Selector="ListBox ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
-							<Setter Property="BorderThickness" Value="0, 0, 0, 2"/>
-							<Setter Property="BorderBrush" Value="#FF464646"/>
-							<Setter Property="Background" Value="Transparent"/>
-						</Style>
-						<Style Selector="ListBox ListBoxItem:pointerover:not(:selected) /template/ ContentPresenter#PART_ContentPresenter">
-							<Setter Property="BorderThickness" Value="0, 0, 0, 2"/>
+						<Style Selector="ToggleButton:not(:checked) /template/ ContentPresenter#PART_ContentPresenter">
 							<Setter Property="BorderBrush" Value="Transparent"/>
 							<Setter Property="Background" Value="Transparent"/>
 						</Style>
-					</ListBox.Styles>
-				</ListBox>
-				<ScrollViewer.Styles>
-					<Style Selector="ScrollViewer:pointerover">
-						<Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
-						<Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
-					</Style>
-					<Style Selector="ScrollViewer">
-						<Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
-						<Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
-					</Style>
-				</ScrollViewer.Styles>
-			</ScrollViewer>-->
+						<Style Selector="ToggleButton:checked /template/ ContentPresenter#PART_ContentPresenter">
+							<Setter Property="BorderBrush" Value="Transparent"/>
+							<Setter Property="Background" Value="Transparent"/>
+						</Style>
+					</ToggleButton.Styles>
+				</ToggleButton>			
 			</Grid>
 		</Border>
 		<Border
@@ -198,7 +134,7 @@
 			BorderBrush="{DynamicResource SeparatorColor}">
 			<Grid
 				HorizontalAlignment="Left"
-				Margin="35, 15, 0, 10"
+				Margin="15, 15, 0, 10"
 				ColumnDefinitions="150, 150, 150, 150">
 				<ToggleButton
 					Name="id"
@@ -218,15 +154,18 @@
 					</TextBlock>
 				</ToggleButton>
 				<TextBlock
-					Grid.Column="1">
+					Grid.Column="1"
+					Margin="45, 0, 0, 0">
 					Предпросмотр
 				</TextBlock>
 				<TextBlock
-					Grid.Column="2">
+					Grid.Column="2"
+					Margin="35, 0, 0, 0">
 					Количество видео
 				</TextBlock>
 				<TextBlock
-					Grid.Column="3">
+					Grid.Column="3"
+					Margin="35, 0, 0, 0">
 					Видимость
 				</TextBlock>
 				<Grid.Styles>
@@ -258,7 +197,7 @@
 												<Grid
 													ColumnDefinitions="Auto, *"
 													Height="{DynamicResource ScreenListItemHeight}">
-													<ToggleButton														
+													<ToggleButton
 														IsChecked="{Binding IsChecked}"
 														Name="PART_ItemChecked"
 														Grid.Column="0"
@@ -286,8 +225,9 @@
 														<TextBlock
 															Grid.Column="0"
 															Text="{Binding Name}"
+															
 															VerticalAlignment="Center"
-															Margin="45, 0, 0, 0"
+															Margin="25, 0, 0, 0"
 															HorizontalAlignment="Left"/>
 														<Button
 															Classes="Button Hyper"
@@ -357,14 +297,14 @@
 												Height="15"/>
 										</ToggleButton>
 										<Grid
-											Margin="15, 0, 0, 0"											
+											Margin="15, 0, 0, 0"
 											Grid.Column="1"
-											ColumnDefinitions="150, 150, 150, 150">											
+											ColumnDefinitions="150, 150, 150, 150">
 											<TextBlock
 												Grid.Column="0"
 												Grid.ColumnSpan="2"
-												Text="Массовая уникализация"		
-												Margin="45, 0, 0, 0"
+												Text="Массовая уникализация"
+												Margin="25, 0, 0, 0"
 												VerticalAlignment="Center"
 												HorizontalAlignment="Left"/>
 											<cust:IntTextBox
@@ -393,7 +333,7 @@
 														<Setter Property="Width" Value="55"/>
 													</Style>
 												</TextBox.Styles>
-											</cust:IntTextBox>											
+											</cust:IntTextBox>
 										</Grid>
 									</Grid>
 								</Border>
@@ -412,7 +352,7 @@
 					</DataTemplate>
 				</ContentControl.ContentTemplate>
 			</ContentControl>
-		</Grid>		
+		</Grid>
 		<Grid
 			Grid.Row="5" Grid.ColumnSpan="2">
 			<StackPanel
@@ -444,10 +384,10 @@
 
 		<Popup
 			IsOpen="{Binding  #TBDirList.IsChecked, Mode=TwoWay}"
-			WindowManagerAddShadowHint="False"
+			WindowManagerAddShadowHint="False"			
 			StaysOpen="False"
-			VerticalOffset="-15"
-			HorizontalOffset="-9"
+			VerticalOffset="0"
+			HorizontalOffset="-10"
 			Width="200"
 			PlacementTarget="{Binding ElementName=TBDirListGrid}">
 			<Border
@@ -461,43 +401,59 @@
 				<StackPanel
 					Orientation="Vertical"
 					Margin="5">
-					<ListBox
-						Items="{Binding GeoPages}"
-						SelectedItem="{Binding Content}"
-						Background="#FFFFFFFF">
-						<ListBox.DataTemplates>
-							<DataTemplate>
-								<Grid>
-									<TextBlock
-										Background="White"
-										Text="{Binding Title}"/>
-								</Grid>
-							</DataTemplate>
-						</ListBox.DataTemplates>
-						<ListBox.Styles>
-							<Style Selector="ListBox ListBoxItem">
-								<Setter Property="Padding" Value="0"/>
-								<Setter Property="Margin" Value="4"/>
-								<Setter Property="Background" Value="#FFFFFFFF"/>								
-							</Style>							
-							<Style Selector="ListBox ListBoxItem TextBlock">
-								<Setter Property="Foreground" Value="#FF464646" />
-							</Style>
-
-							<Style Selector="ListBox ListBoxItem:pointerover TextBlock">								
-								<Setter Property="Foreground" Value="#FF0BB3E8"/>
-								<Setter Property="Background" Value="#FFFFFFFF"/>
-							</Style>
-
-						</ListBox.Styles>
-					</ListBox>
+					<ScrollViewer>
+						<ListBox
+							MaxHeight="450"
+							Items="{Binding GeoPages}"
+							SelectedItem="{Binding Content}"
+							Background="#FFFFFFFF">
+							<ListBox.DataTemplates>
+								<DataTemplate>
+									<Border
+										BorderBrush="#FFE5E5E5"
+										BorderThickness="0, 0, 0, 0.5"
+										Height="45">
+										<TextBlock																			
+											Background="#FFFFFFFF"
+											HorizontalAlignment="Center"
+											VerticalAlignment="Center"
+											TextAlignment="Center"
+											Text="{Binding Title}"/>
+									</Border>
+								</DataTemplate>
+							</ListBox.DataTemplates>
+							<ListBox.Styles>
+								<Style Selector="ListBox ListBoxItem">
+									<Setter Property="Padding" Value="0"/>
+									<Setter Property="Margin" Value="0"/>
+									<Setter Property="Background" Value="#FFFFFFFF"/>
+								</Style>
+								<Style Selector="ListBox ListBoxItem TextBlock">
+									<Setter Property="Foreground" Value="#FF464646" />
+								</Style>
+								<Style Selector="ListBox ListBoxItem:pointerover TextBlock">
+									<!--<Setter Property="Foreground" Value="#FF0BB3E8"/>-->
+									<Setter Property="Background" Value="#FFFFFFFF"/>
+								</Style>
+								<Style Selector="ListBox ListBoxItem:selected TextBlock">
+									<Setter Property="Foreground" Value="#FF0BB3E8"/>									
+								</Style>
+								<Style Selector="ListBox ListBoxItem:selected /template/ ContentPresenter">
+									<Setter Property="Background" Value="#FFFFFFFF"/>									
+								</Style>
+								<Style Selector="ListBox ListBoxItem:pointerover /template/ ContentPresenter">
+									<Setter Property="Background" Value="#FFFFFFFF"/>
+								</Style>
+							</ListBox.Styles>
+						</ListBox>
+					</ScrollViewer>
 				</StackPanel>
 			</Border>
 		</Popup>
-		
+
 	</Grid>
 
-	
+
 
 </UserControl>
 
