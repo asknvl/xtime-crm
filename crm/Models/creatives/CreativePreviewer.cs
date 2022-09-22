@@ -38,8 +38,14 @@ namespace crm.Models.creatives
 
                 ProcessStartInfo startInfo = new ProcessStartInfo()
                 {
-                    //FileName = "/System/Applications/Utilities/Terminal.app",
-                    FileName = "osascript -e 'display dialog \"Hello\"'",
+                    FileName = "/bin/bash",
+                    //FileName = "osascript -e 'display dialog \"Hello\"'",
+                    Arguments = $"-c \"osascript -e \' tell application \\\"QuickTime Player\\\"\n" +
+                    $"activate\n" +
+                    //$"set thisFile to open POSIX file \\\"/Users/alexeykonovalov/Downloads/IMG_1379.MP4\\\"\n" +
+                    $"set thisFile to open POSIX file \\\"{creative.LocalPath}\\\"\n" +
+                    $"play thisFile\n" +
+                    $"end tell \' \"",
                     UseShellExecute = true
 
                 };
