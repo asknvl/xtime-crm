@@ -67,6 +67,7 @@
     <None Remove="Assets\logo_transp.png" />
     <None Remove="Assets\svgs\dashboard.svg" />
     <None Remove="Assets\test.png" />-->	  
+    <None Remove="Mono.Posix.NETStandard" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\png\screens\TBD.png" />
@@ -117,6 +118,7 @@
     <PackageReference Include="Xabe.FFmpeg" Version="5.2.0" />
     <PackageReference Include="Xabe.FFmpeg.Downloader" Version="5.2.0" />
     <PackageReference Include="XamlNameReferenceGenerator" Version="1.3.4" />
+    <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
     <AvaloniaXaml Update="Styles\ScreenStyle.axaml">

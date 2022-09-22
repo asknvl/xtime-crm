@@ -144,6 +144,17 @@ namespace crm.Models.storage
             if (!Directory.Exists(CreativesRootPath))
                 Directory.CreateDirectory(CreativesRootPath);
 
+            Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+
+            string userRootPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            CreativesOutputRootPath = Path.Combine(userRootPath, "Downloads", "Creatives");
+            if (!Directory.Exists(CreativesOutputRootPath))
+                Directory.CreateDirectory(CreativesOutputRootPath);
+
+            CodecBinariesPath = Path.Combine(app_dir, "FFMPEG");
+            if (!Directory.Exists(CodecBinariesPath))
+                Directory.CreateDirectory(CodecBinariesPath);
+
         }
 
         void initWebPaths()

@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 using Xabe.FFmpeg;
 using Xabe.FFmpeg.Downloader;
 
+using Mono.Unix.Native;
+using System.Runtime.InteropServices;
+
 namespace crm.Models.uniq
 {
     public class Uniqalizer : IUniqalizer
@@ -21,6 +24,7 @@ namespace crm.Models.uniq
         #endregion
         public Uniqalizer()
         {
+            
         }
 
         #region private
@@ -55,6 +59,34 @@ namespace crm.Models.uniq
             });
 
             await FFmpegDownloader.GetLatestVersion(FFmpegVersion.Official, codecdir, prgrsconv);
+
+            bool isMacOSX = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+
+            if (isMacOSX)
+            {
+                string ffmpeg = Path.Combine(codecdir, "ffmpeg");
+                ProcessStartInfo startInfo = new ProcessStartInfo()
+                {
+                    FileName = "chmod",
+                    Arguments = "+x " + "\"" + ffmpeg + "\""
+                };
+
+                Process process = new Process() { StartInfo = startInfo };
+                process.Start();
+
+                string ffprobe = Path.Combine(codecdir, "ffprobe");
+                startInfo = new ProcessStartInfo()
+                {
+                    FileName = "chmod",
+                    Arguments = "+x " + "\"" + ffprobe + "\""
+                };
+
+                process = new Process() { StartInfo = startInfo };
+                process.Start();
+            }
+
+            //Syscall.chmod("ffmpeg", FilePermissions.S_IRUSR | FilePermissions.S_IWUSR | FilePermissions.S_IXUSR);
+            //Syscall.chmod("ffprobe", FilePermissions.S_IRUSR | FilePermissions.S_IWUSR | FilePermissions.S_IXUSR);
         }
         public async Task Uniqalize(ICreative creative, int n, string outputdir) {
 
