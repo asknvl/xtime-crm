@@ -145,7 +145,8 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
                 try
                 {
-                    await serverApi.SetVisibility(token, Id, IsVisible);
+                    //await serverApi.SetVisibility(token, Id, IsVisible);
+                    await serverApi.SetCreativeStatus(token, Id, IsUploaded, IsVisible);
                     
                 } catch (Exception ex)
                 {
