@@ -2,6 +2,8 @@
 using crm.Models.creatives;
 using crm.Models.storage;
 using crm.Models.uniq;
+using crm.ViewModels.dialogs;
+using crm.WS;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -24,6 +26,9 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         ICreativePreviewer previewer;
         IPaths paths = Paths.getInstance();
         bool isSynchronizing = false;
+        IServerApi serverApi;
+        IWindowService ws = WindowService.getInstance();
+        string token;
         #endregion
 
         #region properties
@@ -61,21 +66,30 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         public CreativeType Type { get; set; }
         public int Id { get; set; }
 
+        bool isVisible;
+        public bool IsVisible {
+            get => isVisible;
+            set => this.RaiseAndSetIfChanged(ref isVisible, value);            
+        }
+
         public CreativeServerDirectory ServerDirectory { get; set; }
         public string Name { get; set; }
         public string FileName { get; set; }
         public string LocalPath { get; set; }
-        public string UrlPath { get; set; }
-        public bool IsVisible { get; set; }
+        public string UrlPath { get; set; }        
         public bool IsUploaded { get; set; }
         #endregion
 
         #region commands
         public ReactiveCommand<Unit, Unit> previewCmd { get; }
+        public ReactiveCommand<Unit, Unit> setVisibilityCmd { get; }
         #endregion
 
         public CreativeItem(CreativeDTO dto, CreativeServerDirectory dir)
         {
+
+            token = AppContext.User.Token;
+            serverApi = AppContext.ServerApi;
 
             remoteManager = new CreativesRemoteManager();
             remoteManager.DownloadProgessUpdateEvent += RemoteManager_DownloadProgessUpdateEvent;
@@ -125,6 +139,19 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             #region commands
             previewCmd = ReactiveCommand.Create(() => {
                 previewer.Preview(this);
+            });
+
+            setVisibilityCmd = ReactiveCommand.CreateFromTask(async () => { 
+
+                try
+                {
+                    await serverApi.SetVisibility(token, Id, IsVisible);
+                    
+                } catch (Exception ex)
+                {
+                    ws.ShowDialog(new errMsgVM(ex.Message));
+                }
+
             });
             #endregion
         }

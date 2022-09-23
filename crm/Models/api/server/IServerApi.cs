@@ -24,6 +24,7 @@ namespace crm.Models.api.server
         Task<List<GEO>> GetGeos(string token, string sortparameter);
         Task<List<CreativeServerDirectory>> GetCreativeServerDirectories(string token);
         Task<(int, string, string)> AddCreative(string token, string filename, string extension, CreativeServerDirectory dir);
+        Task SetVisibility(string token, int id, bool isVisible);
         Task SetCreativeStatus(string token, int id, bool isUploaded, bool isVisible);
         Task<(List<CreativeDTO>, int, int)> GetAvaliableCreatives(string token, int page, int size, CreativeServerDirectory dir, int filetype);
     }

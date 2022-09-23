@@ -514,7 +514,35 @@ namespace crm.Models.api.server
                     throw new ServerException($"{getErrMsg(errors)}");
                 }
             });
-        }   
+        }
+
+        public virtual async Task SetVisibility(string token, int id, bool isVisible)
+        {
+            var client = new RestClient($"{url}/v1/creatives/{id}");
+            var request = new RestRequest(Method.PUT);
+            request.AddHeader($"Authorization", $"Bearer {token}");
+
+            StatusParameters sp = new();
+            sp.visibility = isVisible;            
+
+            string ssp = JsonConvert.SerializeObject(sp);
+            request.AddParameter("application/json", ssp, ParameterType.RequestBody);
+
+            await Task.Run(() => {
+                var response = client.Execute(request);
+                var json = JObject.Parse(response.Content);
+                bool res = json["success"].ToObject<bool>();
+                if (res)
+                {
+                }
+                else
+                {
+                    string e = json["errors"].ToString();
+                    List<ServerError>? errors = JsonConvert.DeserializeObject<List<ServerError>>(e);
+                    throw new ServerException($"{getErrMsg(errors)}");
+                }
+            });
+        }
 
         public virtual async Task<(List<CreativeDTO>, int, int)> GetAvaliableCreatives(string token, int page, int size, CreativeServerDirectory dir, int filetype)
         {
