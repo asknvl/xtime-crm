@@ -521,7 +521,18 @@
 								</Style>
 							</ListBox.Styles>
 						</ListBox>
+						<ScrollViewer.Styles>
+							<Style Selector="ScrollViewer:pointerover">
+								<Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+								<Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
+							</Style>
+							<Style Selector="ScrollViewer">
+								<Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
+								<Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
+							</Style>
+						</ScrollViewer.Styles>
 					</ScrollViewer>
+					
 				</StackPanel>
 			</Border>
 		</Popup>

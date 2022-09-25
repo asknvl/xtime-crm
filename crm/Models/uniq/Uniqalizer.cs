@@ -189,7 +189,7 @@ namespace crm.Models.uniq
             //    }
             //}
 
-            await uniqalize(inputPath, outputdir, n);
+            await uniqalize(inputPath, outputFolderPath, n);
         }
 
         public void Cancel()
