@@ -69,8 +69,14 @@ namespace crm.Models.creatives
         #endregion       
 
         public async Task Download(ICreative creative)
-        {            
-            await client.DownloadFileTaskAsync(new Uri(creative.UrlPath), creative.LocalPath);            
+        {
+            try
+            {
+                await client.DownloadFileTaskAsync(new Uri(creative.UrlPath), creative.LocalPath);
+            } catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
         }          
 
         public async Task Upload(CreativeServerDirectory dir, string fullname)

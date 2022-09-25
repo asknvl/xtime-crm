@@ -95,8 +95,62 @@
 						</Svg>
 					</Button>
 				</Grid>
-			</StackPanel>
+			</StackPanel>			
 		</Grid>
+
+		<Border						
+			Grid.Row="2"
+			Grid.Column="1"
+			Grid.RowSpan="3"
+			BorderThickness="1.5"			
+			BorderBrush="#FFE5E5E5"
+			BorderDashArray="3, 3"
+			Height="{DynamicResource TopButtonMassActionsWidth}"
+			Width="{DynamicResource TopButtonMassActionsWidth}"
+			VerticalAlignment="Top"
+			HorizontalAlignment="Left"
+			Margin="35, 0, 0, 0">
+			
+			<Grid		
+				Name="DragAndDropGrid"
+				DragDrop.AllowDrop="True"
+				Background="#FFFAF9F9">
+				<StackPanel
+					Orientation="Vertical"
+					VerticalAlignment="Center">
+					<Svg
+						Path="/Assets/svgs/screens/download.svg"
+						Height="80"
+						Width="80">					
+					</Svg>
+					<StackPanel						
+						Orientation="Horizontal"
+						HorizontalAlignment="Center"
+						Margin="10">
+						<TextBlock
+							VerticalAlignment="Center"
+							HorizontalAlignment="Center"
+							TextWrapping="Wrap"
+							TextAlignment="Center"
+							FontSize="12"
+							FontWeight="Bold">
+							Drag and drop
+						</TextBlock>
+						<TextBlock
+							VerticalAlignment="Center"
+							HorizontalAlignment="Center"
+							TextWrapping="Wrap"
+							TextAlignment="Center"
+							FontSize="12"
+							Margin="2, 0, 0, 0">
+							.mp4 file
+						</TextBlock>
+					</StackPanel>
+
+				</StackPanel>
+			</Grid>
+		</Border>
+		
 		<Border
 			Name="TBDirListGrid"
 			Background="#FFF2F2F2"

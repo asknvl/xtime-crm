@@ -67,16 +67,17 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         public int Id { get; set; }
 
         bool isVisible;
-        public bool IsVisible {
+        public bool IsVisible
+        {
             get => isVisible;
-            set => this.RaiseAndSetIfChanged(ref isVisible, value);            
+            set => this.RaiseAndSetIfChanged(ref isVisible, value);
         }
 
         public CreativeServerDirectory ServerDirectory { get; set; }
         public string Name { get; set; }
         public string FileName { get; set; }
         public string LocalPath { get; set; }
-        public string UrlPath { get; set; }        
+        public string UrlPath { get; set; }
         public bool IsUploaded { get; set; }
         #endregion
 
@@ -111,7 +112,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
             Type = (dto.file_type.Equals("video")) ? CreativeType.video : CreativeType.picture;
 
-            string stype ="";
+            string stype = "";
             switch (Type)
             {
                 case CreativeType.video:
@@ -123,7 +124,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                 default:
                     break;
             }
-            
+
 
             UrlPath = $"{paths.CreativesRootURL}/{ServerDirectory.dir}/{stype}/{dto.name}.{dto.file_extension}";
 
@@ -137,19 +138,22 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             IsUploaded = dto.uploaded;
 
             #region commands
-            previewCmd = ReactiveCommand.Create(() => {
+            previewCmd = ReactiveCommand.Create(() =>
+            {
                 previewer.Preview(this);
             });
 
-            setVisibilityCmd = ReactiveCommand.CreateFromTask(async () => { 
+            setVisibilityCmd = ReactiveCommand.CreateFromTask(async () =>
+            {
 
                 try
                 {
                     //await serverApi.SetVisibility(token, Id, IsVisible);
                     await serverApi.SetCreativeStatus(token, Id, IsUploaded, IsVisible);
-                    
+
                 } catch (Exception ex)
                 {
+                    IsVisible = !IsVisible;
                     ws.ShowDialog(new errMsgVM(ex.Message));
                 }
 
@@ -170,7 +174,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
         private void RemoteManager_DownloadProgessUpdateEvent(int progress)
         {
-            Progress = progress;            
+            Progress = progress;
         }
 
         #region public
@@ -178,8 +182,8 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         {
             if (isSynchronizing)
                 return;
-
-            Task.Run(async () => {
+            Task.Run(async () =>
+            {
                 isSynchronizing = true;
                 if (localManager.CheckCreativeDownloaded(this))
                 {

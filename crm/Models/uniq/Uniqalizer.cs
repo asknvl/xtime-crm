@@ -21,11 +21,7 @@ namespace crm.Models.uniq
         #region vars
         Random random = new Random();
         CancellationTokenSource cts;
-        #endregion
-        public Uniqalizer()
-        {
-            
-        }
+        #endregion        
 
         #region private
         long getBitRate(long origBitRate) {
@@ -40,7 +36,7 @@ namespace crm.Models.uniq
         {
             DirectoryInfo directoryInfo = new DirectoryInfo(dir);
             foreach (var file in directoryInfo.GetFiles())
-            {                
+            {
                 file.Delete();
             }
         }
@@ -88,14 +84,9 @@ namespace crm.Models.uniq
             //Syscall.chmod("ffmpeg", FilePermissions.S_IRUSR | FilePermissions.S_IWUSR | FilePermissions.S_IXUSR);
             //Syscall.chmod("ffprobe", FilePermissions.S_IRUSR | FilePermissions.S_IWUSR | FilePermissions.S_IXUSR);
         }
-        public async Task Uniqalize(ICreative creative, int n, string outputdir) {
 
-            string inputPath = Path.GetFullPath(creative.LocalPath);
-
-            string outputFolderPath = Path.Combine(outputdir, creative.ServerDirectory.dir, creative.Name);
-            if (!Directory.Exists(outputFolderPath))
-                Directory.CreateDirectory(outputFolderPath);
-
+        private async Task uniqalize(string inputPath, string outputFolderPath, int n)
+        {
             DirectoryInfo directoryInfo = new DirectoryInfo(outputFolderPath);
             foreach (var file in directoryInfo.GetFiles())
             {
@@ -107,7 +98,7 @@ namespace crm.Models.uniq
             for (int i = 0; i < n; i++)
             {
                 var outputPath = Path.Combine(outputFolderPath, $"NEW_UNIQ_{i + 1}.mp4");
-                
+
                 IMediaInfo info = await FFmpeg.GetMediaInfo(inputPath);
                 IVideoStream videoStream = info.VideoStreams.First();
                 IStream audioStream = info.AudioStreams.FirstOrDefault()?.SetChannels(2);
@@ -117,7 +108,6 @@ namespace crm.Models.uniq
 
                 try
                 {
-
                     var conversion = FFmpeg.Conversions.New();
                     conversion.OnProgress += (s, a) => {
                         UniqalizeProgessUpdateEvent?.Invoke(a.Percent);
@@ -125,19 +115,81 @@ namespace crm.Models.uniq
 
                     IConversionResult conversionResult = await conversion
                         .AddStream(videoStream, audioStream)
-                        .SetOutput(outputPath)                        
+                        .SetOutput(outputPath)
                         .AddParameter($"-b:v {bitrate} -bufsize {bitrate}")
                         .Start(cts.Token);
 
-                } catch (Exception ex) {
+                } catch (Exception ex)
+                {
 
-                    deleteFiles(outputFolderPath);                
+                    deleteFiles(outputFolderPath);
 
                 } finally
                 {
-                    UniqalizeProgessUpdateEvent.Invoke(0);
+                    UniqalizeProgessUpdateEvent?.Invoke(0);
                 }
             }
+        }
+
+        public async Task Uniqalize(string inputPath, int n, string outpurdir) {
+            inputPath = Path.GetFullPath(inputPath);
+            if (!Directory.Exists(outpurdir))
+                Directory.CreateDirectory(outpurdir);
+            await uniqalize(inputPath, outpurdir, n);
+        }
+
+        public async Task Uniqalize(ICreative creative, int n, string outputdir) {
+
+            string inputPath = Path.GetFullPath(creative.LocalPath);
+
+            string outputFolderPath = Path.Combine(outputdir, creative.ServerDirectory.dir, creative.Name);
+            if (!Directory.Exists(outputFolderPath))
+                Directory.CreateDirectory(outputFolderPath);
+
+            //DirectoryInfo directoryInfo = new DirectoryInfo(outputFolderPath);
+            //foreach (var file in directoryInfo.GetFiles())
+            //{
+            //    file.Delete();
+            //}
+
+            //cts = new CancellationTokenSource();
+
+            //for (int i = 0; i < n; i++)
+            //{
+            //    var outputPath = Path.Combine(outputFolderPath, $"NEW_UNIQ_{i + 1}.mp4");
+
+            //    IMediaInfo info = await FFmpeg.GetMediaInfo(inputPath);
+            //    IVideoStream videoStream = info.VideoStreams.First();
+            //    IStream audioStream = info.AudioStreams.FirstOrDefault()?.SetChannels(2);
+
+            //    long origBitRate = videoStream.Bitrate;
+            //    long bitrate = getBitRate(origBitRate);
+
+            //    try
+            //    {
+
+            //        var conversion = FFmpeg.Conversions.New();
+            //        conversion.OnProgress += (s, a) => {
+            //            UniqalizeProgessUpdateEvent?.Invoke(a.Percent);
+            //        };
+
+            //        IConversionResult conversionResult = await conversion
+            //            .AddStream(videoStream, audioStream)
+            //            .SetOutput(outputPath)                        
+            //            .AddParameter($"-b:v {bitrate} -bufsize {bitrate}")
+            //            .Start(cts.Token);
+
+            //    } catch (Exception ex) {
+
+            //        deleteFiles(outputFolderPath);                
+
+            //    } finally
+            //    {
+            //        UniqalizeProgessUpdateEvent.Invoke(0);
+            //    }
+            //}
+
+            await uniqalize(inputPath, outputdir, n);
         }
 
         public void Cancel()

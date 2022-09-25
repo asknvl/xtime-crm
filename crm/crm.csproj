@@ -47,6 +47,7 @@
     <AvaloniaResource Remove="Styles\ToggleSwitch.axaml" />
     <AvaloniaResource Remove="Styles\UserListStyle.axaml" />
     <AvaloniaXaml Remove="Views\Colors.axaml" />
+    <None Remove="Assets\svgs\screens\Download.svg" />
     <!--<None Remove=".gitignore" />
     <None Remove="Assets\fonts\Inter\Inter-Black.ttf" />
     <None Remove="Assets\fonts\Inter\Inter-Bold.ttf" />

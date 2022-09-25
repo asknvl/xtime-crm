@@ -30,6 +30,7 @@ namespace crm.ViewModels.tabs.home.screens
         ISocketApi socket;
         string token;
         IWindowService ws = WindowService.getInstance();
+        IPaths paths = Paths.getInstance();
         #endregion
 
         #region properties
@@ -212,6 +213,17 @@ namespace crm.ViewModels.tabs.home.screens
             if (!IsUniqRunning)
                 updateMassActions(number);
         }
+        
+        public void OnDragDrop(List<string> files) {
+
+            string file = files[0];
+
+            IUniqalizer uniqalizer = new Uniqalizer();
+
+            string output = Path.Combine(paths.CreativesOutputRootPath, "DragDrop");
+
+            uniqalizer.Uniqalize(file, 1, output);
+        }
         #endregion
 
         #region override
@@ -221,10 +233,10 @@ namespace crm.ViewModels.tabs.home.screens
             //var dlg = new progressDlgVM();
             //ws.ShowModalWindow(dlg);
 
-            //await Uniqalizer.Init(Paths.getInstance().CodecBinariesPath, (progress) =>
-            //{
-            //    //dlg.Progress = progress;
-            //});
+            await Uniqalizer.Init(Paths.getInstance().CodecBinariesPath, (progress) =>
+            {
+                //dlg.Progress = progress;
+            });
 
 #if ONLINE
 
