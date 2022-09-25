@@ -458,12 +458,13 @@
 		</Grid>
 
 		<Popup
-			IsOpen="{Binding  #TBDirList.IsChecked, Mode=TwoWay}"
+			IsOpen="{Binding  #TBDirList.IsChecked, Mode=TwoWay}"			
 			WindowManagerAddShadowHint="False"			
 			StaysOpen="False"
 			VerticalOffset="0"
 			HorizontalOffset="-10"
 			Width="200"
+			ScrollViewer.VerticalScrollBarVisibility="Hidden"
 			PlacementTarget="{Binding ElementName=TBDirListGrid}">
 			<Border
 				Margin="10"
@@ -473,14 +474,14 @@
 				BorderBrush="Black"
 				BoxShadow="0 0 10 1 LightGray"
 				CornerRadius="8">
-				<StackPanel
+				<StackPanel					
 					Orientation="Vertical"
 					Margin="5">
-					<ScrollViewer>
+					<!--<ScrollViewer>-->
 						<ListBox
 							MaxHeight="450"
 							Items="{Binding GeoPages}"
-							SelectedItem="{Binding Content}"
+							SelectedItem="{Binding Content}"							
 							Background="#FFFFFFFF">
 							<ListBox.DataTemplates>
 								<DataTemplate>
@@ -519,22 +520,27 @@
 								<Style Selector="ListBox ListBoxItem:pointerover /template/ ContentPresenter">
 									<Setter Property="Background" Value="#FFFFFFFF"/>
 								</Style>
+
+
+								<Style Selector="ListBox:pointerover ScrollViewer">
+									<Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+									<Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
+								</Style>
+								<Style Selector="ListBox:not(:pointerover) ScrollViewer">
+									<Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
+									<Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
+								</Style>
+
+
 							</ListBox.Styles>
-						</ListBox>
-						<ScrollViewer.Styles>
-							<Style Selector="ScrollViewer:pointerover">
-								<Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
-								<Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
-							</Style>
-							<Style Selector="ScrollViewer">
-								<Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
-								<Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
-							</Style>
-						</ScrollViewer.Styles>
-					</ScrollViewer>
-					
-				</StackPanel>
-			</Border>
+							
+						</ListBox>						
+					<!--</ScrollViewer>-->
+					<StackPanel.Styles>
+						
+					</StackPanel.Styles>
+				</StackPanel>				
+			</Border>			
 		</Popup>
 
 	</Grid>
