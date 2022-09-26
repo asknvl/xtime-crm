@@ -51,8 +51,8 @@ namespace crm.ViewModels.dialogs
             creativesRemoteManager = new CreativesRemoteManager();
             creativesRemoteManager.UploadProgressUpdateEvent += (progress) =>
             {
-                Progress = progress;
-                Debug.WriteLine(progress);
+                //Progress = progress;
+                //Debug.WriteLine(progress);
             };
 
             #region commands
@@ -71,13 +71,16 @@ namespace crm.ViewModels.dialogs
                 await Task.Run(async () =>
                 {
                     int fcounter = 0;
+                    int totalFiles = Files.Length;
 
                     foreach (var file in Files)
                     {
 
-                        FilesCounter = $"Загрузка {++fcounter} файлов из {Files.Length}";
-
                         await creativesRemoteManager.Upload(CreativeServerDirectory, file);
+
+                        FilesCounter = $"Загружено {++fcounter} из {Files.Length}";
+
+                        Progress = fcounter * 100 / totalFiles;
 
                         cts.Token.ThrowIfCancellationRequested();
                     }

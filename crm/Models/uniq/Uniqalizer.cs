@@ -85,12 +85,15 @@ namespace crm.Models.uniq
             //Syscall.chmod("ffprobe", FilePermissions.S_IRUSR | FilePermissions.S_IWUSR | FilePermissions.S_IXUSR);
         }
 
-        private async Task uniqalize(string inputPath, string outputFolderPath, int n)
+        private async Task uniqalize(string inputPath, string outputFolderPath, int n, bool erase)
         {
-            DirectoryInfo directoryInfo = new DirectoryInfo(outputFolderPath);
-            foreach (var file in directoryInfo.GetFiles())
+            if (erase)
             {
-                file.Delete();
+                DirectoryInfo directoryInfo = new DirectoryInfo(outputFolderPath);
+                foreach (var file in directoryInfo.GetFiles())
+                {
+                    file.Delete();
+                }
             }
 
             cts = new CancellationTokenSource();
@@ -117,7 +120,7 @@ namespace crm.Models.uniq
                     IConversionResult conversionResult = await conversion
                         .AddStream(videoStream, audioStream)
                         .SetOutput(outputPath)
-                        .AddParameter($"-b:v {bitrate} -bufsize {bitrate}")
+                        .AddParameter($"-b:v {bitrate} -bufsize {bitrate} -preset:v ultrafast")
                         .Start(cts.Token);
 
                 } catch (Exception ex)
@@ -136,7 +139,7 @@ namespace crm.Models.uniq
             inputPath = Path.GetFullPath(inputPath);
             if (!Directory.Exists(outpurdir))
                 Directory.CreateDirectory(outpurdir);
-            await uniqalize(inputPath, outpurdir, n);
+            await uniqalize(inputPath, outpurdir, n, false);
         }
 
         public async Task Uniqalize(ICreative creative, int n, string outputdir) {
@@ -190,7 +193,7 @@ namespace crm.Models.uniq
             //    }
             //}
 
-            await uniqalize(inputPath, outputFolderPath, n);
+            await uniqalize(inputPath, outputFolderPath, n, true);
         }
 
         public void Cancel()

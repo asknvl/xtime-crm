@@ -20,9 +20,10 @@ namespace crm.Views.custom
         {
             AvaloniaXamlLoader.Load(this);
         }
+
         protected override void OnTextInput(TextInputEventArgs e)
-        {
-            Regex regex = new Regex(@"^[1-9]\d*$");
+        {           
+            Regex regex = new Regex(@"^[0-9]\d*$");
             e.Handled = !regex.IsMatch(e.Text);
             base.OnTextInput(e);
         }

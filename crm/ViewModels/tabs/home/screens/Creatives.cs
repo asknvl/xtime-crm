@@ -17,6 +17,7 @@ using System.Linq;
 using System.Net;
 using System.Reactive;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Xabe.FFmpeg;
 using geo = crm.Models.geoservice;
@@ -83,6 +84,13 @@ namespace crm.ViewModels.tabs.home.screens
             get => isServerDirectoriesVisible;
             set => this.RaiseAndSetIfChanged(ref isServerDirectoriesVisible, value);
         }
+
+        int progress;
+        public int Progress
+        {
+            get => progress;
+            set => this.RaiseAndSetIfChanged(ref progress, value);
+        }
         #endregion
 
         #region commands
@@ -126,7 +134,7 @@ namespace crm.ViewModels.tabs.home.screens
             unicalizeCmd = ReactiveCommand.Create(() =>
             {
 
-                var creatives = Content.CheckedCreatives;
+                var creatives = Content.CreativesList;
                 Debug.WriteLine(IsUniqRunning);
 
                 if (!IsUniqRunning)
@@ -134,7 +142,7 @@ namespace crm.ViewModels.tabs.home.screens
                     MassActionText = "Прервать";
                     IsUniqRunning = true;
 
-                    Task.Run(() =>
+                    Task.Run(async () =>
                     {
                         List<Task> tasks = new();
 
@@ -142,18 +150,27 @@ namespace crm.ViewModels.tabs.home.screens
                         {
                             if (creative.IsChecked)
                             {
+                                //if (Content.NeedMassUniqalization)
+                                //    tasks.Add(creative.Uniqalize(Content.Uniques));
+                                //else
+                                //    tasks.Add(creative.Uniqalize());
+
                                 if (Content.NeedMassUniqalization)
-                                    tasks.Add(creative.Uniqalize(Content.Uniques));
+                                    await creative.Uniqalize(Content.Uniques);
                                 else
-                                    tasks.Add(creative.Uniqalize());
+                                    await creative.Uniqalize();
+
                             }
                         }
 
-                        var continueTask = Task.WhenAll(tasks).ContinueWith((a) =>
-                        {
-                            IsUniqRunning = false;
-                            Content.IsAllChecked = false;
-                        });
+                        //var continueTask = Task.WhenAll(tasks).ContinueWith((a) =>
+                        //{
+                        //    IsUniqRunning = false;
+                        //    Content.IsAllChecked = false;
+                        //});
+
+                        IsUniqRunning = false;
+                        Content.IsAllChecked = false;
                     });
 
                 } else
@@ -214,15 +231,26 @@ namespace crm.ViewModels.tabs.home.screens
                 updateMassActions(number);
         }
         
-        public void OnDragDrop(List<string> files) {
-
-            string file = files[0];
+        public async void OnDragDrop(List<string> files) {
 
             IUniqalizer uniqalizer = new Uniqalizer();
-
             string output = Path.Combine(paths.CreativesOutputRootPath, "DragDrop");
+            int cntr = 0;
 
-            uniqalizer.Uniqalize(file, 1, output);
+            await Task.Run(async () => { 
+                foreach (var file in files)
+                {
+                    await uniqalizer.Uniqalize(file, 1, output);
+                    cntr++;
+                    Progress = (int)(100.0d * cntr / files.Count);                
+                }
+
+                Thread.Sleep(500);
+
+                Progress = 0;
+
+            });
+
         }
         #endregion
 

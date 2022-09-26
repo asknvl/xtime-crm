@@ -63,7 +63,17 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         public bool NeedMassUniqalization
         {
             get => needMassUniqalization;
-            set => this.RaiseAndSetIfChanged(ref needMassUniqalization, value);
+            set {
+                foreach (var creative in CreativesList)
+                {
+                    foreach (var item in CreativesList)
+                    {
+                        item.IsChecked = value;
+                        item.Uniques = (value) ? Uniques : 0;
+                    }
+                }
+                this.RaiseAndSetIfChanged(ref needMassUniqalization, value);
+            }
         }
 
         int uniques = 20;

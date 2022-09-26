@@ -95,35 +95,51 @@
 						</Svg>
 					</Button>
 				</Grid>
-			</StackPanel>			
+			</StackPanel>
 		</Grid>
 
-		<Border						
+		<Border
 			Grid.Row="2"
 			Grid.Column="1"
 			Grid.RowSpan="3"
-			BorderThickness="1.5"			
+			BorderThickness="1.5"
 			BorderBrush="#FFE5E5E5"
+			
 			BorderDashArray="3, 3"
 			Height="{DynamicResource TopButtonMassActionsWidth}"
 			Width="{DynamicResource TopButtonMassActionsWidth}"
 			VerticalAlignment="Top"
 			HorizontalAlignment="Left"
 			Margin="35, 0, 0, 0">
-			
-			<Grid		
+			<Grid
 				Name="DragAndDropGrid"
-				DragDrop.AllowDrop="True"
-				Background="#FFFAF9F9">
+				DragDrop.AllowDrop="True">
+				<ProgressBar
+					VerticalAlignment="Stretch"
+					HorizontalAlignment="Stretch"
+					Value="{Binding Progress}"
+					Foreground="LightBlue">
+					<ProgressBar.Styles>
+						<Style Selector="ProgressBar[Value=0]">
+							<Setter Property="Background" Value="#FFFAF9F9"/>
+							<Setter Property="Opacity" Value="1"/>
+						</Style>
+						<Style Selector="ProgressBar">
+							<Setter Property="Background" Value="#FFFFFFFF"/>
+							<Setter Property="Opacity" Value="0.2"/>
+						</Style>						
+					</ProgressBar.Styles>
+				</ProgressBar>
 				<StackPanel
-					Orientation="Vertical"
-					VerticalAlignment="Center">
+					VerticalAlignment="Center"
+					HorizontalAlignment="Center">
 					<Svg
+						Name="SVG"
 						Path="/Assets/svgs/screens/download.svg"
 						Height="80"
-						Width="80">					
+						Width="80">
 					</Svg>
-					<StackPanel						
+					<StackPanel
 						Orientation="Horizontal"
 						HorizontalAlignment="Center"
 						Margin="10">
@@ -144,13 +160,16 @@
 							FontSize="12"
 							Margin="2, 0, 0, 0">
 							.mp4 file
-						</TextBlock>
+						</TextBlock>						
 					</StackPanel>
-
-				</StackPanel>
+				</StackPanel>				
 			</Grid>
+			<Border.Styles>				
+				<Style Selector="Border:pointerover Svg">
+					<Setter Property="RenderTransform" Value="scale(0.8)"/>
+				</Style>
+			</Border.Styles>
 		</Border>
-		
 		<Border
 			Name="TBDirListGrid"
 			Background="#FFF2F2F2"
@@ -161,7 +180,7 @@
 			<Grid
 				Margin="50, 0, 0, 0"
 				Height="45">
-				<ToggleButton	
+				<ToggleButton
 					IsChecked="{Binding IsServerDirectoriesVisible}"
 					Name="TBDirList">
 					<StackPanel
@@ -187,7 +206,7 @@
 							<Setter Property="Background" Value="Transparent"/>
 						</Style>
 					</ToggleButton.Styles>
-				</ToggleButton>			
+				</ToggleButton>
 			</Grid>
 		</Border>
 		<Border
@@ -299,7 +318,7 @@
 																Grid.Column="0"
 																Margin="25, 0, 0, 0"
 																Text="{Binding Name}"
-																VerticalAlignment="Center"																
+																VerticalAlignment="Center"
 																HorizontalAlignment="Left"/>
 														</Button>
 														<Button
@@ -311,11 +330,11 @@
 																Предпросмотр
 															</TextBlock>
 														</Button>
-														<cust:IntTextBox
+														<cust:IntTextBox															
 															Text="{Binding Uniques}"
 															Grid.Column="2"
 															VerticalAlignment="Center"
-															HorizontalAlignment="Center"
+															HorizontalAlignment="Center"															
 															Padding="0"
 															VerticalContentAlignment="Center"
 															HorizontalContentAlignment="Center">
@@ -458,8 +477,8 @@
 		</Grid>
 
 		<Popup
-			IsOpen="{Binding  #TBDirList.IsChecked, Mode=TwoWay}"			
-			WindowManagerAddShadowHint="False"			
+			IsOpen="{Binding  #TBDirList.IsChecked, Mode=TwoWay}"
+			WindowManagerAddShadowHint="False"
 			StaysOpen="False"
 			VerticalOffset="0"
 			HorizontalOffset="-10"
@@ -474,73 +493,68 @@
 				BorderBrush="Black"
 				BoxShadow="0 0 10 1 LightGray"
 				CornerRadius="8">
-				<StackPanel					
+				<StackPanel
 					Orientation="Vertical"
 					Margin="5">
 					<!--<ScrollViewer>-->
-						<ListBox
-							MaxHeight="450"
-							Items="{Binding GeoPages}"
-							SelectedItem="{Binding Content}"							
-							Background="#FFFFFFFF">
-							<ListBox.DataTemplates>
-								<DataTemplate>
-									<Border
-										BorderBrush="#FFE5E5E5"
-										BorderThickness="0, 0, 0, 0.5"
-										Height="45">
-										<TextBlock																			
-											Background="#FFFFFFFF"
-											HorizontalAlignment="Center"
-											VerticalAlignment="Center"
-											TextAlignment="Center"
-											Text="{Binding Title}"/>
-									</Border>
-								</DataTemplate>
-							</ListBox.DataTemplates>
-							<ListBox.Styles>
-								<Style Selector="ListBox ListBoxItem">
-									<Setter Property="Padding" Value="0"/>
-									<Setter Property="Margin" Value="0"/>
-									<Setter Property="Background" Value="#FFFFFFFF"/>
-								</Style>
-								<Style Selector="ListBox ListBoxItem TextBlock">
-									<Setter Property="Foreground" Value="#FF464646" />
-								</Style>
-								<Style Selector="ListBox ListBoxItem:pointerover TextBlock">
-									<!--<Setter Property="Foreground" Value="#FF0BB3E8"/>-->
-									<Setter Property="Background" Value="#FFFFFFFF"/>
-								</Style>
-								<Style Selector="ListBox ListBoxItem:selected TextBlock">
-									<Setter Property="Foreground" Value="#FF0BB3E8"/>									
-								</Style>
-								<Style Selector="ListBox ListBoxItem:selected /template/ ContentPresenter">
-									<Setter Property="Background" Value="#FFFFFFFF"/>									
-								</Style>
-								<Style Selector="ListBox ListBoxItem:pointerover /template/ ContentPresenter">
-									<Setter Property="Background" Value="#FFFFFFFF"/>
-								</Style>
-
-
-								<Style Selector="ListBox:pointerover ScrollViewer">
-									<Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
-									<Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
-								</Style>
-								<Style Selector="ListBox:not(:pointerover) ScrollViewer">
-									<Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
-									<Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
-								</Style>
-
-
-							</ListBox.Styles>
-							
-						</ListBox>						
+					<ListBox
+						MaxHeight="450"
+						Items="{Binding GeoPages}"
+						SelectedItem="{Binding Content}"
+						Background="#FFFFFFFF">
+						<ListBox.DataTemplates>
+							<DataTemplate>
+								<Border
+									BorderBrush="#FFE5E5E5"
+									BorderThickness="0, 0, 0, 0.5"
+									Height="45">
+									<TextBlock
+										Background="#FFFFFFFF"
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center"
+										TextAlignment="Center"
+										Text="{Binding Title}"/>
+								</Border>
+							</DataTemplate>
+						</ListBox.DataTemplates>
+						<ListBox.Styles>
+							<Style Selector="ListBox ListBoxItem">
+								<Setter Property="Padding" Value="0"/>
+								<Setter Property="Margin" Value="0"/>
+								<Setter Property="Background" Value="#FFFFFFFF"/>
+							</Style>
+							<Style Selector="ListBox ListBoxItem TextBlock">
+								<Setter Property="Foreground" Value="#FF464646" />
+							</Style>
+							<Style Selector="ListBox ListBoxItem:pointerover TextBlock">
+								<!--<Setter Property="Foreground" Value="#FF0BB3E8"/>-->
+								<Setter Property="Background" Value="#FFFFFFFF"/>
+							</Style>
+							<Style Selector="ListBox ListBoxItem:selected TextBlock">
+								<Setter Property="Foreground" Value="#FF0BB3E8"/>
+							</Style>
+							<Style Selector="ListBox ListBoxItem:selected /template/ ContentPresenter">
+								<Setter Property="Background" Value="#FFFFFFFF"/>
+							</Style>
+							<Style Selector="ListBox ListBoxItem:pointerover /template/ ContentPresenter">
+								<Setter Property="Background" Value="#FFFFFFFF"/>
+							</Style>
+							<Style Selector="ListBox:pointerover ScrollViewer">
+								<Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+								<Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
+							</Style>
+							<Style Selector="ListBox:not(:pointerover) ScrollViewer">
+								<Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
+								<Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
+							</Style>
+						</ListBox.Styles>
+					</ListBox>
 					<!--</ScrollViewer>-->
 					<StackPanel.Styles>
-						
+
 					</StackPanel.Styles>
-				</StackPanel>				
-			</Border>			
+				</StackPanel>
+			</Border>
 		</Popup>
 
 	</Grid>

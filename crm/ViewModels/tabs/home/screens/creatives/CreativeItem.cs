@@ -43,7 +43,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             }
         }
 
-        int uniques = 20;
+        int uniques = 0;
         public int Uniques
         {
             get => uniques;
@@ -161,9 +161,10 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             #endregion
         }
 
-        private void Uniqalizer_UniqalizeProgessUpdateEvent(int progress)
+        private async void Uniqalizer_UniqalizeProgessUpdateEvent(int progress)
         {
-            Progress = (progress < 100) ? progress : 0;
+            //Progress = (progress < 100) ? progress : 0;
+            Progress = progress;            
         }
 
         private void RemoteManager_DownloadCompleted()
