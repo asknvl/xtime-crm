@@ -98,7 +98,7 @@ namespace crm.Models.creatives
                 TotalBytes = new System.IO.FileInfo(fullname).Length;
                 string url = $"{paths.CreativesRootURL}{filepath}.{extension}";
                 await client.UploadFileTaskAsync(new Uri(url), "PUT", fullname);
-                await serverApi.SetCreativeStatus(token, creative_id, true, false);
+                await serverApi.SetCreativeStatus(token, creative_id, true, true);
 
             }
         }

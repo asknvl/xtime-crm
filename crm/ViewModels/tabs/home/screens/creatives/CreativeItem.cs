@@ -143,19 +143,22 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                 previewer.Preview(this);
             });
 
-            setVisibilityCmd = ReactiveCommand.CreateFromTask(async () =>
+            setVisibilityCmd = ReactiveCommand.Create(() =>
             {
 
-                try
+                Task.Run(async () =>
                 {
-                    //await serverApi.SetVisibility(token, Id, IsVisible);
-                    await serverApi.SetCreativeStatus(token, Id, IsUploaded, IsVisible);
+                    try
+                    {
+                        //await serverApi.SetVisibility(token, Id, IsVisible);
+                        await serverApi.SetCreativeStatus(token, Id, IsUploaded, IsVisible);
 
-                } catch (Exception ex)
-                {
-                    IsVisible = !IsVisible;
-                    ws.ShowDialog(new errMsgVM(ex.Message));
-                }
+                    } catch (Exception ex)
+                    {
+                        IsVisible = !IsVisible;
+                        ws.ShowDialog(new errMsgVM(ex.Message));
+                    }
+                });
 
             });
             #endregion

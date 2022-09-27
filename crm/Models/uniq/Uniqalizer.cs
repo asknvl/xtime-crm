@@ -45,7 +45,12 @@ namespace crm.Models.uniq
         #region public
         public static async Task Init(string codecdir, Action<int> progress)
         {
+
+            var bins = Directory.GetFiles(codecdir);
             FFmpeg.SetExecutablesPath(codecdir);
+
+            if (bins != null && bins.Length > 0)
+                return;            
 
             var prgrsconv = new Progress<ProgressInfo>((p) =>
             {

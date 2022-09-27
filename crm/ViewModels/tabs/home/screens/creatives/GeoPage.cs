@@ -76,11 +76,21 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             }
         }
 
-        int uniques = 20;
+        int uniques = 0;
         public int Uniques
         {
             get => uniques;
-            set => this.RaiseAndSetIfChanged(ref uniques, value);
+            set { 
+                this.RaiseAndSetIfChanged(ref uniques, value);
+                if (NeedMassUniqalization)
+                {
+                    foreach (var creative in CreativesList)
+                    {
+                        if (creative.IsChecked)
+                            creative.Uniques = Uniques;
+                    }
+                }
+            }
         }
         #endregion
 

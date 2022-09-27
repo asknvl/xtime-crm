@@ -20,7 +20,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         #endregion
 
         #region pagination
-        const int displayed_lines_num = 10;
+        const int displayed_lines_num = 20;
 
         int page = 1;
         public int SelectedPage
