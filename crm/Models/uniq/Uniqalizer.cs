@@ -130,7 +130,7 @@ namespace crm.Models.uniq
                         .AddStream(videoStream, audioStream)
                         .SetOutput(outputPath)
                         //.AddParameter($"-b:v {bitrate} -bufsize {bitrate} -preset:v faster")
-                        .AddParameter($"-b:v {bitrate} -bufsize {bitrate}")
+                        .AddParameter($"-b:v {bitrate} -bufsize {bitrate} -preset:v veryfast")
                         .Start(cts.Token);
 
                 } catch (Exception ex)

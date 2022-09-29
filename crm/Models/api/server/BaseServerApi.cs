@@ -544,7 +544,7 @@ namespace crm.Models.api.server
             });
         }
 
-        public virtual async Task<(List<CreativeDTO>, int, int)> GetAvaliableCreatives(string token, int page, int size, CreativeServerDirectory dir, int filetype)
+        public virtual async Task<(List<CreativeDTO>, int, int)> GetAvaliableCreatives(string token, int page, int size, CreativeServerDirectory dir, int filetype, bool? showinvisible)
         {
             List<CreativeDTO> creatives = new();
             int total_pages = 0;
@@ -558,6 +558,8 @@ namespace crm.Models.api.server
             request.AddQueryParameter("creo_directory_id", dir.id.ToString());
             request.AddQueryParameter("file_type_id", filetype.ToString());
             request.AddQueryParameter("sort_by", "-id");
+            if (showinvisible != null)
+                request.AddQueryParameter("visibility", $"{showinvisible}");
             var response = client.Execute(request);
             var json = JObject.Parse(response.Content);
             var res = json["success"].ToObject<bool>();

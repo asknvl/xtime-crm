@@ -22,6 +22,7 @@ namespace crm.Models.api.socket
         public event Action<List<usersOnlineDTO>> ReceivedConnectedUsersEvent;
         public event Action<usersDatesDTO> ReceivedUsersDatesEvent;        
         public event Action<userChangedDTO> ReceivedUserInfoChangedEvent;
+        public event Action<creativeChangedDTO> ReceivedCreativeChangedEvent;
         #endregion
 
         public BaseSocketApi(string url)
@@ -72,7 +73,12 @@ namespace crm.Models.api.socket
                 userChangedDTO changed = response.GetValue<userChangedDTO>(1);
                 ReceivedUserInfoChangedEvent?.Invoke(changed);
             });
-            
+
+            client.On("creatives-changed", (response) => {
+                creativeChangedDTO changed = response.GetValue<creativeChangedDTO>(1);
+                ReceivedCreativeChangedEvent?.Invoke(changed);
+            });
+
             await client.ConnectAsync();
             
             timer.Start();
@@ -92,7 +98,6 @@ namespace crm.Models.api.socket
                 } catch { };
 
             }
-
         }
 
         public async Task Disconnect()

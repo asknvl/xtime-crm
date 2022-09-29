@@ -14,7 +14,8 @@ namespace crm.Models.api.socket
 
         public event Action<List<usersOnlineDTO>> ReceivedConnectedUsersEvent;
         public event Action<usersDatesDTO> ReceivedUsersDatesEvent;
-        public event Action<userChangedDTO> ReceivedUserInfoChangedEvent; 
+        public event Action<userChangedDTO> ReceivedUserInfoChangedEvent;
+        public event Action<creativeChangedDTO> ReceivedCreativeChangedEvent;
     }
 
     public class SocketApiException : Exception

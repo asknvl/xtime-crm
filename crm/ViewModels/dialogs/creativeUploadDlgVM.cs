@@ -21,7 +21,8 @@ namespace crm.ViewModels.dialogs
         #region vars        
         ICreativesRemoteManager creativesRemoteManager;
         CancellationTokenSource cts;
-        IPaths paths = Paths.getInstance();        
+        IPaths paths = Paths.getInstance();
+        int filesNumber = 1;
         #endregion
 
         #region properties
@@ -49,17 +50,23 @@ namespace crm.ViewModels.dialogs
         public creativeUploadDlgVM()
         {
             creativesRemoteManager = new CreativesRemoteManager();
-            creativesRemoteManager.UploadProgressUpdateEvent += (progress) =>
-            {
-                //Progress = progress;
-                //Debug.WriteLine(progress);
-            };
+            //creativesRemoteManager.UploadProgressUpdateEvent += (progress) =>
+            //{
+            //    Progress = progress;                
+            //};
 
             #region commands
             cancelCmd = ReactiveCommand.Create(() => {
                 cts?.Cancel();
             });
             #endregion
+        }
+
+        private void CreativesRemoteManager_UploadProgressUpdateEvent(int progress)
+        {
+            Progress = progress;
+            Thread.Sleep(10);
+            //Debug.WriteLine(progress);
         }
 
         public async Task RunFilesUploadAsync()
@@ -71,7 +78,13 @@ namespace crm.ViewModels.dialogs
                 await Task.Run(async () =>
                 {
                     int fcounter = 0;
-                    int totalFiles = Files.Length;
+                    int totalFiles = Files.Length;                    
+
+                    if (totalFiles == 1)
+                    {
+                        creativesRemoteManager.UploadProgressUpdateEvent -= CreativesRemoteManager_UploadProgressUpdateEvent;
+                        creativesRemoteManager.UploadProgressUpdateEvent += CreativesRemoteManager_UploadProgressUpdateEvent;
+                    }
 
                     foreach (var file in Files)
                     {
@@ -80,7 +93,8 @@ namespace crm.ViewModels.dialogs
 
                         FilesCounter = $"Загружено {++fcounter} из {Files.Length}";
 
-                        Progress = fcounter * 100 / totalFiles;
+                        if (totalFiles > 1)
+                            Progress = fcounter * 100 / totalFiles;
 
                         cts.Token.ThrowIfCancellationRequested();
                     }
