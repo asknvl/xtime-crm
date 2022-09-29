@@ -252,6 +252,12 @@ namespace crm.ViewModels.tabs.home.screens
 
             await Task.Run(async () =>
             {
+                DirectoryInfo directoryInfo = new DirectoryInfo(output);
+                foreach (var file in directoryInfo.GetFiles())
+                {
+                    file.Delete();
+                }
+
                 foreach (var file in files)
                 {
                     await uniqalizer.Uniqalize(file, 1, output);

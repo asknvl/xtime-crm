@@ -165,49 +165,6 @@ namespace crm.Models.uniq
             if (!Directory.Exists(outputFolderPath))
                 Directory.CreateDirectory(outputFolderPath);
 
-            //DirectoryInfo directoryInfo = new DirectoryInfo(outputFolderPath);
-            //foreach (var file in directoryInfo.GetFiles())
-            //{
-            //    file.Delete();
-            //}
-
-            //cts = new CancellationTokenSource();
-
-            //for (int i = 0; i < n; i++)
-            //{
-            //    var outputPath = Path.Combine(outputFolderPath, $"NEW_UNIQ_{i + 1}.mp4");
-
-            //    IMediaInfo info = await FFmpeg.GetMediaInfo(inputPath);
-            //    IVideoStream videoStream = info.VideoStreams.First();
-            //    IStream audioStream = info.AudioStreams.FirstOrDefault()?.SetChannels(2);
-
-            //    long origBitRate = videoStream.Bitrate;
-            //    long bitrate = getBitRate(origBitRate);
-
-            //    try
-            //    {
-
-            //        var conversion = FFmpeg.Conversions.New();
-            //        conversion.OnProgress += (s, a) => {
-            //            UniqalizeProgessUpdateEvent?.Invoke(a.Percent);
-            //        };
-
-            //        IConversionResult conversionResult = await conversion
-            //            .AddStream(videoStream, audioStream)
-            //            .SetOutput(outputPath)                        
-            //            .AddParameter($"-b:v {bitrate} -bufsize {bitrate}")
-            //            .Start(cts.Token);
-
-            //    } catch (Exception ex) {
-
-            //        deleteFiles(outputFolderPath);                
-
-            //    } finally
-            //    {
-            //        UniqalizeProgessUpdateEvent.Invoke(0);
-            //    }
-            //}
-
             await uniqalize(inputPath, outputFolderPath, n, true);
         }
 
