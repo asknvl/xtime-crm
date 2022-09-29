@@ -150,15 +150,19 @@ namespace crm.ViewModels.tabs.home.screens
                         {
                             if (creative.IsChecked)
                             {
-                                //if (Content.NeedMassUniqalization)
-                                //    tasks.Add(creative.Uniqalize(Content.Uniques));
-                                //else
-                                //    tasks.Add(creative.Uniqalize());
+                                try
+                                {
 
-                                if (Content.NeedMassUniqalization)
-                                    await creative.Uniqalize(Content.Uniques);
-                                else
-                                    await creative.Uniqalize();
+                                    if (Content.NeedMassUniqalization)
+                                        await creative.Uniqalize(Content.Uniques);
+                                    else
+                                        await creative.Uniqalize();
+
+                                } catch (Exception ex)
+                                {
+                                    //creative.Uniques = 0;
+                                    break;
+                                }
 
                             }
                         }
@@ -167,8 +171,7 @@ namespace crm.ViewModels.tabs.home.screens
                         //{
                         //    IsUniqRunning = false;
                         //    Content.IsAllChecked = false;
-                        //});
-
+                        //});                        
                         IsUniqRunning = false;
                         Content.IsAllChecked = false;
                     });
@@ -176,7 +179,8 @@ namespace crm.ViewModels.tabs.home.screens
                 } else
                 {
                     foreach (var creative in creatives)
-                        creative.StopUniqalization();
+                        if (creative.IsChecked)
+                            creative.StopUniqalization();
                 }
 
 
@@ -230,19 +234,21 @@ namespace crm.ViewModels.tabs.home.screens
             if (!IsUniqRunning)
                 updateMassActions(number);
         }
-        
-        public async void OnDragDrop(List<string> files) {
+
+        public async void OnDragDrop(List<string> files)
+        {
 
             IUniqalizer uniqalizer = new Uniqalizer();
             string output = Path.Combine(paths.CreativesOutputRootPath, "DragDrop");
             int cntr = 0;
 
-            await Task.Run(async () => { 
+            await Task.Run(async () =>
+            {
                 foreach (var file in files)
                 {
                     await uniqalizer.Uniqalize(file, 1, output);
                     cntr++;
-                    Progress = (int)(100.0d * cntr / files.Count);                
+                    Progress = (int)(100.0d * cntr / files.Count);
                 }
 
                 Thread.Sleep(500);

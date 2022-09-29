@@ -118,6 +118,10 @@ namespace crm.Models.uniq
                 try
                 {
                     var conversion = FFmpeg.Conversions.New();
+
+                    var accelerator = new HardwareAccelerator();
+                    conversion.UseHardwareAcceleration(accelerator, VideoCodec.h264, VideoCodec.h264);
+
                     conversion.OnProgress += (s, a) => {
                         UniqalizeProgessUpdateEvent?.Invoke(a.Percent);
                     };
@@ -125,13 +129,14 @@ namespace crm.Models.uniq
                     IConversionResult conversionResult = await conversion
                         .AddStream(videoStream, audioStream)
                         .SetOutput(outputPath)
-                        .AddParameter($"-b:v {bitrate} -bufsize {bitrate} -preset:v ultrafast")
+                        //.AddParameter($"-b:v {bitrate} -bufsize {bitrate} -preset:v faster")
+                        .AddParameter($"-b:v {bitrate} -bufsize {bitrate}")
                         .Start(cts.Token);
 
                 } catch (Exception ex)
                 {
-
                     deleteFiles(outputFolderPath);
+                    throw new Exception(ex.Message);
 
                 } finally
                 {
