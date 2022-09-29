@@ -75,7 +75,7 @@ namespace crm.ViewModels.dialogs
 
             try
             {
-                AppContext.SocketApi.NeedNotifyCreativeAction = false;
+                //AppContext.SocketApi.NeedNotifyCreativeAction = false;
 
                 await Task.Run(async () =>
                 {
@@ -110,7 +110,7 @@ namespace crm.ViewModels.dialogs
                 
             } finally
             {
-                AppContext.SocketApi.NeedNotifyCreativeAction = true;
+                //AppContext.SocketApi.NeedNotifyCreativeAction = true;
                 OnCloseRequest();
             }
         }
