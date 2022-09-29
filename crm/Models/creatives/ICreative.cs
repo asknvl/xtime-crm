@@ -26,7 +26,8 @@ namespace crm.Models.creatives
         public Task Uniqalize();
         public Task Uniqalize(int uniques);
         public void StopUniqalization();
-        public void Synchronize();               
-        
+        public void Synchronize();
+        public Task SynchronizeAsync();
+
     }
 }

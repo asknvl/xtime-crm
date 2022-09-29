@@ -188,6 +188,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         {
             if (isSynchronizing)
                 return;
+
             Task.Run(async () =>
             {
                 isSynchronizing = true;
@@ -199,6 +200,21 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                     await remoteManager.Download(this);
                 }
                 isSynchronizing = false;
+            });
+        }
+
+        public async Task SynchronizeAsync()
+        {            
+
+            await Task.Run(async () =>
+            {                
+                if (localManager.CheckCreativeDownloaded(this))
+                {
+                    IsSynchronized = true;
+                } else
+                {
+                    await remoteManager.Download(this);
+                }             
             });
         }
 

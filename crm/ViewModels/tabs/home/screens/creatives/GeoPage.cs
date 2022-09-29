@@ -149,10 +149,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         #region helpers
         async Task updatePageInfo(int page, int pagesize, string sortkey)
         {
-
-            IsPrevActive = false;
-            IsNextActive = false;
-
+           
             await Task.Run(async () =>
             {
 
@@ -183,6 +180,10 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                 //if (!creativeListDictionary.ContainsKey(SelectedPage))
                 //    creativeListDictionary.Add(SelectedPage, new List<CreativeItem>());
 
+                IsPrevActive = false;
+                IsNextActive = false;
+
+
                 foreach (var cdt in crdtos)
                 {
                     var found = CreativesList.FirstOrDefault(o => o.Id == cdt.id);
@@ -212,10 +213,15 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
                             });
 
-                            creative.Synchronize();
+                            //await Task.Run(() => { creative.Synchronize(); });
+
+                            await creative.SynchronizeAsync();
                         }
                     }
                 }
+
+                IsPrevActive = true;
+                IsNextActive = true;
 
                 //foreach (var creative in creativeListDictionary[SelectedPage])
                 //{
@@ -229,8 +235,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
             });
 
-            IsPrevActive = true;
-            IsNextActive = true;
+          
         }
         #endregion
 
