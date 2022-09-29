@@ -119,12 +119,12 @@ namespace crm.Models.uniq
                 {
                     var conversion = FFmpeg.Conversions.New();
 
-                    var accelerator = new HardwareAccelerator();
-                    conversion.UseHardwareAcceleration(accelerator, VideoCodec.h264, VideoCodec.h264);
+                    //var accelerator = new HardwareAccelerator();
+                    //conversion.UseHardwareAcceleration(accelerator, VideoCodec.h264, VideoCodec.h264);
 
-                    conversion.OnProgress += (s, a) => {
-                        UniqalizeProgessUpdateEvent?.Invoke(a.Percent);
-                    };
+                    //conversion.OnProgress += (s, a) => {
+                    //    UniqalizeProgessUpdateEvent?.Invoke(a.Percent);
+                    //};
 
                     IConversionResult conversionResult = await conversion
                         .AddStream(videoStream, audioStream)
@@ -133,16 +133,21 @@ namespace crm.Models.uniq
                         .AddParameter($"-b:v {bitrate} -bufsize {bitrate} -preset:v veryfast")
                         .Start(cts.Token);
 
+                    UniqalizeProgessUpdateEvent?.Invoke((i + 1) * 100 / n);
+
                 } catch (Exception ex)
-                {
+                {                    
                     deleteFiles(outputFolderPath);
-                    throw new Exception(ex.Message);
+                    UniqalizeProgessUpdateEvent?.Invoke(0);
+                    throw new Exception(ex.Message);                    
 
                 } finally
                 {
-                    UniqalizeProgessUpdateEvent?.Invoke(0);
+                    //UniqalizeProgessUpdateEvent?.Invoke(0);
                 }
             }
+
+            UniqalizeProgessUpdateEvent?.Invoke(0);
         }
 
         public async Task Uniqalize(string inputPath, int n, string outpurdir) {

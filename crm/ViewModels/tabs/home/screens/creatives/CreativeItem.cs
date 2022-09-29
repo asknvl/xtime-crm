@@ -7,6 +7,7 @@ using crm.WS;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reactive;
@@ -164,10 +165,11 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             #endregion
         }
 
-        private async void Uniqalizer_UniqalizeProgessUpdateEvent(int progress)
+        private void Uniqalizer_UniqalizeProgessUpdateEvent(int progress)
         {
             //Progress = (progress < 100) ? progress : 0;
-            Progress = progress;            
+            Progress = progress;
+            Debug.WriteLine(Progress);
         }
 
         private void RemoteManager_DownloadCompleted()
