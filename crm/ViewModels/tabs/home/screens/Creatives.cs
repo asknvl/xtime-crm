@@ -139,6 +139,9 @@ namespace crm.ViewModels.tabs.home.screens
 
                 if (!IsUniqRunning)
                 {
+                    Content.IsNextActive = false;
+                    Content.IsPrevActive = false;
+
                     MassActionText = "Прервать";
                     IsUniqRunning = true;
 
@@ -174,6 +177,9 @@ namespace crm.ViewModels.tabs.home.screens
                         //});                        
                         IsUniqRunning = false;
                         Content.IsAllChecked = false;
+
+                        Content.IsNextActive = true;
+                        Content.IsPrevActive = true;
                     });
 
                 } else
@@ -182,6 +188,8 @@ namespace crm.ViewModels.tabs.home.screens
                         if (creative.IsChecked)
                             creative.StopUniqalization();
                 }
+
+             
 
 
             });

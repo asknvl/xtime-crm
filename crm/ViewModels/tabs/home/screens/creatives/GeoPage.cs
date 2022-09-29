@@ -149,6 +149,10 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         #region helpers
         async Task updatePageInfo(int page, int pagesize, string sortkey)
         {
+
+            IsPrevActive = false;
+            IsNextActive = false;
+
             await Task.Run(async () =>
             {
 
@@ -169,26 +173,26 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
                 PageInfo = getPageInfo(SelectedPage, crdtos.Count, total_creatives);
 
-                int total_in_dictionary = 0;
-                foreach (var item in creativeListDictionary)
-                    total_in_dictionary += item.Value.Count;
+                //int total_in_dictionary = 0;
+                //foreach (var item in creativeListDictionary)
+                //    total_in_dictionary += item.Value.Count;
 
-                if (total_in_dictionary < total_creatives)
-                    creativeListDictionary.Clear();
+                //if (total_in_dictionary < total_creatives)
+                //    creativeListDictionary.Clear();
 
-                if (!creativeListDictionary.ContainsKey(SelectedPage))
-                    creativeListDictionary.Add(SelectedPage, new List<CreativeItem>());
+                //if (!creativeListDictionary.ContainsKey(SelectedPage))
+                //    creativeListDictionary.Add(SelectedPage, new List<CreativeItem>());
 
                 foreach (var cdt in crdtos)
                 {
-                    //var found = CreativesList.FirstOrDefault(o => o.Id == cdt.id);
+                    var found = CreativesList.FirstOrDefault(o => o.Id == cdt.id);
 
-                    CreativeItem found = null;
-                    if (creativeListDictionary.ContainsKey(SelectedPage))
-                    {
-                        var list = creativeListDictionary[SelectedPage];
-                        found = list.FirstOrDefault(o => o.Id == cdt.id);
-                    }
+                    //CreativeItem found = null;
+                    //if (creativeListDictionary.ContainsKey(SelectedPage))
+                    //{
+                    //    var list = creativeListDictionary[SelectedPage];
+                    //    found = list.FirstOrDefault(o => o.Id == cdt.id);
+                    //}
 
                     if (found == null)
                     {
@@ -203,8 +207,8 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                                 creative.CheckedEvent -= Creative_CheckedEvent;
                                 creative.CheckedEvent += Creative_CheckedEvent;
                                 creative.IsChecked = CheckedCreatives.Any(u => u.Id.Equals(creative.Id)) || IsAllChecked;
-                                //CreativesList.Add(creative);
-                                creativeListDictionary[SelectedPage].Add(creative);
+                                CreativesList.Add(creative);
+                                //creativeListDictionary[SelectedPage].Add(creative);
 
                             });
 
@@ -213,17 +217,20 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                     }
                 }
 
-                foreach (var creative in creativeListDictionary[SelectedPage])
-                {
-                    await Dispatcher.UIThread.InvokeAsync(() =>
-                    {
-                        CreativesList.Add(creative);
-                    });
-                }
+                //foreach (var creative in creativeListDictionary[SelectedPage])
+                //{
+                //    await Dispatcher.UIThread.InvokeAsync(() =>
+                //    {
+                //        CreativesList.Add(creative);
+                //    });
+                //}
 #else
 #endif
 
             });
+
+            IsPrevActive = true;
+            IsNextActive = true;
         }
         #endregion
 

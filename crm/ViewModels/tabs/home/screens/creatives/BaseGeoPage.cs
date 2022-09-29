@@ -64,7 +64,12 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         public bool IsPrevActive
         {
             get => isPrevActive;
-            set => this.RaiseAndSetIfChanged(ref isPrevActive, value);
+            set {
+                if (value && SelectedPage == 1)
+                    return;
+
+                this.RaiseAndSetIfChanged(ref isPrevActive, value);
+            }
         }
 
         string pageInfo;

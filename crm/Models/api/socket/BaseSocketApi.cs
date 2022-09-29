@@ -25,12 +25,18 @@ namespace crm.Models.api.socket
         public event Action<creativeChangedDTO> ReceivedCreativeChangedEvent;
         #endregion
 
+        #region properties
+        public bool NeedNotifyCreativeAction { get; set; }
+        #endregion
+
         public BaseSocketApi(string url)
         {
             uri = new Uri(url);
             timer.AutoReset = true;
             timer.Interval = 10000;
             timer.Elapsed += Timer_Elapsed;
+
+            NeedNotifyCreativeAction = true;
         }
 
         #region public
@@ -76,7 +82,8 @@ namespace crm.Models.api.socket
 
             client.On("creatives-changed", (response) => {
                 creativeChangedDTO changed = response.GetValue<creativeChangedDTO>(1);
-                ReceivedCreativeChangedEvent?.Invoke(changed);
+                if (NeedNotifyCreativeAction)
+                    ReceivedCreativeChangedEvent?.Invoke(changed);
             });
 
             await client.ConnectAsync();
