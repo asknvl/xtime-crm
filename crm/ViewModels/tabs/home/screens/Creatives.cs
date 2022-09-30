@@ -248,6 +248,9 @@ namespace crm.ViewModels.tabs.home.screens
 
             IUniqalizer uniqalizer = new Uniqalizer();
             string output = Path.Combine(paths.CreativesOutputRootPath, "DragDrop");
+            if (!Directory.Exists(output))
+                Directory.CreateDirectory(output);
+
             int cntr = 0;
 
             await Task.Run(async () =>
