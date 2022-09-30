@@ -57,7 +57,12 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         public bool IsNextActive
         {
             get => isNextActive;
-            set => this.RaiseAndSetIfChanged(ref isNextActive, value);
+            set
+            {
+                if (value && SelectedPage == TotalPages)
+                    return;
+                this.RaiseAndSetIfChanged(ref isNextActive, value);
+            }
         }
 
         bool isPrevActive = true;
@@ -67,7 +72,6 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             set {
                 if (value && SelectedPage == 1)
                     return;
-
                 this.RaiseAndSetIfChanged(ref isPrevActive, value);
             }
         }
