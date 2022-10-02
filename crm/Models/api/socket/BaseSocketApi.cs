@@ -82,7 +82,7 @@ namespace crm.Models.api.socket
 
             client.On("creatives-changed", (response) => {
                 creativeChangedDTO changed = response.GetValue<creativeChangedDTO>(1);
-                if (NeedNotifyCreativeAction)
+                //if (NeedNotifyCreativeAction)
                     ReceivedCreativeChangedEvent?.Invoke(changed);
             });
 

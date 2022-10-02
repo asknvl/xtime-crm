@@ -1,5 +1,6 @@
 ﻿using Avalonia.Threading;
 using crm.Models.api.server;
+using crm.Models.api.socket;
 using crm.Models.creatives;
 using crm.ViewModels.dialogs;
 using crm.WS;
@@ -12,6 +13,7 @@ using System.Linq;
 using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using geo = crm.Models.geoservice;
 
 namespace crm.ViewModels.tabs.home.screens.creatives
@@ -26,7 +28,8 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         IServerApi server;
         Dictionary<int, List<CreativeItem>> creativeListDictionary = new();
 
-        DispatcherTimer 
+        List<creativeChangedDTO> changeList = new();
+        Timer updateTimer;
         #endregion
 
         #region properties
@@ -103,6 +106,13 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
         public GeoPage(CreativeServerDirectory dir) : base()
         {
+
+            updateTimer = new Timer();
+            updateTimer.Elapsed += UpdateTimer_Elapsed;
+            updateTimer.Interval = 30000;
+            updateTimer.AutoReset = true;
+            updateTimer.Start();
+
             CreativeServerDirectory = dir;
             Title = dir.dir;
 
@@ -143,11 +153,23 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
         }
 
+        private async void UpdateTimer_Elapsed(object? sender, ElapsedEventArgs e)
+        {
+            if (changeList.Count > 0)
+            {
+                var chdto = changeList[0];
+                await updatePageInfo(SelectedPage, PageSize, SortKey);
+                changeList.RemoveAt(0);
+            }
+        }
+
         private async void SocketApi_ReceivedCreativeChangedEvent(Models.api.socket.creativeChangedDTO chdto)
         {
             //TODO фильтр по айди директории
 
-            await updatePageInfo(SelectedPage, PageSize, SortKey);
+            //await updatePageInfo(SelectedPage, PageSize, SortKey);
+            changeList.Add(chdto);
+
         }
 
         #region helpers

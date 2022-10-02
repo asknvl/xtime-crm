@@ -75,8 +75,7 @@ namespace crm.ViewModels.dialogs
 
             try
             {
-                AppContext.SocketApi.NeedNotifyCreativeAction = false;
-
+                
                 await Task.Run(async () =>
                 {
                     int fcounter = 0;
@@ -90,10 +89,7 @@ namespace crm.ViewModels.dialogs
 
                     foreach (var file in Files)
                     {
-
-                        if (totalFiles - fcounter == 1)
-                            AppContext.SocketApi.NeedNotifyCreativeAction = true;    
-                            
+    
                         await creativesRemoteManager.Upload(CreativeServerDirectory, file);
 
                         FilesCounter = $"Загружено {++fcounter} из {Files.Length}";
