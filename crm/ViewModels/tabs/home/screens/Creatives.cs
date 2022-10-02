@@ -123,7 +123,10 @@ namespace crm.ViewModels.tabs.home.screens
 
                     try
                     {
+                        Content.ToogleUpdate(false);
                         await dlg.RunFilesUploadAsync();
+                        Content.ToogleUpdate(true);
+
                     } catch (Exception ex)
                     {
                         ws.ShowDialog(new errMsgVM(ex.Message));

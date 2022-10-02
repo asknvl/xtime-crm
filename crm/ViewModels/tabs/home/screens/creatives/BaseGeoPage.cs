@@ -94,7 +94,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         {            
         }
 
-        #region public
+        #region public        
         public virtual void OnActivate() { }
         #endregion
     }

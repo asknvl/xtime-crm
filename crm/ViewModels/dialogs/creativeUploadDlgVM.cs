@@ -107,7 +107,10 @@ namespace crm.ViewModels.dialogs
             } finally
             {                
                 OnCloseRequest();
+                UploadFinishedEvent?.Invoke();
             }
         }
+
+        public event Action UploadFinishedEvent;
     }
 }

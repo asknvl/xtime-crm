@@ -85,7 +85,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         public int Uniques
         {
             get => uniques;
-            set { 
+            set {
                 this.RaiseAndSetIfChanged(ref uniques, value);
                 if (NeedMassUniqalization)
                 {
@@ -109,7 +109,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
             updateTimer = new Timer();
             updateTimer.Elapsed += UpdateTimer_Elapsed;
-            updateTimer.Interval = 30000;
+            updateTimer.Interval = 5000;
             updateTimer.AutoReset = true;
             updateTimer.Start();
 
@@ -155,12 +155,15 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
         private async void UpdateTimer_Elapsed(object? sender, ElapsedEventArgs e)
         {
+            ToogleUpdate(false);
+            Debug.WriteLine($"{creativeServerDirectory.dir} TIMER");
             if (changeList.Count > 0)
             {
-                var chdto = changeList[0];
-                await updatePageInfo(SelectedPage, PageSize, SortKey);
-                changeList.RemoveAt(0);
+                Debug.WriteLine($"{creativeServerDirectory.dir} IS NOTIFY");
+                changeList.Clear();
+                await updatePageInfo(SelectedPage, PageSize, SortKey);                
             }
+            ToogleUpdate(true);
         }
 
         private async void SocketApi_ReceivedCreativeChangedEvent(Models.api.socket.creativeChangedDTO chdto)
@@ -168,14 +171,24 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             //TODO фильтр по айди директории
 
             //await updatePageInfo(SelectedPage, PageSize, SortKey);
-            changeList.Add(chdto);
+
+            if (chdto.filepath.Contains(CreativeServerDirectory.dir))
+            {
+                Debug.WriteLine($"{creativeServerDirectory.dir} SOCKET");
+
+                if (changeList.Count == 0)
+                {
+                    changeList.Add(chdto);
+                    Debug.WriteLine($"{creativeServerDirectory.dir} ADD");
+                }
+            }
 
         }
 
         #region helpers
         async Task updatePageInfo(int page, int pagesize, string sortkey)
         {
-           
+
             await Task.Run(async () =>
             {
 
@@ -240,8 +253,8 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                             });
 
                             //await Task.Run(() => { creative.Synchronize(); });
-
                             await creative.SynchronizeAsync();
+
                         } else
                         {
 
@@ -266,11 +279,15 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
             });
 
-          
+
         }
         #endregion
 
         #region public  
+        public void ToogleUpdate(bool state)
+        {
+            updateTimer.Enabled = state;
+        }
         #endregion
 
         #region callbacks
