@@ -129,8 +129,8 @@ namespace crm.Models.uniq
                     IConversionResult conversionResult = await conversion
                         .AddStream(videoStream, audioStream)
                         .SetOutput(outputPath)
-                        //.AddParameter($"-b:v {bitrate} -bufsize {bitrate} -preset:v faster")
-                        .AddParameter($"-b:v {bitrate} -bufsize {bitrate} -preset:v veryfast")
+                        .AddParameter($"-b:v {bitrate} -bufsize {bitrate} -preset:v slow")
+                        //.AddParameter($"-b:v {bitrate} -bufsize {bitrate} -preset:v veryfast")
                         .Start(cts.Token);
 
                     UniqalizeProgessUpdateEvent?.Invoke((i + 1) * 100 / n);

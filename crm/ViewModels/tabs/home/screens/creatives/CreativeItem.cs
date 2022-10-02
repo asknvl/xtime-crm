@@ -204,18 +204,24 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         }
 
         public async Task SynchronizeAsync()
-        {            
+        {
 
-            await Task.Run(async () =>
-            {                
-                if (localManager.CheckCreativeDownloaded(this))
-                {
-                    IsSynchronized = true;
-                } else
-                {
-                    await remoteManager.Download(this);
-                }             
-            });
+            //await Task.Run(async () =>
+            //{                
+            //    if (localManager.CheckCreativeDownloaded(this))
+            //    {
+            //        IsSynchronized = true;
+            //    } else
+            //    {
+            //        await remoteManager.Download(this);
+            //    }             
+            //});
+
+            if (localManager.CheckCreativeDownloaded(this))
+                IsSynchronized = true;
+            else
+                await remoteManager.Download(this);
+
         }
 
         public async Task Uniqalize()

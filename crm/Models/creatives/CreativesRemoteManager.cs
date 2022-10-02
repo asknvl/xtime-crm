@@ -31,13 +31,14 @@ namespace crm.Models.creatives
         long TotalBytes = 0;        
         IServerApi serverApi;
         string token;
+        List<ICreative> downloadingList = new();
         #endregion
 
         public CreativesRemoteManager()
         {
             serverApi = AppContext.ServerApi;
             token = AppContext.User.Token;
-            client = new WebClient();
+            client = new WebClient();            
             NetworkCredential credential = new NetworkCredential(
                  "user287498742876",
                  "TK&9HhALSv3utvd58px3#tGgQ"
@@ -63,16 +64,64 @@ namespace crm.Models.creatives
         private void Client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             int progress = (int)(e.BytesReceived * 100.0d / e.TotalBytesToReceive);
-            DownloadProgessUpdateEvent?.Invoke(progress);
-            Debug.WriteLine(progress);
+            DownloadProgessUpdateEvent?.Invoke(progress);            
         }
-        #endregion       
+        #endregion
+
+        private async void DownloadFile(Uri remoteUri, string localPath)
+        {
+            var request = (HttpWebRequest)WebRequest.Create(remoteUri);
+            request.Timeout = 30000;
+            request.AllowWriteStreamBuffering = false;
+
+            NetworkCredential credential = new NetworkCredential(
+               "user287498742876",
+               "TK&9HhALSv3utvd58px3#tGgQ"
+               );
+
+            request.Credentials = credential;
+
+            using (var response = await request.GetResponseAsync())
+            using (var s = response.GetResponseStream())
+            using (var fs = new FileStream(localPath, FileMode.Create))
+            {
+                byte[] buffer = new byte[4096];
+                int bytesRead;
+                int total = 0;
+                while ((bytesRead = s.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    fs.Write(buffer, 0, bytesRead);
+                    bytesRead = s.Read(buffer, 0, buffer.Length);
+                    total += bytesRead;
+
+                }
+
+                Debug.WriteLine("" + total);
+            }
+        }
 
         public async Task Download(ICreative creative)
         {
             try
             {
-                await client.DownloadFileTaskAsync(new Uri(creative.UrlPath), creative.LocalPath);
+                var found = downloadingList.FirstOrDefault(c => c.Id == creative.Id);
+                if (found == null)
+                {
+
+                    downloadingList.Add(creative);
+                    await client.DownloadFileTaskAsync(new Uri(creative.UrlPath), creative.LocalPath);
+                    downloadingList.Remove(creative);
+                } else
+                {
+                    Debug.WriteLine("Already downloading");
+                }
+
+                 
+                //await Task.Run(() =>
+                //{
+                //    DownloadFile(new Uri(creative.UrlPath), creative.LocalPath);
+                //});
+
             } catch (Exception ex)
             {
                 Debug.WriteLine(ex);

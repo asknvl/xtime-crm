@@ -25,6 +25,8 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         string token;
         IServerApi server;
         Dictionary<int, List<CreativeItem>> creativeListDictionary = new();
+
+        DispatcherTimer 
         #endregion
 
         #region properties
@@ -141,8 +143,10 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
         }
 
-        private async void SocketApi_ReceivedCreativeChangedEvent(Models.api.socket.creativeChangedDTO obj)
+        private async void SocketApi_ReceivedCreativeChangedEvent(Models.api.socket.creativeChangedDTO chdto)
         {
+            //TODO фильтр по айди директории
+
             await updatePageInfo(SelectedPage, PageSize, SortKey);
         }
 
@@ -216,7 +220,12 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                             //await Task.Run(() => { creative.Synchronize(); });
 
                             await creative.SynchronizeAsync();
+                        } else
+                        {
+
                         }
+
+
                     }
                 }
 
