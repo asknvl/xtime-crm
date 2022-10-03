@@ -180,8 +180,9 @@
 			<Grid
 				Margin="50, 0, 0, 0"
 				Height="45">
-				<ToggleButton
+				<ToggleButton					
 					IsChecked="{Binding IsServerDirectoriesVisible}"
+					IsEnabled="{Binding !IsUniqRunning}"
 					Name="TBDirList">
 					<StackPanel
 						Orientation="Horizontal">
@@ -486,7 +487,7 @@
 			</TextBlock>
 		</Grid>
 
-		<Popup
+		<Popup			
 			IsOpen="{Binding  #TBDirList.IsChecked, Mode=TwoWay}"
 			WindowManagerAddShadowHint="False"
 			StaysOpen="False"

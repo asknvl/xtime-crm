@@ -168,7 +168,8 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         private void Uniqalizer_UniqalizeProgessUpdateEvent(int progress)
         {
             //Progress = (progress < 100) ? progress : 0;
-            Progress = progress;
+            if (progress > 0)
+                Progress = progress;
             //Debug.WriteLine(Progress);
         }
 
@@ -229,6 +230,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             if (!IsChecked)
                 return;
             await uniqalizer.Uniqalize(this, Uniques, paths.CreativesOutputRootPath);
+            Progress = 0;
         }
 
         public async Task Uniqalize(int uniques)
@@ -236,6 +238,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             if (!IsChecked)
                 return;
             await uniqalizer.Uniqalize(this, uniques, paths.CreativesOutputRootPath);
+            Progress = 0;
         }
 
         public void StopUniqalization()
