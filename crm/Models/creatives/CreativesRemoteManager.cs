@@ -15,7 +15,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using static crm.Models.api.server.BaseServerApi;
 using WebDav;
-using WinSCP;
 
 namespace crm.Models.creatives
 {
@@ -59,7 +58,7 @@ namespace crm.Models.creatives
             var clientParams = new WebDavClientParams
             {
                 BaseAddress = new Uri("http://136.243.74.153:4080"),
-                Credentials = new NetworkCredential("user287498742876", "TK&9HhALSv3utvd58px3#tGgQ")
+                Credentials = new NetworkCredential("user287498742876", "TK&9HhALSv3utvd58px3#tGgQ"),
             };
             webdav = new WebDavClient(clientParams);           
             
@@ -141,16 +140,6 @@ namespace crm.Models.creatives
                 await serverApi.SetCreativeStatus(token, creative_id, true, true);
 
             }
-        }
-
-        private void Session_FileTransferProgress1(object sender, FileTransferProgressEventArgs e)
-        {
-            Debug.WriteLine(e.FileProgress);
-        }
-
-        private void Session_FileTransferProgress(object sender, FileTransferProgressEventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         #region callbacks
