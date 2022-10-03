@@ -164,8 +164,8 @@ namespace crm.Models.creatives
                 string url = $"{paths.CreativesRootURL}{filepath}.{extension}";
 
                 //await client.UploadFileTaskAsync(new Uri(url), "PUT", fullname);                
-
-                await webdav.PutFile(new Uri(url), File.OpenRead(fullname));
+                
+                //await webdav.PutFile(new Uri(url), File.OpenRead(fullname));
 
                 try
                 {
@@ -180,35 +180,68 @@ namespace crm.Models.creatives
                         //SshHostKeyFingerprint = "ssh-rsa 2048 xxxxxxxxxxx..."
                     };
 
-                    using (Session session = new Session())
+                    Session session = new Session();                                       
+
+                    TransferOptions transferOptions = new TransferOptions();
+                    transferOptions.TransferMode = TransferMode.Automatic;                    
+
+                    session.FileTransferProgress += (s, e) =>
                     {
-                        // Connect
-                        session.Open(sessionOptions);
-                        session.FileTransferProgress += (s, e) => {
-                            UploadProgressUpdateEvent?.Invoke((int)e.FileProgress);
-                        };
+                        UploadProgressUpdateEvent?.Invoke((int)(e.FileProgress * 100.0));
+                        //Debug.WriteLine(e.FileProgress);
+                    };
+                    session.Open(sessionOptions);
+                    await Task.Run(() =>
+                    {
+                        string oldfn = Path.GetFileName(fullname);
+                        string newfn = $"{creative_name}.{extension}";
+                        string tmp = fullname.Replace(oldfn, newfn);
+                        string directory = "/webdav/uniq" + filepath.Replace(creative_name, "");
+                        File.Copy(fullname, tmp, true);                        
 
-                        // Upload files
-                        TransferOptions transferOptions = new TransferOptions();
-                        transferOptions.TransferMode = TransferMode.Automatic;                        
-
-                        TransferOperationResult transferResult;
-
-                        //transferResult =
-                        //    session.PutFiles(fullname, url, false, transferOptions);
-
-                        await Task.Run(() => { 
-                            session.PutFile(File.OpenRead(fullname), url);
-                        });
-
-                        // Throw on any error
-
-
-                        // Print results
-
-                    }
-
+                        var res = session.PutFileToDirectory(tmp, directory, true);                       
+                    });
                     
+
+                    //using (Stream s = File.OpenRead(fullname))
+                    //{
+                    //    session.PutFile(s, url);
+                    //}
+
+                       
+                    //});
+
+                    session.Close();
+
+                    //using (Session session = new Session())
+                    //{
+                    //    // Connect
+                    //    session.Open(sessionOptions);
+                    //    session.FileTransferProgress += (s, e) => {
+                    //        UploadProgressUpdateEvent?.Invoke((int)e.FileProgress);
+                    //    };
+
+                    //    // Upload files
+                    //    TransferOptions transferOptions = new TransferOptions();
+                    //    transferOptions.TransferMode = TransferMode.Automatic;                        
+
+                    //    TransferOperationResult transferResult;
+
+                    //    //transferResult =
+                    //    //    session.PutFiles(fullname, url, false, transferOptions);
+
+                    //    await Task.Run(() => { 
+                    //        session.PutFile(File.OpenRead(fullname), url);
+                    //    });
+
+                    //    // Throw on any error
+
+
+                    //    // Print results
+
+                    //}
+
+
                 } catch (Exception e)
                 {
                     Debug.WriteLine("Error: {0}", e);
@@ -220,6 +253,11 @@ namespace crm.Models.creatives
                 await serverApi.SetCreativeStatus(token, creative_id, true, true);
 
             }
+        }
+
+        private void Session_FileTransferProgress1(object sender, FileTransferProgressEventArgs e)
+        {
+            Debug.WriteLine(e.FileProgress);
         }
 
         private void Session_FileTransferProgress(object sender, FileTransferProgressEventArgs e)
