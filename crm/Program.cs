@@ -27,6 +27,7 @@ namespace crm
             GC.KeepAlive(typeof(SvgImageExtension).Assembly);
             GC.KeepAlive(typeof(Avalonia.Svg.Skia.Svg).Assembly);
             System.Net.ServicePointManager.DefaultConnectionLimit = 100;
+            //System.Net.ServicePointManager.MaxServicePointIdleTime
 
             return AppBuilder.Configure<App>()
                          .UsePlatformDetect()

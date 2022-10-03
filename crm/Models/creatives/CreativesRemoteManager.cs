@@ -26,7 +26,7 @@ namespace crm.Models.creatives
         #region vars                
         IPaths paths = Paths.getInstance();
         ApplicationContext AppContext = ApplicationContext.getInstance();
-        WebClient client;
+        ExtendedWebClient client;
         Uri host;        
         long TotalBytes = 0;        
         IServerApi serverApi;
@@ -38,7 +38,8 @@ namespace crm.Models.creatives
         {
             serverApi = AppContext.ServerApi;
             token = AppContext.User.Token;
-            client = new WebClient();            
+            client = new ExtendedWebClient();
+            client.Timeout = 100000;
             NetworkCredential credential = new NetworkCredential(
                  "user287498742876",
                  "TK&9HhALSv3utvd58px3#tGgQ"
@@ -145,8 +146,8 @@ namespace crm.Models.creatives
             if (!string.IsNullOrEmpty(creative_name) && !string.IsNullOrEmpty(filepath))
             {
                 TotalBytes = new System.IO.FileInfo(fullname).Length;
-                string url = $"{paths.CreativesRootURL}{filepath}.{extension}";
-                await client.UploadFileTaskAsync(new Uri(url), "PUT", fullname);
+                string url = $"{paths.CreativesRootURL}{filepath}.{extension}";                
+                await client.UploadFileTaskAsync(new Uri(url), "PUT", fullname);                
                 await serverApi.SetCreativeStatus(token, creative_id, true, true);
 
             }
