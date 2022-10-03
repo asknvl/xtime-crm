@@ -165,7 +165,7 @@ namespace crm.Models.creatives
 
                 //await client.UploadFileTaskAsync(new Uri(url), "PUT", fullname);                
 
-                //await webdav.PutFile(new Uri(url), File.OpenRead(fullname));
+                await webdav.PutFile(new Uri(url), File.OpenRead(fullname));
 
                 try
                 {
@@ -173,9 +173,10 @@ namespace crm.Models.creatives
                     SessionOptions sessionOptions = new SessionOptions
                     {
                         Protocol = Protocol.Webdav,
-                        HostName = "136.243.74.153:4080",
+                        HostName = "136.243.74.153",
                         UserName = "user287498742876",
                         Password = "TK&9HhALSv3utvd58px3#tGgQ",
+                        PortNumber = 4080
                         //SshHostKeyFingerprint = "ssh-rsa 2048 xxxxxxxxxxx..."
                     };
 
@@ -183,23 +184,28 @@ namespace crm.Models.creatives
                     {
                         // Connect
                         session.Open(sessionOptions);
+                        session.FileTransferProgress += (s, e) => {
+                            UploadProgressUpdateEvent?.Invoke((int)e.FileProgress);
+                        };
 
                         // Upload files
                         TransferOptions transferOptions = new TransferOptions();
-                        transferOptions.TransferMode = TransferMode.Binary;
+                        transferOptions.TransferMode = TransferMode.Automatic;                        
 
                         TransferOperationResult transferResult;
-                        transferResult =
-                            session.PutFiles(fullname, url, false, transferOptions);
+
+                        //transferResult =
+                        //    session.PutFiles(fullname, url, false, transferOptions);
+
+                        await Task.Run(() => { 
+                            session.PutFile(File.OpenRead(fullname), url);
+                        });
 
                         // Throw on any error
-                        transferResult.Check();
+
 
                         // Print results
-                        foreach (TransferEventArgs transfer in transferResult.Transfers)
-                        {
-                            Console.WriteLine("Upload of {0} succeeded", transfer.FileName);
-                        }
+
                     }
 
                     
@@ -214,6 +220,11 @@ namespace crm.Models.creatives
                 await serverApi.SetCreativeStatus(token, creative_id, true, true);
 
             }
+        }
+
+        private void Session_FileTransferProgress(object sender, FileTransferProgressEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         #region callbacks
