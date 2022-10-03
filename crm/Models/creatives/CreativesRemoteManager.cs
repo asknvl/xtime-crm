@@ -61,7 +61,8 @@ namespace crm.Models.creatives
                 BaseAddress = new Uri("http://136.243.74.153:4080"),
                 Credentials = new NetworkCredential("user287498742876", "TK&9HhALSv3utvd58px3#tGgQ")
             };
-            webdav = new WebDavClient(clientParams);            
+            webdav = new WebDavClient(clientParams);           
+            
 
         }
 
@@ -84,37 +85,7 @@ namespace crm.Models.creatives
         }
         #endregion
 
-        private async void DownloadFile(Uri remoteUri, string localPath)
-        {
-            var request = (HttpWebRequest)WebRequest.Create(remoteUri);
-            request.Timeout = 30000;
-            request.AllowWriteStreamBuffering = false;
-
-            NetworkCredential credential = new NetworkCredential(
-               "user287498742876",
-               "TK&9HhALSv3utvd58px3#tGgQ"
-               );
-
-            request.Credentials = credential;
-
-            using (var response = await request.GetResponseAsync())
-            using (var s = response.GetResponseStream())
-            using (var fs = new FileStream(localPath, FileMode.Create))
-            {
-                byte[] buffer = new byte[4096];
-                int bytesRead;
-                int total = 0;
-                while ((bytesRead = s.Read(buffer, 0, buffer.Length)) > 0)
-                {
-                    fs.Write(buffer, 0, bytesRead);
-                    bytesRead = s.Read(buffer, 0, buffer.Length);
-                    total += bytesRead;
-
-                }
-
-                Debug.WriteLine("" + total);
-            }
-        }
+       
 
         public async Task Download(ICreative creative)
         {
@@ -165,91 +136,8 @@ namespace crm.Models.creatives
 
                 //await client.UploadFileTaskAsync(new Uri(url), "PUT", fullname);                
                 
-                //await webdav.PutFile(new Uri(url), File.OpenRead(fullname));
-
-                try
-                {
-                    // Setup session options
-                    SessionOptions sessionOptions = new SessionOptions
-                    {
-                        Protocol = Protocol.Webdav,
-                        HostName = "136.243.74.153",
-                        UserName = "user287498742876",
-                        Password = "TK&9HhALSv3utvd58px3#tGgQ",
-                        PortNumber = 4080
-                        //SshHostKeyFingerprint = "ssh-rsa 2048 xxxxxxxxxxx..."
-                    };
-
-                    Session session = new Session();                                       
-
-                    TransferOptions transferOptions = new TransferOptions();
-                    transferOptions.TransferMode = TransferMode.Automatic;                    
-
-                    session.FileTransferProgress += (s, e) =>
-                    {
-                        UploadProgressUpdateEvent?.Invoke((int)(e.FileProgress * 100.0));
-                        //Debug.WriteLine(e.FileProgress);
-                    };
-                    session.Open(sessionOptions);
-                    await Task.Run(() =>
-                    {
-                        string oldfn = Path.GetFileName(fullname);
-                        string newfn = $"{creative_name}.{extension}";
-                        string tmp = fullname.Replace(oldfn, newfn);
-                        string directory = "/webdav/uniq" + filepath.Replace(creative_name, "");
-                        File.Copy(fullname, tmp, true);                        
-
-                        var res = session.PutFileToDirectory(tmp, directory, true);                       
-                    });
-                    
-
-                    //using (Stream s = File.OpenRead(fullname))
-                    //{
-                    //    session.PutFile(s, url);
-                    //}
-
-                       
-                    //});
-
-                    session.Close();
-
-                    //using (Session session = new Session())
-                    //{
-                    //    // Connect
-                    //    session.Open(sessionOptions);
-                    //    session.FileTransferProgress += (s, e) => {
-                    //        UploadProgressUpdateEvent?.Invoke((int)e.FileProgress);
-                    //    };
-
-                    //    // Upload files
-                    //    TransferOptions transferOptions = new TransferOptions();
-                    //    transferOptions.TransferMode = TransferMode.Automatic;                        
-
-                    //    TransferOperationResult transferResult;
-
-                    //    //transferResult =
-                    //    //    session.PutFiles(fullname, url, false, transferOptions);
-
-                    //    await Task.Run(() => { 
-                    //        session.PutFile(File.OpenRead(fullname), url);
-                    //    });
-
-                    //    // Throw on any error
-
-
-                    //    // Print results
-
-                    //}
-
-
-                } catch (Exception e)
-                {
-                    Debug.WriteLine("Error: {0}", e);
-                    
-                }
-
-
-
+                await webdav.PutFile(new Uri(url), File.OpenRead(fullname));             
+                
                 await serverApi.SetCreativeStatus(token, creative_id, true, true);
 
             }
