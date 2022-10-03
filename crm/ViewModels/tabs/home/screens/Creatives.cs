@@ -152,6 +152,8 @@ namespace crm.ViewModels.tabs.home.screens
                     {
                         List<Task> tasks = new();
 
+                        Content.ToogleUpdate(false);
+
                         foreach (var creative in creatives)
                         {
                             if (creative.IsChecked)
@@ -165,8 +167,7 @@ namespace crm.ViewModels.tabs.home.screens
                                         await creative.Uniqalize();
 
                                 } catch (Exception ex)
-                                {
-                                    //creative.Uniques = 0;
+                                {                                    
                                     break;
                                 }
 
@@ -177,7 +178,10 @@ namespace crm.ViewModels.tabs.home.screens
                         //{
                         //    IsUniqRunning = false;
                         //    Content.IsAllChecked = false;
-                        //});                        
+                        //});
+
+                        Content.ToogleUpdate(true);
+
                         IsUniqRunning = false;
                         Content.IsAllChecked = false;
 
