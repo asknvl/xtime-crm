@@ -169,7 +169,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         {
             //Progress = (progress < 100) ? progress : 0;
             Progress = progress;
-            Debug.WriteLine(Progress);
+            //Debug.WriteLine(Progress);
         }
 
         private void RemoteManager_DownloadCompleted()

@@ -191,10 +191,6 @@ namespace crm.ViewModels.tabs.home.screens
                         if (creative.IsChecked)
                             creative.StopUniqalization();
                 }
-
-             
-
-
             });
 
             deselectAllCmd = ReactiveCommand.Create(() =>
@@ -250,11 +246,18 @@ namespace crm.ViewModels.tabs.home.screens
         {
 
             IUniqalizer uniqalizer = new Uniqalizer();
+            int n = files.Count;
+            int cntr = 0;
+
+            uniqalizer.UniqalizeProgessUpdateEvent += (oneprogress) => {
+                int p = 100 / n * cntr + oneprogress / n;
+                Debug.WriteLine(oneprogress);
+                if (oneprogress > 0)
+                    Progress = p;
+            };
             string output = Path.Combine(paths.CreativesOutputRootPath, "DragDrop");
             if (!Directory.Exists(output))
                 Directory.CreateDirectory(output);
-
-            int cntr = 0;
 
             await Task.Run(async () =>
             {
@@ -265,17 +268,18 @@ namespace crm.ViewModels.tabs.home.screens
                 }
 
                 foreach (var file in files)
-                {
+                {                    
                     await uniqalizer.Uniqalize(file, 1, output);
                     cntr++;
-                    Progress = (int)(100.0d * cntr / files.Count);
+                    //Progress = (int)(100.0d * cntr / files.Count);
                 }
-
-                Thread.Sleep(500);
-
-                Progress = 0;
+                //Thread.Sleep(500);
 
             });
+
+            Progress = 100;
+            Thread.Sleep(100);
+            Progress = 0;
 
         }
         #endregion

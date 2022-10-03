@@ -122,18 +122,21 @@ namespace crm.Models.uniq
                     //var accelerator = new HardwareAccelerator();
                     //conversion.UseHardwareAcceleration(accelerator, VideoCodec.h264, VideoCodec.h264);
 
-                    //conversion.OnProgress += (s, a) => {
-                    //    UniqalizeProgessUpdateEvent?.Invoke(a.Percent);
-                    //};
+                    conversion.OnProgress += (s, a) =>
+                    {
+                        int p = 100 / n * i + a.Percent / n;
+                        UniqalizeProgessUpdateEvent?.Invoke(p);
+                        Debug.WriteLine("p=" + p);
+                    };
 
                     IConversionResult conversionResult = await conversion
                         .AddStream(videoStream, audioStream)
                         .SetOutput(outputPath)
-                        .AddParameter($"-b:v {bitrate} -bufsize {bitrate} -preset:v slow")
+                        .AddParameter($"-b:v {bitrate} -bufsize {bitrate} -preset slow")
                         //.AddParameter($"-b:v {bitrate} -bufsize {bitrate} -preset:v veryfast")
                         .Start(cts.Token);
 
-                    UniqalizeProgessUpdateEvent?.Invoke((i + 1) * 100 / n);
+                    //UniqalizeProgessUpdateEvent?.Invoke((i + 1) * 100 / n);
 
                 } catch (Exception ex)
                 {                    
@@ -143,11 +146,11 @@ namespace crm.Models.uniq
 
                 } finally
                 {
-                    //UniqalizeProgessUpdateEvent?.Invoke(0);
+                    UniqalizeProgessUpdateEvent?.Invoke(0);
                 }
             }
 
-            UniqalizeProgessUpdateEvent?.Invoke(0);
+            
         }
 
         public async Task Uniqalize(string inputPath, int n, string outpurdir) {
