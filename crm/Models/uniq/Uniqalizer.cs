@@ -147,11 +147,13 @@ namespace crm.Models.uniq
 
                 } finally
                 {
-                    UniqalizeProgessUpdateEvent?.Invoke(0);
+                    
                 }
             }
 
-            
+            UniqalizeProgessUpdateEvent?.Invoke(0);
+
+
         }
 
         public async Task Uniqalize(string inputPath, int n, string outpurdir) {

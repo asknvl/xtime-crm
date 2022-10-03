@@ -263,12 +263,18 @@ namespace crm.ViewModels.tabs.home.screens
             if (!Directory.Exists(output))
                 Directory.CreateDirectory(output);
 
+
+
             await Task.Run(async () =>
             {
+
+                List<FileInfo?> toDelete = new();
+
                 DirectoryInfo directoryInfo = new DirectoryInfo(output);
                 foreach (var file in directoryInfo.GetFiles())
                 {
-                    file.Delete();
+                    //file.Delete();
+                    toDelete.Add(file);
                 }
 
                 foreach (var file in files)
@@ -278,6 +284,12 @@ namespace crm.ViewModels.tabs.home.screens
                     //Progress = (int)(100.0d * cntr / files.Count);
                 }
                 //Thread.Sleep(500);
+
+                foreach (var file in toDelete)
+                {
+                    //file.Delete();
+                    file?.Delete();
+                }
 
             });
 
