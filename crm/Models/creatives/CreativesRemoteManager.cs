@@ -14,6 +14,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static crm.Models.api.server.BaseServerApi;
+using WebDav;
+using WinSCP;
 
 namespace crm.Models.creatives
 {
@@ -32,6 +34,9 @@ namespace crm.Models.creatives
         IServerApi serverApi;
         string token;
         List<ICreative> downloadingList = new();
+
+
+        IWebDavClient webdav;
         #endregion
 
         public CreativesRemoteManager()
@@ -48,6 +53,16 @@ namespace crm.Models.creatives
             client.DownloadProgressChanged += Client_DownloadProgressChanged;
             client.UploadProgressChanged += Client_UploadProgressChanged;
             client.DownloadFileCompleted += Client_DownloadFileCompleted;
+
+
+            // / webdav / uniq
+            var clientParams = new WebDavClientParams
+            {
+                BaseAddress = new Uri("http://136.243.74.153:4080"),
+                Credentials = new NetworkCredential("user287498742876", "TK&9HhALSv3utvd58px3#tGgQ")
+            };
+            webdav = new WebDavClient(clientParams);            
+
         }
 
         private void Client_DownloadFileCompleted(object? sender, System.ComponentModel.AsyncCompletedEventArgs e)
@@ -146,8 +161,56 @@ namespace crm.Models.creatives
             if (!string.IsNullOrEmpty(creative_name) && !string.IsNullOrEmpty(filepath))
             {
                 TotalBytes = new System.IO.FileInfo(fullname).Length;
-                string url = $"{paths.CreativesRootURL}{filepath}.{extension}";                
-                await client.UploadFileTaskAsync(new Uri(url), "PUT", fullname);                
+                string url = $"{paths.CreativesRootURL}{filepath}.{extension}";
+
+                //await client.UploadFileTaskAsync(new Uri(url), "PUT", fullname);                
+
+                //await webdav.PutFile(new Uri(url), File.OpenRead(fullname));
+
+                try
+                {
+                    // Setup session options
+                    SessionOptions sessionOptions = new SessionOptions
+                    {
+                        Protocol = Protocol.Webdav,
+                        HostName = "136.243.74.153:4080",
+                        UserName = "user287498742876",
+                        Password = "TK&9HhALSv3utvd58px3#tGgQ",
+                        //SshHostKeyFingerprint = "ssh-rsa 2048 xxxxxxxxxxx..."
+                    };
+
+                    using (Session session = new Session())
+                    {
+                        // Connect
+                        session.Open(sessionOptions);
+
+                        // Upload files
+                        TransferOptions transferOptions = new TransferOptions();
+                        transferOptions.TransferMode = TransferMode.Binary;
+
+                        TransferOperationResult transferResult;
+                        transferResult =
+                            session.PutFiles(fullname, url, false, transferOptions);
+
+                        // Throw on any error
+                        transferResult.Check();
+
+                        // Print results
+                        foreach (TransferEventArgs transfer in transferResult.Transfers)
+                        {
+                            Console.WriteLine("Upload of {0} succeeded", transfer.FileName);
+                        }
+                    }
+
+                    
+                } catch (Exception e)
+                {
+                    Debug.WriteLine("Error: {0}", e);
+                    
+                }
+
+
+
                 await serverApi.SetCreativeStatus(token, creative_id, true, true);
 
             }
