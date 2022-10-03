@@ -125,7 +125,8 @@ namespace crm.Models.uniq
                     conversion.OnProgress += (s, a) =>
                     {
                         int p = 100 / n * i + a.Percent / n;
-                        UniqalizeProgessUpdateEvent?.Invoke(p);
+                        if (a.Percent > 0)
+                            UniqalizeProgessUpdateEvent?.Invoke(p);
                         Debug.WriteLine("p=" + p);
                     };
 
