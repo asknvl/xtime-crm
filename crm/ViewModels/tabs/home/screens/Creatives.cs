@@ -307,10 +307,10 @@ namespace crm.ViewModels.tabs.home.screens
             //var dlg = new progressDlgVM();
             //ws.ShowModalWindow(dlg);
 
-            //await Uniqalizer.Init(Paths.getInstance().CodecBinariesPath, (progress) =>
-            //{
-            //    //dlg.Progress = progress;
-            //});
+            await Uniqalizer.Init(Paths.getInstance().CodecBinariesPath, (progress) =>
+            {
+                //dlg.Progress = progress;
+            });
 
 #if ONLINE
 

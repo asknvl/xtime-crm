@@ -27,7 +27,7 @@ namespace crm.Models.creatives
         #region vars                
         IPaths paths = Paths.getInstance();
         ApplicationContext AppContext = ApplicationContext.getInstance();
-        ExtendedWebClient client;
+        //ExtendedWebClient client;
         Uri host;        
         long TotalBytes = 0;        
         IServerApi serverApi;
@@ -42,17 +42,18 @@ namespace crm.Models.creatives
         {
             serverApi = AppContext.ServerApi;
             token = AppContext.User.Token;
-            client = new ExtendedWebClient();
-            client.Timeout = 100000;
-            NetworkCredential credential = new NetworkCredential(
-                 "user287498742876",
-                 "TK&9HhALSv3utvd58px3#tGgQ"
-                 );
-            client.Credentials = credential;
-            client.DownloadProgressChanged += Client_DownloadProgressChanged;
-            client.UploadProgressChanged += Client_UploadProgressChanged;
-            client.DownloadFileCompleted += Client_DownloadFileCompleted;
-
+            //client = new ExtendedWebClient();
+            
+            //client.Timeout = 100000;
+            //NetworkCredential credential = new NetworkCredential(
+            //     "user287498742876",
+            //     "TK&9HhALSv3utvd58px3#tGgQ"
+            //     );
+            //client.Credentials = credential;
+            //client.DownloadProgressChanged += Client_DownloadProgressChanged;
+            //client.UploadProgressChanged += Client_UploadProgressChanged;
+            //client.DownloadFileCompleted += Client_DownloadFileCompleted;
+            
 
             // / webdav / uniq
             var clientParams = new WebDavClientParams
@@ -74,6 +75,7 @@ namespace crm.Models.creatives
         private void Client_UploadProgressChanged(object sender, UploadProgressChangedEventArgs e)
         {
             int progress = (int)(e.BytesSent * 100.0d / TotalBytes );
+            Debug.WriteLine(progress);
             UploadProgressUpdateEvent?.Invoke(progress);
         }
         
@@ -88,8 +90,23 @@ namespace crm.Models.creatives
 
         public async Task Download(ICreative creative)
         {
+            var client = new ExtendedWebClient();
+
+            client.Timeout = 100000;
+            NetworkCredential credential = new NetworkCredential(
+                 "user287498742876",
+                 "TK&9HhALSv3utvd58px3#tGgQ"
+                 );
+            client.Credentials = credential;
+            client.DownloadProgressChanged += Client_DownloadProgressChanged;
+            
+            client.DownloadFileCompleted += Client_DownloadFileCompleted;
+
+
             try
             {
+
+                
                 var found = downloadingList.FirstOrDefault(c => c.Id == creative.Id);
                 if (found == null)
                 {
@@ -111,6 +128,9 @@ namespace crm.Models.creatives
             } catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+            } finally
+            {
+                client.Dispose();
             }
         }          
 
@@ -133,9 +153,24 @@ namespace crm.Models.creatives
                 TotalBytes = new System.IO.FileInfo(fullname).Length;
                 string url = $"{paths.CreativesRootURL}{filepath}.{extension}";
 
-                //await client.UploadFileTaskAsync(new Uri(url), "PUT", fullname);                
-                
-                await webdav.PutFile(new Uri(url), File.OpenRead(fullname));             
+
+                var client = new ExtendedWebClient();
+
+                client.Timeout = 100000;
+                NetworkCredential credential = new NetworkCredential(
+                     "user287498742876",
+                     "TK&9HhALSv3utvd58px3#tGgQ"
+                     );
+                client.Credentials = credential;
+                //client.DownloadProgressChanged += Client_DownloadProgressChanged;
+                client.UploadProgressChanged += Client_UploadProgressChanged;
+                //client.DownloadFileCompleted += Client_DownloadFileCompleted;
+
+                await client.UploadFileTaskAsync(new Uri(url), "PUT", fullname);
+
+                client.Dispose();
+
+                //await webdav.PutFile(new Uri(url), File.OpenRead(fullname));             
                 
                 await serverApi.SetCreativeStatus(token, creative_id, true, true);
 
