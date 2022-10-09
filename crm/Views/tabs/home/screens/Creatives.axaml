@@ -208,6 +208,19 @@
 						</Style>
 					</ToggleButton.Styles>
 				</ToggleButton>
+				<Button
+					Command="{Binding synchronizeAllCmd}"
+					Classes="Button HyperLink"					
+					HorizontalAlignment="Right"
+					Margin="0, 0, 33, 0"
+					ToolTip.Tip="Синхронизировать все"
+					ToolTip.ShowDelay="0">
+					<Svg						
+						Path="/Assets/svgs/screens/refresh.svg"
+						Height="20"
+						Width="20">						
+					</Svg>
+				</Button>
 			</Grid>
 		</Border>
 		<Border

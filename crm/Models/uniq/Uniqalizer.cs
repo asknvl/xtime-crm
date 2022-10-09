@@ -106,7 +106,7 @@ namespace crm.Models.uniq
             for (int i = 0; i < n; i++)
             {
                 string s = Guid.NewGuid().ToString();
-                var outputPath = Path.Combine(outputFolderPath, $"{i}_{s}.mp4");
+                var outputPath = Path.Combine(outputFolderPath, $"{i+1}_{s}.mp4");
 
                 IMediaInfo info = await FFmpeg.GetMediaInfo(inputPath);
                 IVideoStream videoStream = info.VideoStreams.First();

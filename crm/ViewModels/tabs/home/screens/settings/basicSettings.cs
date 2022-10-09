@@ -24,10 +24,38 @@ namespace crm.ViewModels.tabs.home.screens.settings
                 AppContext.Settings.Save();
             }
         }
+
+        List<int> creosPerPageList = new List<int> { 25, 50, 100, 200 };
+        public List<int> CreosPerPageList
+        {
+            get => creosPerPageList;
+            set => this.RaiseAndSetIfChanged(ref creosPerPageList, value);
+        }
+
+        bool isCreosPerPageVisible;
+        public bool IsCreosPerPageVisible
+        {
+            get => isCreosPerPageVisible;
+            set => this.RaiseAndSetIfChanged(ref isCreosPerPageVisible, value);
+        }
+
+        int creosPerPage;
+        public int CreosPerPage
+        {
+            get => creosPerPage;
+            set {                
+                AppContext.Settings.CreativesPerPage = value;                
+                this.RaiseAndSetIfChanged(ref creosPerPage, value);                
+                AppContext.Settings.Save();
+                IsCreosPerPageVisible = false;
+            }
+        }
+
         #endregion
         public basicSettings() : base()
         {
             RememberMe = AppContext.Settings.RememberMe;
+            CreosPerPage = AppContext.Settings.CreativesPerPage;
         }
 
         public override void OnDeactivate()

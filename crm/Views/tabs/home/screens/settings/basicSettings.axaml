@@ -5,9 +5,9 @@
 			 xmlns:vm="using:crm.ViewModels.tabs.home.screens.settings"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="crm.Views.tabs.home.screens.settings.basicSettings">
-	<Design.DataContext>
+	<!--<Design.DataContext>
 		<vm:basicSettings/>
-	</Design.DataContext>
+	</Design.DataContext>-->
 	<UserControl.Styles>
 		<StyleInclude Source="/Styles/DataValidationErros.axaml"/>
 		<StyleInclude Source="/Styles/ScreenStyle.axaml"/>
@@ -40,7 +40,7 @@
 				<Grid
 					ColumnDefinitions="1*, 2*"
 					Classes="Grid Items">
-					<TextBlock						
+					<TextBlock
 						Classes="TextBlock Param"
 						Grid.Column="0">
 						Оставаться в системе
@@ -48,9 +48,56 @@
 					<ToggleSwitch
 						IsChecked="{Binding RememberMe}"
 						Grid.Column="1">
-					</ToggleSwitch>					
+					</ToggleSwitch>
 				</Grid>
-				
+				<Grid
+					Name="TBL"
+					
+					ColumnDefinitions="1*, 2*"
+					Classes="Grid Items">
+					<TextBlock						
+						MaxWidth="150"
+						Classes="TextBlock Param"
+						Grid.Column="0"
+						TextWrapping="Wrap"
+						HorizontalAlignment="Left">
+						Количество креативов на странице
+					</TextBlock>
+					<!--<ToggleSwitch
+						IsChecked="{Binding RememberMe}"
+						Grid.Column="1">
+					</ToggleSwitch>-->
+					<ToggleButton		
+						IsChecked="{Binding IsCreosPerPageVisible}"
+						Grid.Column="1"
+						Name="TBCreosPerPage"						
+						HorizontalAlignment="Left"
+						Margin="-10">
+						<StackPanel
+							Orientation="Horizontal">
+							<TextBlock Text="{Binding CreosPerPage}"/>
+							<Svg
+								Margin="10, 0, 0, 0"
+								Height="8"
+								Width="8"
+								Path="/Assets/svgs/screens/arrow_down.svg">
+							</Svg>
+						</StackPanel>
+						<ToggleButton.Styles>
+							<Style Selector="ToggleButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+								<Setter Property="BorderBrush" Value="Transparent"/>
+							</Style>
+							<Style Selector="ToggleButton:not(:checked) /template/ ContentPresenter#PART_ContentPresenter">
+								<Setter Property="BorderBrush" Value="Transparent"/>
+								<Setter Property="Background" Value="Transparent"/>
+							</Style>
+							<Style Selector="ToggleButton:checked /template/ ContentPresenter#PART_ContentPresenter">
+								<Setter Property="BorderBrush" Value="Transparent"/>
+								<Setter Property="Background" Value="Transparent"/>
+							</Style>
+						</ToggleButton.Styles>
+					</ToggleButton>
+				</Grid>
 			</StackPanel>
 			<Grid
 				Grid.Column="1"
@@ -61,6 +108,86 @@
 				<Image
 					Source="avares://crm/Assets/png/screens/settings.png" Width="400" Height="329"/>
 			</Grid>
+
+			<Popup
+				IsOpen="{Binding  #TBCreosPerPage.IsChecked, Mode=TwoWay}"
+				PlacementTarget="{Binding ElementName=TBCreosPerPage}"
+				WindowManagerAddShadowHint="False"
+				StaysOpen="False"
+				VerticalOffset="0"
+				HorizontalOffset="-25"
+				Width="100"
+				ScrollViewer.VerticalScrollBarVisibility="Hidden">
+				<Border
+					Margin="10"
+					VerticalAlignment="Top"
+					HorizontalAlignment="Stretch"
+					Background="White"
+					BorderBrush="Black"
+					BoxShadow="0 0 10 1 LightGray"
+					CornerRadius="8">
+					<StackPanel
+						Orientation="Vertical"
+						Margin="5">
+						<ListBox
+							MaxHeight="450"
+							Items="{Binding CreosPerPageList}"
+							SelectedItem="{Binding CreosPerPage}"
+							Background="#FFFFFFFF">
+							<ListBox.DataTemplates>
+								<DataTemplate>
+									<Border
+										BorderBrush="#FFE5E5E5"
+										BorderThickness="0, 0, 0, 0.5"
+										Height="45">
+										<TextBlock
+											Background="#FFFFFFFF"
+											HorizontalAlignment="Center"
+											VerticalAlignment="Center"
+											TextAlignment="Center"
+											Text="{Binding}"/>
+									</Border>
+								</DataTemplate>
+							</ListBox.DataTemplates>
+							<ListBox.Styles>
+								<Style Selector="ListBox ListBoxItem">
+									<Setter Property="Padding" Value="0"/>
+									<Setter Property="Margin" Value="0"/>
+									<Setter Property="Background" Value="#FFFFFFFF"/>
+								</Style>
+								<Style Selector="ListBox ListBoxItem TextBlock">
+									<Setter Property="Foreground" Value="#FF464646" />
+								</Style>
+								<Style Selector="ListBox ListBoxItem:pointerover TextBlock">
+									<Setter Property="Background" Value="#FFFFFFFF"/>
+								</Style>
+								<Style Selector="ListBox ListBoxItem:selected TextBlock">
+									<Setter Property="Foreground" Value="#FF0BB3E8"/>
+								</Style>
+								<Style Selector="ListBox ListBoxItem:selected /template/ ContentPresenter">
+									<Setter Property="Background" Value="#FFFFFFFF"/>
+								</Style>
+								<Style Selector="ListBox ListBoxItem:pointerover /template/ ContentPresenter">
+									<Setter Property="Background" Value="#FFFFFFFF"/>
+								</Style>
+								<Style Selector="ListBox:pointerover ScrollViewer">
+									<Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+									<Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
+								</Style>
+								<Style Selector="ListBox:not(:pointerover) ScrollViewer">
+									<Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
+									<Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
+								</Style>
+							</ListBox.Styles>
+						</ListBox>
+						<!--</ScrollViewer>-->
+						<StackPanel.Styles>
+
+						</StackPanel.Styles>
+					</StackPanel>
+				</Border>
+			</Popup>
+
 		</Grid>
 		<ScrollViewer.Styles>
 			<Style Selector="Grid.Items">
@@ -96,7 +223,7 @@
 				<Setter Property="Template" Value="{DynamicResource TooltipDataValidationContentTemplate}"/>
 				<Setter Property="ErrorTemplate" Value="{DynamicResource TooltipDataValidationErrorTemplate}" />
 			</Style>
-			<Style Selector="ToggleSwitch">				
+			<Style Selector="ToggleSwitch">
 				<Setter Property="OnContent" Value=""/>
 				<Setter Property="OffContent" Value=""/>
 				<Setter Property="Margin" Value="0, 3, 0, 0"/>
@@ -104,3 +231,5 @@
 		</ScrollViewer.Styles>
 	</ScrollViewer>
 </UserControl>
+
+

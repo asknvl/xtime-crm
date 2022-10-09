@@ -202,10 +202,10 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                 int total_creatives = 0;
                 List<CreativeDTO> crdtos;
 
-                //var roles = AppContext.User.Roles;
-                //bool? showinvisible = roles.Any(x => x.Type == Models.user.RoleType.admin || x.Type == Models.user.RoleType.creative) ? null : true;
+                var roles = AppContext.User.Roles;
+                bool? showinvisible = roles.Any(x => x.Type == Models.user.RoleType.admin || x.Type == Models.user.RoleType.creative) ? null : true;
 
-                (crdtos, TotalPages, total_creatives) = await AppContext.ServerApi.GetAvaliableCreatives(token, page - 1, pagesize, CreativeServerDirectory, (int)CreativeType.video, null);
+                (crdtos, TotalPages, total_creatives) = await AppContext.ServerApi.GetAvaliableCreatives(token, page - 1, pagesize, CreativeServerDirectory, (int)CreativeType.video, showinvisible);
 
                 PageInfo = getPageInfo(SelectedPage, crdtos.Count, total_creatives);
 

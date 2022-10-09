@@ -32,6 +32,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants>ONLINE</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='WIN|AnyCPU'">
+    <DefineConstants>ONLINE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MAC|AnyCPU'">
+    <DefineConstants>ONLINE</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>		  
     <AvaloniaResource Include="Assets\**" />
     <AvaloniaXaml Remove="libs\**" />	  
@@ -48,6 +54,7 @@
     <AvaloniaResource Remove="Styles\UserListStyle.axaml" />
     <AvaloniaXaml Remove="Views\Colors.axaml" />
     <None Remove="Assets\svgs\screens\Download.svg" />
+    <None Remove="Assets\svgs\screens\refresh.svg" />
     <!--<None Remove=".gitignore" />
     <None Remove="Assets\fonts\Inter\Inter-Black.ttf" />
     <None Remove="Assets\fonts\Inter\Inter-Bold.ttf" />

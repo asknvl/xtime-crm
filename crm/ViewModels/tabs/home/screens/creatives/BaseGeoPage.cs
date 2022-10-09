@@ -20,7 +20,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         #endregion
 
         #region pagination
-        const int displayed_lines_num = 20;
+        const int displayed_lines_num1 = 20;
 
         int page = 1;
         public int SelectedPage
@@ -46,7 +46,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             }
         }
 
-        int pageSize = displayed_lines_num;
+        int pageSize;
         public int PageSize
         {
             get => pageSize;
@@ -85,13 +85,15 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
         public string getPageInfo(int page, int items_count, int total_users)
         {
+            int displayed_lines_num = AppContext.Settings.CreativesPerPage;
             int p = (items_count < displayed_lines_num) ? (page - 1) * displayed_lines_num + items_count : page * displayed_lines_num;
             return $"{(page - 1) * displayed_lines_num + 1}-{p} из {total_users}";
         }
         #endregion
 
         public BaseGeoPage()
-        {            
+        {
+            PageSize = AppContext.Settings.CreativesPerPage;
         }
 
         #region public        

@@ -97,6 +97,7 @@ namespace crm.ViewModels.tabs.home.screens
         public ReactiveCommand<Unit, Unit> newCreativeCmd { get; }
         public ReactiveCommand<Unit, Unit> unicalizeCmd { get; }
         public ReactiveCommand<Unit, Unit> deselectAllCmd { get; }
+        public ReactiveCommand<Unit, Unit> synchronizeAllCmd { get; }        
         #endregion
 
         public Creatives() : base()
@@ -172,13 +173,7 @@ namespace crm.ViewModels.tabs.home.screens
                                 }
 
                             }
-                        }
-
-                        //var continueTask = Task.WhenAll(tasks).ContinueWith((a) =>
-                        //{
-                        //    IsUniqRunning = false;
-                        //    Content.IsAllChecked = false;
-                        //});
+                        }                        
 
                         Content.ToogleUpdate(true);
 
@@ -200,6 +195,11 @@ namespace crm.ViewModels.tabs.home.screens
             deselectAllCmd = ReactiveCommand.Create(() =>
             {
                 Content.IsAllChecked = false;
+            });
+
+            synchronizeAllCmd = ReactiveCommand.Create(() => {
+
+                Content.OnActivate();
             });
             #endregion
         }
