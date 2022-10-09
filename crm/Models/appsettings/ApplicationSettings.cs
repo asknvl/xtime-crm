@@ -21,6 +21,8 @@ namespace crm.Models.appsettings
         public string Password { get; set; } = "";
         [JsonProperty("RememberMe")]
         public bool RememberMe { get; set; } = false;
+        [JsonProperty("CreativesPerPage")]
+        public int CreativesPerPage { get; set; } = 250;
         #endregion
 
         public ApplicationSettings()

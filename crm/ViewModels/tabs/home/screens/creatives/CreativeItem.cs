@@ -1,4 +1,5 @@
-﻿using crm.Models.api.server;
+﻿using Avalonia.Media.Imaging;
+using crm.Models.api.server;
 using crm.Models.creatives;
 using crm.Models.storage;
 using crm.Models.uniq;
@@ -74,10 +75,18 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             set => this.RaiseAndSetIfChanged(ref isVisible, value);
         }
 
+        Bitmap preview;
+        public Bitmap Preview
+        {
+            get => preview;
+            set => this.RaiseAndSetIfChanged(ref preview, value);
+        }
+
         public CreativeServerDirectory ServerDirectory { get; set; }
         public string Name { get; set; }
         public string FileName { get; set; }
         public string LocalPath { get; set; }
+        public string ThumbNail { get; set; }
         public string UrlPath { get; set; }
         public bool IsUploaded { get; set; }
         #endregion
@@ -135,6 +144,8 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
             LocalPath = Path.Combine(paths.CreativesRootPath, ServerDirectory.dir, $"{dto.name}.{dto.file_extension}");
 
+            ThumbNail = Path.Combine(paths.CreativesRootPath, ServerDirectory.dir, $"{dto.name}.png");
+
             IsVisible = dto.visibility;
             IsUploaded = dto.uploaded;
 
@@ -185,33 +196,20 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         }
 
         #region public
-        public void Synchronize()
-        {
-            if (isSynchronizing)
-                return;
-
-            Task.Run(async () =>
-            {
-                isSynchronizing = true;
-                if (localManager.CheckCreativeDownloaded(this))
-                {
-                    IsSynchronized = true;
-                } else
-                {
-                    await remoteManager.Download(this);
-                }
-                isSynchronizing = false;
-            });
-        }
-
         public async Task SynchronizeAsync()
         {
+            var remote_size = await remoteManager.GetFileSize(this);
 
-            if (localManager.CheckCreativeDownloaded(this))
+            if (localManager.CheckCreativeDownloaded(this, remote_size))
+            {
                 IsSynchronized = true;
-            else
+            } else
+            {
                 await remoteManager.Download(this);
+                string tn = await localManager.GetThumbNail(this);
+            }
 
+            Preview = new Bitmap(ThumbNail);
         }
 
         public async Task Uniqalize()

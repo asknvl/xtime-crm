@@ -17,7 +17,7 @@
 	<UserControl.Styles>
 		<StyleInclude Source="/Styles/ScreenStyle.axaml"/>
 		<StyleInclude Source="/Styles/UserListStyle.axaml"/>
-		<StyleInclude Source="/Styles/ToggleSwitch.axaml"/>
+		<StyleInclude Source="/Styles/ToggleSwitch.axaml"/>		
 	</UserControl.Styles>
 	<UserControl.Resources>
 		<conv:StatusToSvgPathConverter x:Key="statusConverter"/>
@@ -295,7 +295,7 @@
 													<Grid
 														Margin="15, 0, 0, 0"
 														Grid.Column="1"
-														ColumnDefinitions="180, 140, 140, 140">
+														ColumnDefinitions="140, 40, 140, 140, 140">
 														<ProgressBar
 															Grid.Column="0"
 															Grid.ColumnSpan="4"
@@ -322,10 +322,44 @@
 																VerticalAlignment="Center"
 																HorizontalAlignment="Left"/>
 														</Button>
+
+														<Border															
+															BorderBrush="Transparent"
+															CornerRadius="10"															
+															BorderThickness="1"															
+															Grid.Column="1"
+															ClipToBounds="True">															
+															<Image																	
+																Source="{Binding Preview}"																
+																Stretch="UniformToFill"
+																ToolTip.ShowDelay="0"
+																ToolTip.Placement="Pointer">
+																<ToolTip.Tip>
+																	<Border
+																		BorderBrush="Transparent"
+																		CornerRadius="10"
+																		BorderThickness="1"																		
+																		ClipToBounds="True">
+																		<Image	
+																			Height="500"
+																			Source="{Binding Preview}"
+																			Stretch="UniformToFill">
+																		</Image>
+																	</Border>
+																</ToolTip.Tip>																
+															</Image>
+															<Border.Styles>
+																<Style Selector="ToolTip">																	
+																	<Setter Property="Padding" Value="0"/>
+																	<Setter Property="BorderBrush" Value="Transparent"/>
+																</Style>
+															</Border.Styles>
+														</Border>
+
 														<Button
 															Command="{Binding previewCmd}"
 															Classes="Button Hyper"
-															Grid.Column="1"
+															Grid.Column="2"
 															HorizontalAlignment="Center">
 															<TextBlock>
 																Предпросмотр
@@ -333,7 +367,7 @@
 														</Button>
 														<cust:IntTextBox															
 															Text="{Binding Uniques, FallbackValue=0}"															
-															Grid.Column="2"
+															Grid.Column="3"
 															IsEnabled="{Binding IsChecked}"
 															VerticalAlignment="Center"
 															HorizontalAlignment="Center"															
@@ -366,7 +400,7 @@
 														<ToggleSwitch
 															Command="{Binding setVisibilityCmd}"
 															Margin="15, 0, 0, 0"
-															Grid.Column="3"
+															Grid.Column="4"
 															VerticalAlignment="Center"
 															HorizontalAlignment="Center"
 															IsChecked="{Binding IsVisible}">

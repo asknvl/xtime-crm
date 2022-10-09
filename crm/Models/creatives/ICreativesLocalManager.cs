@@ -10,6 +10,7 @@ namespace crm.Models.creatives
 {
     public interface ICreativesLocalManager
     {
-        bool CheckCreativeDownloaded(ICreative creative);
+        bool CheckCreativeDownloaded(ICreative creative, long remote_size);
+        Task<string> GetThumbNail(ICreative creative);
     }
 }

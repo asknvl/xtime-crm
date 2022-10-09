@@ -22,6 +22,10 @@ namespace crm.Models.creatives
     {
 
         #region const        
+        NetworkCredential credential = new NetworkCredential(
+                 "user287498742876",
+                 "TK&9HhALSv3utvd58px3#tGgQ"
+                 );
         #endregion
 
         #region vars                
@@ -98,21 +102,21 @@ namespace crm.Models.creatives
                  "TK&9HhALSv3utvd58px3#tGgQ"
                  );
             client.Credentials = credential;
-            client.DownloadProgressChanged += Client_DownloadProgressChanged;
-            
+            client.DownloadProgressChanged += Client_DownloadProgressChanged;            
             client.DownloadFileCompleted += Client_DownloadFileCompleted;
-
 
             try
             {
 
-                
+                if (File.Exists(creative.LocalPath))
+                    File.Delete(creative.LocalPath);
+
                 var found = downloadingList.FirstOrDefault(c => c.Id == creative.Id);
                 if (found == null)
                 {
-
                     downloadingList.Add(creative);
-                    await client.DownloadFileTaskAsync(new Uri(creative.UrlPath), creative.LocalPath);
+                    await client.DownloadFileTaskAsync(new Uri(creative.UrlPath), creative.LocalPath);                    
+
                     downloadingList.Remove(creative);
                 } else
                 {
@@ -175,6 +179,27 @@ namespace crm.Models.creatives
                 await serverApi.SetCreativeStatus(token, creative_id, true, true);
 
             }
+        }
+
+        public async Task<long> GetFileSize(ICreative creative)
+        {
+            long res = 0;
+
+            System.Net.WebRequest req = System.Net.WebRequest.Create(creative.UrlPath);
+            req.Credentials = credential;
+            req.Method = "HEAD";
+
+            await Task.Run(() => {
+                using (System.Net.WebResponse resp = req.GetResponse())
+                {
+                    if (long.TryParse(resp.Headers.Get("Content-Length"), out long ContentLength))
+                    {
+                        res = ContentLength;
+                    }
+                }
+            });
+
+            return res;
         }
 
         #region callbacks

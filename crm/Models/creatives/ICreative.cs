@@ -17,7 +17,8 @@ namespace crm.Models.creatives
         public int Id { get; set; }                
         CreativeServerDirectory ServerDirectory { get; set; }        
         public string Name { get; set; }                
-        public string FileName { get; set; }                
+        public string FileName { get; set; }       
+        public string ThumbNail { get; set; }
         public string LocalPath { get; set; }                
         public string UrlPath { get; set; }                
         public bool IsVisible { get; set; }        
@@ -25,8 +26,7 @@ namespace crm.Models.creatives
         
         public Task Uniqalize();
         public Task Uniqalize(int uniques);
-        public void StopUniqalization();
-        public void Synchronize();
+        public void StopUniqalization();       
         public Task SynchronizeAsync();
 
     }
