@@ -1,14 +1,17 @@
 ﻿<Properties StartupConfiguration="{9EFCE830-79D1-4B15-89B7-9B0E90DD6B74}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="crm/Views/tabs/home/screens/Creatives.axaml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="crm/Models/api/server/BaseServerApi.cs">
     <Files>
       <File FileName="crm/Models/creatives/CreativePreviewer.cs" Line="1" Column="1" />
-      <File FileName="crm/ViewModels/tabs/home/screens/creatives/CreativeItem.cs" Line="223" Column="1" />
+      <File FileName="crm/ViewModels/tabs/home/screens/creatives/CreativeItem.cs" />
       <File FileName="crm/Models/creatives/CreativesRemoteManager.cs" />
       <File FileName="crm/Models/creatives/ExtendedWebClient.cs" />
       <File FileName="crm/Views/MainWindow.axaml" />
-      <File FileName="crm/Models/uniq/Uniqalizer.cs" Line="46" Column="34" />
-      <File FileName="crm/Views/tabs/home/screens/Creatives.axaml" Line="348" Column="37" />
-      <File FileName="crm/Models/creatives/CreativesLocalManager.cs" Line="38" Column="64" />
+      <File FileName="crm/Models/uniq/Uniqalizer.cs" />
+      <File FileName="crm/Views/tabs/home/screens/Creatives.axaml" Line="344" Column="37" />
+      <File FileName="crm/Models/creatives/CreativesLocalManager.cs" />
+      <File FileName="crm/ViewModels/tabs/home/screens/creatives/GeoPage.cs" Line="208" Column="105" />
+      <File FileName="crm/Models/api/server/IServerApi.cs" Line="29" Column="45" />
+      <File FileName="crm/Models/api/server/BaseServerApi.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -16,6 +19,11 @@
           <Node name="crm" expanded="True">
             <Node name="crm" expanded="True">
               <Node name="Models" expanded="True">
+                <Node name="api" expanded="True">
+                  <Node name="server" expanded="True">
+                    <Node name="IServerApi.cs" selected="True" />
+                  </Node>
+                </Node>
                 <Node name="creatives" expanded="True" />
                 <Node name="uniq" expanded="True" />
               </Node>
@@ -38,9 +46,7 @@
                 <Node name="tabs" expanded="True">
                   <Node name="home" expanded="True">
                     <Node name="controls" expanded="True" />
-                    <Node name="screens" expanded="True">
-                      <Node name="Creatives.axaml" selected="True" />
-                    </Node>
+                    <Node name="screens" expanded="True" />
                   </Node>
                 </Node>
                 <Node name="MainWindow.axaml" expanded="True" />

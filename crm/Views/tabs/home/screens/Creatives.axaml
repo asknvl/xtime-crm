@@ -345,8 +345,7 @@
 															<Image																	
 																Source="{Binding Preview}"																
 																Stretch="UniformToFill"
-																ToolTip.ShowDelay="1"
-																ToolTip.Placement="Pointer">
+																ToolTip.ShowDelay="1">
 																<ToolTip.Tip>
 																	<Border
 																		BorderBrush="Transparent"

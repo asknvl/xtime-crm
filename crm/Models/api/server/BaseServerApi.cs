@@ -557,7 +557,7 @@ namespace crm.Models.api.server
             request.AddQueryParameter("size", size.ToString());
             request.AddQueryParameter("creo_directory_id", dir.id.ToString());
             request.AddQueryParameter("file_type_id", filetype.ToString());
-            request.AddQueryParameter("sort_by", "-id");
+            request.AddQueryParameter("sort_by", "+id");
             if (showinvisible != null)
                 request.AddQueryParameter("visibility", $"{showinvisible}");
             var response = client.Execute(request);
