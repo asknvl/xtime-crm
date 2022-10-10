@@ -82,6 +82,13 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             set => this.RaiseAndSetIfChanged(ref preview, value);
         }
 
+        Bitmap fastView;
+        public Bitmap FastView
+        {
+            get => fastView;
+            set => this.RaiseAndSetIfChanged(ref fastView, value);
+        }
+
         public CreativeServerDirectory ServerDirectory { get; set; }
         public string Name { get; set; }
         public string FileName { get; set; }
@@ -209,7 +216,14 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                 string tn = await localManager.GetThumbNail(this);
             }
 
-            Preview = new Bitmap(ThumbNail);
+            var ms = File.OpenRead(ThumbNail);
+
+            Preview = await Task.Run(() => Bitmap.DecodeToWidth(ms, 40));//new Bitmap(ThumbNail);
+            ms = File.OpenRead(ThumbNail);
+
+            FastView = await Task.Run(() => Bitmap.DecodeToHeight(ms, 500));
+
+           
         }
 
         public async Task Uniqalize()

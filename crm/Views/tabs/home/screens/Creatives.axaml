@@ -345,7 +345,7 @@
 															<Image																	
 																Source="{Binding Preview}"																
 																Stretch="UniformToFill"
-																ToolTip.ShowDelay="0"
+																ToolTip.ShowDelay="1"
 																ToolTip.Placement="Pointer">
 																<ToolTip.Tip>
 																	<Border
@@ -355,7 +355,7 @@
 																		ClipToBounds="True">
 																		<Image	
 																			Height="500"
-																			Source="{Binding Preview}"
+																			Source="{Binding FastView}"
 																			Stretch="UniformToFill">
 																		</Image>
 																	</Border>
