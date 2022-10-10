@@ -217,10 +217,8 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             }
 
             var ms = File.OpenRead(ThumbNail);
-
             Preview = await Task.Run(() => Bitmap.DecodeToWidth(ms, 40));//new Bitmap(ThumbNail);
             ms = File.OpenRead(ThumbNail);
-
             FastView = await Task.Run(() => Bitmap.DecodeToHeight(ms, 500));
 
            
