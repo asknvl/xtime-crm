@@ -34,6 +34,9 @@ namespace crm.Models.creatives
 
         public async Task<string> GetThumbNail(ICreative creative)
         {
+
+            if (File.Exists(creative.ThumbNail))
+                File.Delete(creative.ThumbNail);
             IConversion conversion = await FFmpeg.Conversions.FromSnippet.Snapshot(creative.LocalPath, creative.ThumbNail, TimeSpan.FromSeconds(0));
             IConversionResult result = await conversion.Start();
             return creative.ThumbNail;

@@ -213,8 +213,11 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             } else
             {
                 await remoteManager.Download(this);
-                string tn = await localManager.GetThumbNail(this);
+                await localManager.GetThumbNail(this);
             }
+
+            if (!File.Exists(ThumbNail))
+                await localManager.GetThumbNail(this);
 
             var ms = File.OpenRead(ThumbNail);
             Preview = await Task.Run(() => Bitmap.DecodeToWidth(ms, 40));//new Bitmap(ThumbNail);
