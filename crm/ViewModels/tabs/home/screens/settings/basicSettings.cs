@@ -54,7 +54,7 @@ namespace crm.ViewModels.tabs.home.screens.settings
         #endregion
         public basicSettings() : base()
         {
-            RememberMe = AppContext.Settings.RememberMe;
+            RememberMe = AppContext.Settings.RememberMe;            
             CreosPerPage = AppContext.Settings.CreativesPerPage;
         }
 

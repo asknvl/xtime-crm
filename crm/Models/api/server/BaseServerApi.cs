@@ -544,7 +544,46 @@ namespace crm.Models.api.server
             });
         }
 
-        public virtual async Task<(List<CreativeDTO>, int, int)> GetAvaliableCreatives(string token, int page, int size, CreativeServerDirectory dir, int filetype, bool? showinvisible)
+        //public virtual async Task<(List<CreativeDTO>, int, int)> GetAvaliableCreatives(string token, int page, int size, CreativeServerDirectory dir, int filetype, bool? showinvisible)
+        //{
+        //    List<CreativeDTO> creatives = new();
+        //    int total_pages = 0;
+        //    int total_creatives = 0;
+
+        //    var client = new RestClient($"{url}/v1/creatives/");
+        //    var request = new RestRequest(Method.GET);
+        //    request.AddHeader($"Authorization", $"Bearer {token}");
+        //    request.AddQueryParameter("page", page.ToString());
+        //    request.AddQueryParameter("size", size.ToString());
+        //    request.AddQueryParameter("creo_directory_id", dir.id.ToString());
+        //    request.AddQueryParameter("file_type_id", filetype.ToString());
+        //    request.AddQueryParameter("sort_by", "+id");
+        //    if (showinvisible != null)
+        //        request.AddQueryParameter("visibility", $"{showinvisible}");
+        //    var response = client.Execute(request);
+        //    var json = JObject.Parse(response.Content);
+        //    var res = json["success"].ToObject<bool>();
+        //    if (res)
+        //    {
+        //        JToken data = json["data"];
+        //        if (data != null)
+        //        {
+        //            creatives = JsonConvert.DeserializeObject<List<CreativeDTO>>(data.ToString());
+        //            total_pages = json["total_pages"].ToObject<int>();
+        //            total_creatives = json["total_users"].ToObject<int>();
+        //        }
+        //    } else
+        //    {
+        //        string e = json["errors"].ToString();
+        //        List<ServerError>? errors = JsonConvert.DeserializeObject<List<ServerError>>(e);
+        //        throw new ServerException($"{getErrMsg(errors)}");
+        //    }            
+
+        //    return (creatives, total_pages, total_creatives);
+        //}
+
+
+        public virtual (List<CreativeDTO>, int, int) GetAvaliableCreatives(string token, int page, int size, CreativeServerDirectory dir, int filetype, bool? showinvisible)
         {
             List<CreativeDTO> creatives = new();
             int total_pages = 0;
@@ -577,12 +616,11 @@ namespace crm.Models.api.server
                 string e = json["errors"].ToString();
                 List<ServerError>? errors = JsonConvert.DeserializeObject<List<ServerError>>(e);
                 throw new ServerException($"{getErrMsg(errors)}");
-            }            
+            }
 
             return (creatives, total_pages, total_creatives);
         }
 
-        
 
         #endregion
 
