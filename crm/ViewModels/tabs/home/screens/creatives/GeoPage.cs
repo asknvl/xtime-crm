@@ -185,11 +185,9 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
         }
 
-        #region helpers
-        async Task updatePageInfo(int page, int pagesize, string sortkey)
+        Task getT(int page, int pagesize, string sortkey)
         {
-
-            await Task.Run(async () =>
+           return new Task(async () =>
             {
 
                 await Dispatcher.UIThread.InvokeAsync(() =>
@@ -278,8 +276,124 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 #endif
 
             });
+        }
 
 
+        Dictionary<int, Task> tasks = new Dictionary<int, Task>();
+
+
+        #region helpers
+        async Task updatePageInfo(int page, int pagesize, string sortkey)
+        {
+
+//            Task t = new Task(async () =>
+//            {
+
+//                await Dispatcher.UIThread.InvokeAsync(() =>
+//                {
+//                    CreativesList.Clear();
+//                });
+
+//#if ONLINE
+//                int total_pages = 0;
+//                int total_creatives = 0;
+//                List<CreativeDTO> crdtos;
+
+//                var roles = AppContext.User.Roles;
+//                bool? showinvisible = roles.Any(x => x.Type == Models.user.RoleType.admin || x.Type == Models.user.RoleType.creative) ? null : true;
+
+//                (crdtos, TotalPages, total_creatives) = await AppContext.ServerApi.GetAvaliableCreatives(token, page - 1, pagesize, CreativeServerDirectory, (int)CreativeType.video, showinvisible);
+
+//                PageInfo = getPageInfo(SelectedPage, crdtos.Count, total_creatives);
+
+//                //int total_in_dictionary = 0;
+//                //foreach (var item in creativeListDictionary)
+//                //    total_in_dictionary += item.Value.Count;
+
+//                //if (total_in_dictionary < total_creatives)
+//                //    creativeListDictionary.Clear();
+
+//                //if (!creativeListDictionary.ContainsKey(SelectedPage))
+//                //    creativeListDictionary.Add(SelectedPage, new List<CreativeItem>());
+
+//                IsPrevActive = false;
+//                IsNextActive = false;
+
+
+//                foreach (var cdt in crdtos)
+//                {
+//                    var found = CreativesList.FirstOrDefault(o => o.Id == cdt.id);
+
+//                    //CreativeItem found = null;
+//                    //if (creativeListDictionary.ContainsKey(SelectedPage))
+//                    //{
+//                    //    var list = creativeListDictionary[SelectedPage];
+//                    //    found = list.FirstOrDefault(o => o.Id == cdt.id);
+//                    //}
+
+//                    if (found == null)
+//                    {
+
+//                        CreativeItem creative = new CreativeItem(cdt, CreativeServerDirectory);
+
+//                        if (creative.IsUploaded)
+//                        {
+
+//                            await Dispatcher.UIThread.InvokeAsync(() =>
+//                            {
+//                                creative.CheckedEvent -= Creative_CheckedEvent;
+//                                creative.CheckedEvent += Creative_CheckedEvent;
+//                                creative.IsChecked = CheckedCreatives.Any(u => u.Id.Equals(creative.Id)) || IsAllChecked;
+//                                CreativesList.Add(creative);
+//                                //creativeListDictionary[SelectedPage].Add(creative);
+
+//                            });
+
+//                            //await Task.Run(() => { creative.Synchronize(); });
+//                            await creative.SynchronizeAsync();
+
+//                        } else
+//                        {
+
+//                        }
+
+
+//                    }
+//                }
+
+//                IsPrevActive = true;
+//                IsNextActive = true;
+
+//                //foreach (var creative in creativeListDictionary[SelectedPage])
+//                //{
+//                //    await Dispatcher.UIThread.InvokeAsync(() =>
+//                //    {
+//                //        CreativesList.Add(creative);
+//                //    });
+//                //}
+//#else
+//#endif
+
+//            });
+
+            if (!tasks.ContainsKey(page))
+            {
+                var t = getT(page, pagesize, sortkey);
+                tasks.Add(page, t);
+                t.Start();
+            } else
+            {
+                if (tasks[page].IsCompleted)
+                {
+
+                } else
+                {
+                    var t = getT(page, pagesize, sortkey);
+                    tasks[page] = t;
+                    t.Start();
+                }
+            }
+            
         }
         #endregion
 
