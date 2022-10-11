@@ -11,7 +11,7 @@ namespace crm.Models.appsettings
     public class ApplicationSettings : IApplicationSettings
     {
         #region vars
-        IStorage<ApplicationSettings> storage;
+        IStorage<ApplicationSettings> storage;        
         #endregion
 
         #region properties
@@ -20,9 +20,18 @@ namespace crm.Models.appsettings
         [JsonProperty("Password")]
         public string Password { get; set; } = "";
         [JsonProperty("RememberMe")]
-        public bool RememberMe { get; set; } = false;
+        public bool RememberMe { get; set; } = false;        
+
+        int creativesPerPage;
         [JsonProperty("CreativesPerPage")]
-        public int CreativesPerPage { get; set; } = 200;
+        public int CreativesPerPage {
+            get => creativesPerPage;
+            set
+            {
+                creativesPerPage = value;
+                SettingChangedEvent?.Invoke("CreativesPerPage", creativesPerPage);
+            }
+        }
         #endregion
 
         public ApplicationSettings()
@@ -45,6 +54,10 @@ namespace crm.Models.appsettings
         {
             storage.save(this);
         }
+        #endregion
+
+        #region callbacks        
+        public event Action<string, object> SettingChangedEvent;
         #endregion
     }
 }

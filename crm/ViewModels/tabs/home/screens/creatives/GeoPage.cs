@@ -69,7 +69,8 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         public bool NeedMassUniqalization
         {
             get => needMassUniqalization;
-            set {
+            set
+            {
                 foreach (var creative in CreativesList)
                 {
                     foreach (var item in CreativesList)
@@ -86,7 +87,8 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         public int Uniques
         {
             get => uniques;
-            set {
+            set
+            {
                 this.RaiseAndSetIfChanged(ref uniques, value);
                 if (NeedMassUniqalization)
                 {
@@ -119,6 +121,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
             server = AppContext.ServerApi;
             token = AppContext.User.Token;
+            AppContext.Settings.SettingChangedEvent += Settings_SettingChangedEvent;
 
             SelectedPage = 1;
 
@@ -130,7 +133,8 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                 {
                     //Users.Clear();
                     await updatePageInfo(SelectedPage, PageSize, SortKey);
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     ws.ShowDialog(new errMsgVM(ex.Message));
                 }
@@ -143,7 +147,8 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                 {
                     //Users.Clear();
                     await updatePageInfo(SelectedPage, PageSize, SortKey);
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     ws.ShowDialog(new errMsgVM(ex.Message));
                 }
@@ -154,6 +159,18 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
         }
 
+        private async void Settings_SettingChangedEvent(string arg1, object arg2)
+        {
+            try
+            {                
+                await updatePageInfo(SelectedPage, PageSize, SortKey);
+            }
+            catch (Exception ex)
+            {
+                ws.ShowDialog(new errMsgVM(ex.Message));
+            }
+        }
+
         private async void UpdateTimer_Elapsed(object? sender, ElapsedEventArgs e)
         {
             ToogleUpdate(false);
@@ -162,7 +179,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             {
                 Debug.WriteLine($"{creativeServerDirectory.dir} IS NOTIFY");
                 changeList.Clear();
-                await updatePageInfo(SelectedPage, PageSize, SortKey);                
+                await updatePageInfo(SelectedPage, PageSize, SortKey);
             }
             ToogleUpdate(true);
         }
@@ -186,10 +203,13 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
         }
 
+        int prevPageSize = 1;
         Task getT(int page, int pagesize, string sortkey)
         {
             return new Task(() =>
              {
+
+                 prevPageSize = PageSize;
 
                  Dispatcher.UIThread.InvokeAsync(() =>
                  {
@@ -197,7 +217,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                  });
 
 #if ONLINE
-                            int total_pages = 0;
+                 int total_pages = 0;
                  int total_creatives = 0;
                  List<CreativeDTO> crdtos;
 
@@ -208,17 +228,17 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
                  PageInfo = getPageInfo(SelectedPage, crdtos.Count, total_creatives);
 
-                            //int total_in_dictionary = 0;
-                            //foreach (var item in creativeListDictionary)
-                            //    total_in_dictionary += item.Value.Count;
+                 //int total_in_dictionary = 0;
+                 //foreach (var item in creativeListDictionary)
+                 //    total_in_dictionary += item.Value.Count;
 
-                            //if (total_in_dictionary < total_creatives)
-                            //    creativeListDictionary.Clear();
+                 //if (total_in_dictionary < total_creatives)
+                 //    creativeListDictionary.Clear();
 
-                            //if (!creativeListDictionary.ContainsKey(SelectedPage))
-                            //    creativeListDictionary.Add(SelectedPage, new List<CreativeItem>());
+                 //if (!creativeListDictionary.ContainsKey(SelectedPage))
+                 //    creativeListDictionary.Add(SelectedPage, new List<CreativeItem>());
 
-                            IsPrevActive = false;
+                 IsPrevActive = false;
                  IsNextActive = false;
 
 
@@ -226,14 +246,14 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                  {
                      var found = CreativesList.FirstOrDefault(o => o.Id == cdt.id);
 
-                                //CreativeItem found = null;
-                                //if (creativeListDictionary.ContainsKey(SelectedPage))
-                                //{
-                                //    var list = creativeListDictionary[SelectedPage];
-                                //    found = list.FirstOrDefault(o => o.Id == cdt.id);
-                                //}
+                     //CreativeItem found = null;
+                     //if (creativeListDictionary.ContainsKey(SelectedPage))
+                     //{
+                     //    var list = creativeListDictionary[SelectedPage];
+                     //    found = list.FirstOrDefault(o => o.Id == cdt.id);
+                     //}
 
-                                if (found == null)
+                     if (found == null)
                      {
 
                          CreativeItem creative = new CreativeItem(cdt, CreativeServerDirectory);
@@ -247,14 +267,15 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                                  creative.CheckedEvent += Creative_CheckedEvent;
                                  creative.IsChecked = CheckedCreatives.Any(u => u.Id.Equals(creative.Id)) || IsAllChecked;
                                  CreativesList.Add(creative);
-                                //creativeListDictionary[SelectedPage].Add(creative);
+                                 //creativeListDictionary[SelectedPage].Add(creative);
 
-                            });
+                             });
 
-                            //await Task.Run(() => { creative.Synchronize(); });
-                            creative.SynchronizeAsync().Wait();
+                             //await Task.Run(() => { creative.Synchronize(); });
+                             creative.SynchronizeAsync().Wait();
 
-                         } else
+                         }
+                         else
                          {
 
                          }
@@ -266,17 +287,17 @@ namespace crm.ViewModels.tabs.home.screens.creatives
                  IsPrevActive = true;
                  IsNextActive = true;
 
-                            //foreach (var creative in creativeListDictionary[SelectedPage])
-                            //{
-                            //    await Dispatcher.UIThread.InvokeAsync(() =>
-                            //    {
-                            //        CreativesList.Add(creative);
-                            //    });
-                            //}
+                 //foreach (var creative in creativeListDictionary[SelectedPage])
+                 //{
+                 //    await Dispatcher.UIThread.InvokeAsync(() =>
+                 //    {
+                 //        CreativesList.Add(creative);
+                 //    });
+                 //}
 #else
 #endif
 
-                        });
+             });
 
             //return new Task(async () => {
 
@@ -304,116 +325,118 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         async Task updatePageInfo(int page, int pagesize, string sortkey)
         {
 
-//            Task t = new Task(async () =>
-//            {
+            //            Task t = new Task(async () =>
+            //            {
 
-//                await Dispatcher.UIThread.InvokeAsync(() =>
-//                {
-//                    CreativesList.Clear();
-//                });
+            //                await Dispatcher.UIThread.InvokeAsync(() =>
+            //                {
+            //                    CreativesList.Clear();
+            //                });
 
-//#if ONLINE
-//                int total_pages = 0;
-//                int total_creatives = 0;
-//                List<CreativeDTO> crdtos;
+            //#if ONLINE
+            //                int total_pages = 0;
+            //                int total_creatives = 0;
+            //                List<CreativeDTO> crdtos;
 
-//                var roles = AppContext.User.Roles;
-//                bool? showinvisible = roles.Any(x => x.Type == Models.user.RoleType.admin || x.Type == Models.user.RoleType.creative) ? null : true;
+            //                var roles = AppContext.User.Roles;
+            //                bool? showinvisible = roles.Any(x => x.Type == Models.user.RoleType.admin || x.Type == Models.user.RoleType.creative) ? null : true;
 
-//                (crdtos, TotalPages, total_creatives) = await AppContext.ServerApi.GetAvaliableCreatives(token, page - 1, pagesize, CreativeServerDirectory, (int)CreativeType.video, showinvisible);
+            //                (crdtos, TotalPages, total_creatives) = await AppContext.ServerApi.GetAvaliableCreatives(token, page - 1, pagesize, CreativeServerDirectory, (int)CreativeType.video, showinvisible);
 
-//                PageInfo = getPageInfo(SelectedPage, crdtos.Count, total_creatives);
+            //                PageInfo = getPageInfo(SelectedPage, crdtos.Count, total_creatives);
 
-//                //int total_in_dictionary = 0;
-//                //foreach (var item in creativeListDictionary)
-//                //    total_in_dictionary += item.Value.Count;
+            //                //int total_in_dictionary = 0;
+            //                //foreach (var item in creativeListDictionary)
+            //                //    total_in_dictionary += item.Value.Count;
 
-//                //if (total_in_dictionary < total_creatives)
-//                //    creativeListDictionary.Clear();
+            //                //if (total_in_dictionary < total_creatives)
+            //                //    creativeListDictionary.Clear();
 
-//                //if (!creativeListDictionary.ContainsKey(SelectedPage))
-//                //    creativeListDictionary.Add(SelectedPage, new List<CreativeItem>());
+            //                //if (!creativeListDictionary.ContainsKey(SelectedPage))
+            //                //    creativeListDictionary.Add(SelectedPage, new List<CreativeItem>());
 
-//                IsPrevActive = false;
-//                IsNextActive = false;
-
-
-//                foreach (var cdt in crdtos)
-//                {
-//                    var found = CreativesList.FirstOrDefault(o => o.Id == cdt.id);
-
-//                    //CreativeItem found = null;
-//                    //if (creativeListDictionary.ContainsKey(SelectedPage))
-//                    //{
-//                    //    var list = creativeListDictionary[SelectedPage];
-//                    //    found = list.FirstOrDefault(o => o.Id == cdt.id);
-//                    //}
-
-//                    if (found == null)
-//                    {
-
-//                        CreativeItem creative = new CreativeItem(cdt, CreativeServerDirectory);
-
-//                        if (creative.IsUploaded)
-//                        {
-
-//                            await Dispatcher.UIThread.InvokeAsync(() =>
-//                            {
-//                                creative.CheckedEvent -= Creative_CheckedEvent;
-//                                creative.CheckedEvent += Creative_CheckedEvent;
-//                                creative.IsChecked = CheckedCreatives.Any(u => u.Id.Equals(creative.Id)) || IsAllChecked;
-//                                CreativesList.Add(creative);
-//                                //creativeListDictionary[SelectedPage].Add(creative);
-
-//                            });
-
-//                            //await Task.Run(() => { creative.Synchronize(); });
-//                            await creative.SynchronizeAsync();
-
-//                        } else
-//                        {
-
-//                        }
+            //                IsPrevActive = false;
+            //                IsNextActive = false;
 
 
-//                    }
-//                }
+            //                foreach (var cdt in crdtos)
+            //                {
+            //                    var found = CreativesList.FirstOrDefault(o => o.Id == cdt.id);
 
-//                IsPrevActive = true;
-//                IsNextActive = true;
+            //                    //CreativeItem found = null;
+            //                    //if (creativeListDictionary.ContainsKey(SelectedPage))
+            //                    //{
+            //                    //    var list = creativeListDictionary[SelectedPage];
+            //                    //    found = list.FirstOrDefault(o => o.Id == cdt.id);
+            //                    //}
 
-//                //foreach (var creative in creativeListDictionary[SelectedPage])
-//                //{
-//                //    await Dispatcher.UIThread.InvokeAsync(() =>
-//                //    {
-//                //        CreativesList.Add(creative);
-//                //    });
-//                //}
-//#else
-//#endif
+            //                    if (found == null)
+            //                    {
 
-//            });
+            //                        CreativeItem creative = new CreativeItem(cdt, CreativeServerDirectory);
+
+            //                        if (creative.IsUploaded)
+            //                        {
+
+            //                            await Dispatcher.UIThread.InvokeAsync(() =>
+            //                            {
+            //                                creative.CheckedEvent -= Creative_CheckedEvent;
+            //                                creative.CheckedEvent += Creative_CheckedEvent;
+            //                                creative.IsChecked = CheckedCreatives.Any(u => u.Id.Equals(creative.Id)) || IsAllChecked;
+            //                                CreativesList.Add(creative);
+            //                                //creativeListDictionary[SelectedPage].Add(creative);
+
+            //                            });
+
+            //                            //await Task.Run(() => { creative.Synchronize(); });
+            //                            await creative.SynchronizeAsync();
+
+            //                        } else
+            //                        {
+
+            //                        }
+
+
+            //                    }
+            //                }
+
+            //                IsPrevActive = true;
+            //                IsNextActive = true;
+
+            //                //foreach (var creative in creativeListDictionary[SelectedPage])
+            //                //{
+            //                //    await Dispatcher.UIThread.InvokeAsync(() =>
+            //                //    {
+            //                //        CreativesList.Add(creative);
+            //                //    });
+            //                //}
+            //#else
+            //#endif
+
+            //            });
 
             if (!tasks.ContainsKey(page))
             {
                 var t = getT(page, pagesize, sortkey);
                 tasks.Add(page, t);
                 t.Start();
-            } else
+            }
+            else
             {
                 if (!tasks[page].IsCompleted)
                 {
 
                     Debug.WriteLine("IsRUnning");
 
-                } else
+                }
+                else
                 {
                     var t = getT(page, pagesize, sortkey);
                     tasks[page] = t;
                     t.Start();
                 }
             }
-            
+
         }
         #endregion
 
@@ -441,7 +464,8 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             {
                 if (found == null)
                     CheckedCreatives.Add(creative);
-            } else
+            }
+            else
             {
                 if (found != null)
                     CheckedCreatives.Remove(found);
@@ -465,7 +489,8 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             try
             {
                 await updatePageInfo(SelectedPage, PageSize, SortKey);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 ws.ShowDialog(new errMsgVM(ex.Message));
             }

@@ -14,5 +14,7 @@ namespace crm.Models.appsettings
         public int CreativesPerPage { get; set; }
         public void Load();
         public void Save();
+
+        public event Action<string, object> SettingChangedEvent;
     }
 }

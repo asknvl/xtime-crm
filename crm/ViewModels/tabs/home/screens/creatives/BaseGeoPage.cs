@@ -49,8 +49,8 @@ namespace crm.ViewModels.tabs.home.screens.creatives
         int pageSize;
         public int PageSize
         {
-            get => pageSize;
-            set => this.RaiseAndSetIfChanged(ref pageSize, value);
+            get => AppContext.Settings.CreativesPerPage;
+            //set => this.RaiseAndSetIfChanged(ref pageSize, value);
         }
 
         bool isNextActive = true;
@@ -93,7 +93,6 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
         public BaseGeoPage()
         {
-            PageSize = AppContext.Settings.CreativesPerPage;
         }
 
         #region public        
