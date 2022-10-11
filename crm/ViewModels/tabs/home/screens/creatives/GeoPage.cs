@@ -159,15 +159,18 @@ namespace crm.ViewModels.tabs.home.screens.creatives
 
         }
 
-        private async void Settings_SettingChangedEvent(string arg1, object arg2)
+        private async void Settings_SettingChangedEvent(string property, object value)
         {
-            try
-            {                
-                await updatePageInfo(SelectedPage, PageSize, SortKey);
-            }
-            catch (Exception ex)
+            if (property.Equals("CreativesPerPage"))
             {
-                ws.ShowDialog(new errMsgVM(ex.Message));
+                try
+                {
+                    await updatePageInfo(SelectedPage, PageSize, SortKey);
+                }
+                catch (Exception ex)
+                {
+                    ws.ShowDialog(new errMsgVM(ex.Message));
+                }
             }
         }
 
