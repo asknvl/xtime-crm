@@ -20,18 +20,9 @@ namespace crm.Models.appsettings
         [JsonProperty("Password")]
         public string Password { get; set; } = "";
         [JsonProperty("RememberMe")]
-        public bool RememberMe { get; set; } = false;        
-
-        int creativesPerPage;
+        public bool RememberMe { get; set; } = false;
         [JsonProperty("CreativesPerPage")]
-        public int CreativesPerPage {
-            get => creativesPerPage;
-            set
-            {
-                creativesPerPage = value;
-                SettingChangedEvent?.Invoke("CreativesPerPage", creativesPerPage);
-            }
-        }
+        public int CreativesPerPage { get; set; } = 200;
         #endregion
 
         public ApplicationSettings()
@@ -54,10 +45,6 @@ namespace crm.Models.appsettings
         {
             storage.save(this);
         }
-        #endregion
-
-        #region callbacks        
-        public event Action<string, object> SettingChangedEvent;
-        #endregion
+        #endregion        
     }
 }

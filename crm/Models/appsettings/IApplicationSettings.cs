@@ -13,8 +13,6 @@ namespace crm.Models.appsettings
         public bool RememberMe { get; set; }
         public int CreativesPerPage { get; set; }
         public void Load();
-        public void Save();
-
-        public event Action<string, object> SettingChangedEvent;
+        public void Save();        
     }
 }

@@ -331,6 +331,8 @@ namespace crm.ViewModels.tabs.home.screens
 
                 if (Content == null)
                     Content = GeoPages[0];
+                else
+                    Content.OnActivate();
 
             } catch (Exception ex)
             {

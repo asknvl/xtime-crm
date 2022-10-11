@@ -120,8 +120,7 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             Title = dir.dir;
 
             server = AppContext.ServerApi;
-            token = AppContext.User.Token;
-            AppContext.Settings.SettingChangedEvent += Settings_SettingChangedEvent;
+            token = AppContext.User.Token;            
 
             SelectedPage = 1;
 
@@ -157,21 +156,6 @@ namespace crm.ViewModels.tabs.home.screens.creatives
             AppContext.SocketApi.ReceivedCreativeChangedEvent += SocketApi_ReceivedCreativeChangedEvent;
             #endregion
 
-        }
-
-        private async void Settings_SettingChangedEvent(string property, object value)
-        {
-            if (property.Equals("CreativesPerPage"))
-            {
-                try
-                {
-                    await updatePageInfo(SelectedPage, PageSize, SortKey);
-                }
-                catch (Exception ex)
-                {
-                    ws.ShowDialog(new errMsgVM(ex.Message));
-                }
-            }
         }
 
         private async void UpdateTimer_Elapsed(object? sender, ElapsedEventArgs e)
