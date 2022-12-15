@@ -237,7 +237,7 @@ namespace crm.Models.api.server
             return user;
         }
 
-        public virtual async Task<(List<User>, int, int)> GetUsers(int page, int size, string token, string sortparameter)
+        public virtual async Task<(List<User>, int, int)> GetUsers(int page, int size, string token, string sortparameter, bool show_deleted = false)
         {
             List<User> users = new List<User>();
             int total_pages = 0;
@@ -248,6 +248,7 @@ namespace crm.Models.api.server
             request.AddHeader($"Authorization", $"Bearer {token}");
             request.AddQueryParameter("page", page.ToString());
             request.AddQueryParameter("size", size.ToString());
+            request.AddQueryParameter("deleted", show_deleted.ToString().ToLower());
             request.AddQueryParameter("sort_by", sortparameter);
             var response = client.Execute(request);
             var json = JObject.Parse(response.Content);

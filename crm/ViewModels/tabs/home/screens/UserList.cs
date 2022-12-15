@@ -322,7 +322,7 @@ namespace crm.ViewModels.tabs.home.screens
                     Users.Clear();
                 });
 
-                (users, TotalPages, total_users) = await srvApi.GetUsers(page - 1, pagesize, token, sortkey);
+                (users, TotalPages, total_users) = await srvApi.GetUsers(page - 1, pagesize, token, sortkey, show_deleted: true);
 
                 PageInfo = getPageInfo(page, users.Count, total_users);
 
