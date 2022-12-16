@@ -267,7 +267,21 @@
 							Посмотреть
 						</TextBlock>
 					</Button>
-				</Grid>				
+				</Grid>
+				<!--<Separator BorderBrush="#FFE5E5E5" BorderThickness="0.5"/>
+				<Grid
+					Classes="Grid Items"
+					ColumnDefinitions="1*, 2*">
+					<TextBlock
+						Classes="TextBlock Param"
+						VerticalAlignment="Center"
+						Grid.Column="0">
+						Работает
+					</TextBlock>
+					<TextBox
+						Text="с 28.06.1986 по 30.01.1987"
+						Grid.Column="1"/>
+				</Grid>-->
 			</StackPanel>
 			<Grid
 				Grid.Column="1"

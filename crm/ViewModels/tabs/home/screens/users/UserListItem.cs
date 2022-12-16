@@ -104,7 +104,7 @@ namespace crm.ViewModels.tabs.home.screens.users
                     ws.ShowDialog(new errMsgVM(ex.Message));
                 }
 
-                Description = user.Description; //TODO прокликать комментарии
+                Description = user.Description; 
 
                 commentDlgVM userComment = new commentDlgVM(Description, true);
 
