@@ -55,6 +55,7 @@
     <AvaloniaXaml Remove="Views\Colors.axaml" />
     <None Remove="Assets\svgs\screens\Download.svg" />
     <None Remove="Assets\svgs\screens\refresh.svg" />
+    <None Remove="Assets\svgs\screens\status_deleted.svg" />
     <!--<None Remove=".gitignore" />
     <None Remove="Assets\fonts\Inter\Inter-Black.ttf" />
     <None Remove="Assets\fonts\Inter\Inter-Bold.ttf" />

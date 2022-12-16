@@ -14,6 +14,13 @@ using TextCopy;
 
 namespace crm.ViewModels.tabs.home.screens.users
 {
+    public enum UserStatus
+    {
+        online,
+        offline,
+        deleted
+    }
+
     public class UserListItem : BaseUser, ICheckable<UserListItem> 
     {
         #region vars
@@ -33,12 +40,20 @@ namespace crm.ViewModels.tabs.home.screens.users
             }
         }
 
-        bool status;
-        public bool Status
+        //bool status;
+        //public bool Status
+        //{
+        //    get => status;
+        //    set => this.RaiseAndSetIfChanged(ref status, value);
+        //}        
+
+        UserStatus status = UserStatus.offline;
+        public UserStatus Status
         {
             get => status;
             set => this.RaiseAndSetIfChanged(ref status, value);
-        }        
+        }
+
         #endregion
 
         #region commands
@@ -82,14 +97,14 @@ namespace crm.ViewModels.tabs.home.screens.users
 
                 try
                 {
-                    user = await appcontext.ServerApi.GetUser(Id, appcontext.User.Token);
+                    user = await appcontext.ServerApi.GetUser(Id, appcontext.User.Token); 
 
                 } catch (Exception ex)
                 {
                     ws.ShowDialog(new errMsgVM(ex.Message));
                 }
 
-                Description = user.Description;
+                Description = user.Description; //TODO прокликать комментарии
 
                 commentDlgVM userComment = new commentDlgVM(Description, true);
 

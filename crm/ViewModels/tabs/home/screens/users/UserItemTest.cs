@@ -45,7 +45,8 @@ namespace crm.ViewModels.tabs.home.screens.users
                 }
             };
 
-            Status = true;
+            //Status = true;
+            Status = UserStatus.online;
         }
     }
 }

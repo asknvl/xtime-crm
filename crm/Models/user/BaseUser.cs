@@ -160,6 +160,14 @@ namespace crm.Models.user
             get => description;
             set => this.RaiseAndSetIfChanged(ref description, value);
         }
+
+        bool enabled;
+        [JsonProperty("enabled")]
+        public bool Enabled
+        {
+            get => enabled;
+            set => this.RaiseAndSetIfChanged(ref enabled, value);
+        }
         #endregion
 
         #region public

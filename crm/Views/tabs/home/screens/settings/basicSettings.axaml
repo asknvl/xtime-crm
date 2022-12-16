@@ -51,8 +51,7 @@
 					</ToggleSwitch>
 				</Grid>
 				<Grid
-					Name="TBL"
-					
+					Name="TBL"					
 					ColumnDefinitions="1*, 2*"
 					Classes="Grid Items">
 					<TextBlock						
@@ -98,6 +97,10 @@
 						</ToggleButton.Styles>
 					</ToggleButton>
 				</Grid>
+				
+				
+				
+				
 			</StackPanel>
 			<Grid
 				Grid.Column="1"

@@ -322,7 +322,10 @@ namespace crm.ViewModels.tabs.home.screens
                     Users.Clear();
                 });
 
-                (users, TotalPages, total_users) = await srvApi.GetUsers(page - 1, pagesize, token, sortkey, show_deleted: true);
+                var roles = AppContext.User.Roles;
+                bool showdeleted = roles.Any(x => x.Type == Models.user.RoleType.admin);
+
+                (users, TotalPages, total_users) = await srvApi.GetUsers(page - 1, pagesize, token, sortkey, show_deleted: showdeleted);
 
                 PageInfo = getPageInfo(page, users.Count, total_users);
 
@@ -337,6 +340,9 @@ namespace crm.ViewModels.tabs.home.screens
                         } else
                         {
                             var tmp = new UserListItem();
+
+                            tmp.Status = (!user.Enabled) ? UserStatus.deleted : UserStatus.offline;
+
                             tmp.CheckedEvent += Item_CheckedEvent;
                             tmp.Copy(user);
                             tmp.IsChecked = checkedUsers.Any(u => u.Id.Equals(user.Id)) || IsAllChecked;
@@ -410,7 +416,11 @@ namespace crm.ViewModels.tabs.home.screens
                 {
                     var user = Users.FirstOrDefault(u => u.Id.Equals(connected.user_id));
                     if (user != null)
-                        user.Status = connected.connected;
+                    {
+                        //user.Status = connected.connected;
+                        user.Status = (connected.connected) ? UserStatus.online : UserStatus.offline;
+                        
+                    }
                 }
             } catch (Exception ex)
             {
