@@ -268,7 +268,7 @@
 						</TextBlock>
 					</Button>
 				</Grid>
-				<!--<Separator BorderBrush="#FFE5E5E5" BorderThickness="0.5"/>
+				<Separator BorderBrush="#FFE5E5E5" BorderThickness="0.5"/>
 				<Grid
 					Classes="Grid Items"
 					ColumnDefinitions="1*, 2*">
@@ -278,10 +278,40 @@
 						Grid.Column="0">
 						Работает
 					</TextBlock>
-					<TextBox
-						Text="с 28.06.1986 по 30.01.1987"
-						Grid.Column="1"/>
-				</Grid>-->
+					<Grid
+						Grid.Column="1"
+						ColumnDefinitions="Auto, Auto, Auto">
+						<TextBox
+							Grid.Column="0">
+							<TextBox.Text>
+								<MultiBinding StringFormat="{} с {0}">
+									<Binding Path="HireDate"/>									
+								</MultiBinding>
+							</TextBox.Text>
+						</TextBox>
+						<TextBlock			
+							IsVisible="{Binding IsDismissialVisible}"
+							Margin="4, 0, 4, 0"
+							Grid.Column="1"
+							Classes="TextBlock Param">
+							по
+						</TextBlock>
+						<TextBox
+							IsVisible="{Binding IsDismissialVisible}"
+							Grid.Column="2"
+							Text="{Binding DismissalDate}">							
+						</TextBox>
+					</Grid>
+					<!--<TextBox
+						Grid.Column="1">
+						<TextBox.Text>
+							<MultiBinding StringFormat="{} с {0} {1}">
+								<Binding Path="HireDate"/>
+								<Binding Path="DismissalDate"/>
+							</MultiBinding>
+						</TextBox.Text>
+					</TextBox>-->
+				</Grid>
 			</StackPanel>
 			<Grid
 				Grid.Column="1"

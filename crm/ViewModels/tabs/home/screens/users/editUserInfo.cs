@@ -75,6 +75,13 @@ namespace crm.ViewModels.tabs.home.screens.users
             }
         }
 
+        bool isDismissalvisible;
+        public bool IsDismissalVisible
+        {
+            get => isDismissalvisible;
+            set => this.RaiseAndSetIfChanged(ref isDismissalvisible, value);
+        }
+
         string fullname;
         public string FullName
         {
@@ -228,6 +235,24 @@ namespace crm.ViewModels.tabs.home.screens.users
             }
         }
 
+        string hireDate;
+        string HireDate
+        {
+            get => hireDate;
+            set => this.RaiseAndSetIfChanged(ref hireDate, value);
+        }
+
+        string dismissalDate;
+        public string DismissalDate
+        {
+            get => dismissalDate;
+            set
+            {
+                IsDismissalVisible = !string.IsNullOrEmpty(value);
+                this.RaiseAndSetIfChanged(ref dismissalDate, value);
+            }
+        }
+
         public List<tagsListItem> Tags { get; set; } = new();
         public List<tagsListItem> SelectedTags { get; set; } = new();
         public SelectionModel<tagsListItem> Selection { get; set; }
@@ -240,7 +265,7 @@ namespace crm.ViewModels.tabs.home.screens.users
         #endregion
 
         public editUserInfo() : base()
-        {        
+        {
 
             TestUser user = new TestUser();
             FullName = user.FullName;
@@ -256,17 +281,23 @@ namespace crm.ViewModels.tabs.home.screens.users
 
 
             Tags = convetrer.GetAllTagsList();
+
+            HireDate = user.HireDate;
+            DismissalDate = user.DismissalDate;
+
             Selection = new SelectionModel<tagsListItem>();
-            Selection.SingleSelect = false;           
+            Selection.SingleSelect = false;
             SelectedTags = convetrer.RolesToTags(user.Roles);
-            foreach (var item in SelectedTags) {
+            foreach (var item in SelectedTags)
+            {
                 int index = Tags.IndexOf(Tags.FirstOrDefault(t => t.Name.Equals(item.Name)));
                 Selection.Select(index);
             }
 
             Selection.SelectionChanged += Selection_SelectionChanged;
 
-            openTelegramCmd = ReactiveCommand.Create(() => {
+            openTelegramCmd = ReactiveCommand.Create(() =>
+            {
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = $"tg://resolve?domain={Telegram}",
@@ -274,8 +305,9 @@ namespace crm.ViewModels.tabs.home.screens.users
                 });
             });
 
-            showCommentsCmd = ReactiveCommand.Create(() => {
-                
+            showCommentsCmd = ReactiveCommand.Create(() =>
+            {
+
             });
         }
 
@@ -345,6 +377,9 @@ namespace crm.ViewModels.tabs.home.screens.users
             Wallet = user.Wallet;
             Description = user.Description;
             Password = no_change_password;
+
+            HireDate = user.HireDate;
+            DismissalDate = user.DismissalDate;
 
             //foreach (var item in user.SocialNetworks)
             //    SocialNetworks.Add(item);

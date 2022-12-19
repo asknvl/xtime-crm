@@ -51,11 +51,39 @@ namespace crm.ViewModels.tabs.home.screens.settings
             }
         }
 
+        List<int> creosPerDragDropList = new List<int> { 1, 5, 10, 15, 20, 25, 30, 40, 50 };
+        public List<int> CreosPerDragDropList
+        {
+            get => creosPerDragDropList;
+            set => this.RaiseAndSetIfChanged(ref creosPerDragDropList, value);
+        }
+
+        bool isCreosPerDragDropVisible;
+        public bool IsCreosPerDragDropVisible
+        {
+            get => isCreosPerDragDropVisible;
+            set => this.RaiseAndSetIfChanged(ref isCreosPerDragDropVisible, value);
+        }
+
+        int creosPerDragDrop;
+        public int CreosPerDragDrop
+        {
+            get => creosPerDragDrop;
+            set
+            {
+                AppContext.Settings.CreativesPerDragDrop = value;
+                this.RaiseAndSetIfChanged(ref creosPerDragDrop, value);
+                AppContext.Settings.Save();
+                IsCreosPerDragDropVisible = false;
+            }
+        }
+
         #endregion
         public basicSettings() : base()
         {
             RememberMe = AppContext.Settings.RememberMe;            
             CreosPerPage = AppContext.Settings.CreativesPerPage;
+            CreosPerDragDrop = AppContext.Settings.CreativesPerDragDrop;
         }
 
         public override void OnDeactivate()

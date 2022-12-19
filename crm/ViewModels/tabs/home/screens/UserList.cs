@@ -30,7 +30,7 @@ namespace crm.ViewModels.tabs.home.screens
         string token;
 
         List<UserListItem> checkedUsers = new();
-        string SortKey = "-is_connected";
+        string SortKey = "-enabled,-is_connected";
         #endregion
 
         #region properties       
@@ -323,7 +323,7 @@ namespace crm.ViewModels.tabs.home.screens
                 });
 
                 var roles = AppContext.User.Roles;
-                bool showdeleted = roles.Any(x => x.Type == Models.user.RoleType.admin);
+                bool showdeleted = roles.Any(x => x.Type == RoleType.admin);
 
                 (users, TotalPages, total_users) = await srvApi.GetUsers(page - 1, pagesize, token, sortkey, show_deleted: showdeleted);
 

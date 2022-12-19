@@ -168,6 +168,22 @@ namespace crm.Models.user
             get => enabled;
             set => this.RaiseAndSetIfChanged(ref enabled, value);
         }
+
+        string hire_date;
+        [JsonProperty("hire_date")]
+        public string HireDate
+        {
+            get => hire_date;
+            set => this.RaiseAndSetIfChanged(ref hire_date, value);
+        }
+
+        string dismissal_date;
+        [JsonProperty("dismissal_date")]
+        public string DismissalDate
+        {
+            get => dismissal_date;
+            set => this.RaiseAndSetIfChanged(ref dismissal_date, value);
+        }
         #endregion
 
         #region public
@@ -175,7 +191,14 @@ namespace crm.Models.user
         {
             Id = user.Id;
             Token = user.Token;
-            Litera = user.Litera;
+
+            string[] splt = user.Litera.Split(".");
+            if (splt.Length > 1)
+            {
+                Litera = splt[1];
+            } else 
+                Litera = user.Litera;
+
             Email = user.Email;
             Password = user.Password;
             FullName = user.FullName;
@@ -205,6 +228,9 @@ namespace crm.Models.user
             Roles = new List<Role>();
             foreach (var item in user.Roles)
                 Roles.Add(new Role(item.Id) { Id = item.Id, Name = item.Name });
+
+            HireDate = user.HireDate;
+            DismissalDate = user.DismissalDate;
 
         }
         #endregion

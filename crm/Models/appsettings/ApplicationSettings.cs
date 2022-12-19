@@ -23,6 +23,8 @@ namespace crm.Models.appsettings
         public bool RememberMe { get; set; } = false;
         [JsonProperty("CreativesPerPage")]
         public int CreativesPerPage { get; set; } = 200;
+        [JsonProperty("CreativesPerDragDrop")]
+        public int CreativesPerDragDrop { get; set; } = 1;
         #endregion
 
         public ApplicationSettings()
@@ -39,6 +41,7 @@ namespace crm.Models.appsettings
             Password = t.Password;
             RememberMe = t.RememberMe;
             CreativesPerPage = t.CreativesPerPage;
+            CreativesPerDragDrop = t.CreativesPerDragDrop;
         }
 
         public void Save()
