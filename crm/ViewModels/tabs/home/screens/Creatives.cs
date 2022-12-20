@@ -263,8 +263,6 @@ namespace crm.ViewModels.tabs.home.screens
             if (!Directory.Exists(output))
                 Directory.CreateDirectory(output);
 
-
-
             await Task.Run(async () =>
             {
 
@@ -277,9 +275,11 @@ namespace crm.ViewModels.tabs.home.screens
                     toDelete.Add(file);
                 }
 
+                int n = AppContext.Settings.CreativesPerDragDrop;
+                
                 foreach (var file in files)
-                {                    
-                    await uniqalizer.Uniqalize(file, 1, output);
+                {   
+                    await uniqalizer.Uniqalize(file, n, output, $"{cntr + 1}");
                     cntr++;
                     //Progress = (int)(100.0d * cntr / files.Count);
                 }

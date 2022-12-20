@@ -10,7 +10,7 @@ namespace crm.Models.uniq
     public interface IUniqalizer
     {
         Task Uniqalize(ICreative creative, int n, string outputdir);
-        Task Uniqalize(string inputPath, int n, string outpurdir);
+        Task Uniqalize(string inputPath, int n, string outpurdir, string scntr = null);
         void Cancel();
         event Action<int> UniqalizeProgessUpdateEvent;
     }

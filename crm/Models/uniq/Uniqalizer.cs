@@ -90,7 +90,7 @@ namespace crm.Models.uniq
             //Syscall.chmod("ffprobe", FilePermissions.S_IRUSR | FilePermissions.S_IWUSR | FilePermissions.S_IXUSR);
         }
 
-        private async Task uniqalize(string inputPath, string outputFolderPath, int n, bool erase)
+        private async Task uniqalize(string inputPath, string scntr, string outputFolderPath, int n, bool erase)
         {
             if (erase)
             {
@@ -106,7 +106,10 @@ namespace crm.Models.uniq
             for (int i = 0; i < n; i++)
             {
                 string s = Guid.NewGuid().ToString();
-                var outputPath = Path.Combine(outputFolderPath, $"{i+1}_{s}.mp4");
+
+                string fn = (!string.IsNullOrEmpty(scntr)) ? $"{scntr}_{i + 1}_{s}.mp4" : $"{i + 1}_{s}.mp4";
+
+                var outputPath = Path.Combine(outputFolderPath, fn);
 
                 IMediaInfo info = await FFmpeg.GetMediaInfo(inputPath);
                 IVideoStream videoStream = info.VideoStreams.First();
@@ -156,11 +159,12 @@ namespace crm.Models.uniq
 
         }
 
-        public async Task Uniqalize(string inputPath, int n, string outpurdir) {
+        //D&D
+        public async Task Uniqalize(string inputPath, int n, string outpurdir, string scntr = null) {
             inputPath = Path.GetFullPath(inputPath);
             if (!Directory.Exists(outpurdir))
                 Directory.CreateDirectory(outpurdir);
-            await uniqalize(inputPath, outpurdir, n, false);
+            await uniqalize(inputPath, scntr, outpurdir, n, false);
         }
 
         public async Task Uniqalize(ICreative creative, int n, string outputdir) {
@@ -171,7 +175,7 @@ namespace crm.Models.uniq
             if (!Directory.Exists(outputFolderPath))
                 Directory.CreateDirectory(outputFolderPath);
 
-            await uniqalize(inputPath, outputFolderPath, n, true);
+            await uniqalize(inputPath, null, outputFolderPath, n, true);
         }
 
         public void Cancel()

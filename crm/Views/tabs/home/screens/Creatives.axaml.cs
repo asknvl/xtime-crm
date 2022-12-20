@@ -19,13 +19,19 @@ namespace crm.Views.tabs.home.screens
             dragAndDropGrid.AddHandler(DragDrop.DropEvent, (sender, args) => {
                 var s = args.Data.GetDataFormats();
                 dynamic fn = args.Data.Get("FileNames");
+
                 List<string> names = new List<string>();
                 foreach (var item in fn)
                 {
                     names.Add(item);
                 }
 
-                if (names.Count > 0)
+                if (names.Count == 1)
+                {
+
+                    TODO
+
+                } else if (names.Count > 1) 
                     ((vm.Creatives)DataContext)?.OnDragDrop(names);
                 
             });
