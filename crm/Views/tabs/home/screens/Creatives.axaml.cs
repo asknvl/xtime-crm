@@ -3,6 +3,8 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using vm = crm.ViewModels.tabs.home.screens;
 
 namespace crm.Views.tabs.home.screens
@@ -16,24 +18,27 @@ namespace crm.Views.tabs.home.screens
             InitializeComponent();
 
             dragAndDropGrid = this.FindControl<Grid>("DragAndDropGrid");
-            dragAndDropGrid.AddHandler(DragDrop.DropEvent, (sender, args) => {
+            dragAndDropGrid.AddHandler(DragDrop.DropEvent, (sender, args) =>
+            {
                 var s = args.Data.GetDataFormats();
                 dynamic fn = args.Data.Get("FileNames");
-
                 List<string> names = new List<string>();
                 foreach (var item in fn)
                 {
                     names.Add(item);
                 }
 
-                if (names.Count == 1)
+                var dir = names.FirstOrDefault(s => File.GetAttributes(s).HasFlag(FileAttributes.Directory));
+                if (dir != null)
                 {
+                    var files = Directory.GetFiles(dir).ToList();
+                    names = files;
 
-                    TODO
+                }
 
-                } else if (names.Count > 1) 
+                if (names.Count > 0)
                     ((vm.Creatives)DataContext)?.OnDragDrop(names);
-                
+
             });
         }
 

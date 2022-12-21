@@ -290,14 +290,14 @@
 							</TextBox.Text>
 						</TextBox>
 						<TextBlock			
-							IsVisible="{Binding IsDismissialVisible}"
+							IsVisible="{Binding IsDismissalVisible}"
 							Margin="4, 0, 4, 0"
 							Grid.Column="1"
 							Classes="TextBlock Param">
 							по
 						</TextBlock>
 						<TextBox
-							IsVisible="{Binding IsDismissialVisible}"
+							IsVisible="{Binding IsDismissalVisible}"
 							Grid.Column="2"
 							Text="{Binding DismissalDate}">							
 						</TextBox>
