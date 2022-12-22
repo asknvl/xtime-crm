@@ -87,8 +87,7 @@ namespace crm.ViewModels.tabs.home.screens.settings
         }
 
         public override void OnDeactivate()
-        {
-            //AppContext.Settings.Save();
+        {            
         }
     }
 }
