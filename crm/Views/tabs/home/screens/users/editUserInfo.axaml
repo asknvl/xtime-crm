@@ -280,25 +280,31 @@
 					</TextBlock>
 					<Grid
 						Grid.Column="1"
-						ColumnDefinitions="Auto, Auto, Auto">
+						ColumnDefinitions="Auto, Auto, Auto, Auto">
+						<TextBlock			
+							Margin="4, 0, 4, 0"
+							Grid.Column="0"
+							Classes="TextBlock Param">
+							c
+						</TextBlock>
 						<TextBox
-							Grid.Column="0">
-							<TextBox.Text>
-								<MultiBinding StringFormat="{} с {0}">
-									<Binding Path="HireDate"/>									
-								</MultiBinding>
-							</TextBox.Text>
+							Grid.Column="1"
+							MaxLength="10"
+							MinWidth="90"
+							Text="{Binding HireDate}">
 						</TextBox>
 						<TextBlock			
 							IsVisible="{Binding IsDismissalVisible}"
-							Margin="4, 0, 4, 0"
-							Grid.Column="1"
+							Margin="4, 0, 21, 0"
+							Grid.Column="2"
 							Classes="TextBlock Param">
 							по
 						</TextBlock>
 						<TextBox
 							IsVisible="{Binding IsDismissalVisible}"
-							Grid.Column="2"
+							Grid.Column="3"
+							MaxLength="10"
+							MinWidth="90"
 							Text="{Binding DismissalDate}">							
 						</TextBox>
 					</Grid>

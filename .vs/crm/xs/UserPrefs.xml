@@ -1,17 +1,19 @@
 ﻿<Properties StartupConfiguration="{9EFCE830-79D1-4B15-89B7-9B0E90DD6B74}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="crm/Models/api/server/BaseServerApi.cs">
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.crm PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="crm/Views/tabs/home/screens/users/editUserInfo.axaml">
     <Files>
-      <File FileName="crm/Models/creatives/CreativePreviewer.cs" Line="1" Column="1" />
-      <File FileName="crm/ViewModels/tabs/home/screens/creatives/CreativeItem.cs" />
-      <File FileName="crm/Models/creatives/CreativesRemoteManager.cs" />
-      <File FileName="crm/Models/creatives/ExtendedWebClient.cs" />
-      <File FileName="crm/Views/MainWindow.axaml" />
-      <File FileName="crm/Models/uniq/Uniqalizer.cs" />
-      <File FileName="crm/Views/tabs/home/screens/Creatives.axaml" Line="344" Column="37" />
-      <File FileName="crm/Models/creatives/CreativesLocalManager.cs" />
-      <File FileName="crm/ViewModels/tabs/home/screens/creatives/GeoPage.cs" Line="208" Column="105" />
-      <File FileName="crm/Models/api/server/IServerApi.cs" Line="29" Column="45" />
-      <File FileName="crm/Models/api/server/BaseServerApi.cs" />
+      <File FileName="crm/ViewModels/mainVM.cs" Line="99" Column="13" />
+      <File FileName="crm/Models/validators/IValidator.cs" Line="11" Column="16" />
+      <File FileName="crm/Views/tabs/home/screens/users/editUserInfo.axaml" Line="292" Column="21" />
+      <File FileName="crm/Models/validators/BirthDateValidator.cs" Line="16" Column="13" />
+      <File FileName="crm/Program.cs" Line="20" Column="1" />
+      <File FileName="crm/ViewModels/dialogs/confirmationDlgVM.cs" Line="15" Column="23" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -20,12 +22,11 @@
             <Node name="crm" expanded="True">
               <Node name="Models" expanded="True">
                 <Node name="api" expanded="True">
-                  <Node name="server" expanded="True">
-                    <Node name="IServerApi.cs" selected="True" />
-                  </Node>
+                  <Node name="server" expanded="True" />
                 </Node>
                 <Node name="creatives" expanded="True" />
                 <Node name="uniq" expanded="True" />
+                <Node name="validators" expanded="True" />
               </Node>
               <Node name="ViewModels" expanded="True">
                 <Node name="dialogs" expanded="True" />
@@ -46,7 +47,11 @@
                 <Node name="tabs" expanded="True">
                   <Node name="home" expanded="True">
                     <Node name="controls" expanded="True" />
-                    <Node name="screens" expanded="True" />
+                    <Node name="screens" expanded="True">
+                      <Node name="users" expanded="True">
+                        <Node name="editUserInfo.axaml" selected="True" />
+                      </Node>
+                    </Node>
                   </Node>
                 </Node>
                 <Node name="MainWindow.axaml" expanded="True" />
@@ -58,11 +63,4 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.ItemProperties.crm PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MultiItemStartupConfigurations />
 </Properties>

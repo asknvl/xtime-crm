@@ -9,7 +9,7 @@ namespace crm.Models.validators
 {
     public class BirthDateValidator : IValidator<string>
     {
-        public string Message => "Неправильный формат даты рождения (дд.мм.гггг)";
+        public string Message => "Неправильный формат даты (дд.мм.гггг)";
 
         public bool IsValid(string value)
         {

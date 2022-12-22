@@ -31,7 +31,7 @@ namespace crm.ViewModels.tabs.home.screens.users
         IAutoComplete email_ac = new EmailAutoComplete();
         IValidator<string> email_vl = new LoginValidator();
         IValidator<string> phone_vl = new PhoneNumberValidator();
-        IValidator<string> birth_vl = new BirthDateValidator();
+        IValidator<string> date_vl = new BirthDateValidator();
         IValidator<string> tg_vl = new TelegramValidator();
         IValidator<string> wallet_vl = new WalletValidator();
         IValidator<string> pswrd_vl = new PasswordValidator_server();
@@ -45,7 +45,9 @@ namespace crm.ViewModels.tabs.home.screens.users
            isTelegram,
            isWallet,
            isRoles,
-           isPassword;
+           isPassword,
+           isHireDate,
+           isDismissalDate;
 
         TagsAndRolesConvetrer convetrer = new();
         BaseUser User;
@@ -107,6 +109,10 @@ namespace crm.ViewModels.tabs.home.screens.users
             get => litera;
             set
             {
+
+                var splt = value.Split(".");
+                value = (splt.Length > 1) ? splt[1] : splt[0];
+
                 isLitera = litera_vl.IsValid(value);
                 //updateValidity();
                 //if (!isFullName) { 
@@ -164,18 +170,57 @@ namespace crm.ViewModels.tabs.home.screens.users
             get => birthdate;
             set
             {
-                isBirthDate = birth_vl.IsValid(value);
+                isBirthDate = date_vl.IsValid(value);
                 //updateValidity();
                 //if (!isBirthDate)
                 //    throw new DataValidationException(birth_vl.Message);                
                 if (!isBirthDate)
-                    AddError(nameof(BirthDate), birth_vl.Message);
+                    AddError(nameof(BirthDate), date_vl.Message);
                 else
                     RemoveError(nameof(BirthDate));
                 updateValidity();
                 this.RaiseAndSetIfChanged(ref birthdate, value);
             }
         }
+
+        string hireDate;
+        string HireDate
+        {
+            get => hireDate;
+            set {
+                isHireDate = date_vl.IsValid(value);
+                if (!isHireDate)
+                    AddError(nameof(HireDate), date_vl.Message);
+                else
+                    RemoveError(nameof(HireDate));
+                updateValidity();
+                this.RaiseAndSetIfChanged(ref hireDate, value);
+            }
+        }
+        
+        string dismissalDate;
+        public string DismissalDate
+        {
+            get => dismissalDate;
+            set
+            {
+                IsDismissalVisible = value != null;
+                if (IsDismissalVisible)
+                {
+                    isDismissalDate = date_vl.IsValid(value);
+                    if (!isDismissalDate)
+                        AddError(nameof(DismissalDate), date_vl.Message);
+                    else
+                        RemoveError(nameof(DismissalDate));
+                }
+                else
+                    isDismissalDate = true;
+
+                updateValidity();
+                this.RaiseAndSetIfChanged(ref dismissalDate, value);
+            }
+        }
+
         public ObservableCollection<SocialNetwork> SocialNetworks { get; set; } = new ObservableCollection<SocialNetwork>();
 
         string telegram;
@@ -232,24 +277,6 @@ namespace crm.ViewModels.tabs.home.screens.users
 
                 //updateValidity();
                 this.RaiseAndSetIfChanged(ref password, value);
-            }
-        }
-
-        string hireDate;
-        string HireDate
-        {
-            get => hireDate;
-            set => this.RaiseAndSetIfChanged(ref hireDate, value);
-        }
-
-        string dismissalDate;
-        public string DismissalDate
-        {
-            get => dismissalDate;
-            set
-            {
-                IsDismissalVisible = !string.IsNullOrEmpty(value);
-                this.RaiseAndSetIfChanged(ref dismissalDate, value);
             }
         }
 
