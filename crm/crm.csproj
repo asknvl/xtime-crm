@@ -53,6 +53,8 @@
     <AvaloniaResource Remove="Styles\ToggleSwitch.axaml" />
     <AvaloniaResource Remove="Styles\UserListStyle.axaml" />
     <AvaloniaXaml Remove="Views\Colors.axaml" />
+    <None Remove="Assets\png\screens\crm_512.png" />
+    <None Remove="Assets\svgs\crm_512.png" />
     <None Remove="Assets\svgs\screens\Download.svg" />
     <None Remove="Assets\svgs\screens\refresh.svg" />
     <None Remove="Assets\svgs\screens\status_deleted.svg" />

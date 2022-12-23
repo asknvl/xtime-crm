@@ -1,19 +1,14 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using crm.Models.api.server.serialization;
+using crm.Models.api.server.valuesconverter;
+using crm.Models.creatives;
+using crm.Models.user;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Net;
-using crm.Models.user;
-using crm.Models.api.server.valuesconverter;
-using Newtonsoft.Json;
-using crm.Models.api.server.serialization;
 using geo = crm.Models.geoservice;
-using System.IO;
-using crm.Models.creatives;
-using Fizzler;
 
 namespace crm.Models.api.server
 {
