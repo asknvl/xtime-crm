@@ -19,7 +19,7 @@
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaTitleBarHeightHint="-1"
 		ShowActivated="True"
-		Title="XTime CRM"
+		Title="RaceUP CRM"
 		Icon="/Assets/icon.ico"								
 		WindowState="{Binding WindowState}"
 		Name="mainWindow">
