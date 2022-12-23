@@ -28,6 +28,7 @@ namespace crm.Models.api.server
         Task SetCreativeStatus(string token, int id, bool isUploaded, bool isVisible);
         //Task<(List<CreativeDTO>, int, int)> GetAvaliableCreatives(string token, int page, int size, CreativeServerDirectory dir, int filetype, bool? showinvisible);
         (List<CreativeDTO>, int, int) GetAvaliableCreatives(string token, int page, int size, CreativeServerDirectory dir, int filetype, bool? showinvisible);
+        Task<bool> UpdateEmploymentDates(string token, BaseUser user);
     }
 
     public class CreativeDTO

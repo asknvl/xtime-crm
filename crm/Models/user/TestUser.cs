@@ -23,8 +23,8 @@ namespace crm.Models.user
             Telegram = "@xeylov";
             Wallet = "$$$$$$";
 
-            HireDate = "2022-06-07T22:41:59.822Z";
-            DismissalDate = "2022-06-07T22:52:53.581Z";
+            HireDate = "28.05.1999";
+            DismissalDate = "28.05.1999";
 
             Devices = new List<Device> {
                 new Device() { Id = 1, Name = "Mac 1", Serial = "123"},

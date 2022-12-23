@@ -13,6 +13,7 @@ using crm.Models.api.server.serialization;
 using geo = crm.Models.geoservice;
 using System.IO;
 using crm.Models.creatives;
+using Fizzler;
 
 namespace crm.Models.api.server
 {
@@ -249,7 +250,7 @@ namespace crm.Models.api.server
             request.AddQueryParameter("page", page.ToString());
             request.AddQueryParameter("size", size.ToString());
             request.AddQueryParameter("deleted", show_deleted.ToString().ToLower());
-            request.AddQueryParameter("sort_by", sortparameter);
+            request.AddQueryParameter("sort_by", $"-enabled,{sortparameter}");
             var response = client.Execute(request);
             var json = JObject.Parse(response.Content);
             var res = json["success"].ToObject<bool>();
@@ -623,8 +624,59 @@ namespace crm.Models.api.server
         }
 
 
-        #endregion
+        public class jdates
+        {
+            public string hire_date { get; set; }
+            public string dismissal_date { get; set; }
+        }
+        public virtual async Task<bool> UpdateEmploymentDates(string token, BaseUser user)
+        {
+            bool res = false;
+            var client = new RestClient($"{url}/v1/usersEmployment/{user.Id}");
+            var request = new RestRequest(Method.PUT);
+            request.AddHeader($"Authorization", $"Bearer {token}");
 
+            var splt_h = user.HireDate?.Split(".");
+            var hire = (splt_h != null) ? $"{splt_h[2]}-{splt_h[1]}-{splt_h[0]}" : null;
+
+            var splt_d = user.DismissalDate?.Split(".");
+            var diss = (splt_d != null) ? $"{splt_d[2]}-{splt_d[1]}-{splt_d[0]}" : null;
+
+            jdates dates = new jdates()
+            {
+                //hire_date = user.HireDate,
+                //dismissal_date = user.DismissalDate
+                hire_date = hire,
+                dismissal_date = diss
+
+            };
+
+            //dynamic p = new JObject();
+            //p.hire_date = user.HireDate;
+            //p.dismissal_date = (!string.IsNullOrEmpty(user.DismissalDate)) ? user.DismissalDate : null;
+
+            //request.AddParameter("application/json", p.ToString(), ParameterType.RequestBody);
+
+            string param = JsonConvert.SerializeObject(dates);
+            request.AddParameter("application/json", param, ParameterType.RequestBody);
+
+            await Task.Run(() => {
+                var response = client.Execute(request);
+                var json = JObject.Parse(response.Content);
+                res = json["success"].ToObject<bool>();
+                if (res)
+                {
+                }
+                else
+                {
+                    string e = json["errors"].ToString();
+                    List<ServerError>? errors = JsonConvert.DeserializeObject<List<ServerError>>(e);
+                    throw new ServerException($"{getErrMsg(errors)}");
+                }
+            });
+            return res;
+        }
+        #endregion
 
     }
 

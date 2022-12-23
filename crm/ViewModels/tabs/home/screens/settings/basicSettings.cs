@@ -10,6 +10,7 @@ namespace crm.ViewModels.tabs.home.screens.settings
 {
     public class basicSettings : BaseScreen
     {
+        
         #region properties
         public override string Title => "Основные";
 

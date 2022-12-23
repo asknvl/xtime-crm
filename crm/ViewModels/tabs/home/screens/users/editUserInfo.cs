@@ -499,7 +499,10 @@ namespace crm.ViewModels.tabs.home.screens.users
             updUser.SocialNetworks = new List<SocialNetwork>();
             updUser.SocialNetworks.Add(new SocialNetwork() { Account = SocialNetworks[0].Account });
 
-            bool usr = await AppContext.ServerApi.UpdateUserInfo(token, updUser);            
+            updUser.HireDate = HireDate;
+            updUser.DismissalDate = DismissalDate;
+
+            bool usr = await AppContext.ServerApi.UpdateUserInfo(token, updUser);
             bool psw = true;
 
             if (!Password.Equals(no_change_password))
@@ -507,7 +510,10 @@ namespace crm.ViewModels.tabs.home.screens.users
                 psw = await AppContext.ServerApi.UpdateUserPassword(token, updUser, Password);
             }
 
-            return usr & psw;
+            bool edt = await AppContext.ServerApi.UpdateEmploymentDates(token, updUser);
+            
+            return usr & psw & edt;
+
         }
 
         public void Cancel()

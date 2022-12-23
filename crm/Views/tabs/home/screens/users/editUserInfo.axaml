@@ -295,7 +295,7 @@
 						</TextBox>
 						<TextBlock			
 							IsVisible="{Binding IsDismissalVisible}"
-							Margin="4, 0, 21, 0"
+							Margin="4, 0, 24, 0"
 							Grid.Column="2"
 							Classes="TextBlock Param">
 							по
