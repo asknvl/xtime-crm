@@ -13,6 +13,9 @@ namespace crm.Models.validators
 
         public bool IsValid(string value)
         {
+            if (value == null)
+                return true;
+
             Regex regex = new Regex(@"(0[1-9]|[12][0-9]|3[01])[.](0[1-9]|1[012])[.](19|20)\d\d");
             return regex.IsMatch(value) && value.Length == 10;
         }

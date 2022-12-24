@@ -12,7 +12,7 @@
 	  <CFBundleName>crm</CFBundleName>
 	  <!-- Also defines .app file name -->
 	  <CFBundleDisplayName>RaceUP CRM</CFBundleDisplayName>
-	  <CFBundleIdentifier>com.xtime.crm</CFBundleIdentifier>
+	  <CFBundleIdentifier>com.raceup.crm</CFBundleIdentifier>
 	  <CFBundleShortVersionString>1.0</CFBundleShortVersionString>
 	  <CFBundleVersion>1.0.0</CFBundleVersion>
 	  <CFBundlePackageType>APPL</CFBundlePackageType>
