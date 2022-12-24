@@ -54,7 +54,7 @@ namespace crm.Models.storage
             //return settings;
             Settings settings = new Settings();
             settings.app_name = "RaceUP CRM";
-            settings.product_folder = "XTime";
+            settings.product_folder = "RaceUP";
             settings.version_file = "version.json";
             settings.update_url = "https://asemenets.com";
             return settings;
